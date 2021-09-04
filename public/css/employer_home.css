@@ -1,0 +1,62 @@
+body.employer-home {
+  margin: 0em;
+  background-color: #e3ebfd;
+}
+body.employer-home .employer-home-wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+body.employer-home .employer-home-wrapper section {
+  background: white;
+  margin: 1em 0.5em;
+  padding: 1em;
+  border-radius: 0.3em;
+}
+body.employer-home .employer-home-wrapper section h1 {
+  font-family: "LEMON MILK";
+  font-weight: normal;
+  font-size: medium;
+  text-align: center;
+}
+body.employer-home .employer-home-wrapper section hr {
+  border: none;
+  height: 1px;
+  background: #b1b1b1;
+}
+body.employer-home .employer-home-wrapper section img {
+  width: 100%;
+}
+body.employer-home .employer-home-wrapper section h5 {
+  font-weight: normal;
+  font-size: large;
+  opacity: 70%;
+  text-align: center;
+}
+body.employer-home .employer-home-wrapper section button {
+  background: steelblue;
+  display: block;
+  font-size: medium;
+  margin: 1em auto;
+  color: white;
+  padding: 0.5em 2em;
+  outline: none;
+  border: none;
+  border-radius: 5em;
+  cursor: pointer;
+}
+body.employer-home .employer-home-wrapper section button:hover {
+  background: #46bee2;
+  transition: 0.4s;
+}
+@media screen and (min-width: 700px) {
+  body.employer-home .employer-home-wrapper {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+  }
+}
+@media screen and (min-width: 1000px) {
+  body.employer-home .employer-home-wrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+    display: grid;
+  }
+}

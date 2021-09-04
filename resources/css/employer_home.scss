@@ -1,0 +1,64 @@
+body.employer-home{
+    margin: 0em;
+    // background: url('../image/bgpattern.png');
+    background-color: #e3ebfd;
+
+    .employer-home-wrapper{
+        max-width: 1300px;
+        margin: auto;
+        section{
+            background: white;
+            margin: 1em .5em;
+            padding: 1em;
+            border-radius: .3em;
+            h1{
+                font-family: "LEMON MILK";
+                font-weight: normal;
+                font-size: medium;
+                text-align: center;
+            }
+            hr{
+                border: none;
+                height: 1px;
+                background: rgb(177, 177, 177);
+            }
+            img{
+                width: 100%;
+            }
+            h5{
+                font-weight: normal;
+                font-size: large;
+                opacity: 70%;
+                text-align: center;
+            }
+            button{
+                background: steelblue;
+                display: block;
+                font-size: medium;
+                margin: 1em auto;
+                color: white;
+                padding: .5em 2em;
+                outline: none;
+                border: none;
+                border-radius: 5em;
+                cursor: pointer;
+                &:hover{
+                    background: rgb(70, 190, 226);
+                    transition: .4s;
+                }
+            }
+        }
+    }
+    @media screen and (min-width: 700px) {
+        .employer-home-wrapper{
+            grid-template-columns: 1fr 1fr;
+            display: grid;
+        }
+    }
+    @media screen and (min-width: 1000px) {
+        .employer-home-wrapper{
+            grid-template-columns: 1fr 1fr 1fr;
+            display: grid;
+        }
+    }
+}

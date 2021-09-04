@@ -1,0 +1,129 @@
+body.job_match_results{
+    // background-color: steelblue;
+    // background: url('../image/bgpattern.png');
+    background-color: #e3ebfd;
+    margin: 0px;
+    // padding-top: 74px;
+    .job_match_results-wrapper{
+        max-width: 1300px;
+        margin: auto;
+        h1{
+            font-size: medium;
+            font-family: "LEMON MILK";
+            text-align: center;
+            margin-top: 0em;
+            font-weight: normal;
+        }
+        hr{
+            border: none;
+            background: rgb(141, 141, 141);
+            height: .5px;
+        }
+        
+        section.score{
+            background: white;
+            margin: 1em .5em;
+            padding: 1em;
+            border-radius: .3em;
+            .item{
+                margin: 1em 0em;
+                i, label.title{
+                    color: rgb(46, 90, 126);
+                }
+                i{
+                    margin-right: .5em;
+                }
+                label.value{
+                    float: right;
+                    font-weight: bold;
+                }
+            }
+            .total{
+                margin: 1em 0em;
+                font-weight: bold;
+                .lbl{
+                    color: rgb(46, 90, 126);
+                }
+                .total-value{
+                    float: right;
+                }
+            }
+        }
+
+        section.results{
+            background: white;
+            margin: 1em .5em;
+            padding: 1em;
+            border-radius: .3em;
+            max-height: calc(100vh - 150px);
+            overflow-y: scroll;
+            h5{
+                text-align: right;
+                font-weight: lighter;
+                margin: 0em;
+                opacity: 70%;
+            }
+            .item-result{
+                margin: 2em 0em;
+                img{
+                    width: 100px;
+                    margin: auto;
+                    display: block;
+                }
+                .job-details{
+                    margin: 2em 0em;
+                    span{
+                        margin: .3em 0em;
+                        font-size: small;
+                        display: block;
+                        i{
+                            color: greenyellow;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: 500px) {
+        .job_match_results-wrapper{
+            grid-template-columns: 1fr 1fr;
+            display: grid;
+            section.score{
+                height: fit-content;
+
+            }
+            section.results{
+                height: calc(100vh - 200px);
+            }
+        }
+    }
+    @media screen and (min-width: 700px){
+        .job_match_results-wrapper{
+            grid-template-columns: 1fr 2fr;
+            display: grid;
+            section.results{
+                .item-result{
+                    margin: 0em;
+                    img{
+                        display: inline;
+                        margin-right: 1em;
+                    }
+                    .job-details{
+                        display: inline-block;
+                        margin: 0em;
+                        span{
+                            font-size: medium;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (min-width: 1000px){
+        .job_match_results-wrapper{
+            grid-template-columns: 1fr 3fr;
+            display: grid;
+        }
+    }
+}

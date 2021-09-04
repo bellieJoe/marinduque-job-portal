@@ -1,0 +1,110 @@
+body.seeker-jobmatch{
+    // background: linear-gradient(to bottom, lightblue, steelblue);
+    // background: url('../image/bgpattern.png');
+    background-color: #e3ebfd;
+    // background-repeat: no-repeat;
+    // padding: 74px 0px 0px 0px;
+    min-height: 100vh;
+    .wrapper{
+        max-width: 1300px;
+        margin: auto;
+        .sec-1{
+            color: white;
+            margin: .5em;
+            padding: .5em;
+            max-width: 500px;
+            h1.title{
+                font-family: "LEMON MILK";
+                font-size: xx-large;
+                font-weight: bold;
+                margin: 0em;
+
+            }
+            hr{
+                border: none;
+                background: white;
+                height: 1px;
+                margin: 0em;
+            }
+            p{
+                font-family: 'CALIBRI';
+                text-indent: 1em;
+                font-size: large;
+                text-align: justify;
+            }
+            button{
+                padding: 1em 2em;
+                color: white;
+                outline: none;
+                border: none;
+                background: rgb(34, 67, 158);
+                display: block;
+                margin: auto 0em auto auto;
+                border-radius: 5em;
+                cursor: pointer;
+                font-size: large;
+                &:hover{
+                    transition: .4s;
+                    opacity: 70%;
+                }
+            }
+        }
+
+        .sec-2{
+            max-width: 500px;
+            background: white;
+            margin: 2em 1em;
+            padding: 1em;
+            border-radius: .3em;
+            // box-shadow: 0em 0em 5px 3px rgba(71, 71, 71, 0.247);
+            display: none;
+            .p2, .p3, .p4, .p5{
+                display: none;
+            }
+            .p1, .p2, .p3, .p4, .p5{
+                p{
+                    font-size: small;
+                    opacity: 50%;
+                }
+                .desc{
+                    margin: 1em auto;
+                    font-size: medium;
+                    font-weight: normal;
+                }
+                .item{
+                    margin: .5em auto;
+                    color : rgb(107, 107, 107);
+                    input{
+                        display: inline-block;
+                        cursor: pointer;
+                        border: 0px;
+                        width: 2em;
+                        height: 2em;
+                        margin: 0em;
+                    }
+                    label{
+                        margin-left: 1em;
+                        line-height: 2em;
+                        vertical-align: super;
+                    }
+                }
+                button{
+                    padding: .8em 1.5em;
+                    outline: none;
+                    background: rgb(79, 89, 228);
+                    border: none;
+                    color: white;
+                    border-radius: 5em;
+                    display: block;
+                    cursor: pointer;
+                    margin: 1em 0em 1em auto;
+                    font-weight: bold;
+                    &:hover{
+                        transition: .4s;
+                        background: rgb(51, 57, 146);
+                    }
+                }
+            }
+        }
+    }
+}

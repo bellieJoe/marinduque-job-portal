@@ -1,0 +1,122 @@
+body.job_match_results {
+  background-color: #e3ebfd;
+  margin: 0px;
+}
+body.job_match_results .job_match_results-wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+body.job_match_results .job_match_results-wrapper h1 {
+  font-size: medium;
+  font-family: "LEMON MILK";
+  text-align: center;
+  margin-top: 0em;
+  font-weight: normal;
+}
+body.job_match_results .job_match_results-wrapper hr {
+  border: none;
+  background: #8d8d8d;
+  height: 0.5px;
+}
+body.job_match_results .job_match_results-wrapper section.score {
+  background: white;
+  margin: 1em 0.5em;
+  padding: 1em;
+  border-radius: 0.3em;
+}
+body.job_match_results .job_match_results-wrapper section.score .item {
+  margin: 1em 0em;
+}
+body.job_match_results .job_match_results-wrapper section.score .item i, body.job_match_results .job_match_results-wrapper section.score .item label.title {
+  color: #2e5a7e;
+}
+body.job_match_results .job_match_results-wrapper section.score .item i {
+  margin-right: 0.5em;
+}
+body.job_match_results .job_match_results-wrapper section.score .item label.value {
+  float: right;
+  font-weight: bold;
+}
+body.job_match_results .job_match_results-wrapper section.score .total {
+  margin: 1em 0em;
+  font-weight: bold;
+}
+body.job_match_results .job_match_results-wrapper section.score .total .lbl {
+  color: #2e5a7e;
+}
+body.job_match_results .job_match_results-wrapper section.score .total .total-value {
+  float: right;
+}
+body.job_match_results .job_match_results-wrapper section.results {
+  background: white;
+  margin: 1em 0.5em;
+  padding: 1em;
+  border-radius: 0.3em;
+  max-height: calc(100vh - 150px);
+  overflow-y: scroll;
+}
+body.job_match_results .job_match_results-wrapper section.results h5 {
+  text-align: right;
+  font-weight: lighter;
+  margin: 0em;
+  opacity: 70%;
+}
+body.job_match_results .job_match_results-wrapper section.results .item-result {
+  margin: 2em 0em;
+}
+body.job_match_results .job_match_results-wrapper section.results .item-result img {
+  width: 100px;
+  margin: auto;
+  display: block;
+}
+body.job_match_results .job_match_results-wrapper section.results .item-result .job-details {
+  margin: 2em 0em;
+}
+body.job_match_results .job_match_results-wrapper section.results .item-result .job-details span {
+  margin: 0.3em 0em;
+  font-size: small;
+  display: block;
+}
+body.job_match_results .job_match_results-wrapper section.results .item-result .job-details span i {
+  color: greenyellow;
+}
+@media screen and (min-width: 500px) {
+  body.job_match_results .job_match_results-wrapper {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+  }
+  body.job_match_results .job_match_results-wrapper section.score {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  body.job_match_results .job_match_results-wrapper section.results {
+    height: calc(100vh - 200px);
+  }
+}
+@media screen and (min-width: 700px) {
+  body.job_match_results .job_match_results-wrapper {
+    grid-template-columns: 1fr 2fr;
+    display: grid;
+  }
+  body.job_match_results .job_match_results-wrapper section.results .item-result {
+    margin: 0em;
+  }
+  body.job_match_results .job_match_results-wrapper section.results .item-result img {
+    display: inline;
+    margin-right: 1em;
+  }
+  body.job_match_results .job_match_results-wrapper section.results .item-result .job-details {
+    display: inline-block;
+    margin: 0em;
+  }
+  body.job_match_results .job_match_results-wrapper section.results .item-result .job-details span {
+    font-size: medium;
+  }
+}
+@media screen and (min-width: 1000px) {
+  body.job_match_results .job_match_results-wrapper {
+    grid-template-columns: 1fr 3fr;
+    display: grid;
+  }
+}

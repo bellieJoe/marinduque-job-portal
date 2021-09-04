@@ -1,0 +1,77 @@
+*{
+    font-family: calibri;
+}
+body{
+    // background: steelblue;
+    // background: url('../image/bgpattern.png');
+    background-position: center;
+    background-color: #e3ebfd;
+    .wrapper{
+        width: 95%;
+        max-width: 1300px;
+        margin:  auto;
+        .form_container{
+            // width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: .3em;
+            padding: 1em;
+            h1{
+                font-size: 1.5em;
+                margin: 0px;
+                margin-bottom: .5em;
+            }
+            hr{
+                height: 2px;
+                background: lightgray;
+                border: none;
+                margin: 0px;
+            }
+
+            .password-toggle{
+                cursor: pointer;
+                width: fit-content;
+                label{
+                    cursor: pointer;
+                }
+                // #show{
+                //     display: none;
+                // }
+                // #hide{
+                //     display: inline;
+                // }
+                &:hover{
+                    opacity: 50%;
+                }
+            }
+
+            .item_last{
+                width: 90%;
+                margin: 1em auto;
+                label{
+                    opacity: 70%;
+                    a{
+                        text-decoration: none;
+                        color: steelblue;
+                        font-weight: bold;
+                    }
+                }
+                input{
+                    display: block;
+                    margin: 1em 0em auto auto;
+                    padding: 1em  2em;
+                    font-size: 16px;
+                    background: steelblue;
+                    border: none;
+                    outline: none;
+                    color: white;
+                    border-radius: 5em;
+                    cursor: pointer;
+                    &:hover{
+                        background: rgb(95, 174, 238);
+                    }
+                }
+            }
+        }
+    }
+}

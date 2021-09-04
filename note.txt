@@ -1,0 +1,10 @@
+
+
+** factors that may aaffect the generation of job suggestions **
+
+job_industry
+highest_educational_attainment 
+course_studied
+gender
+experience
+status - must be open

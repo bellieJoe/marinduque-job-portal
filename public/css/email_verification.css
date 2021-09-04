@@ -1,0 +1,39 @@
+body.email_verification {
+  margin: 0em;
+  background-color: #e3ebfd;
+}
+body.email_verification .email-verification-wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+body.email_verification .email-verification-wrapper .error-verify {
+  max-width: 600px;
+  margin: 3em 1em;
+  padding: 1em;
+}
+body.email_verification .email-verification-wrapper form {
+  max-width: 600px;
+  margin: 3em 1em;
+  padding: 1em;
+  background: white;
+  border-radius: 0.3em;
+}
+body.email_verification .email-verification-wrapper form .pota {
+  cursor: pointer;
+}
+body.email_verification .email-verification-wrapper form h4 {
+  text-align: center;
+}
+body.email_verification .email-verification-wrapper form h4 i {
+  margin-right: 0.5em;
+}
+body.email_verification .email-verification-wrapper form input {
+  margin-top: 1em;
+}
+body.email_verification .email-verification-wrapper form button {
+  margin: 1em 0em 1em auto;
+  display: block;
+}
+body.email_verification .email-verification-wrapper form button i {
+  margin-right: 0.5em;
+}

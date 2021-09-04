@@ -1,0 +1,210 @@
+<?php
+
+use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\JobController;
+use App\Models\Employer;
+use App\Models\Job;
+use App\Models\JobApplication;
+use App\Models\Seeker;
+use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Google\Cloud\Talent\V4beta1\JobApplication as V4beta1JobApplication;
+use Illuminate\Support\Facades\Auth;
+
+
+Route::prefix('employer')->group(function(){
+
+    Route::get('', function(){
+        return redirect('/employer/home');
+    });
+    /* 
+    @method GET
+    @desc Redirects to Employer Home View
+    */
+    Route::view('home', 'pages.employer_home')->middleware('role:employer', 'auth');
+
+    Route::prefix('profile')->group(function(){
+        
+        Route::post('update-description', [EmployerController::class, 'updateDescription'])->middleware('role:employer', 'auth');
+
+        Route::get('', function(){
+            $employer = Employer::where('user_id', Auth::user()->user_id)->first();
+            $address = $employer->address;
+            return view('pages.employer_profile')->with([ 'employer' => $employer, 'address' => $address]);
+        })->middleware('role:employer', 'auth'); 
+
+        Route::get('upload-logo', function () {
+            return view('pages.employer.upload-logo');
+        });
+
+        Route::post('upload-logo/upload', [EmployerController::class, 'uploadLogo']);
+
+        Route::post('update', [EmployerController::class, 'updateProfile'])->middleware('role:employer', 'auth');
+
+        Route::post('set-mission', [EmployerController::class, 'setMission'])->middleware('role:employer', 'auth');
+
+        Route::post('set-vision', [EmployerController::class, 'setVision'])->middleware('role:employer', 'auth');
+    });
+
+    // posting job
+    Route::prefix('post-job')->group(function(){
+        Route::get('', function(){ return view('pages.employer.post-job'); })->middleware('role:employer', 'auth');
+
+        Route::post('get-company-information', [EmployerController::class, 'getEmployer'])->middleware('role:employer', 'auth');
+
+        Route::post('add-job', [JobController::class, 'addJob'])->middleware('role:employer', 'auth');
+    });
+
+    Route::prefix('job')->group(function(){
+        /* 
+        @method POST
+        @desc Fetch the list of Jobs of an Employer
+        */
+        Route::post('get-job/{EmployerId}', [JobController::class, 'getJobByEmployerId'])->middleware('role:employer', 'auth');
+
+        /* 
+        @method GET
+        @desc Redirects the Employer's Job View and fetch Job Data 
+        */
+        Route::get('', function(){
+            $jobs = Job::where('user_id', Auth::user()->user_id);
+            $jobsList = $jobs->get();
+            $jobCounts = [];
+            
+            if(sizeof($jobsList) != 0){
+                foreach($jobsList as $job){
+                    array_push($jobCounts, JobApplication::where([
+                        ['job_id', $job->job_id],
+                        ['application_status', 'pending']
+                    ])->count());
+                }
+                return view('pages.employer.job-list')->with([
+                    'jobs' => $jobs->paginate(10),
+                    'jobCounts' => $jobCounts
+                ]);
+            }else{
+                return view('pages.employer.job-list')->with([
+                    'jobs' => null,
+                    'jobCounts' => null
+                ]);
+            }
+            
+        })->middleware('role:employer', 'auth');
+
+        /* 
+        @method POST
+        @desc Updates Jobs Status if open or not
+        */
+        Route::post('update-job-status', [JobController::class, 'updateStatus'])->middleware('role:employer', 'auth');
+
+        /*  
+        @desc redirects to editing of job details
+        @method GET
+        @route /employer/job/edit-job/{job_id}
+        */
+        Route::get('edit-job/{id}', function ($id) {
+            $job = Job::where([
+                'user_id'=> Auth::user()->user_id,
+                'job_id' => $id
+                ])->first();
+            return view('pages.employer.edit-job')->with([
+                'job' => $job
+            ]);
+        })->middleware('role:employer', 'auth');
+
+        Route::post('update-job/{id}', [JobController::class, 'updateJob'])->middleware('role:employer', 'auth');
+
+        /*  
+        @desc updates the status of a job if close or open
+        @method POST
+        @route /employer/job/update-status/{id}
+        */
+        Route::post('update-status/{id}', [JobController::class, 'updateStatus'])->middleware('role:employer', 'auth');
+
+        /* 
+        @method GET
+        @desc Redirects to Job Manager and fetch the necessary data such as 
+        job details, applicants
+        */
+        Route::get('{job_id}', function($job_id){
+
+            $jobApplications = JobApplication::where('job_id', $job_id)->get();
+            $completeJobApplications = [];
+
+            if(sizeof($jobApplications) != 0){
+                foreach($jobApplications as $i){
+                    $application = [];
+                    $application['applicantInformation'] = Seeker::where('user_id', $i->applicant_id)->first();
+                    $application['applicationInformation'] = $i;
+                    array_push($completeJobApplications, $application);
+                }
+            }else{
+                $completeJobApplications = null;
+            } 
+
+            $job = [
+                'jobDetails' => Job::where('job_id', $job_id)->first(),
+                'jobApplications' => $completeJobApplications
+            ];
+
+            return view('pages.employer.job')->with([
+                'job' => $job
+            ]);
+        })->middleware('role:employer', 'auth');
+
+        /* 
+        @method GET
+        @desc redirects to the accepting of application page
+        */
+        Route::get('accept-application/{application_id}', function($application_id){
+            $application = JobApplication::where('job_application_id', $application_id)->first();
+            $job = Job::where('job_id', $application->job_id)->first();
+            $employer = Auth::user();
+            $applicant = Seeker::where('user_id', $application->applicant_id)->first();
+            $applicant->email = User::where('user_id', $applicant->user_id)->first()->email;
+
+            // checks the authorizaation of job application
+            if($job->user_id === $employer->user_id && $application->application_status === 'pending'){
+                return view('pages.employer.accept-application')->with([
+                    'application' => [
+                        'application' => $application,
+                        'applicant' => $applicant
+                    ],
+                ]);
+            }else{
+                return view('errors.unauthorized');
+            }
+        })->middleware('role:employer', 'auth');
+
+        /* 
+        @method POST
+        @desc updates the job hiraing status of a job
+        @url /employer/job/{job_id}/status
+        */
+        Route::post('{job_id}/status', [JobController::class, 'toggleStatus'])->middleware('role:employer', 'auth');
+
+
+        /* 
+        @desc confirms the job application to accept 
+        @method POST
+        @url /employer/job/accept-application/{application_id}
+        */
+        Route::post('accept-application/{application_id}', [JobApplicationController::class, 'confirmApplication'])->middleware('role:employer', 'auth');
+
+        /* 
+        @desc set the days expire of a job
+        @method PUT
+        @url /employer/job/{job_id}/days-expire
+        */
+        Route::put('{job_id}/days-expire', [JobController::class, 'setDaysExpire']);
+
+    });
+    // end of job prefix
+
+});
+// end of employer prefix
+
+
+
+?>

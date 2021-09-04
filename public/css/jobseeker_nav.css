@@ -1,0 +1,40 @@
+.jobseeker_nav {
+  background: #2e5fa0;
+}
+.jobseeker_nav .wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+.jobseeker_nav .wrapper .item {
+  display: inline-block;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+.jobseeker_nav .wrapper .item:hover {
+  background: #4561be;
+  transition: 0.4s;
+}
+.jobseeker_nav .wrapper .item label {
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.jobseeker_nav .wrapper .item label i {
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 857px) {
+  .jobseeker_nav .wrapper .item {
+    padding: 0.8em 1em;
+  }
+  .jobseeker_nav .wrapper .item label {
+    font-size: 17px;
+  }
+  .jobseeker_nav .wrapper .last {
+    display: inline;
+    float: right;
+    margin: auto 0em auto auto !important;
+  }
+}

@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+[v-cloak] {
+  display: none;
+}
+
+* {
+  font-family: calibri;
+}
+
+html body {
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+.navstart .wrapper {
+  max-width: 1300px;
+  margin: 0em auto;
+}
+
+.menu {
+  background: white;
+  float: right;
+  display: none;
+}
+
+.menu:hover {
+  color: steelblue;
+}
+
+@media screen and (max-width: 700px) {
+  .menu {
+    display: flex;
+  }
+
+  .navstart .buttons {
+    float: none;
+    /* display: block; */
+    display: none;
+    transition: 0.4s;
+  }
+
+  .navstart .emp_signup {
+    background-color: white;
+    color: black;
+    margin: 0px;
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  .navstart .sin_up :first-child {
+    display: block;
+    border-radius: 0px;
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: left;
+  }
+
+  .navstart .sin_up :last-child {
+    display: block;
+    border-radius: 0px;
+    border: none;
+    background-color: white;
+    color: black;
+    width: 100%;
+    text-align: left;
+  }
+}

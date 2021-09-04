@@ -1,0 +1,72 @@
+body.signin {
+  background-color: #e3ebfd;
+}
+body.signin .wrapper {
+  width: 95%;
+  margin: auto;
+  max-width: 1300px;
+}
+body.signin .wrapper .form_container {
+  background: white;
+  border-radius: 0.3em;
+  margin-top: 1em;
+  padding: 1em;
+  max-width: 500px;
+}
+body.signin .wrapper .form_container h1 {
+  font-size: 1.5em;
+  color: steelblue;
+  margin: 0.5em auto;
+  width: 90%;
+}
+body.signin .wrapper .form_container hr {
+  height: 1px;
+  background: grey;
+  margin: auto;
+}
+body.signin .wrapper .form_container form {
+  margin: auto;
+  margin-top: 1em;
+  width: 90%;
+}
+body.signin .wrapper .form_container form .password_toggle {
+  cursor: pointer;
+}
+body.signin .wrapper .form_container form .password_input #show {
+  display: none;
+}
+body.signin .wrapper .form_container form .password_input i {
+  margin: auto 0em auto auto;
+  float: right;
+  cursor: pointer;
+}
+body.signin .wrapper .form_container form .password_input i:hover {
+  opacity: 75%;
+}
+body.signin .wrapper .form_container form .item_last {
+  margin-top: 1em;
+}
+body.signin .wrapper .form_container form .item_last label {
+  opacity: 70%;
+}
+body.signin .wrapper .form_container form .item_last label a {
+  text-decoration: none;
+  color: steelblue;
+  font-weight: bold;
+}
+body.signin .wrapper .form_container form .login {
+  padding: 1em 2em;
+  background: steelblue;
+  color: white;
+  margin: auto 0em auto auto;
+  display: block;
+  font-size: 16px;
+  border-radius: 5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 1em;
+}
+body.signin .wrapper .form_container form .login:hover {
+  background: #579fda;
+}

@@ -1,0 +1,19 @@
+body.post-job{
+    background: #e3ebfd;
+    .wrapper{
+        // width: 90%;
+        max-width: 1300px;
+        margin: auto;
+        .pj-form{
+            z-index: -1;
+            max-width: 500px;
+            margin: 0em;
+        }
+    }
+    // .hide{
+    //     display: none;
+    // }
+    [v-cloak]{
+        display: none;
+    }
+}

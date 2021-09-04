@@ -1,0 +1,131 @@
+*{
+    // font-family: 'Times New Roman';
+}
+.signup{
+    // margin-top: 74px;
+    /* temporary background  */
+    // background-color: steelblue;
+    // background: url('../image/bgpattern.png');
+    background-color: #e3ebfd;
+    background-repeat: no-repeat;
+
+}
+.signup .wrapper{
+    max-width: 1300px;
+    width: 95%;
+    margin: auto;
+}
+.signup .form_container{
+    padding-top: 1em;
+    width: 100%;
+    max-width: 500px;
+}
+.signup .title h1{
+    // color: white;
+    margin-bottom: 0px;
+    font-size: 1.5em;
+}
+.signup .title i{
+    margin-right: .5em;
+}
+.signup .title hr{
+    height: .1em;
+    background-color: white;
+    border: none;
+}
+.signup form{
+    background: white;
+    border-radius: .3em;
+    padding: 1em;
+    // box-shadow: 0em 0em 5px 3px rgba(71, 71, 71, 0.247);
+}
+// .signup form .item{
+//     width: 95%;
+//     margin: 1em auto;
+//     border: 2px solid steelblue;
+//     grid-template-columns: 1.5fr 2fr;
+//     display: grid;
+//     border-radius: 5em;
+//     background: steelblue;
+// }
+// .signup form .item i{
+//     margin: auto 0em auto auto;
+//     cursor: pointer;
+//     float: right;
+//     font-size: 16px;
+// }
+.signup #show{
+    display: none;
+}
+// .signup form .item i:hover{
+//     opacity: 75%;
+// }
+.signup .item div.label{
+    border-top-left-radius: 5em;
+    border-bottom-left-radius: 5em;
+    border: none;
+    color: white;
+    padding: .5em;
+}
+.signup .item .label label{
+    margin-left: .5em;
+    font-size: 12px;
+}
+// .signup .item .input{
+//     background: white;
+//     border-radius: 5em;
+// }
+// .signup .input input{
+//     width: fit-content;
+//     height: 35.2px;
+//     border-radius: 5em;
+//     border: none;
+//     outline: none;
+//     padding-left: 1em;
+//     padding-right: .5em;
+// }
+.signup form .item_last{
+    width: 90%;
+    margin: 1em auto;
+}
+.signup .item_last input{
+    padding: 1em 2em;
+    /* background: rgb(223, 37, 115); */
+    background: steelblue;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5em;
+    cursor: pointer;
+    margin: .5em 0px auto auto;
+    display: block;
+}
+.signup .item_last input:hover{
+    /* background: rgb(218, 84, 140); */
+    background: rgb(91, 168, 231);
+}
+.signup .item_last label{
+    opacity: 70%;
+}
+.signup .item_last a{
+    text-decoration: none;
+    color: steelblue;
+    font-weight: bold;
+}
+
+@media screen and (min-width : 400px){
+    .signup .item .label label{
+        font-size: 16px ;
+    }
+    .signup .input input{
+        width: 90%;
+    }
+
+}
+
+@media screen and (min-width : 800px){
+    .signup form .item{
+        grid-template-columns: 1.5fr 3fr;
+    }
+}

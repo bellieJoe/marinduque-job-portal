@@ -1,0 +1,74 @@
+body.employer-profile{
+    // background: steelblue;
+    // background: url('../image/bgpattern.png');
+    // background-color: #e3ebfd;
+    margin: 0em;
+    // padding-top: 74px;
+
+    .employer-profile-wrapper{
+        max-width: 1300px;
+        margin: auto;
+
+        section.com-details{
+            .com-logo{
+                width: 13em;
+                height: 13em;
+                background-color: rgb(202, 202, 202);
+                line-height: 13em;
+            }
+            .com-name{
+                color: steelblue;
+            }
+            .btnEditProfile{
+                background-color: steelblue;
+                color: white;
+            }
+        }
+
+        section.sec-1{
+            background: white;
+            // margin: .5em;
+            // padding: 1em;
+
+            .desc{
+                white-space: pre-wrap;
+            }
+
+            .head-1{
+                // width: fit-content;
+                color: rgb(55, 155, 236);;
+            }
+            
+
+            button.btnEditProfile, button.btnShowOverview, button.btnShowJobs{
+                padding: .5em 1em;
+                margin: 0em;
+                font-size: medium;
+                font-weight: bold;
+                outline: none;
+                border: none;
+                background: white;
+                border-bottom: 2px solid white;
+                cursor: pointer;
+                transition: .4s; 
+                margin-bottom: 1em; 
+
+            }
+            button.btnShowOverview{
+                border-bottom: 2px solid rgb(88, 39, 110);
+                color: steelblue;
+            }
+            .divJobs{
+                display: none;
+            }
+
+        }
+
+        section.sec-2{
+            background-color: rgb(55, 155, 236);
+            .head-2{
+                color: rgb(212, 232, 250);
+            }
+        }
+    }
+}

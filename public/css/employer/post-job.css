@@ -1,0 +1,15 @@
+body.post-job {
+  background: #e3ebfd;
+}
+body.post-job .wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+body.post-job .wrapper .pj-form {
+  z-index: -1;
+  max-width: 500px;
+  margin: 0em;
+}
+body.post-job [v-cloak] {
+  display: none;
+}

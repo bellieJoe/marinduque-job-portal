@@ -1,0 +1,44 @@
+body.email_verification{
+    // padding-top: 74px;
+    margin: 0em;
+    // background: url('../image/bgpattern.png');
+    background-color: #e3ebfd;
+
+    .email-verification-wrapper{
+        max-width: 1300px;
+        margin: auto;
+        .error-verify{
+            max-width: 600px;
+            margin: 3em 1em;
+            padding: 1em;
+        }
+        form{
+            max-width: 600px;
+            margin: 3em 1em;
+            padding: 1em;
+            background: white;
+            border-radius: .3em;
+            .pota{
+                cursor: pointer;
+            }
+            h4{
+                text-align: center;
+                i{
+                    margin-right: .5em;
+                }
+            }
+
+            input{
+                margin-top: 1em;
+            }
+            button{
+                margin: 1em 0em 1em auto;
+                display: block;
+                i{
+                    margin-right: .5em;
+                }
+            }
+        }
+    }
+    
+}

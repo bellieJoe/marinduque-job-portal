@@ -1,0 +1,18 @@
+body.upload-logo {
+  background: #e3ebfd;
+}
+body.upload-logo .wrapper {
+  margin: 0em auto;
+  max-width: 1300px;
+}
+body.upload-logo .wrapper .head {
+  color: steelblue;
+}
+body.upload-logo .wrapper .image-selector {
+  background-color: #f1f1f1;
+  border: 1px dashed grey;
+  color: grey;
+}
+body.upload-logo .wrapper .cropper {
+  border: 1px dashed grey;
+}

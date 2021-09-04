@@ -1,0 +1,55 @@
+body.employer-profile {
+  margin: 0em;
+}
+body.employer-profile .employer-profile-wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+body.employer-profile .employer-profile-wrapper section.com-details .com-logo {
+  width: 13em;
+  height: 13em;
+  background-color: #cacaca;
+  line-height: 13em;
+}
+body.employer-profile .employer-profile-wrapper section.com-details .com-name {
+  color: steelblue;
+}
+body.employer-profile .employer-profile-wrapper section.com-details .btnEditProfile {
+  background-color: steelblue;
+  color: white;
+}
+body.employer-profile .employer-profile-wrapper section.sec-1 {
+  background: white;
+}
+body.employer-profile .employer-profile-wrapper section.sec-1 .desc {
+  white-space: pre-wrap;
+}
+body.employer-profile .employer-profile-wrapper section.sec-1 .head-1 {
+  color: #379bec;
+}
+body.employer-profile .employer-profile-wrapper section.sec-1 button.btnEditProfile, body.employer-profile .employer-profile-wrapper section.sec-1 button.btnShowOverview, body.employer-profile .employer-profile-wrapper section.sec-1 button.btnShowJobs {
+  padding: 0.5em 1em;
+  margin: 0em;
+  font-size: medium;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  background: white;
+  border-bottom: 2px solid white;
+  cursor: pointer;
+  transition: 0.4s;
+  margin-bottom: 1em;
+}
+body.employer-profile .employer-profile-wrapper section.sec-1 button.btnShowOverview {
+  border-bottom: 2px solid #58276e;
+  color: steelblue;
+}
+body.employer-profile .employer-profile-wrapper section.sec-1 .divJobs {
+  display: none;
+}
+body.employer-profile .employer-profile-wrapper section.sec-2 {
+  background-color: #379bec;
+}
+body.employer-profile .employer-profile-wrapper section.sec-2 .head-2 {
+  color: #d4e8fa;
+}

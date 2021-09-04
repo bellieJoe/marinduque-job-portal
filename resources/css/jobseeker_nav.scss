@@ -1,0 +1,50 @@
+*{
+    // font-family: Lucida Sans;
+}
+.jobseeker_nav{
+    // margin-top: 72px;
+    background: rgb(46, 95, 160);
+    // box-shadow: 0em 0em 5px 3px rgba(71, 71, 71, 0.247);
+    .wrapper{
+        max-width: 1300px;
+        margin: auto;
+        .item{
+            display: inline-block;
+            padding: .5em 1em;
+            cursor: pointer;
+            &:hover{
+                background: rgb(69, 97, 190);
+                transition: .4s;
+            }
+            label{
+                color: white;
+                font-size: 14px;
+                text-decoration: none;
+                cursor: pointer;
+                i{
+                    margin-right: .5em;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 857px){
+    .jobseeker_nav{
+        .wrapper{
+            .item{
+                padding: .8em 1em;
+                label{
+                    font-size: 17px;
+                }
+            }
+            .last{
+                display: inline;
+                float: right;
+                margin: auto 0em auto auto !important;
+            }
+        }
+        
+    }
+}

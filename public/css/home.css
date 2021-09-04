@@ -1,0 +1,19 @@
+.bg-home-1 {
+  background-image: url(/images/home-4.jpg?96957f46eb9609d20bcf2daba9bef13a);
+}
+
+.bg-home-2 {
+  background-image: url(/images/home-2.jpg?312c720481ce86511574434280935163);
+}
+
+.z2 {
+  z-index: 2;
+}
+
+.z3 {
+  z-index: 3;
+}
+
+.xxx {
+  z-index: 0;
+}

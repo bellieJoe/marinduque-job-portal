@@ -1,0 +1,101 @@
+body.seeker-jobmatch {
+  background-color: #e3ebfd;
+  min-height: 100vh;
+}
+body.seeker-jobmatch .wrapper {
+  max-width: 1300px;
+  margin: auto;
+}
+body.seeker-jobmatch .wrapper .sec-1 {
+  color: white;
+  margin: 0.5em;
+  padding: 0.5em;
+  max-width: 500px;
+}
+body.seeker-jobmatch .wrapper .sec-1 h1.title {
+  font-family: "LEMON MILK";
+  font-size: xx-large;
+  font-weight: bold;
+  margin: 0em;
+}
+body.seeker-jobmatch .wrapper .sec-1 hr {
+  border: none;
+  background: white;
+  height: 1px;
+  margin: 0em;
+}
+body.seeker-jobmatch .wrapper .sec-1 p {
+  font-family: "CALIBRI";
+  text-indent: 1em;
+  font-size: large;
+  text-align: justify;
+}
+body.seeker-jobmatch .wrapper .sec-1 button {
+  padding: 1em 2em;
+  color: white;
+  outline: none;
+  border: none;
+  background: #22439e;
+  display: block;
+  margin: auto 0em auto auto;
+  border-radius: 5em;
+  cursor: pointer;
+  font-size: large;
+}
+body.seeker-jobmatch .wrapper .sec-1 button:hover {
+  transition: 0.4s;
+  opacity: 70%;
+}
+body.seeker-jobmatch .wrapper .sec-2 {
+  max-width: 500px;
+  background: white;
+  margin: 2em 1em;
+  padding: 1em;
+  border-radius: 0.3em;
+  display: none;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p2, body.seeker-jobmatch .wrapper .sec-2 .p3, body.seeker-jobmatch .wrapper .sec-2 .p4, body.seeker-jobmatch .wrapper .sec-2 .p5 {
+  display: none;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 p, body.seeker-jobmatch .wrapper .sec-2 .p2 p, body.seeker-jobmatch .wrapper .sec-2 .p3 p, body.seeker-jobmatch .wrapper .sec-2 .p4 p, body.seeker-jobmatch .wrapper .sec-2 .p5 p {
+  font-size: small;
+  opacity: 50%;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 .desc, body.seeker-jobmatch .wrapper .sec-2 .p2 .desc, body.seeker-jobmatch .wrapper .sec-2 .p3 .desc, body.seeker-jobmatch .wrapper .sec-2 .p4 .desc, body.seeker-jobmatch .wrapper .sec-2 .p5 .desc {
+  margin: 1em auto;
+  font-size: medium;
+  font-weight: normal;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 .item, body.seeker-jobmatch .wrapper .sec-2 .p2 .item, body.seeker-jobmatch .wrapper .sec-2 .p3 .item, body.seeker-jobmatch .wrapper .sec-2 .p4 .item, body.seeker-jobmatch .wrapper .sec-2 .p5 .item {
+  margin: 0.5em auto;
+  color: #6b6b6b;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 .item input, body.seeker-jobmatch .wrapper .sec-2 .p2 .item input, body.seeker-jobmatch .wrapper .sec-2 .p3 .item input, body.seeker-jobmatch .wrapper .sec-2 .p4 .item input, body.seeker-jobmatch .wrapper .sec-2 .p5 .item input {
+  display: inline-block;
+  cursor: pointer;
+  border: 0px;
+  width: 2em;
+  height: 2em;
+  margin: 0em;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 .item label, body.seeker-jobmatch .wrapper .sec-2 .p2 .item label, body.seeker-jobmatch .wrapper .sec-2 .p3 .item label, body.seeker-jobmatch .wrapper .sec-2 .p4 .item label, body.seeker-jobmatch .wrapper .sec-2 .p5 .item label {
+  margin-left: 1em;
+  line-height: 2em;
+  vertical-align: super;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 button, body.seeker-jobmatch .wrapper .sec-2 .p2 button, body.seeker-jobmatch .wrapper .sec-2 .p3 button, body.seeker-jobmatch .wrapper .sec-2 .p4 button, body.seeker-jobmatch .wrapper .sec-2 .p5 button {
+  padding: 0.8em 1.5em;
+  outline: none;
+  background: #4f59e4;
+  border: none;
+  color: white;
+  border-radius: 5em;
+  display: block;
+  cursor: pointer;
+  margin: 1em 0em 1em auto;
+  font-weight: bold;
+}
+body.seeker-jobmatch .wrapper .sec-2 .p1 button:hover, body.seeker-jobmatch .wrapper .sec-2 .p2 button:hover, body.seeker-jobmatch .wrapper .sec-2 .p3 button:hover, body.seeker-jobmatch .wrapper .sec-2 .p4 button:hover, body.seeker-jobmatch .wrapper .sec-2 .p5 button:hover {
+  transition: 0.4s;
+  background: #333992;
+}
