@@ -1,30 +1,30 @@
 
 
-<div class="jobseeker_nav" id="jobseeker_nav">
+<div class="jobseeker_nav bg-indigo-900" id="jobseeker_nav">
     <link rel="stylesheet" href="{{asset('css/jobseeker_nav.css')}}">
 
     {{-- to pass the auth user to the js  --}}
     <input type="hidden" id="User" value="{{ Auth::user() }}">
 
     <div class="wrapper">
-        <div class="item text-yellow-200" @click="toggleNotification">
+        <div v-cloak class="item text-yellow-200" @click="toggleNotification">
             <i class="fa fa-bell"></i>
             @{{ unreadNotificationsCount }}
         </div>
-        <div class="item"  id="js_home" @click="redirectRoute('/seeker/home')">
+        <div v-cloak class="item"  id="js_home" @click="redirectRoute('/seeker/home')">
             <label><i class="fas fa-home"></i> Home</label>
         </div>
-        <div class="item" id="js_profile" @click="redirectRoute('/seeker/profile/education')">
+        <div v-cloak class="item" id="js_profile" @click="redirectRoute('/seeker/profile/education')">
             <label ><i class="fas fa-user"></i> My Profile</label>
         </div>
 
-        <div class="item" id="js_employers">
+        <div v-cloak class="item" id="js_employers" @click="redirectRoute('/employers')">
             <label ><i class="fas fa-building"></i> Employers</label>
         </div>
-        <div class="item" id="js_fmatch">
-            <label ><i class="fas fa-puzzle-piece"></i> Find a Match</label>
+        <div v-cloak class="item" id="js_fmatch" @click="redirectRoute('/seeker/settings')">
+            <label ><i class="fas fa-cog"></i> Settings</label>
         </div>
-        <div class="item last" id="js_contact">
+        <div v-cloak class="item last" id="js_contact">
             <label ><i class="fas fa-phone-alt"></i> Contact Us</label>
         </div> 
     </div>
@@ -40,8 +40,8 @@
             
         </div>
         <div class="body">
-            <div v-for="notification of notifications" :class="notification.read_at ? 'opacity-50' : ''" class="rounded bg-gray-50 my-2 p-2 hover:opacity-80 duration-500" @mouseover="setHoveredNotif(notification.id)" >
-                <h6 class="text-indigo-400 font-bold">
+            <div v-cloak v-for="notification of notifications" :class="notification.read_at ? 'opacity-50' : ''" class="rounded bg-gray-50 my-2 p-2 hover:opacity-80 duration-500" @mouseover="setHoveredNotif(notification.id)" >
+                <h6 v-cloak class="text-indigo-400 font-bold">
                     @{{ notification.data.title }}
                 </h6>
                  @{{ notification.data.message }}

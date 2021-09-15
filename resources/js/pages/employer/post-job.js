@@ -22,6 +22,8 @@ new Vue({
     data:{
         phil: phil,
         errors: [],
+        // courses: [],
+        // industries: [],
         sample: {
             sam: "okie"
         },

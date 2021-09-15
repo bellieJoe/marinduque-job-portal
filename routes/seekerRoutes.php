@@ -6,6 +6,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\SkillController;
@@ -21,6 +22,7 @@ use App\Models\User;
 use App\Notifications\NewApplicationNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 Route::prefix('seeker')->group(function(){
     Route::view('job-match/results', 'pages.job_match_results')->middleware('role:seeker', 'auth');
@@ -137,7 +139,23 @@ Route::prefix('seeker')->group(function(){
         Route::post('get-saved-jobs', [SavedJobController::class, 'getSavedJobs'])->middleware("role:seeker", "auth");
 
         Route::post('delete-saved-job/{saved_job_id}', [SavedJobController::class, 'deleteSavedJob'])->middleware("role:seeker", "auth");
+
+        /* 
+        @desc fetch the job suggestions preview data
+        @method GET
+        @url /home/get-job-suggestions-preview
+        */
+        Route::get('get-job-suggestions-preview', [JobController::class, 'generateJobSuggestionsPreview'])->middleware('auth', 'role:seeker');
+
+        /* 
+        @desc fetch the job suggestions full data and redirect to full view
+        @method GET
+        @url /home/job-suggestions-full
+        */
+        Route::get('job-suggestions-full', [JobController::class, 'generateJobSuggestionsFull'])->middleware('auth', 'role:seeker');
+
     });
+    // end of home prefix
 
     Route::get('job/{job_id}', function($job_id){
         $job = Job::where('job_id', $job_id)->first();
@@ -197,6 +215,18 @@ Route::prefix('seeker')->group(function(){
     Route::prefix('job-search')->group(function(){
         Route::post('save-job/{job_id}', [SavedJobController::class, 'addSavedJob'])->middleware('auth', 'role:seeker');
     });
+
+    /* 
+    @desc settings of seeker
+    @method GET
+    @url /seeker/settings
+     */
+    Route::get('settings', function(){
+
+        return view('pages.seeker.settings');
+        
+    })->middleware('auth', 'role:seeker');
+
 });
 
 ?>

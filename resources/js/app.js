@@ -5,6 +5,9 @@ import Echo from "laravel-echo";
 import $ from 'jquery'
 require('./bootstrap');
 
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
 
 
 

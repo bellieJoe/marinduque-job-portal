@@ -52,6 +52,8 @@ new Vue({
   data: {
     phil: (phil_reg_prov_mun_brgy__WEBPACK_IMPORTED_MODULE_1___default()),
     errors: [],
+    // courses: [],
+    // industries: [],
     sample: {
       sam: "okie"
     },

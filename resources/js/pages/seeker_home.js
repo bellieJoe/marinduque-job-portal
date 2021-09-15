@@ -1,5 +1,9 @@
 import $ from 'jquery'
 
+import devModule from '../dev_module.js'
+
+
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -11,9 +15,13 @@ new Vue({
     el: "#seeker-home",
     data: {
         savedJobs: null,
+        jobSuggestions: null,
         toggledJobs: "suggestions",
         jobApplicationFilter: "all",
         jobApplications: [],
+
+        // loaders
+        JobApplicationLoader : false
     },
     methods: {
         getSavedJobs(){
@@ -64,27 +72,49 @@ new Vue({
             }
         },
 
-        getJobApplications(){
-            $.ajax({
-                url: "/seeker/get-job-applications",
-                method: "post",
+        async getJobApplications(){
+            try {
+                let jobApplications = await $.ajax({
+                    url: "/seeker/get-job-applications",
+                    method: "post",
+    
+                })
 
-            }).fail((res)=>{
-                console.log(res)
-            }).done((res)=>{
-                console.log(res)
-                if(res.length != 0){
-                    // console.log("me laman")
-                    this.jobApplications = res
-                }else{
-                    // console.log("wala laman")
-                    this.jobApplications = null
-                }
-            })
+                this.jobApplications = jobApplications.length != 0  ? jobApplications : null
+
+
+            } catch (error) {
+                console.log(error)
+            }
+            
         },
 
-        getJobSuggestions(){
+        async getJobSuggestions(){
 
+            try {
+                this.jobApplicationLoader = true
+                let suggestedJobs = await $.ajax({
+                    url: '/seeker/home/get-job-suggestions-preview',
+                    method: 'GET',
+                })
+
+                
+                this.jobSuggestions = suggestedJobs
+
+                this.jobSuggestions.map((val, i)=>{
+                    let job = val
+
+                    job.date_posted_diffForHumans = devModule.diffForHumans(val.date_posted)
+                    job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null
+                    job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null
+                    job.company_address = val.company_address ? JSON.parse(val.company_address) : null
+                })
+                this.jobApplicationLoader = false
+
+            } catch (error) {
+                this.jobApplicationLoader = false
+                console.log(error)
+            }
         },
 
         filterSuggestedJobs(a){
@@ -94,10 +124,15 @@ new Vue({
         filterJobApplications(a){
             console.log(this.jobApplicationFilter)
             this.jobApplicationFilter = a
-        }
+        },
+
+        redirectRoute(route){
+            location.href = route
+        },
 
     },
     mounted() {
+        this.getJobSuggestions()
         this.toggleJobs('suggestions')
     },
 })

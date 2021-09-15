@@ -71,28 +71,7 @@ require('databaseRoutes.php');
 
 
 // guest
-Route::prefix('job-search')->group(function(){
-    Route::get('', function () {
-        return view('pages.guest.job-search')->with([
-            'jobs'=> NULL,
-            'job_inputs' => [
-                'job_title' =>  NULL,
-                'company_name' => NULL,
-                'province' => NULL,
-                'municipality' => NULL,
-                'salary_max' => NULL,
-                'salary_min' => NULL
-            ],
-        ]);
-    });
 
-    Route::get('search', [JobController::class, 'searchJobs']);
-
-    Route::post('keyword-job-title', [JobController::class, 'getJobTitles']);
-
-    Route::post('keyword-company-name', [JobController::class, 'getCompanyNames']);
-
-});
 
 Route::get('/', function(){ 
 
@@ -183,20 +162,16 @@ Route::get('/resume/{user_id}', function($user_id){
 
 // for testing purposes only
 
-Route::get('/testing-2', function(){
-    $sample = "okie";
-    $user = User::where('email', 'jandusayjoe14@gmail.com')->first();
-    Notification::send($user, new SampleNotification());
-});
+// Route::get('/testing-2', function(){
+//     $sample = "okie";
+//     $user = User::where('email', 'jandusayjoe14@gmail.com')->first();
+//     Notification::send($user, new SampleNotification());
+// });
+
+
 Route::get('/testing', function(){
 
-    $user = User::find(1);
-    $message = [
-        'message' => 'SI Bellie Joe Jandusay ay pogi'
-    ];
-
-    $user->notify(new SampleNotification($message));
-    return "Notified";
+    return Job::search('miMaropa')->get();
 });
 
 

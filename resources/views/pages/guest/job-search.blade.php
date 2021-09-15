@@ -14,32 +14,27 @@
         <link rel="stylesheet" href="{{ asset('css/guest/job-search.css') }}">
     </head>
 
-    <body class="bg-blue-50">
+    <body class="bg-gray-200">
         <div id="job_search">
 
 
 
+            {{-- search form --}}
             <section class="bg-gray-800 pb-5 pt-3 text-white">
                 <form action="/job-search/search" method="get" id='search_form'>
-                @csrf
                 <div class="container-lg">
                     <a href="/" class="text-decoration-none btn text-white"><i class="fa fa-arrow-left"></i> Back</a>
                     <h3 class="fw-bold fs-4  mb-3">Search Jobs</h3>
                     <div class="row">
                         <div class="col-md-5 mb-3">
-                            <input type="text" class="form-control" id="job_title" placeholder="job title"   @input="generateJobtitleKeywords" @click="clearKeywords" name="job_title" value="{{ $job_inputs['job_title'] ? $job_inputs['job_title'] : ''}}" list="job_title_keywords" autocomplete="off">
-                            <datalist id="job_title_keywords" >
-                            </datalist>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <input type="text" class="form-control" id="company_name" placeholder="company name" list="company_name_keywords" @input="generateCompanynameKeywords" @click="clearKeywords" name="company_name" value="{{ $job_inputs['company_name'] ? $job_inputs['company_name'] : '' }}" autocomplete="off">
-                            <datalist id="company_name_keywords" >
-                            </datalist>
+                            <input type="text" class="form-control" id="keyword" placeholder="Enter Job Title or Company Name"   name="keyword" value="{{ $job_inputs['keyword'] ? $job_inputs['keyword'] : ''}}" >
                         </div>
                         <div class="col-md-auto mb-3">
                             <button type="submit" class="btn btn-outline-light w-100 " @click="search">Search</button>
                         </div>
                     </div>
+
+                    {{-- filters --}}
                     <div class="row">
                         <div class="btn btn-outline-secondary border-0 text-white col-auto" data-bs-toggle="modal" data-bs-target="#mdlFilter">
                             <i class="fa fa-filter me-2"></i> Filter Jobs
@@ -118,35 +113,42 @@
                 </form>
             </section>
 
-            
+
+
+            {{-- results --}}
             <section class="py-5 ">
                 <div class="container-lg">
                 @if ($jobs)
                     @if (count($jobs) != 0)
                         @foreach ($jobs as $job)
-                        <div class="bg-gray-50 hover:scale-150 hover:bg-blue-100 hover:border-0 cursor-pointer shadow-sm  p-4 my-3  col-md-7 border" title="click to view full details" data-bs-toggle="modal" data-bs-target="#view_job{{ $job->job_id }}">
+                        <div class="bg-gray-50 rounded-md hover:scale-150 hover:bg-blue-100 hover:border-0  shadow-sm  p-4 my-3  col-md-7 border" title="click to view full details" >
                             <h6 class="fw-bold fs-5">{{ $job->job_title }}</h6>
                             <h6 class="mb-4">{{ $job->company_name }}</h6>
+
+                            <h6 class=" text-indigo-800">{{ Str::title($job->job_type) }}</h6>
+                            <h6 class="mb-4 text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
                             @if ($job->salary_range)
                                 <h6>Php {{  number_format(json_decode($job->salary_range)->min, 0)  }} - Php {{  number_format(json_decode($job->salary_range)->max, 0)  }} </h6>
                             @endif
                             <h6 >{{ Str::title(json_decode($job->company_address)->municipality->name) }}, {{ Str::title(json_decode($job->company_address)->province->name) }}</h6>
                             <div class="mt-4">
                                 <h6 class="fw-bold text-secondary mb-1">Qualifications</h6>
-                                <h6 class="mb-1">{{ $job->educational_attainment  ? ($job->educational_attainment == "tertiary education" ? "• Must be a College graduate." : ($job->educational_attainment == "secondary education" ? "• Must be atleast Highschool graduate." : ($job->educational_attainment == "primary education" ? "• Must be atleast Elementary graduate." : ''))) : '' }}</h6>
+                                <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $job->educational_attainment  ? ($job->educational_attainment == "tertiary education" ? "Must be a College graduate." : ($job->educational_attainment == "secondary education" ? "Must be atleast Highschool graduate." : ($job->educational_attainment == "primary education" ? "Must be atleast Elementary graduate." : ''))) : '' }}</h6>
                                 @if ($job->course_studied)
-                                <h6 class="mb-1">• Required course studied:</h6>
+                                <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i> Required course studied:</h6>
                                     @foreach (json_decode($job->course_studied) as $course)
                                         <h6 class="ms-3 my-0">{{ $course }}</h6>
                                     @endforeach
                                 @endif
                                 @if ($job->gender)
-                                <h6 class="mb-1">• Must be {{ $job->gender }}.</h6>
+                                <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i> {{ Str::title($job->gender) }}</h6>
                                 @endif
                                 @if ($job->experience)
-                                <h6 class="mb-1">• Must have {{ $job->experience }} year/s of experience to job related field.</h6>
+                                <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i> Must have {{ $job->experience }} year/s of experience to job related field.</h6>
                                 @endif
                             </div>
+
+                            <a href="/job-search-mdq/view/{{ $job->job_id }}" target="_blank" class="btn btn-primary block mr-0 ml-auto mt-5 w-max">View Full Details</a>
                             <h6 class="mt-3 text-secondary">{{ $job->date_posted->diffForHumans() }}</h6>
                         </div>
                         @endforeach
@@ -161,80 +163,7 @@
                 </div>
             </section>
 
-            @if ($jobs)
-            @foreach ($jobs as $job)
-            <div class="modal fade" id="view_job{{ $job->job_id }}">
-                <div class="modal-dialog modal-fullscreen">
-                    <div class="modal-content">
-                        <div class="modal-body">
-
-                            <div class="col-sm-7 mx-auto pt-4">
-                                <button type="button" class="btn-close d-block ms-auto me-0" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                                <h6 class="fw-bold text-blue-800">{{ $job->job_title }}</h6>
-                                <h6>{{ $job->company_name }}</h6>
-                                <h6 >{{ Str::title(json_decode($job->company_address)->barangay->name) }}, {{ Str::title(json_decode($job->company_address)->municipality->name) }}, {{ Str::title(json_decode($job->company_address)->province->name) }}</h6>
-                                <h6>Php {{ number_format(json_decode($job->salary_range)->min,0) }} - Php {{ number_format(json_decode($job->salary_range)->max,0) }}</h6>
-
-                                <h6 class="mt-5 fw-bold">Qualifications</h6>
-                                <h6 class="mb-1">{{ $job->educational_attainment  ? ($job->educational_attainment == "tertiary education" ? "• Must be a College graduate." : ($job->educational_attainment == "secondary education" ? "• Must be atleast Highschool graduate." : ($job->educational_attainment == "primary education" ? "• Must be atleast Elementary graduate." : ''))) : '' }}</h6>
-                                @if ($job->course_studied)
-                                    <h6 class="mb-1">• Studied 
-                                    @foreach (json_decode($job->course_studied) as $course)
-                                        @php $i = json_decode($job->course_studied); @endphp
-                                        {{ $course ==  end($i) ? $course : $course.', ' }}
-                                    @endforeach
-                                    </h6>
-                                @endif
-                                <h6 class="{{ $job->gender ? '' : 'd-none' }}">• {{ Str::title($job->gender) }}</h6>
-                                <h6 class="{{ $job->experience ? '' : 'd-none' }}">• {{ $job->experience }} year/s of experience.</h6>
-                                @if ($job->other_qualification)
-                                    @foreach (json_decode($job->other_qualification) as $qualification )
-                                    <h6 >• {{ $qualification }}</h6>                          
-                                    @endforeach
-                                @endif
-
-                                <h6 class="mt-5 fw-bold {{ $job->job_description ? '' : 'd-none'}}">Description</h6>
-                                <p class="whitespace-pre-wrap">{{ $job->job_description }}</p>
-
-                                <h6 class="mt-5 fw-bold {{ $job->company_description ? '' : 'd-none'}}">About us</h6>
-                                <p class="whitespace-pre-wrap">{{ $job->company_description }}</p>
-
-                                <h6 class="mt-5 fw-bold {{ $job->job_benefits ? '' : 'd-none'}}">Benefits</h6>
-                                <p class="whitespace-pre-wrap">{{ $job->job_benefits }}</p>
-
-                                
-                                <div>
-                                    @auth
-                                        @if (Auth::user()->role == 'seeker')
-                                            <button type="button" @click="saveJob({{ $job->job_id }})" class="btn  btn-primary text-white  mx-auto mt-5">Save Job</button>
-                                            {{-- <button class="btn  bg-pink-800 text-white  mx-auto mt-5">Apply</button>   --}}
-                                            <a class="btn  bg-pink-800 text-white  mx-auto mt-5" href="/seeker/apply-job/{{ $job->job_id }}">Apply</a>  
-                                            <div class="fixed bottom-5 col-sm-7 duration-300" :class="toastSaveJob">
-                                                <div  class="p-3 rounded-2 bg-gray-700 text-white w-max mx-auto">
-                                                    <i class="fa fa-check text-green-500"></i>
-                                                    Job successfully saved
-                                                </div>
-                                            </div>
-    
-                                        @endif                         
-                                    @endauth
-                                    @guest
-                                        <a href="/signin" class="btn  bg-pink-800 text-white  mx-auto mt-5">Sign In to Apply</a>  
-                                    @endguest
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>                
-            @endforeach                
-            @endif
             
-
-
-
         </div>
 
 

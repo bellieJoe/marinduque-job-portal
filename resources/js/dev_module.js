@@ -1,7 +1,7 @@
+import {DateTime} from 'luxon'
 
 
-
-const jobSpecs = {
+const devModule = {
     industry: [
         'Accountancy, banking and finance',
         'Business, consulting and management',
@@ -85,7 +85,56 @@ const jobSpecs = {
         'Bachelor of Science in Tourism Management',
         'Bachelor of Science in Transportation Management',
 
-    ]
+    ],
+
+    diffForHumans: ( date )=>{
+        let startDateTime = DateTime.fromISO(date)
+        let currentDateTime = DateTime.now()
+
+        let diff = currentDateTime.diff(startDateTime, ['seconds','minutes', 'hours', 'days','weeks', 'months','years']);
+
+        if(diff.years != 0){
+            if(diff.years > 1){
+
+                return `${diff.years} years ago`
+
+            }else if (diff.months != 0){
+
+                return `${diff.years} year and ${ diff.months } months ago`
+                
+            }else{
+                
+                return `${diff.years} year ago`
+
+            }
+        }else if(diff.months != 0){
+
+            return diff.months == 1 ? `${diff.months} month ago` : `${diff.months} months ago`
+
+        }else if (diff.weeks != 0){
+
+            return diff.weeks == 1 ? `${diff.weeks} week ago` : `${diff.weeks} weeks ago`
+
+        }else if (diff.days != 0){
+            
+            return diff.days == 1 ? `${diff.days} day ago` : `${diff.days} days ago`
+
+        }else if (diff.hours != 0){
+
+            return diff.hours == 1 ? `${diff.hours} hour ago` : `${diff.hours} hours ago`
+
+        }else if (diff.minutes != 0){
+
+            return diff.minutes == 1 ? `${diff.minutes} minute ago` : `${diff.minutes} minutes ago`
+
+        }else{
+
+            return diff.seconds == 1 ? `${diff.seconds} second ago` : `${diff.seconds} seconds ago`
+
+        }
+        
+        console.log(diff.years)
+    }
 }
 
-export default jobSpecs
+export default devModule

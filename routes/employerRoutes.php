@@ -71,6 +71,31 @@ Route::prefix('employer')->group(function(){
             $jobs = Job::where('user_id', Auth::user()->user_id);
             $jobsList = $jobs->get();
             $jobCounts = [];
+            $applicantCounts = [];
+
+            // generate applicantCounts
+            foreach ($jobs->get() as $job) {
+
+                $applicantCounts[strval($job->job_id)] = [
+                        'total' => JobApplication::where('job_id', $job->job_id)->count(),
+                        'pending' => JobApplication::where([
+                            ['job_id', $job->job_id],
+                            ['application_status', 'pending'],
+                        ])->count(),
+                        'approved' => JobApplication::where([
+                            ['job_id', $job->job_id],
+                            ['application_status', 'approved'],
+                        ])->count(),
+                        'declined' => JobApplication::where([
+                            ['job_id', $job->job_id],
+                            ['application_status', 'declined'],
+                        ])->count(),
+                        'expired' => JobApplication::where([
+                            ['job_id', $job->job_id],
+                            ['application_status', 'expired'],
+                        ])->count(),
+                    ];
+            }
             
             if(sizeof($jobsList) != 0){
                 foreach($jobsList as $job){
@@ -81,12 +106,14 @@ Route::prefix('employer')->group(function(){
                 }
                 return view('pages.employer.job-list')->with([
                     'jobs' => $jobs->paginate(10),
-                    'jobCounts' => $jobCounts
+                    'jobCounts' => $jobCounts,
+                    'applicantCounts' => $applicantCounts
                 ]);
             }else{
                 return view('pages.employer.job-list')->with([
                     'jobs' => null,
-                    'jobCounts' => null
+                    'jobCounts' => null,
+                    'applicantCounts' => $applicantCounts
                 ]);
             }
             
@@ -198,6 +225,13 @@ Route::prefix('employer')->group(function(){
         @url /employer/job/{job_id}/days-expire
         */
         Route::put('{job_id}/days-expire', [JobController::class, 'setDaysExpire']);
+
+        /* 
+        @desc delete a job
+        @method delete
+        @url /employer/job/{job_id}/delete
+        */
+        Route::delete('{job_id}/delete', [JobController::class, 'deleteJobById'])->middleware('role:employer', 'auth');
 
     });
     // end of job prefix

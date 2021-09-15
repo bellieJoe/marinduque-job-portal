@@ -22,6 +22,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/guest/job-search.js', 'public/js/pages/guest')
     .js('resources/js/pages/guest/job-search-marinduque.js', 'public/js/pages/guest')
     .js('resources/js/pages/guest/job-view-marinduque.js', 'public/js/pages/guest')
+    .js('resources/js/pages/guest/employer-jobs.js', 'public/js/pages/guest')
+    .js('resources/js/pages/guest/employers.js', 'public/js/pages/guest')
     .js('resources/js/pages/resume.js', 'public/js/pages')
 
     // scripts for pages
@@ -38,6 +40,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/seeker/upload_profile_picture.js', 'public/js/pages/seeker')
     .js('resources/js/pages/seeker/view-job.js', 'public/js/pages/seeker')
     .js('resources/js/pages/seeker/apply-job.js', 'public/js/pages/seeker')
+    .js('resources/js/pages/seeker/job-suggestions-full.js', 'public/js/pages/seeker')
+    .js('resources/js/pages/seeker/settings.js', 'public/js/pages/seeker')
 
     // scripts for emp
     .js('resources/js/pages/employer/post-job.js', 'public/js/pages/employer')

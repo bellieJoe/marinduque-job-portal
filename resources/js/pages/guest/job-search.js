@@ -56,55 +56,60 @@ new Vue({
         },
 
 
-        generateJobtitleKeywords(){
-            // this.clearFilter()
-            if($('#job_title').val() ){
-                console.log("init request")
-                $.ajax({
-                    url: "/job-search/keyword-job-title",
-                    method: "post",
-                    data: { job_title : $('#job_title').val() }
-                }).fail((res)=>{
-                    console.log(res)
-                }).done((res)=>{
-                    $('#job_title_keywords').empty()
-                    res.map((val,i)=>{
-                        
-                        $("#job_title_keywords").append($("<option value='" + lowerCase(val.job_title) + "'>"))
-    
-                    })
-                })
-            }
-        },
+        // generateKeyworks(){
+        //     // this.clearFilter()
+        //     try {
+        //         if($('#keyword').val() ){
+        //             console.log("init request")
+        //             $.ajax({
+        //                 url: "/job-search/keywords",
+        //                 method: "post",
+        //                 data: { keyword : $('#keyword').val() }
+        //             }).fail((res)=>{
+        //                 console.log(res)
+        //             }).done((res)=>{
+        //                 $('#job_title_keywords').empty()
+        //                 res.map((val,i)=>{
+                            
+        //                     $("#job_title_keywords").append($("<option value='" + lowerCase(val.job_title) + "'>"))
+        
+        //                 })
+        //             })
+        //         }
+        //     } catch (error) {
+                
+        //     }
+            
+        // },
 
-        generateCompanynameKeywords(){
-            // this.clearFilter()
+        // generateCompanynameKeywords(){
+        //     // this.clearFilter()
 
-            if($("#company_name").val()){
+        //     if($("#company_name").val()){
 
-                $.ajax({
-                    url: "/job-search/keyword-company-name",
-                    method: "post",
-                    data: { company_name : this.company_name }
-                }).fail((res)=>{
-                    console.log(res)
-                }).done((res)=>{
+        //         $.ajax({
+        //             url: "/job-search/keyword-company-name",
+        //             method: "post",
+        //             data: { company_name : this.company_name }
+        //         }).fail((res)=>{
+        //             console.log(res)
+        //         }).done((res)=>{
 
-                    $("#company_name_keywords").empty()
-                    res.map((val,i)=>{
-                        $("#company_name_keywords").append($("<option value='" + lowerCase(val.company_name) + "'>"))
-                    })
-                })
-            }            
-        },
+        //             $("#company_name_keywords").empty()
+        //             res.map((val,i)=>{
+        //                 $("#company_name_keywords").append($("<option value='" + lowerCase(val.company_name) + "'>"))
+        //             })
+        //         })
+        //     }            
+        // },
 
         search(){
             $("#loading").css("display", "initial")
-            this.clearKeywords()
+            // this.clearKeywords()
             // this.clearFilter()
             var a = {
-                job_title: this.job_title,
-                company_name : this.company_name,
+                keyword: this.keyword,
+                // company_name : this.company_name,
                 province: this.province,
                 municipality: this.municipality,
                 salary_max: this.salary_max,

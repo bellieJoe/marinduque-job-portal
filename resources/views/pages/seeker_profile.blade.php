@@ -4,49 +4,54 @@
     <body class="seeker-prof bg-purple-100" >
         <link rel="stylesheet" href="{{asset('css/seeker_profile.css')}}">
 
-        <div class="seeker-prof-wrapper mt-5" id='SeekerProfile'>
-            <section class="initwrap">
+        <div class="" id='SeekerProfile'>
 
-                <div class="profile-nav shadow-sm">
-                    <h4 class="title bg-gray-800 text-gray-50 fw-bold p-3">JOB HUNTER PROFILE</h4>
-                    <hr>
-                    <div class="row p-2 item-w-image mt-3">
-                        <div class="col-4">
-                            <img class="h-20 {{ $profile->display_picture ? '' : 'd-none' }}"  src="{{ url('image') }}\seeker\profile\{{  $profile->display_picture }}" alt="Profile Image">
-                            <a href="/seeker/profile/upload-image/seeker-profile" class="duration-500 hover:text-gray-50 pt-2 text-center fw-bold text-gray-400 hover:bg-gray-300 no-underline border-3 border-dashed  w-20 h-20 d-block mx-auto bg-gray-100 {{ $profile->display_picture ? 'd-none' : '' }}">Upload photo</a>
+            {{-- home navigation --}}
+            <div class="bg-gradient-to-t from-indigo-500 to-indigo-900 pt-3">
+                <div class=" p-3 mb-4 lg:w-10/12 mx-auto ">
+                    <img class="mt-2 w-52 d-block mx-auto rounded-full shadow-lg {{ $profile->display_picture ? '' : 'd-none' }}" src="{{ url('image') }}\seeker\profile\{{  $profile->display_picture }}" alt="profile">
+                    <a href="/seeker/profile/upload-image/seeker-profile" class=" duration-500 rounded-md hover:text-gray-50 pt-16 text-center fw-bold text-gray-400 hover:bg-gray-300 mt-2 border-3 border-dashed  w-40 h-40 d-block mx-auto bg-gray-100 {{ $profile->display_picture ? 'd-none' : '' }}">Upload photo</a>
+                    <a href="/seeker/profile/upload-image/seeker-profile" class="mx-auto btn btn-outline-light block  my-2 w-52  {{ $profile->display_picture ? '' : 'd-none' }}">Upload display photo</a>
+                    <h6 class="fw-bold text-3xl text-white my-3 text-center ">{{ $profile->firstname.' '.Str::ucfirst($profile->middlename[0]).'. '.$profile->lastname }}</h6>
+                </div>
+            </div>
+        
+
+            <section class="lg:w-10/12 mx-auto py-3 lg:grid lg:grid-cols-4 lg:items-start lg:gap-4">
+
+                {{-- profile navigation --}}
+                <div class="profile-nav shadow-md rounded-md my-3 lg:col-span-1">
+                    <h4 class="title bg-gray-800 text-gray-50 fw-bold p-3 rounded-t-md">JOB HUNTER PROFILE</h4>
+
+                    <div class=" bg-white rounded-b-md">
+                        <div class="item px-3 py-2  {{ $view == 'personal' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200 hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('personal')">
+                            <i class="fas fa-user cursor-pointer mr-2"></i>
+                            <label class="cursor-pointer" >Personal Information</label>
                         </div>
-                        <div class="col-8">
-                            <h6 class="fw-bold">{{ $profile->firstname.' '.Str::ucfirst($profile->middlename[0]).'. '.$profile->lastname }}</h6>
-                            <h6 class="">Member since September 2020</h6>
+                        <div class="item px-3 py-2  {{ $view == 'education' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('education')">
+                            <i class="fas fa-graduation-cap cursor-pointer mr-2"></i>
+                            <label class="cursor-pointer" >Education</label>
                         </div>
-                    </div>
-                    <div class="item {{ $view == 'personal' ? 'fw-bold text-primary' : '' }}" @click="toggleView('personal')">
-                        <i class="fas fa-user"></i>
-                        <label >Personal Information</label>
-                    </div>
-                    <div class="item {{ $view == 'education' ? 'fw-bold text-primary' : '' }}" @click="toggleView('education')">
-                        <i class="fas fa-graduation-cap"></i>
-                        <label >Education</label>
-                    </div>
-                    <div class="item {{ $view == 'experience' ? 'fw-bold text-primary' : '' }}" @click="toggleView('experience')">
-                        <i class="fas fa-business-time"></i>
-                        <label >Experience</label>
-                    </div>
-                    <div class="item {{ $view == 'certificate' ? 'fw-bold text-primary' : '' }}" @click="toggleView('certificate')">
-                        <i class="far fa-address-card"></i>
-                        <label >License & Certificates</label>
-                    </div>
-                    <div class="item {{ $view == 'language' ? 'fw-bold text-primary' : '' }}" @click="toggleView('language')">
-                        <i class="fas fa-language"></i>
-                        <label >Languages</label>
-                    </div>
-                    <div class="item {{ $view == 'skill' ? 'fw-bold text-primary' : '' }}" @click="toggleView('skill')">
-                        <i class="fas fa-cogs"></i>
-                        <label >Skills</label>
-                    </div>
-                    <div class="item" @click="redirectRoute('/resume/{{ Auth::user()->user_id }}')">
-                        <i class="far fa-file-alt"></i>
-                        <label >View Resume</label>
+                        <div class="item px-3 py-2  {{ $view == 'experience' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('experience')">
+                            <i class="fas fa-business-time cursor-pointer mr-2"></i>
+                            <label class="cursor-pointer" >Experience</label>
+                        </div>
+                        <div class="item px-3 py-2  {{ $view == 'certificate' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('certificate')">
+                            <i class="far fa-address-card cursor-pointer mr-2"></i>
+                            <label class="cursor-pointer" >License & Certificates</label>
+                        </div>
+                        <div class="item px-3 py-2  {{ $view == 'language' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('language')">
+                            <i class="fas fa-language cursor-pointer mr-2"></i>
+                            <label class="cursor-pointer" >Languages</label>
+                        </div>
+                        <div class="item px-3 py-2  {{ $view == 'skill' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('skill')">
+                            <i class="fas fa-cogs cursor-pointer mr-2"></i>
+                            <label class="cursor-pointer">Skills</label>
+                        </div>
+                        <div class="item px-3 py-2 text-indigo-700 hover:text-indigo-800 duration-500 cursor-pointer hover:bg-indigo-200 " @click="redirectRoute('/resume/{{ Auth::user()->user_id }}')">
+                            <i class="far fa-file-alt cursor-pointer mr-2"></i>
+                            <label  class="cursor-pointer">View Resume</label>
+                        </div>
                     </div>
                 </div>
                 
@@ -54,7 +59,7 @@
 
 
                 {{-- views --}}
-                <div class="view-sec p-4">
+                <div class="view-sec p-4 bg-white shadow-md rounded-md my-3 lg:col-span-3">
 
                     @if ($view == "personal")
                     <div >

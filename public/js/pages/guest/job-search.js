@@ -60,52 +60,51 @@ new Vue({
       this.clearKeywords();
       this.clearFilter();
     },
-    generateJobtitleKeywords: function generateJobtitleKeywords() {
-      // this.clearFilter()
-      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#job_title').val()) {
-        console.log("init request");
-        jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
-          url: "/job-search/keyword-job-title",
-          method: "post",
-          data: {
-            job_title: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#job_title').val()
-          }
-        }).fail(function (res) {
-          console.log(res);
-        }).done(function (res) {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#job_title_keywords').empty();
-          res.map(function (val, i) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#job_title_keywords").append(jquery__WEBPACK_IMPORTED_MODULE_0___default()("<option value='" + (0,lodash__WEBPACK_IMPORTED_MODULE_1__.lowerCase)(val.job_title) + "'>"));
-          });
-        });
-      }
-    },
-    generateCompanynameKeywords: function generateCompanynameKeywords() {
-      // this.clearFilter()
-      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#company_name").val()) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
-          url: "/job-search/keyword-company-name",
-          method: "post",
-          data: {
-            company_name: this.company_name
-          }
-        }).fail(function (res) {
-          console.log(res);
-        }).done(function (res) {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#company_name_keywords").empty();
-          res.map(function (val, i) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#company_name_keywords").append(jquery__WEBPACK_IMPORTED_MODULE_0___default()("<option value='" + (0,lodash__WEBPACK_IMPORTED_MODULE_1__.lowerCase)(val.company_name) + "'>"));
-          });
-        });
-      }
-    },
+    // generateKeyworks(){
+    //     // this.clearFilter()
+    //     try {
+    //         if($('#keyword').val() ){
+    //             console.log("init request")
+    //             $.ajax({
+    //                 url: "/job-search/keywords",
+    //                 method: "post",
+    //                 data: { keyword : $('#keyword').val() }
+    //             }).fail((res)=>{
+    //                 console.log(res)
+    //             }).done((res)=>{
+    //                 $('#job_title_keywords').empty()
+    //                 res.map((val,i)=>{
+    //                     $("#job_title_keywords").append($("<option value='" + lowerCase(val.job_title) + "'>"))
+    //                 })
+    //             })
+    //         }
+    //     } catch (error) {
+    //     }
+    // },
+    // generateCompanynameKeywords(){
+    //     // this.clearFilter()
+    //     if($("#company_name").val()){
+    //         $.ajax({
+    //             url: "/job-search/keyword-company-name",
+    //             method: "post",
+    //             data: { company_name : this.company_name }
+    //         }).fail((res)=>{
+    //             console.log(res)
+    //         }).done((res)=>{
+    //             $("#company_name_keywords").empty()
+    //             res.map((val,i)=>{
+    //                 $("#company_name_keywords").append($("<option value='" + lowerCase(val.company_name) + "'>"))
+    //             })
+    //         })
+    //     }            
+    // },
     search: function search() {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#loading").css("display", "initial");
-      this.clearKeywords(); // this.clearFilter()
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#loading").css("display", "initial"); // this.clearKeywords()
+      // this.clearFilter()
 
       var a = {
-        job_title: this.job_title,
-        company_name: this.company_name,
+        keyword: this.keyword,
+        // company_name : this.company_name,
         province: this.province,
         municipality: this.municipality,
         salary_max: this.salary_max,
