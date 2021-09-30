@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Validator;
 use Algolia\AlgoliaSearch\SearchIndex;
+use App\Models\SavedJob;
 
 class JobController extends Controller
 {
@@ -24,14 +25,14 @@ class JobController extends Controller
             'job_title' => 'required',
             'job_type' => 'required',
             'job_industry' => 'required',
-            'job_description' => 'nullable|min:100|max:5000',
+            'job_description' => 'nullable|min:50|max:5000',
 
             'company_name' => 'required',
             'region' => 'required',
             'province' => 'required',
             'municipality' => 'required',
             'barangay' => 'required',
-            'company_description' => 'nullable|min:100|max:5000',
+            'company_description' => 'nullable|min:50|max:5000',
             
             'educational_attainment' => 'nullable',
             'course_studied.*' => 'nullable',
@@ -281,9 +282,37 @@ class JobController extends Controller
 
     public function getJobFromMarinduque($job_id){
         $job = Job::where('job_id', $job_id)->first();
+        $seekerInterference = [
+            'applied' => null,
+            'saved' => null,
+        ];
+
+
+        // check if already applied and already saved
+        $jobApplications = Auth::check() ? JobApplication::where([
+            ['applicant_id', Auth::user()->user_id],
+            ['job_id', $job_id],
+            ['application_status', 'pending']
+        ])->first() : [];
+
+        $saveJobs = Auth::check() ? SavedJob::where([
+            ['user_id', Auth::user()->user_id],
+            ['job_id', $job_id],
+
+        ])->first() : [];
+
+        if (!empty($jobApplications)) {
+            $seekerInterference['applied'] = true;
+        } 
+
+        if (!empty($saveJobs)) {
+            $seekerInterference['saved'] = true;
+        } 
+
 
         return view('pages.guest.job-view-marinduque')->with([
-            'job' => $job
+            'job' => $job,
+            'seekerInterference' => $seekerInterference
         ]);
     }
 
@@ -297,6 +326,14 @@ class JobController extends Controller
         Job::where('job_id', $job_id)
         ->update([
             'days_expire' => $request->input('days_expire') ? $request->input('days_expire') : 0
+        ]);
+
+        JobApplication::where([
+            ['job_id', $job_id],
+            ['application_status', 'pending']
+        ])
+        ->update([
+            'expiry_date' => $request->input('days_expire') ?  Carbon::now('UTC')->addDays($request->input('days_expire')) : null
         ]);
 
         return redirect()->back();
@@ -402,8 +439,9 @@ class JobController extends Controller
                                     ['status', 'open']
                                 ])
                                 ->pluck('job_id')->toArray() 
-                            : null;
+                            : [];
 
+        
         // get job base on gender
         $genderBasedJobs = $userData['gender']
                            ? Job::where([
@@ -414,7 +452,7 @@ class JobController extends Controller
                                 ['gender', null],
                                 ['status', 'open']
                            ])->pluck('job_id')->toArray() 
-                           :null;
+                           : [];
 
 
         // get job base on experience
@@ -442,7 +480,6 @@ class JobController extends Controller
 
             }
         }
-
         // get job base on educations
         $educationbasedJobs = [];
         if($userData['educations']){
@@ -512,7 +549,7 @@ class JobController extends Controller
                         ['status', 'open'],
                     ])
                     ->whereIn('educational_attainment', ['secondary education', 'primary education'])
-                    ->get()
+                    ->pluck('job_id')
                     ->toArray();
 
                     break;
@@ -521,16 +558,18 @@ class JobController extends Controller
                         ['status', 'open'],
                         ['educational_attainment', 'primary education'],
                     ])
-                    ->get()
+                    ->pluck('job_id')
                     ->toArray();
                     break;
                 
                 default:
-                    # code...
+                    $educationbasedJobs = [];
                     break;
             }
 
         }
+
+
 
         // combine most important and less important jobs
         // $mostImportant = [...$educationbasedJobs,...$experienceBasedJobs];
@@ -538,12 +577,16 @@ class JobController extends Controller
 
     
         foreach(array_unique(array_intersect([...$educationbasedJobs,...$experienceBasedJobs],[...$genderBasedJobs,...$addressBasedJobs])) as $key => $value){
-            array_push($generatedJobIds, $value);
+            if ($value) {
+                array_push($generatedJobIds, $value);
+            }
+            
+            // echo $value.' ' ;
         }
 
-        return $generatedJobIds;
+        return [...$generatedJobIds];
 
-        // return array_unique(array_intersect([...$educationbasedJobs,...$experienceBasedJobs],[...$genderBasedJobs,...$addressBasedJobs]));
+
 
     }
 
@@ -554,7 +597,9 @@ class JobController extends Controller
         ->limit(20)
         ->get();
 
+        $job = $this->generateJobSuggestionsIds();
 
+        // return [];
         return $jobs;
     }
 

@@ -23,7 +23,7 @@ new Vue({
     data: {
         // states
         unreadNotificationsCount: null,
-        notifications: null,
+        notifications: [],
         hoveredNotif: null,
         notificationCount : 0
     },

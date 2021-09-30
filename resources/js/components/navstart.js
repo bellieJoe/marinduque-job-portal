@@ -54,4 +54,20 @@ window.onscroll = function() {
   prevScrollpos = currentScrollPos;
 }
 
+new Vue({
+    el: "#main_nav",
+    data: {
+        mainNav: false,
+    },
+    methods: {
+        toggleMainNav(){
+            if (this.mainNav){
+                this.mainNav = false
+            } else {
+                this.mainNav = true
+            }
+        }
+    },
+})
+
 

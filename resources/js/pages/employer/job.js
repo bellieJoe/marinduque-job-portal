@@ -7,44 +7,45 @@ $.ajaxSetup({
     }
 });
 
-const loading = $('#loading')
-loading.css('display', 'none')
 
 new Vue({
     el: '#job',
     data: {
-        toggledView: 'job details',
-        daysExpForm : null
+        daysExpForm : null,
+        loading : false
     },
     methods: {
-        toggleView(viewName){
-            this.toggledView = viewName
-        },
+        // toggleView(viewName){
+        //     this.toggledView = viewName
+        // },
 
         toggleLoading(){
-            if(loading.css('display') == 'none'){
-                loading.css('display', 'initial')
+            if(this.loading){
+                this.loading = false
             }else{
-                loading.css('display', 'none')
+                this.loading = true
             }
         },
 
-        // async setDaysExpire(e){
-        //     e.preventDefault();
-        //     const formDaysExpire = $('#formDaysExpire')
-        //     try {
-        //         const res = await $.ajax({
-        //             method: 'post',
-        //             url: formDaysExpire.attr('action'),
-        //             data: formDaysExpire.serializeArray()
-        //         })
-        //         console.log(res)
-        //         // location.reload()
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
+        modifyUrl(params){
+            let url = new URL(window.location)
 
-        // }
+
+            url.searchParams.set('view', params.view)
+            if (params.applicants) {
+                url.searchParams.set('applicants', params.applicants)
+            }
+            
+            window.history.pushState(null, '', url)
+
+            console.log(url.searchParams.get('view'))
+        },
+
+        redirectRoute(route){
+            this.toggleLoading()
+            location.href = route
+
+        }
 
     },
 

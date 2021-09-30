@@ -100,6 +100,25 @@ class JobApplicationController extends Controller
         return redirect("/employer/job/".$application->job_id);
     }
 
+    public function declineApplication($application_id){
+        $application = JobApplication::where('job_application_id', $application_id)->first();
+
+        $application->update([
+            'application_status' => 'declined'
+        ]);
+        
+        // send notification to applicant
+        $applicant = User::find($application->applicant_id);
+
+        $seeker = Seeker::where('user_id', $applicant->user_id)->first();
+        $job = Job::where('job_id', $application->job_id)->first();
+
+        // $applicant->notify(new JobApplicationResponseNotification($application));
+        $applicant->notify(new JobApplicationResponseNotification($application, $seeker, $job));
+
+        return back();
+    }
+
 
 
 }

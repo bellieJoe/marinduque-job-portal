@@ -1,10 +1,10 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./resources/js/components/navstart.js":
-/*!*********************************************!*\
-  !*** ./resources/js/components/navstart.js ***!
-  \*********************************************/
+/***/ "./resources/js/ajax-setup.js":
+/*!************************************!*\
+  !*** ./resources/js/ajax-setup.js ***!
+  \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -12,67 +12,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#logo').on('click', function () {
-  location.href = "/";
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sup").on("click", function () {
-  location.href = "/signup";
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sin").on("click", function () {
-  location.href = "/signin";
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(".menu").on("click", function () {
-  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(".buttons").css("display")) {
-    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(".buttons").css("display") == "block") {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(".buttons").css("display", "none");
-    } else {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(".buttons").css("display", "block");
-    }
-  } else {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".buttons").css("display", "block");
-  }
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()("#logout").on('click', function () {
-  mdlLoadingLogout.show();
-  location.href = "/logout";
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('#emp_signup').on('click', function () {
-  location.href = "/emp_sup";
-}); // logout loading
-
-var mdlLoadingLogout = new bootstrap.Modal(document.getElementById('mdlLoadingLogout'), {
-  keyboard: false,
-  backdrop: 'static'
-});
-/* When the user scrolls down, hide the navbar. When the user scrolls up, show the navbar */
-
-var prevScrollpos = window.pageYOffset;
-
-window.onscroll = function () {
-  var currentScrollPos = window.pageYOffset;
-
-  if (prevScrollpos > currentScrollPos) {
-    document.getElementById("main_nav").style.top = "0";
-  } else {
-    document.getElementById("main_nav").style.top = "-50px";
-  }
-
-  prevScrollpos = currentScrollPos;
-};
-
-new Vue({
-  el: "#main_nav",
-  data: {
-    mainNav: false
-  },
-  methods: {
-    toggleMainNav: function toggleMainNav() {
-      if (this.mainNav) {
-        this.mainNav = false;
-      } else {
-        this.mainNav = true;
-      }
-    }
+jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': jquery__WEBPACK_IMPORTED_MODULE_0___default()('meta[name="_token"]').attr('content')
   }
 });
 
@@ -11030,7 +10972,7 @@ return jQuery;
 /************************************************************************/
 /******/ 	// startup
 /******/ 	// Load entry module
-/******/ 	__webpack_require__("./resources/js/components/navstart.js");
+/******/ 	__webpack_require__("./resources/js/ajax-setup.js");
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;

@@ -1,18 +1,21 @@
 
 
-<nav class="bg-indigo-700 border-bottom" id="employer_nav">
+<nav class="bg-indigo-900 " id="employer_nav">
 
     <input type="hidden" value="{{ Auth::user() }}" id="User">
     <link rel="stylesheet" href="{{asset('css/employer_nav.css')}}">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
 
     <ul class="nav container-lg">
 
         {{-- {{ config('app.url').'employer/profile' }} --}}
+        {{-- notifications --}}
         <li class="nav-item" >
             <div class="nav-link">
-                <button class="bg-yellow-300 rounded-full px-2 text-indigo-900 " data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="notificationContainer">
-                    <i class="fas fa-bell"></i> @{{ notificationCount }}
+                <button v-cloak class="bg-yellow-300 rounded-full px-2 text-indigo-900 " data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="notificationContainer">
+                    <i class="fas fa-bell"></i> 
+                    @{{ notificationCount }}
                 </button>
             </div> 
         </li>
@@ -28,7 +31,7 @@
                         @{{ notification.data.title }}
                     </h6>
                      @{{ notification.data.message }}
-                     <p class="text-gray-400">@{{ notification.created_at_formatted }}</p>
+                     <p v-cloak class="text-gray-400">@{{ notification.created_at_formatted }}</p>
                      
                      <div class="w-max ml-auto mr-0 duration-500 " :class="hoveredNotif == notification.id ? 'visible' : 'hidden'">
                          <button  @click="deleteNotificationById(notification.id)" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete Notification" class="btn text-gray-500"><i class="fa fa-trash-alt"></i></button>
@@ -45,6 +48,7 @@
         </div>
 
 
+        {{-- navigations --}}
         <li class="nav-item">
           <a class="nav-link  hover:text-gray-100 hover:font-bold  {{ Request::url() == config('app.url').':8000/employer/home' ? 'font-bold text-gray-100' : 'text-indigo-200' }}"  href="/employer/home"><i class="fas fa-home"></i> Home</a>
         </li>
@@ -53,6 +57,15 @@
         </li>
         <li class="nav-item">
           <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/job' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/job"><i class="fas fa-briefcase"></i> My Jobs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/settings' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/job"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/post-job' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/post-job"><i class="fas fa-plus-circle"></i> Create Job</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/placement-report' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/placement-report"><i class="fas fa-table"></i> Placement Report</a>
         </li>
         
     </ul>

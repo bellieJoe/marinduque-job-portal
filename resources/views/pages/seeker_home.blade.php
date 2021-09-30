@@ -27,15 +27,8 @@
                 <form action="/job-search/search" method="get">
                     <div class="row">
                         <div class="mb-2 col-md">
-                            <div class="form-floating">
-                                <input type="search" class="form-control form-control-lg" name="job_title" placeholder="job title">
-                                <label class="fw-bold text-secondary mb-1">Job Title</label>
-                            </div>
-                        </div>
-                        <div class="mb-2 col-md">
-                            <div class="form-floating">
-                                <input type="search" class="form-control form-control-lg" name="company_name" placeholder="company name">
-                                <label class="fw-bold text-secondary mb-1">Company Name</label>
+                            <div class="">
+                                <input type="search" class="form-control " name="keyword" placeholder="Search Job Title or Company Name">
                             </div>
                         </div>
                         <div class="mb-2 col-md-auto">
@@ -88,9 +81,13 @@
                               <p class="text-gray-400 mt-3">@{{ job.date_posted_diffForHumans  }}</p>
                           </div>
                       </div>
-                      <div>
-                          <a href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-blue-500">See more</a>
-                      </div>
+                      <div v-if="jobSuggestions">
+                        <a href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-blue-500">See more</a>
+                      </div>  
+                      <div v-if="!jobSuggestions">
+                        <h6 href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-gray-500">No job suggestions, try updating your profile.</h6>
+                      </div>  
+                      
                     
                 </div>
                 {{-- job invitions --}}

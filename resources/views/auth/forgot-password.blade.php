@@ -8,12 +8,11 @@
     
     <div class="wrapper">
         <br>
-        <form action="/forgot-password-send" method="POST" class=" pr-form">
+        <form action="/forgot-password-send" method="POST" class=" pr-form mx-auto">
             @csrf
 
-            <div >
+            <div class="font-bold mb-3">
                 <h4 class="text-dark"><i class="fas fa-key"></i> Password Reset</h4>
-                <hr>
             </div>
     
             <div class="form-floating mb-3">

@@ -98,17 +98,21 @@ new Vue({
                     method: 'GET',
                 })
 
+                if(suggestedJobs.length > 0){
+                    this.jobSuggestions = suggestedJobs
+
+                    this.jobSuggestions.map((val, i)=>{
+                        let job = val
+    
+                        job.date_posted_diffForHumans = devModule.diffForHumans(val.date_posted)
+                        job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null
+                        job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null
+                        job.company_address = val.company_address ? JSON.parse(val.company_address) : null
+                    })
+                }
+
+                console.log(this.jobSuggestions)
                 
-                this.jobSuggestions = suggestedJobs
-
-                this.jobSuggestions.map((val, i)=>{
-                    let job = val
-
-                    job.date_posted_diffForHumans = devModule.diffForHumans(val.date_posted)
-                    job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null
-                    job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null
-                    job.company_address = val.company_address ? JSON.parse(val.company_address) : null
-                })
                 this.jobApplicationLoader = false
 
             } catch (error) {

@@ -97,7 +97,7 @@
                     @if ($resumeData['userData']->email)
                         <div class="col-auto mt-4">
                             <h6 class="text-lg text-gray-400 my-0">Email Address</h6>
-                            <h6 class="text-lg">{{ Str::ucfirst($resumeData['userData']->email)  }}</h6>
+                            <h6 class="text-lg">{{ $resumeData['userData']->email  }}</h6>
                         </div>
                     @endif
                     
@@ -177,7 +177,7 @@
                 <div class="row">
                     @foreach ($resumeData['credentialData'] as $credential)
                     @if ($credential->credential_type == 'award')
-                    <div class="mt-4 bg-white p-2 rounded-2 w-max col-auto m-2">
+                    <div class="mt-4 bg-white p-4 rounded-2  w-max col-auto m-2">
                         <h6 class="text-yellow-400 font-normal mb-0"><i class="fa fa-award me-2"></i>Award</h6>
                         @if ($credential->credential_number)
                         <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
@@ -192,10 +192,13 @@
                         @else
                         <h6 class="mb-0 font-normal">Valid until {{ $credential->expiry_date->format("F d Y") }}</h6>
                         @endif
+                        @if ($credential->credential_image)
+                            <a href="{{ url('image').'/seeker/credential/'.$credential->credential_image}}" class="link-primary" target="_blank">View Credential Image</a>
+                        @endif
                     </div>
                     @endif
                     @if ($credential->credential_type == 'license')
-                    <div class="mt-4 bg-white p-2 rounded-2 w-max col-auto m-2">
+                    <div class="mt-4 bg-white p-4 rounded-2 w-max col-auto m-2">
                         <h6 class="text-yellow-400 font-normal mb-0"><i class="fa fa-id-badge me-2"></i>License</h6>
                         @if ($credential->credential_number)
                         <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
@@ -210,10 +213,13 @@
                         @else
                         <h6 class="mb-0 font-normal">Valid until {{ $credential->expiry_date->format("F d Y") }}</h6>
                         @endif
+                        @if ($credential->credential_image)
+                            <a href="{{ url('image').'/seeker/credential/'.$credential->credential_image}}" class="link-primary" target="_blank">View Credential Image</a>
+                        @endif
                     </div>
                     @endif
                     @if ($credential->credential_type == 'certification')
-                    <div class="mt-4 bg-white p-2 rounded-2 w-max col-auto m-2">
+                    <div class="mt-4 bg-white p-4 rounded-2 w-max col-auto m-2">
                         <h6 class="text-yellow-400 font-normal mb-0"><i class="fa fa-id-certificate me-2"></i>Certificate</h6>
                         @if ($credential->credential_number)
                         <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
@@ -227,6 +233,9 @@
                         <h6 class="mb-0 font-normal">No Validity</h6>
                         @else
                         <h6 class="mb-0 font-normal">Valid until {{ $credential->expiry_date->format("F d Y") }}</h6>
+                        @endif
+                        @if ($credential->credential_image)
+                            <a href="{{ url('image').'/seeker/credential/'.$credential->credential_image}}" class="link-primary" target="_blank">View Credential Image</a>
                         @endif
                     </div>
                     @endif
@@ -243,7 +252,7 @@
 
                 @foreach ($resumeData['skillData'] as $skill)
                 <div class="mt-4">
-                    <h6><i class="fa fa-list me-2"></i>{{ $skill->skill_description }}</h6>
+                    <h6><i class="fa fa-check me-2 text-green-400"></i>{{ $skill->skill_description }}</h6>
                 </div>
                 @endforeach
 

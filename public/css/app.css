@@ -5,10 +5,6 @@
   display: none;
 }
 
-* {
-  font-family: calibri;
-}
-
 html body {
   box-sizing: border-box;
   margin: 0px;

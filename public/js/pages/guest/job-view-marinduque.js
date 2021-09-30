@@ -40,7 +40,8 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default().ajaxSetup({
 new Vue({
   el: '#jobViewMarinduque',
   data: {
-    loading: false
+    loading: false,
+    tempSaved: null
   },
   methods: {
     saveJob: function saveJob(job_id) {
@@ -62,15 +63,17 @@ new Vue({
                 });
 
               case 4:
+                _this.tempSaved = true;
+
                 _this.toggleLoading();
 
                 _context.next = 12;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
-                alert("Bla bla error");
+                // alert("Bla bla error")
                 console.log(_context.t0);
 
                 _this.toggleLoading();
@@ -80,7 +83,7 @@ new Vue({
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     },
     toggleLoading: function toggleLoading() {

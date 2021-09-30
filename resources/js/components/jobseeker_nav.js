@@ -17,7 +17,7 @@ new Vue({
     el: '#jobseeker_nav',
     data: {
         unreadNotificationsCount: 0,
-        notifications: null,
+        notifications: [],
         hoveredNotif: null,
         notificationCount : 0,
         notificationToggle : false

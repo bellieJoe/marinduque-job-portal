@@ -2,7 +2,7 @@ import {DateTime} from 'luxon'
 
 
 const devModule = {
-    industry: [
+    specializations: [
         'Accountancy, banking and finance',
         'Business, consulting and management',
         'Charity and voluntary work',

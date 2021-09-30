@@ -12,6 +12,13 @@
         <title>Job Hunter - Search Jobs</title>
         <link rel="stylesheet" href="{{ asset('css/app_sample.css') }}">
         <link rel="stylesheet" href="{{ asset('css/guest/job-search.css') }}">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+            * :not(i) {
+                font-family: 'Montserrat' !important; 
+    
+            }
+        </style>
     </head>
 
     <body class="bg-gray-200">

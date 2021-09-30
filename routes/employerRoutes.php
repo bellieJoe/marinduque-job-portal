@@ -10,6 +10,8 @@ use App\Models\Seeker;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Google\Cloud\Talent\V4beta1\JobApplication as V4beta1JobApplication;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -66,12 +68,38 @@ Route::prefix('employer')->group(function(){
         /* 
         @method GET
         @desc Redirects the Employer's Job View and fetch Job Data 
+        @route /employer/job
         */
-        Route::get('', function(){
-            $jobs = Job::where('user_id', Auth::user()->user_id);
+        Route::get('', function(Request $request){
+
+            $jobs = null;
+
+            if ($request->has('keyword')) {
+
+                $searchResult = Job::search($request->input('keyword'))->get();
+                
+                
+                $selected =  collect([...$searchResult])
+                ->map(function ($item, $key) {
+                    return $item->job_id;
+                });
+
+                $jobs = Job::where([
+                    ['user_id', Auth::user()->user_id]
+                ])
+                ->whereIn('job_id', $selected);
+
+
+            } else {
+                $jobs = Job::where('user_id', Auth::user()->user_id);
+            }
+            
+
             $jobsList = $jobs->get();
             $jobCounts = [];
             $applicantCounts = [];
+
+            
 
             // generate applicantCounts
             foreach ($jobs->get() as $job) {
@@ -218,6 +246,13 @@ Route::prefix('employer')->group(function(){
         @url /employer/job/accept-application/{application_id}
         */
         Route::post('accept-application/{application_id}', [JobApplicationController::class, 'confirmApplication'])->middleware('role:employer', 'auth');
+        
+        /* 
+        @desc decline job application
+        @method POST
+        @url /employer/job/decline-application/{application_id}
+        */
+        Route::post('decline-application/{application_id}', [JobApplicationController::class, 'declineApplication'])->middleware('role:employer', 'auth');
 
         /* 
         @desc set the days expire of a job

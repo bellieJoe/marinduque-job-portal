@@ -14,6 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var phil_reg_prov_mun_brgy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! phil-reg-prov-mun-brgy */ "./node_modules/phil-reg-prov-mun-brgy/index.js");
 /* harmony import */ var phil_reg_prov_mun_brgy__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(phil_reg_prov_mun_brgy__WEBPACK_IMPORTED_MODULE_1__);
 
+ // import 
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
   headers: {

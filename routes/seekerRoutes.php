@@ -125,6 +125,7 @@ Route::prefix('seeker')->group(function(){
     Route::get('', function(){
         return redirect('/seeker/home');
     });
+    
     Route::prefix('home')->group(function(){
 
         Route::get('', function(){

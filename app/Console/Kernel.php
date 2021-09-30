@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Models\Job;
+use App\Models\JobApplication;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,6 +28,31 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        $schedule->call(function(){
+
+            $jobApplications = JobApplication::where([
+
+                ['application_status', 'pending'],
+                
+            ])
+            ->whereNotNull('expiry_date')
+            ->get();
+
+            foreach($jobApplications as $item){
+                if (Carbon::now()->greaterThan($item->expiry_date)) {
+                    JobApplication::where([
+                        ['job_application_id', $item->job_application_id]
+                    ])
+                    ->update([
+                        'application_status' => 'expired'
+                    ]);
+                }
+                
+            }
+
+
+        })->everyMinute();
     }
 
     /**

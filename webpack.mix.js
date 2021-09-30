@@ -25,6 +25,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/guest/employer-jobs.js', 'public/js/pages/guest')
     .js('resources/js/pages/guest/employers.js', 'public/js/pages/guest')
     .js('resources/js/pages/resume.js', 'public/js/pages')
+    .js('resources/js/ajax-setup.js', 'public/js/pages')
 
     // scripts for pages
     .js('resources/js/pages/signup.js', 'public/js/pages')
@@ -36,6 +37,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/employer_profile.js', 'public/js/pages')
     .js('resources/js/pages/email_verification.js', 'public/js/pages')
     .js('resources/js/pages/employer_signup.js', 'public/js/pages')
+    .js('resources/js/animation.js', 'public/js')
     //scripts for seekers
     .js('resources/js/pages/seeker/upload_profile_picture.js', 'public/js/pages/seeker')
     .js('resources/js/pages/seeker/view-job.js', 'public/js/pages/seeker')

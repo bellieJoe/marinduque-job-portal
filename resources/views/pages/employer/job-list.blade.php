@@ -5,22 +5,21 @@
     <body class="job-list bg-indigo-100" >
         <div  id="job-list">
 
-            <section class=" bg-light shadow-sm  p-4">
-                <div class="container-lg">
-                    <h5 class="fw-bold mb-2">Seach job from your list</h5>
+            <section class=" bg-gradient-to-t from-indigo-700 to-indigo-900 shadow-sm  p-4">
+                <form class="container-lg" method="GET" action="/employer/job">
+                    <h5 class=" mb-2 text-white">Seach job from your list</h5>
                     <div class="row">
                         <div class="mb-3 col-md-5 col-sm-9">
-                            <input type="search" name="" id="" placeholder="type the job title" class="form-control border-0 bg-gray-200">
+                            <input type="search" name="keyword" value="{{ isset($_GET['keyword']) ? $_GET['keyword'] : null }}" placeholder="type the job title" class="form-control border-0 bg-gray-200">
                         </div>
                         <div class="mb-3 col-sm-auto ">
                             <button class="btn btn-primary w-100">Search</button>
                         </div>
                         <div class="mb-3 col-sm-auto ">
-                            <a  href="/employer/post-job" class="btn btn-success w-100">Create new Job</a>
+                            <a  href="/employer/post-job" class="btn bg-green-500 hover:bg-green-700 text-white w-100">Create new Job</a>
                         </div>
                     </div>  
-                </div>
-                
+                </form>
             </section>
 
 
@@ -36,16 +35,17 @@
                                     <label class="form-check-label" for="flexSwitchCheckDefault">{{ $job->status == 'open' ? 'Open for hiring' : 'Closed' }}</label>
                                 </div>
                                 <div class="mb-3">
-                                    <h6 class="fw-bold fs-5 text-primary mb-0">
+                                    <h6 class="fw-bold  text-indigo-800 mb-0">
                                         {{ $job->job_title }} 
                                     </h6> 
                                     <h6 class="text-secondary">{{ $job->company_name }}</h6>  
+                                    <h6 class="text-secondary">{{ rtrim(Str::title(json_decode($job->company_address)->municipality->name), "(Capital)").', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>
     
                                     
                                     @if ($job->salary_range)
-                                    <h6 class="fw-bold mb-0">{{ 'Php '.number_format(json_decode($job->salary_range)->min, 0).' - Php '.number_format(json_decode($job->salary_range)->max, 0) }}</h6>    
+                                    <h6 class="fw-bold my-3">{{ 'Php '.number_format(json_decode($job->salary_range)->min, 0).' - Php '.number_format(json_decode($job->salary_range)->max, 0) }}</h6>    
                                     @endif                               
-                                    <h6 class="fw-bold">{{ rtrim(Str::title(json_decode($job->company_address)->municipality->name), "(Capital)").', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>   
+                                       
                                     
                                     <div class="mt-4">
                                         <h6 class="text-secondary mb-0">{{ $job->status == 'open' ? 'Opened '. $job->date_posted->diffForHumans() : 'Last opened on '.date_format($job->date_posted, 'F d, Y') }}</h6>
@@ -97,7 +97,7 @@
                         {{ $jobs->links() }}                      
                     @else
                         <div class="text-center">
-                            <h5 class="text-secondary">You haven't created a job yet.</h5>
+                            <h5 class="text-secondary">No Jobs to show.</h5>
                         </div>
                     @endif
                     

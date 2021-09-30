@@ -26,7 +26,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
 
 var devModule = {
-  industry: ['Accountancy, banking and finance', 'Business, consulting and management', 'Charity and voluntary work', 'Creative arts and design', 'Energy and utilities', 'Engineering and manufacturing', 'Environment and agriculture', 'Healthcare', 'Hospitality and events management', 'Information and Technology', 'Law', 'Law enforcement and security', 'Leisure, sports and tourism', 'Marketing, advertising and PR', 'Media and internet', 'Property and construction', 'Public services and administration', 'Recruitment and HR', 'Retail', 'Sales', 'Science and pharmaceuticals', 'Social care', 'Teacher training and education', 'Transport and logisctics', 'Entertainment'],
+  specializations: ['Accountancy, banking and finance', 'Business, consulting and management', 'Charity and voluntary work', 'Creative arts and design', 'Energy and utilities', 'Engineering and manufacturing', 'Environment and agriculture', 'Healthcare', 'Hospitality and events management', 'Information and Technology', 'Law', 'Law enforcement and security', 'Leisure, sports and tourism', 'Marketing, advertising and PR', 'Media and internet', 'Property and construction', 'Public services and administration', 'Recruitment and HR', 'Retail', 'Sales', 'Science and pharmaceuticals', 'Social care', 'Teacher training and education', 'Transport and logisctics', 'Entertainment'],
   course: ['Bachelor of Science in Accountancy', 'Bachelor of Science in Management Accounting', 'Bachelor of Science in Business Administration Major in Financial Management', 'Bachelor of Science in Architecture', 'Bachelor of Science and Interior Design', 'Bachelor of Arts in English Language Studies', 'Bachelor of Arts in Filipino', 'Bachelor of Arts Literary and Cultural Studies', 'Bachelor of Arts in Philosophy', 'Bachelor of Performing Arts Major in Theater Arts', 'Bachelor of Science and Business Administration Major in Human Resource Management', 'Bachelor of Science in Business Administration Major in Marketing Management', 'Bachelor of Enterpreneurship', 'Bachelor of Science Office Administration', 'Bachelor in Advertising and Public Relations', 'Bachelor of Arts in Broadcasting', 'Bachelor of Arts in Communication Research', 'Bachelor of Arts in Journalism', 'Bachelor of Science in Computer Science', 'Bachelor of Science in Information Technology', 'Bachelor in Elementary Education', 'Bachelor in Library and Information Science', 'Bachelor of Secondary Education Major in English', 'Bachelor of Secondary Education Major in Filipino', 'Bachelor of Secondary Education Major in Mathematics', 'Bachelor of Secondary Education Major in Science', 'Bachelor of Secondary Education Major in Social Studies', 'Bachelor of Science in Civil Engineering', 'Bachelor of Science in Computer Engineering', 'Bachelor of Science in Electrical Engineering', 'Bachelor of Science in Electronics Engineering', 'Bachelor of Science in Industrial Engineering', 'Bachelor of Science in Mechanical Engineering', 'Bachelor of Physcial Education', 'Bachelor of Science in Exercises and Sports', 'Bachelor of Public Administration', 'Bachelor of Arts in International Studies', 'Bachelor of Arts in Political Economy', 'Bachelor of Arts in Political Science', 'Bachelor of Science in Economics', 'Bachelor of Science in Psychology', 'Bachelor of Science Food Technology', 'Bachelor of Science in Applied Mathematics', 'Bachelor of Science in Biology', 'Bachelor of Science in Chemistry', 'Bachelor of Science in Mathematics', 'Bachelor of Science in Nutrition and Dietetics', 'Bachelor of Science in Physics', 'Bachelor of Science in Statistics', 'Bachelor of Science in Hospitality Management', 'Bachelor of Science in Tourism Management', 'Bachelor of Science in Transportation Management'],
   diffForHumans: function diffForHumans(date) {
     var startDateTime = luxon__WEBPACK_IMPORTED_MODULE_0__.DateTime.fromISO(date);
@@ -200,16 +200,20 @@ new Vue({
 
               case 4:
                 suggestedJobs = _context2.sent;
-                _this4.jobSuggestions = suggestedJobs;
 
-                _this4.jobSuggestions.map(function (val, i) {
-                  var job = val;
-                  job.date_posted_diffForHumans = _dev_module_js__WEBPACK_IMPORTED_MODULE_2__.default.diffForHumans(val.date_posted);
-                  job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null;
-                  job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null;
-                  job.company_address = val.company_address ? JSON.parse(val.company_address) : null;
-                });
+                if (suggestedJobs.length > 0) {
+                  _this4.jobSuggestions = suggestedJobs;
 
+                  _this4.jobSuggestions.map(function (val, i) {
+                    var job = val;
+                    job.date_posted_diffForHumans = _dev_module_js__WEBPACK_IMPORTED_MODULE_2__.default.diffForHumans(val.date_posted);
+                    job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null;
+                    job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null;
+                    job.company_address = val.company_address ? JSON.parse(val.company_address) : null;
+                  });
+                }
+
+                console.log(_this4.jobSuggestions);
                 _this4.jobApplicationLoader = false;
                 _context2.next = 14;
                 break;

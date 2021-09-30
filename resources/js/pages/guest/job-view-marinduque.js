@@ -12,6 +12,7 @@ new Vue({
     el: '#jobViewMarinduque',
     data:{
         loading: false,
+        tempSaved: null,
     },
     methods: {
 
@@ -23,10 +24,11 @@ new Vue({
                     method: "post",
                 })
 
-
+                this.tempSaved = true
                 this.toggleLoading()
+
             } catch (error) {
-                alert("Bla bla error")
+                // alert("Bla bla error")
                 console.log(error)
                 this.toggleLoading()
             }

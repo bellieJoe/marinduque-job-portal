@@ -130,15 +130,17 @@ Route::post('/emp_sup/register', [EmployerController::class, 'register'])->middl
 
 //password reset link
 Route::get('/forgot-password', function () {
-    return view('auth.forgot-password');
-})->middleware('guest')->name('password.request');
 
-Route::post('/forgot-password-send', [UserController::class, 'resetPassword'])->middleware('guest')->name('password.email');
+    return view('auth.forgot-password');
+    
+})->name('password.request');
+
+Route::post('/forgot-password-send', [UserController::class, 'resetPassword'])->name('password.email');
 
 Route::get('/reset-password/{token}', function ($token, Request $request) {
 
     return view('auth.reset-password', ['token' => $token, 'email' => $request->input('email')]);
-})->middleware('guest')->name('password.reset');
+})->name('password.reset');
 
 Route::post('/update-password', [UserController::class, 'updatePassword'])->middleware('guest')->name('password.update');
 

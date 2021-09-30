@@ -3,6 +3,7 @@ import phil from 'phil-reg-prov-mun-brgy'
 import moment from 'moment'
 import nationality_list from 'npm-nationality-list'
 import LanguageList from 'language-list'
+import devModule from '../dev_module.js'
 
 // const language = new LanguageList()
 // console.log(language.getData())
@@ -21,6 +22,8 @@ new Vue({
     data: {
         user: null,
         errors: [],
+        job_industries: devModule.specializations,
+        courses: devModule.course,
 
         // education data
         undergraduate: 0,
@@ -280,11 +283,7 @@ new Vue({
                     url: "/seeker/profile/add-education",
                     method: "post",
                     data: this.education,
-                    statusCode: {
-                        500: () => {
-                            // location.href = "/error"
-                        }
-                    },
+                    
                 })
                 location.href = "/seeker/profile/education"
                 // .fail((res)=>{
@@ -295,8 +294,9 @@ new Vue({
                 // })
             } catch (error) {
                 console.log(error)
+                this.errors = error.responseJSON.errors ? error.responseJSON.errors : null 
                 this.closeLoading()
-                window.alert('Something went wrong while uploading the data')
+                // window.alert('Something went wrong while uploading the data')
             }
 
         },

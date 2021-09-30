@@ -18,40 +18,38 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
     'X-CSRF-TOKEN': jquery__WEBPACK_IMPORTED_MODULE_0___default()('meta[name="_token"]').attr('content')
   }
 });
-var loading = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#loading');
-loading.css('display', 'none');
 new Vue({
   el: '#job',
   data: {
-    toggledView: 'job details',
-    daysExpForm: null
+    daysExpForm: null,
+    loading: false
   },
   methods: {
-    toggleView: function toggleView(viewName) {
-      this.toggledView = viewName;
-    },
+    // toggleView(viewName){
+    //     this.toggledView = viewName
+    // },
     toggleLoading: function toggleLoading() {
-      if (loading.css('display') == 'none') {
-        loading.css('display', 'initial');
+      if (this.loading) {
+        this.loading = false;
       } else {
-        loading.css('display', 'none');
+        this.loading = true;
       }
-    } // async setDaysExpire(e){
-    //     e.preventDefault();
-    //     const formDaysExpire = $('#formDaysExpire')
-    //     try {
-    //         const res = await $.ajax({
-    //             method: 'post',
-    //             url: formDaysExpire.attr('action'),
-    //             data: formDaysExpire.serializeArray()
-    //         })
-    //         console.log(res)
-    //         // location.reload()
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    },
+    modifyUrl: function modifyUrl(params) {
+      var url = new URL(window.location);
+      url.searchParams.set('view', params.view);
 
+      if (params.applicants) {
+        url.searchParams.set('applicants', params.applicants);
+      }
+
+      window.history.pushState(null, '', url);
+      console.log(url.searchParams.get('view'));
+    },
+    redirectRoute: function redirectRoute(route) {
+      this.toggleLoading();
+      location.href = route;
+    }
   }
 });
 

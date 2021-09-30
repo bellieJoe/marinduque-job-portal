@@ -1,14 +1,7 @@
 import phil from 'phil-reg-prov-mun-brgy'
 import $ from "jquery"
 import { indexOf } from 'lodash';
-
-
-// console.log($("#formPostJob").serializeArray())
-
-// const loading = new bootstrap.Modal(document.getElementById('mdlLoading'), {
-//     keyboard: false,
-//     backdrop: 'static'
-//   })
+import devModule from '../../dev_module'
 
 
 $.ajaxSetup({
@@ -22,8 +15,8 @@ new Vue({
     data:{
         phil: phil,
         errors: [],
-        // courses: [],
-        // industries: [],
+        job_specialization_list: devModule.specializations,
+        courses: devModule.course,
         sample: {
             sam: "okie"
         },
@@ -217,11 +210,7 @@ new Vue({
 
 
         }
-        
-    },
-    beforeCreate() {
-
-    },
+    }
 })
 
 

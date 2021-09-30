@@ -82,7 +82,7 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="d-flex align-items-center">
-                                <strong>Signing Up, chotto matte kudasai...</strong>
+                                <strong>Signing Up, Please wait</strong>
                                 <div class="spinner-border ms-auto text-primary" role="status" aria-hidden="true"></div>
                             </div>
                         </div>

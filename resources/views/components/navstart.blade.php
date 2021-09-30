@@ -1,38 +1,49 @@
-<link rel="stylesheet" href="{{asset('css/app.css')}}">
-<nav id="main_nav" class="navstart navbar z-40 navbar-expand-md bg-white  sticky-top duration-500 border-bottom">
+{{-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> --}}
+<nav id="main_nav" class="bg-white ">
+
+    <div class="lg:w-10/12 mx-auto p-2  lg:grid lg:grid-cols-2 grid grid-cols-2">
+        <a href="/" class="text-2xl duration-500 fw-bolder self-center text-indigo-900 font-sans w-max"> 
+            {{-- <img src="{{ url('image') }}/website/logo.png" alt="logo" class="w-48 inline"> --}}
+            <div class="grid grid-cols-2 items-center w-24 gap-2">
+                <img src="{{ url('image') }}/website/favicon.png" alt="logo" class="">
+                <div class="w-max inline-block">
+                    <h1 class="font-bold tracking-widest">Job Portal</h1>
+                    <h6 class="text-sm font-normal text-gray-400">LMD PESO Marinduquqe</h6>
+                </div>
+            </div>
+        </a>
 
 
-    <div class="container-lg ">
-        <a href="/" class="navbar-brand fw-bolder ">Marinduque Job Portal</a>
-
-        {{-- <button class="navbar-toggler z-50" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="fa fa-menu text-black"></span>
-        </button> --}}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fa fa-menu"></i>
+        <button @click="toggleMainNav()" class="lg:hidden float-right hover:text-indigo-800 duration-500 justify-self-end" type="button" >
+            <i class="fa fa-bars text-xl"></i>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mb-md-0 me-md-0 ms-md-auto">
-                @if (Auth::check())
-                    <li class="nav-item btn btn-sm bg-white border-indigo-500 text-indigo-500 px-2" id='logout'>
-                        <a class="nav-link text-indigo-500" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
-                    </li>
-                @else
-                    <li class="nav-item  px-2 btn btn-sm bg-indigo-700 m-1">
-                        <a class="nav-link text-white"  href="/emp_sup"><i class="fas fa-users me-2"></i>For Employers</a>
-                    </li>
-                    <li class="nav-item px-2 btn btn-sm  border-indigo-500 m-1 text-indigo-500">
-                        <a class="nav-link text-indigo-500" href="/signin"><i class="fas fa-sign-in-alt me-2"></i>Sign In</a>
-                    </li>
-                    <li class="nav-item px-2  btn btn-sm  bg-indigo-500 m-1 ">
-                        <a class="nav-link text-white" href="/signup"><i class="fas fa-user me-2"></i>Sign Up</a>
-                    </li>                    
-                @endif
-            </ul>
+        <div :class="mainNav ? 'right-0 ' : '-right-full'" class="duration-500 bg-white w-60 fixed top-0 p-2 z-50 h-screen shadow-2xl lg:shadow-none  lg:static lg:h-auto lg:w-max lg:justify-self-end" >
+
+            <button @click="toggleMainNav()" class="btn block w-max ml-auto mr-0 lg:hidden hover:text-indigo-800 duration-500">
+                <i class="fa fa-arrow-right text-2xl"></i>
+            </button>
+            
+            @if (Auth::check())
+                <li class=" btn btn-sm bg-white border-indigo-500 text-indigo-500 px-2 w-full lg:w-max " id='logout'>
+                    <a class="nav-link text-indigo-500" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+                </li>
+            @else
+                <li class="nav-item  px-2 btn btn-sm bg-indigo-700 m-1 w-full lg:w-max ">
+                    <a class="nav-link text-white"  href="/emp_sup"><i class="fas fa-users me-2"></i>For Employers</a>
+                </li>
+                <li class="nav-item px-2 btn btn-sm  border-indigo-500 m-1 text-indigo-500 w-full lg:w-max ">
+                    <a class="nav-link text-indigo-500" href="/signin"><i class="fas fa-sign-in-alt me-2"></i>Sign In</a>
+                </li>
+                <li class="nav-item px-2  btn btn-sm  bg-indigo-500 m-1  w-full lg:w-max ">
+                    <a class="nav-link text-white" href="/signup"><i class="fas fa-user me-2"></i>Sign Up</a>
+                </li>                    
+            @endif
         </div>
 
     </div>
+
+    
     
 
 </nav>

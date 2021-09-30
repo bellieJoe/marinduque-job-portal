@@ -1,12 +1,13 @@
 @extends('app')
 @section('title', '- Post Jobs')
 @section('content') 
-
     <link rel="stylesheet" href="{{ asset('css/employer/post-job.css') }}">    
-    <body class='post-job'>
-        <div class="wrapper p-2" id="post-job">
-            <div class="pj-form bg-white  my-5 shadow-sm" >
-                <h5 class='fw-bold mb-3 p-4'><i class="fas fa-briefcase me-1"></i>Post a Job</h5>
+    <body class='post-job bg-gray-200'>
+
+
+        <div class="max-w-2xl mx-auto p-2  " id="post-job">
+            <div class="pj-form bg-white  my-5 shadow-md rounded-md" >
+                <h5 class='font-bold mb-3 p-4 text-lg text-indigo-800'><i class="fas fa-briefcase me-1"></i>Create a Job</h5>
                 <form action="/employer/post-job/add-job" method="post" id="formPostJob">
                     @csrf
 
@@ -24,8 +25,7 @@
                             <label class='fw-bold mb-1'>Job Industry<span class="text-danger">*</span></label>
                             <select class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''">
                                 <option value="null">--choose one--</option>
-                                <option value="opt1">opt 1</option>
-                                <option value="opt1">opt 2</option>
+                                <option v-for="specialization of job_specialization_list" :value="specialization">@{{ specialization }}</option>
                             </select>
                             <div class="text-danger"  v-for="i of errors.job_industry" v-cloak>@{{ i }}</div>
                         </div>
@@ -119,7 +119,7 @@
                         </div>
                         {{-- company description --}}
                         <div class="mb-3">
-                            <label for="" class='fw-bold mb-1' >Company Description</label>
+                            <label for="" class='fw-bold mb-1' >About the Company</label>
                             <textarea rows="5" class='form-control' v-model.lazy="job.company_description" name="company_description" :class="errors.company_description ? 'is-invalid' : '' "></textarea>
                             <div class="text-danger" v-for="i of errors.company_description" v-cloak>@{{ i }}</div>
                         </div>
@@ -142,26 +142,27 @@
                             </select>
                         </div>
                         {{-- course studied --}}
-                        <div class="mb-4" v-if="job.educational_attainment == 'tertiary education'">
+                        <div class="mb-4" v-if="job.educational_attainment == 'tertiary education'" :class="job.course_studied[0] ? 'bg-indigo-100 rounded-md p-1' : ''">
                             <div class="form-check ">
                                 <input class="form-check-input" type="checkbox"  id="flexCheckDefault4" v-model.lazy="job.toggleCourseStudied" @change="toggleCourseStudied" name="course_studied">
                                 <label for="flexCheckDefault4" class='form-check-label fw-bold mb-1'>Course Studied</label>
                             </div>
                             <div class="row" v-if="job.toggleCourseStudied">
                                 <div class="col">
-                                    <select class="form-select " v-model.lazy="job.inputCourseStudied">
+                                    <select class="form-select" v-model.lazy="job.inputCourseStudied">
                                         <option value="null">--select one--</option>
-                                        <option value="sample">sample-</option>
-                                        <option value="sample2">sample2</option>
-                                        <option value="sample3">sample3</option>
+                                        <option v-for="course of courses" :value="course">@{{ course }}</option>
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-primary fw-bold" @click="addCourse">+</button>
+                                    <button type="button" class="btn btn-primary font-bold" @click="addCourse">+</button>
                                 </div>
                                 <div class="mt-2">
-                                    <button type="button"  v-for="i of job.course_studied"  class="btn border-0 btn-dark m-2" title="click to remove" @click="removeCourse(i)">@{{ i }}</button>
-                                    <div class="text-danger" v-for="i of errors.course_studied" v-cloak>@{{ i }}</div>
+                                    <div  v-for="i of job.course_studied"  class="btn border-1 border-black m-2"  >
+                                        @{{ i }}
+                                        <button class="btn btn-close" @click="removeCourse(i)"></button>
+                                    </div>
+                                    <div v-cloak class="text-danger" v-for="i of errors.course_studied">@{{ i }}</div>
                                 </div>
                             </div>
                         </div>
@@ -251,12 +252,10 @@
 
                 </form>
             </div>
-
-
         </div>
-    </body>
 
+        <script src="{{ asset('js/pages/employer/post-job.js') }}" ></script>
+    </body>
     
 
-    <script src="{{ asset('js/pages/employer/post-job.js') }}"></script>
 @endsection

@@ -2,7 +2,7 @@
 @section('title', '- Employer Profile')
 @section('content')
 
-    <body class="employer-profile bg-gray-50" >
+    <body class="employer-profile bg-gray-200" >
 
         <link rel="stylesheet" href="{{asset('css/employer_profile.css')}}">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -65,11 +65,11 @@
                     <div class="divOverview">
                         @if ($employer->description)
                         <div class="mb-5">
-                            <button type="button" class="btn btn-outline-primary btn-sm d-block mb-4 me-0 ms-auto" id='btnEditDescription' @click='openEditProfile()'>
+                            <button type="button" class="btn btn-outline-secondary btn-sm d-block mb-4 me-0 ms-auto" id='btnEditDescription' @click='openEditProfile()'>
                                 <i class='far fa-edit me-1'></i> Edit Description
                             </button>
                             <h6 class='fw-bold fs-5'>Company Description</h6>
-                            <p class='text-secondary fs-5 desc'>{{ $employer->description }}</p>
+                            <p class='text-secondary fs-5 desc mb-5'>{{ $employer->description }}</p>
                         </div>
                         @else
                         <div class="my-5 mx-auto">
@@ -81,11 +81,11 @@
                         @endif
                         @if ($employer->mission)
                         <div class="mb-5">
-                            <button type="button" class="btn btn-outline-primary btn-sm d-block mb-4 me-0 ms-auto" id='btnEditDescription' @click='clear()' data-bs-toggle="modal" data-bs-target="#mdlSetMission">
+                            <button type="button" class="btn btn-outline-secondary btn-sm d-block mb-4 me-0 ms-auto" id='btnEditDescription' @click='clear()' data-bs-toggle="modal" data-bs-target="#mdlSetMission">
                                 <i class='far fa-edit me-1'></i> Edit Mission
                             </button>
                             <h5 class='fw-bold fs-5'>Mission</h5>
-                            <p class='text-secondary fs-5 desc' style="white-space: pre-wrap">{{ $employer->mission }}</p>
+                            <p class='text-secondary fs-5 desc  mb-5' style="white-space: pre-wrap">{{ $employer->mission }}</p>
                         </div>   
                         @else
                         <div class="mb-5">
@@ -97,11 +97,11 @@
                         @endif
                         @if ($employer->vision)
                         <div class="mb-5">
-                            <button type="button" class="btn btn-outline-primary btn-sm d-block mb-4 me-0 ms-auto" id='btnEditDescription' @click='clear()' data-bs-toggle="modal" data-bs-target="#mdlSetVision">
+                            <button type="button" class="btn btn-outline-secondary btn-sm d-block mb-4 me-0 ms-auto" id='btnEditDescription' @click='clear()' data-bs-toggle="modal" data-bs-target="#mdlSetVision">
                                 <i class='far fa-edit me-1'></i> Edit Vision
                             </button>
                             <h5 class='fw-bold fs-5'>Vision</h5>
-                            <p class='text-secondary fs-5 desc' style="white-space: pre-wrap">{{ $employer->vision }}</p>
+                            <p class='text-secondary fs-5 desc  mb-5' style="white-space: pre-wrap">{{ $employer->vision }}</p>
                         </div>   
                         @else
                         <div class="mb-5">

@@ -4,7 +4,7 @@
 <body class="bg-gray-200">
     <div id="jobViewMarinduque">
 
-        <section class="container-lg py-5 px-4 mt-5 bg-white rounded-md">
+        <section class="container-lg py-5 px-4 my-5 bg-white rounded-md ">
 
             {{-- variabless --}}
             @php
@@ -85,16 +85,18 @@
             <div>
                 @auth
                     @if (Auth::user()->role == 'seeker')
-                        <button type="button" @click="saveJob({{ $job->job_id }})" class="btn  btn-primary text-white  mx-auto mt-5">Save Job</button>
-                        {{-- <button class="btn  bg-pink-800 text-white  mx-auto mt-5">Apply</button>   --}}
-                        <a class="btn  bg-pink-800 text-white  mx-auto mt-5" href="/seeker/apply-job/{{ $job->job_id }}">Apply</a>  
-                        {{-- <div class="fixed bottom-5 col-sm-7 duration-300" :class="toastSaveJob">
-                            <div  class="p-3 rounded-2 bg-gray-700 text-white w-max mx-auto">
-                                <i class="fa fa-check text-green-500"></i>
-                                Job successfully saved
-                            </div>
-                        </div> --}}
+                        @if (!$seekerInterference['saved'])
+                            <button v-if="!tempSaved" type="button" @click="saveJob({{ $job->job_id }})" class="btn  btn-primary text-white  mx-auto mt-5">Save Job</button>
+                            <label v-if="tempSaved" class="text-green-500 mr-3 btn mt-5 p-2 hover:text-green-500"><i class="fa fa-check mr-2"></i>Saved</label>
+                        @else
+                            <label class="text-green-500 mr-3 mt-5 btn p-2 hover:text-green-500"><i class="fa fa-check mr-2"></i>Saved</label>
+                        @endif
 
+                        @if (!$seekerInterference['applied'])
+                            <a class="btn  bg-pink-800 text-white  mx-auto mt-5" href="/seeker/apply-job/{{ $job->job_id }}">Apply</a>  
+                        @else
+                            <label class="text-green-500 mt-5 btn p-2 hover:text-green-500"><i class="fa fa-check mr-2"></i>Applied</label>
+                        @endif
                     @endif                         
                 @endauth
                 @guest

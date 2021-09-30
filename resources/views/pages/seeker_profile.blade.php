@@ -203,7 +203,11 @@
                                         </div>
                                         <div class="mb-3 " v-if="education.education_level == 'tertiary education'">
                                             <label class='mb-1 fw-bold'>Course Name</label>
-                                            <input type="text" class='form-control' v-model='education.course' :class="errors.course ? 'is-invalid' : '' ">
+                                            {{-- <input type="text" class='form-control' v-model='education.course' :class="errors.course ? 'is-invalid' : '' "> --}}
+                                            <select class='form-select form-select' v-model='education.course' :class="errors.course ? 'is-invalid' : ''">
+                                                <option value="" selected>--select course--</option>
+                                                <option v-for="course of courses" :value="course">@{{ course }}</option>
+                                            </select>
                                             <div class="text-danger" v-for="i of errors.course">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 ">
@@ -275,7 +279,10 @@
                                         </div>
                                         <div class="mb-3 " v-if="education.education_level == 'tertiary education'">
                                             <label class='mb-1 fw-bold'>Course Name</label>
-                                            <input type="text" class='form-control' v-model='education.course' :class="errors.course ? 'is-invalid' : '' ">
+                                            <select class='form-select form-select' v-model='education.course' :class="errors.course ? 'is-invalid' : ''">
+                                                <option value="" selected>--select course--</option>
+                                                <option v-for="course of courses" :value="course">@{{ course }}</option>
+                                            </select>
                                             <div class="text-danger" v-for="i of errors.course">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 ">
@@ -405,9 +412,7 @@
                                             <label class='mb-1 fw-bold'>Job Industry</label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
                                                 <option value="null">--select one--</option>
-                                                <option value="op1">opt1</option>
-                                                <option value="op2">opt2</option>
-                                                <option value="op3">opt3</option>
+                                                <option v-for="industry of job_industries" :value="industry">@{{ industry }}</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.job_industry">@{{ i }}</div>
                                         </div>
@@ -466,9 +471,7 @@
                                             <label class='mb-1 fw-bold'>Job Industry</label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
                                                 <option value="null">--select one--</option>
-                                                <option value="op1">opt1</option>
-                                                <option value="op2">opt2</option>
-                                                <option value="op3">opt3</option>
+                                                <option v-for="industry of job_industries" :value="industry">@{{ industry }}</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.job_industry">@{{ i }}</div>
                                         </div>
@@ -802,11 +805,11 @@
                         <div class="container">
                             @if ($skill->first())
                                 @foreach ($skill as $item)
-                                <div class="row my-5">
+                                <div class="row my-3 rounded-md hover:shadow-md hover:bg-indigo-100 p-2">
                                     <div class="col-auto pe-0">
-                                        <i class="fas fa-cog text-secondary"></i>
+                                        <i class="fas fa-check text-green-400"></i>
                                     </div>
-                                    <div class="col border-start border-3">
+                                    <div class="col ">
                                         <p class="d-inline" style="white-space: pre-wrap">{{ $item->skill_description }}</p>
                                     </div>
                                     <div class="col-lg-auto m-sm-2">
