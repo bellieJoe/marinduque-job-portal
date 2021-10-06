@@ -1,6 +1,6 @@
 import $ from "jquery"
 import philippines from "phil-reg-prov-mun-brgy"
-// import 
+import devModule from '../../dev_module.js'
 
 $.ajaxSetup({
     headers: {
@@ -21,6 +21,8 @@ new Vue({
         phil : philippines,
         job_data: null,
         errors : [],
+        specializations: devModule.specializations,
+        courses: devModule.course,
         job:{
             job_title: null,
             job_type: null,

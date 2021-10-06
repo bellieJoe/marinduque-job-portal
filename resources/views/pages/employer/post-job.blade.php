@@ -23,9 +23,9 @@
                         {{-- job indnustry --}}
                         <div class="mb-3">
                             <label class='fw-bold mb-1'>Job Industry<span class="text-danger">*</span></label>
-                            <select class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''">
-                                <option value="null">--choose one--</option>
-                                <option v-for="specialization of job_specialization_list" :value="specialization">@{{ specialization }}</option>
+                            <select v-cloak class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''" >
+                                {{-- <option value="null">--choose one--</option> --}}
+                                <option  v-for="specialization of job_specialization_list" :value="specialization">@{{ specialization }}</option>
                             </select>
                             <div class="text-danger"  v-for="i of errors.job_industry" v-cloak>@{{ i }}</div>
                         </div>
@@ -33,7 +33,7 @@
                         <div class="mb-3">
                             <label class='fw-bold mb-1'>Job Type<span class="text-danger">*</span></label>
                             <select class='form-select' v-model.lazy="job.job_type" :class="errors.job_type ? 'is-invalid' : ''"> 
-                                <option value="null" class='p-3'>--select job type--</option>
+                                {{-- <option value="null" class='p-3'>--select job type--</option> --}}
                                 <option value="full time">Full Time</option>
                                 <option value="part time">Part Time</option>
                                 <option value="contractual">Contractual</option>
@@ -135,7 +135,7 @@
                                 <label for="flexCheckDefault2" class='form-check-label fw-bold mb-1'>Educational Attainment</label>
                             </div>
                             <select class="form-select " v-model.lazy="job.educational_attainment" v-if="job.toggleEducationalAttainment" @change="changeEducationalAttainment">
-                                <option value="">--select one--</option>
+                                {{-- <option value="">--select one--</option> --}}
                                 <option value="primary education">Elementary Graduate</option>
                                 <option value="secondary education">High School Graduate</option>
                                 <option value="tertiary education">College Graduate</option>
@@ -150,7 +150,7 @@
                             <div class="row" v-if="job.toggleCourseStudied">
                                 <div class="col">
                                     <select class="form-select" v-model.lazy="job.inputCourseStudied">
-                                        <option value="null">--select one--</option>
+                                        {{-- <option value="null">--select one--</option> --}}
                                         <option v-for="course of courses" :value="course">@{{ course }}</option>
                                     </select>
                                 </div>

@@ -29,6 +29,7 @@
         "chart.js": "^3.5.1",
         "jquery": "^3.5.1",
         "js-cropper": "^1.0.1",
+        "keyword-analyzer": "0.0.5",
         "language-list": "0.0.3",
         "luxon": "^2.0.2",
         "moment": "^2.29.1",

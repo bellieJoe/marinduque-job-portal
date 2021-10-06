@@ -15,7 +15,7 @@
     <title>Job Hunter @yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app_sample.css') }}">
     
-    <style>
+    {{-- <style>
         /* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');  */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Ubuntu&display=swap');
         * :not(i) {
@@ -23,7 +23,7 @@
     
         },
 
-    </style>
+    </style> --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 

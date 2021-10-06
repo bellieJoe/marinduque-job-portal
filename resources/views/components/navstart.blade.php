@@ -1,5 +1,5 @@
 {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> --}}
-<nav id="main_nav" class="bg-white ">
+<nav id="main_nav" class="bg-white z-40">
 
     <div class="lg:w-10/12 mx-auto p-2  lg:grid lg:grid-cols-2 grid grid-cols-2">
         <a href="/" class="text-2xl duration-500 fw-bolder self-center text-indigo-900 font-sans w-max"> 

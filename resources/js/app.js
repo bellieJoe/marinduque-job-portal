@@ -3,6 +3,8 @@ import solid from "@fortawesome/fontawesome-free";
 import brands from "@fortawesome/fontawesome-free";
 import Echo from "laravel-echo";
 import $ from 'jquery'
+
+import keyword_analyzer from 'keyword-analyzer'
 require('./bootstrap');
 
 import { Chart, registerables } from 'chart.js';
@@ -15,6 +17,7 @@ Chart.register(...registerables);
 const User = JSON.parse($("#User").val())
 
 // console.log(navigator.onLine)
+console.log(keyword_analyzer.wrest('bar bar bar foo foo foo foo'))
 
 
 

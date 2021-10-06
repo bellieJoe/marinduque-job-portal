@@ -1,12 +1,26 @@
 @extends('app')
 @section('title', '- Home')
 @section('content')
-
 <link rel="stylesheet" href="{{ asset('css/admin/admin-home.css') }}">
 <body class="bg-gray-100">
-    <div class="container-lg bg-white my-5 py-4 px-3 shadow-sm rounded-2" id="admin_home">
+    <div  id="admin_home">
 
-        <section>
+        <div :class="!navToggle ? '' : ''" class="">
+
+            @component('components.admin-nav')
+            @endcomponent
+
+            <section class="duration-500  bg-gray-300 py-10 lg:top-20 z-0 lg:right-0">
+                {{-- <button v-if="!navToggle" @click="toggleNav()" class="btn bg-gray-300 duration-1000 fixed top-20 z-10  lg:visible"><i class="fa fa-arrow-right"></i></button> --}}
+                content
+            </section>
+
+        </div>
+        
+
+
+
+        {{-- <section>
             <h4 class="font-bold mb-3 text-center">Manage all Jobs, Applicants & Employers</h4>
             <div class="w-max mx-auto">
                 <div @click="redirectRoute('/admin/employers')" class="border-1 rounded p-2 me-2 my-2 w-max cursor-pointer hover:shadow hover:bg-blue-500 hover:text-white inline-block">
@@ -43,7 +57,7 @@
                     <h6>Placement Report</h6>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
 
     </div>

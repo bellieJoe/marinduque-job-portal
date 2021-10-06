@@ -35,8 +35,7 @@
                         <label class="fw-bold">Job Industry<span class="text-danger"> *</span></label>
                         <select name="job_industry" class="form-select" v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''">
                             <option value="null">--choose one--</option>
-                            <option value="opt1">opt 1</option>
-                            <option value="opt1">opt 2</option>                        
+                            <option v-for="spec of specializations" :value="spec">@{{ spec }}</option>                  
                         </select>
                         <div class="text-danger" v-if="errors.job_industry" v-cloak>@{{ errors.job_industry[0] }}</div>
                     </div>
@@ -104,9 +103,7 @@
                         <div class="col">
                             <select v-model.lazy="input.courseStudied" class="form-select">
                                 <option value="null">--select one--</option>
-                                <option value="sample">sample-</option>
-                                <option value="sample2">sample2</option>
-                                <option value="sample3">sample3</option>
+                                <option v-for="course of courses" :value="course">@{{ course }}</option>      
                             </select>
                         </div>
                         <div class="col-auto" >
@@ -183,7 +180,7 @@
 
                 <div class="row">
                     <div class="col-auto ms-auto me-0">
-                        <button type="button" class="btn btn-secondary">Cancel</button>
+                        <a href="/employer/job" class="btn btn-secondary">Cancel</a>
                         <button type="button" class="btn btn-success" @click="updateJob">Save changes</button>
                     </div>
                 </div>

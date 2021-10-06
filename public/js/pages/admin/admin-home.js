@@ -15,8 +15,17 @@ console.log("Admin home is connected");
 
 new Vue({
   el: '#admin_home',
-  data: {},
+  data: {
+    navToggle: false
+  },
   methods: {
+    toggleNav: function toggleNav() {
+      if (this.navToggle) {
+        this.navToggle = false;
+      } else {
+        this.navToggle = true;
+      }
+    },
     redirectRoute: function redirectRoute(route) {
       location.href = route;
     }

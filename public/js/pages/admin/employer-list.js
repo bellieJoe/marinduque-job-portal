@@ -16,11 +16,22 @@ console.log("Employer list page connected");
 new Vue({
   el: '#employerList',
   data: {
-    loading: false
+    loading: false,
+    navToggle: false
   },
   methods: {
     toggleLoading: function toggleLoading() {
       this.loading = this.loading ? false : true;
+    },
+    toggleNav: function toggleNav() {
+      if (this.navToggle) {
+        this.navToggle = false;
+      } else {
+        this.navToggle = true;
+      }
+    },
+    redirectRoute: function redirectRoute(route) {
+      location.href = route;
     }
   }
 });
