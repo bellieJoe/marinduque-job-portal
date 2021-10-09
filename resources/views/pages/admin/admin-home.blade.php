@@ -5,12 +5,9 @@
 <body class="bg-gray-100">
     <div  id="admin_home">
 
-        <div :class="!navToggle ? '' : ''" class="">
+        <div>
 
-            @component('components.admin-nav')
-            @endcomponent
-
-            <section class="duration-500  bg-gray-300 py-10 lg:top-20 z-0 lg:right-0">
+            <section class="duration-500  bg-gray-300 ">
                 {{-- <button v-if="!navToggle" @click="toggleNav()" class="btn bg-gray-300 duration-1000 fixed top-20 z-10  lg:visible"><i class="fa fa-arrow-right"></i></button> --}}
                 content
             </section>

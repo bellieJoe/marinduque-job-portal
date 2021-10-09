@@ -16,8 +16,8 @@
             @component('components.loading')@endcomponent
         </div>
 
-        <form action="" method="get" class="bg-gray-600 container-lg py-5 px-3" @submit="toggleLoading">
-            <div class="row col-lg-8">
+        <form action="" method="get" class="bg-gray-600 py-5 px-3" @submit="toggleLoading">
+            <div class="row col-lg-8 lg:w-10/12 mx-auto">
                 <div class="col">
                     <input type="text" class="form-control" name="search" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" placeholder="Enter Job id">
                 </div>
@@ -27,19 +27,19 @@
             </div>
         </form>
 
-        <div class="container-lg bg-white py-5 px-3">
-            <div>
+        <div class=" bg-gray-200 py-5 px-3">
+            <div class="mx-auto lg:w-10/12">
                 <div>
                     <h3 class="font-bold text-lg">Job List</h3>
                 </div>
-                <table class="table-auto w-full shadow-sm my-4">
-                    <tr class="bg-gray-200 sticky">
-                        <th class="p-2">
+                <table class="table-auto w-full shadow-md my-4 bg-white">
+                    <tr class="bg-gray-400 sticky">
+                        {{-- <th class="p-2">
                             <a href="/admin/jobs?sort={{ $sort && $column == 'job_id' ? ($sort == 'desc' ? 'asc' : 'desc') : 'desc' }}&column=job_id">
                                 Job Id
                                 <i class="fa fa-sort{{ $sort  && $column == 'job_id' ? ($sort == 'desc' ? '-down' : '-up') : '' }} ms-2"></i>
                             </a>
-                        </th>
+                        </th> --}}
                         <th class="p-2">
                             <a href="/admin/jobs?sort={{ $sort && $column == 'user_id' ? ($sort == 'desc' ? 'asc' : 'desc') : 'desc' }}&column=user_id">
                                 Owner Id
@@ -70,9 +70,9 @@
                     </tr>
                     @foreach ($jobsData as $job)
                     <tr class="odd:bg-gray-100 hover:bg-indigo-200">
-                        <td class="p-2">
+                        {{-- <td class="p-2">
                             {{ $job->job_id }}
-                        </td>
+                        </td> --}}
                         <td class="p-2">
                             {{ $job->user_id }}
                         </td>
@@ -101,7 +101,7 @@
             {{ $jobsData }}
 
             <div>
-                <h5 class="text-md">Total no. of Employers: <span class="font-bold">{{ number_format($jobCount) }}</span></h5>
+                <h5 class="text-md">Total no. of Jobs: <span class="font-bold">{{ number_format($jobCount) }}</span></h5>
             </div>
             
         </div>

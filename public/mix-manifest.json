@@ -3,6 +3,7 @@
     "/js/components/navstart.js": "/js/components/navstart.js",
     "/js/components/jobseeker_nav.js": "/js/components/jobseeker_nav.js",
     "/js/components/employer_nav.js": "/js/components/employer_nav.js",
+    "/js/components/admin-nav.js": "/js/components/admin-nav.js",
     "/js/pages/guest/job-search.js": "/js/pages/guest/job-search.js",
     "/js/pages/guest/job-search-marinduque.js": "/js/pages/guest/job-search-marinduque.js",
     "/js/pages/guest/job-view-marinduque.js": "/js/pages/guest/job-view-marinduque.js",

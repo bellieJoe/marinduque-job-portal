@@ -2,7 +2,7 @@
 @section('title', '- Add account')
 @section('content')
     
-    <body class=bg-gray-100>
+    <body class=bg-gray-200>
         <div id="addAdminAccount">
 
             <div v-if="loading">

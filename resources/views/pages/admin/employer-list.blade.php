@@ -24,18 +24,19 @@
 
     <div v-if="loading">
         @component('components.loading')@endcomponent
+        
     </div>
 
 
-    <div :class="!navToggle ? '' : ''" class="">
+    <div >
 
-        @component('components.admin-nav')
-        @endcomponent
+        {{-- @component('components.admin-nav')
+        @endcomponent --}}
 
-        <section :class="!navToggle ? 'lg:w-full' : 'lg:w-10/12 lg:inline-block'" class="duration-500  lg:absolute lg:top-20 z-0 lg:right-0 h-full overflow-scroll">
+        <section class="duration-500">
 
             <form action="" method="get" class="bg-gray-600 py-5 px-3">
-                <div class="row col-lg-8">
+                <div class="row col-lg-8 lg:w-10/12 mx-auto">
                     <div class="col">
                         <input type="text" class="form-control" name="search" value="{{ isset($search ) ? $search : '' }}" placeholder="Enter employer id">
                     </div>
@@ -44,15 +45,15 @@
                     </div>
                 </div>
             </form>
-            <div class="bg-white py-5 px-3">
-                <div>
+            <div class="bg-gray-200 py-5 z-0">
+                <div class="lg:w-10/12 mx-auto overflow-x-scroll lg:overflow-visible w-screen"> 
                     <div>
                         <h3 class="font-bold text-lg">Employer List</h3>
                     </div>
-                    <table class="table-auto w-full shadow-sm my-4">
-                        <tr class="bg-gray-200 sticky">
+                    <table class="table-auto shadow-md my-4 rounded-md bg-white">
+                        <tr class="bg-gray-400 lg:sticky rounded-t-md ">
                             @if (isset($column) && isset($sort))
-                            <th class="p-2">
+                            {{-- <th class="p-2">
                                 @if ($column == 'user_id')
                                     <a href="?sort={{ $sort == 'desc' ? 'asc' : 'desc' }}&column=user_id">
                                         Employer Id <i class="fa fa-{{ $sort == 'desc' ? 'sort-down' : 'sort-up' }} ms-2"></i>
@@ -60,7 +61,7 @@
                                 @else
                                     <a href="/admin/employers?sort=desc&column=user_id">Employer Id <i class="fa fa-sort ms-2"></i></a>
                                 @endif
-                            </th>
+                            </th> --}}
                             <th class="p-2">
                                 @if ($column == 'company_name')
                                     <a href="?sort={{ $sort == 'desc' ? 'asc' : 'desc' }}&column=company_name">
@@ -108,7 +109,7 @@
                             </th>
                             <th class="p-2">Status</th>
                             @else
-                            <th class="p-2"><a href="/admin/employers?sort=desc&column=user_id">Employer Id <i class="fa fa-sort ms-2"></i></a></th>
+                            {{-- <th class="p-2"><a href="/admin/employers?sort=desc&column=user_id">Employer Id <i class="fa fa-sort ms-2"></i></a></th> --}}
                             <th class="p-2"><a href="/admin/employers?sort=desc&column=company_name">Company Name <i class="fa fa-sort ms-2"></i></a></th>
                             <th class="p-2"><a href="/admin/employers?sort=desc&column=address">Address <i class="fa fa-sort ms-2"></i></a></th>
                             <th class="p-2"><a href="/admin/employers?sort=desc&column=contact_person_name">Contact Person <i class="fa fa-sort ms-2"></i></a></th>
@@ -121,8 +122,8 @@
                         @php
                             $address  = json_decode($employer->address);
                         @endphp
-                        <tr class="odd:bg-gray-100 hover:bg-indigo-200">
-                            <td class="p-2">{{ $employer->user_id }}</td>
+                        <tr class=" hover:bg-indigo-200">
+                            {{-- <td class="p-2">{{ $employer->user_id }}</td> --}}
                             <td class="p-2">{{ $employer->company_name }}</td>
                             <td class="p-2">{{ $employer->address ? $address->barangay->name.', '.$address->municipality->name.', '.$address->province->name : ''   }}</td>
                             <td class="p-2">{{ $employer->contact_person_name }}</td>
@@ -156,6 +157,8 @@
             </section>
     </div>
 </div>
+
+
 </body>
 <script src="{{ asset('js/pages/admin/employer-list.js') }}"></script>
 

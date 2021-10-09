@@ -1,28 +1,44 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./resources/js/pages/admin/job-seeker-list.js":
-/*!*****************************************************!*\
-  !*** ./resources/js/pages/admin/job-seeker-list.js ***!
-  \*****************************************************/
+/***/ "./resources/js/components/admin-nav.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/admin-nav.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-console.log("Job seeker list page is connected");
- // console.log($('#printable')[0].innerHTML)
+console.log("admin nav list page connected");
 
 new Vue({
-  el: '#jobSeekerList',
+  el: '#admin_nav',
   data: {
     loading: false,
-    printable: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#printable')[0].innerHTML
+    navToggle: false,
+    reportToggle: false
   },
   methods: {
     toggleLoading: function toggleLoading() {
       this.loading = this.loading ? false : true;
+    },
+    showReports: function showReports() {
+      this.reportToggle = true;
+    },
+    hideReports: function hideReports() {
+      this.reportToggle = false;
+    },
+    toggleNav: function toggleNav() {
+      if (this.navToggle) {
+        this.navToggle = false;
+      } else {
+        this.navToggle = true;
+      }
+    },
+    redirectRoute: function redirectRoute(route) {
+      location.href = route;
     }
   }
 });
@@ -10981,7 +10997,7 @@ return jQuery;
 /************************************************************************/
 /******/ 	// startup
 /******/ 	// Load entry module
-/******/ 	__webpack_require__("./resources/js/pages/admin/job-seeker-list.js");
+/******/ 	__webpack_require__("./resources/js/components/admin-nav.js");
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;

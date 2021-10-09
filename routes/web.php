@@ -158,7 +158,23 @@ Route::get('/resume/{user_id}', function($user_id){
     ]);
 })->middleware( 'auth');
 
+Route::post('/print', function(Request $request){
 
+    if ($request->has('printable')){
+
+        return $request->input('printable');
+        // return view('pages.print')->with([
+        //     'printable' => '<div>'.$request->input('printable').'</div>' 
+        // ]);
+
+    } else {
+        
+        return back();
+
+    }
+
+
+});
 
 
 
@@ -173,7 +189,7 @@ Route::get('/resume/{user_id}', function($user_id){
 
 Route::get('/testing', function(){
 
-    return Job::search('miMaropa')->get();
+    return view('components.admin-nav');
 });
 
 

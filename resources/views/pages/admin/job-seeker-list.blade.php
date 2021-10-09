@@ -25,9 +25,10 @@
         <div v-if="loading">
             @component('components.loading')@endcomponent
         </div>
-        
-        <form action="" method="get" class="bg-gray-600 container-lg py-5 px-3">
-            <div class="row col-lg-8">
+
+
+        <form action="" method="get" class="bg-gray-600  py-5 px-3">
+            <div class="row col-lg-8 lg:w-10/12 mx-auto">
                 <div class="col">
                     <input type="text" class="form-control" name="search" value="{{ isset($search ) ? $search : '' }}" placeholder="Enter job seelker id">
                 </div>
@@ -37,15 +38,15 @@
             </div>
         </form>
         
-        <div class="container-lg bg-white py-5 px-3">
-            <div>
+        <div class=" bg-gray-200 py-5 px-3" id="printable">
+            <div class=" mx-auto lg:w-10/12">
                 <div>
                     <h3 class="font-bold text-lg">Job seeker List</h3>
                 </div>
-                <table class="table-auto w-full shadow-sm my-4">
-                    <tr class="bg-gray-200 sticky">
+                <table class="table-auto w-full shadow-md border-black bg-white my-4">
+                    <tr class="bg-gray-400 sticky">
                         @if (isset($column) && isset($sort))
-                        <th class="p-2">
+                        {{-- <th class="p-2">
                             @if ($column == 'user_id')
                                 <a href="?sort={{ $sort == 'desc' ? 'asc' : 'desc' }}&column=user_id">
                                     Job Seeker Id <i class="fa fa-{{ $sort == 'desc' ? 'sort-down' : 'sort-up' }} ms-2"></i>
@@ -53,7 +54,7 @@
                             @else
                                 <a href="/admin/job-seekers?sort=desc&column=user_id">Job Seeker Id <i class="fa fa-sort ms-2"></i></a>
                             @endif
-                        </th>
+                        </th> --}}
                         <th class="p-2">
                             @if ($column == 'firstname')
                                 <a href="?sort={{ $sort == 'desc' ? 'asc' : 'desc' }}&column=firstname">
@@ -92,7 +93,7 @@
                         </th>
                         <th class="p-2">Status</th>
                         @else
-                        <th class="p-2"><a href="/admin/job-seekers?sort=desc&column=user_id">Job Seeker Id <i class="fa fa-sort ms-2"></i></a></th>
+                        {{-- <th class="p-2"><a href="/admin/job-seekers?sort=desc&column=user_id">Job Seeker Id <i class="fa fa-sort ms-2"></i></a></th> --}}
                         <th class="p-2"><a href="/admin/job-seekers?sort=desc&column=firstname">Name <i class="fa fa-sort ms-2"></i></a></th>
                         <th class="p-2"><a href="/admin/job-seekers?sort=desc&column=address">Address <i class="fa fa-sort ms-2"></i></a></th>
                         <th class="p-2"><a href="/admin/job-seekers?sort=desc&column=email">Email Address <i class="fa fa-sort ms-2"></i></a></th>
@@ -101,8 +102,8 @@
                         @endif
                     </tr>
                     @foreach ($seekers as $seeker)
-                    <tr class="odd:bg-gray-100 hover:bg-indigo-200">
-                        <td class="p-2">{{ $seeker->user_id }}</td>
+                    <tr class="odd:bg-white even:bg-white hover:bg-indigo-200">
+                        {{-- <td class="p-2">{{ $seeker->user_id }}</td> --}}
                         <td class="p-2">{{ $seeker->firstname.' '.$seeker->middlename[0].'. '.$seeker->lastname }}</td>
                         <td class="p-2">{{ $seeker->address  }}</td>
                         <td class="p-2">{{ $seeker->email }}</td>
@@ -129,6 +130,15 @@
     
                 <div>
                     <h5 class="text-md">Total no. of Job Seekers: <span class="font-bold">{{ number_format($seekersData->count()) }}</span></h5>
+                </div>
+
+                <div>
+                    {{-- <form action="/print" method="post">
+                        @csrf
+                        <input type="hidden" name="printable" :value="printable">
+                        <button >Print this page</button>
+                    </form> --}}
+                    
                 </div>
             </div>
         </div>

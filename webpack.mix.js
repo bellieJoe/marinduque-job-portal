@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/components/navstart.js' , 'public/js/components')
     .js('resources/js/components/jobseeker_nav.js', 'public/js/components')
     .js('resources/js/components/employer_nav.js', 'public/js/components')
+    .js('resources/js/components/admin-nav.js', 'public/js/components')
 
     // guest
     .js('resources/js/pages/guest/job-search.js', 'public/js/pages/guest')
@@ -59,6 +60,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/admin/job-seeker-list.js', 'public/js/pages/admin')
     .js('resources/js/pages/admin/job-list.js', 'public/js/pages/admin')
     .js('resources/js/pages/admin/add-admin-account.js', 'public/js/pages/admin')
+    
 
     //scripts for auth
     .js('resources/js/auth/password-reset.js', 'public/js/auth')
