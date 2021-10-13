@@ -63,7 +63,7 @@ class SeekerController extends Controller
             'lastname' => 'required',
             'address' => 'nullable',
             'birthdate' => 'nullable|date',
-            'contact_number' => 'nullable|max:13',
+            'contact_number' => 'nullable|digits:11',
             'gender' => 'nullable',
             'nationality' => 'nullable',
             'civil_status' => 'nullable'

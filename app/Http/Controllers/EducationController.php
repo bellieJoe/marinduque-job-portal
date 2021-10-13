@@ -14,7 +14,7 @@ class EducationController extends Controller
             'education_level' => 'required',
             'school_name' => 'required',
             'school_address' => 'required',
-            'course' => 'required_if:education_level,tertiary education',
+            'course' => 'required_if:education_level,tertiary education,master\'s degree,doctorate degree',
             'year_graduated' => 'required|min:4|max:4',
         ]);
 
@@ -33,7 +33,7 @@ class EducationController extends Controller
             'education_level' => 'required',
             'school_name' => 'required',
             'school_address' => 'required',
-            'course' => 'required_if:education_level,tertiary education',
+            'course' => 'required_if:education_level,tertiary education,master\'s degree,doctorate degree',
             'year_graduated' => 'required|min:4|max:4',
         ]);
 

@@ -2,6 +2,8 @@ import {DateTime} from 'luxon'
 
 
 const devModule = {
+
+    // data
     specializations: [
         'Accountancy, banking and finance',
         'Business, consulting and management',
@@ -85,8 +87,48 @@ const devModule = {
         'Bachelor of Science in Tourism Management',
         'Bachelor of Science in Transportation Management',
 
+        
     ],
 
+    masters : [
+        'Master of Arts',
+        'Master of Science',
+        'Master of Research',
+        'Master of Studies',
+        'Master of Business Administration',
+        'Master of Library Science',
+        'Master of Public Administration',
+        'Master of Public Health',
+        'Master of Social Work',
+        'Master of Arts in Liberal Studies',
+        'Master of Fine Arts',
+        'Master of Music',
+        'Master of Education',
+        'Master of Engineering',
+        'Master of Architecture',
+    ],
+
+    doctors : [
+        'PhD in Educational Administration',
+        'PhD in Education',
+        'PhD in Philosophy',
+        'PhD in Pscychology',
+        'PhD in Science Education',
+        'PhD in Science Education',
+        'PhD in Biology',
+        'PhD in Computer Science',
+        'PhD in Mathematics',
+        'PhD in Electronics Engineering',
+        'PhD in Chemistry',
+        'PhD in Chemical Engineering',
+        'PhD in Business Management',
+        'PhD in Development Administration',
+        'PhD in Agricultural Sciences',
+        'PhD in Communication',
+    ],
+
+
+    // methods
     diffForHumans: ( date )=>{
         let startDateTime = DateTime.fromISO(date)
         let currentDateTime = DateTime.now()
@@ -134,6 +176,143 @@ const devModule = {
         }
         
         console.log(diff.years)
+    },
+
+    defineSalaryGrade(s){
+
+        if(s >= 12034 && s < 12790){
+
+            return 1;
+
+        }else if(s >= 12790 && s < 13572){
+
+            return 2;
+
+        }else if(s >= 13572 && s < 14400){
+
+            return 3;
+
+        }else if(s >= 14400 && s < 15275){
+
+            return 4;
+
+        }else if(s >= 15275 && s < 16200){
+
+            return 5;
+
+        }else if(s >= 16200 && s < 17179){
+
+            return 6;
+
+        }else if(s >= 17179 && s < 18251){
+
+            return 7;
+
+        }else if(s >= 18251 && s < 19593){
+
+            return 8;
+
+        }else if(s >= 19593 && s < 21205){
+
+            return 9;
+
+        }else if(s >= 21205 && s < 23877){
+
+            return 10;
+
+        }else if(s >= 23877 && s < 26052){
+
+            return 11;
+
+        }else if(s >= 26052 && s < 28276){
+
+            return 12;
+
+        }else if(s >= 28276 && s < 30799){
+
+            return 13;
+
+        }else if(s >= 30799 && s < 33575){
+
+            return 14;
+
+        }else if(s >= 33575 && s < 36628){
+
+            return 15;
+
+        }else if(s >= 36628 && s < 39986){
+
+            return 16;
+
+        }else if(s >= 39986 && s < 43681){
+
+            return 17;
+
+        }else if(s >= 43681 && s < 48313){
+
+            return 18;
+
+        }else if(s >= 48313 && s < 54251){
+
+            return 19;
+
+        }else if(s >= 54251 && s < 60901){
+
+            return 20;
+
+        }else if(s >= 60901 && s < 68415){
+
+            return 21;
+
+        }else if(s >= 68415 && s < 76907){
+
+            return 22;
+
+        }else if(s >= 76907 && s < 86742){
+
+            return 23;
+
+        }else if(s >= 86742 && s < 98886){
+
+            return 24;
+
+        }else if(s >= 98886 && s < 111742){
+
+            return 25;
+
+        }else if(s >= 111742 && s < 126267){
+
+            return 26;
+
+        }else if(s >= 126267 && s < 142683){
+
+            return 27;
+
+        }else if(s >= 142683 && s < 161231){
+
+            return 28;
+
+        }else if(s >= 161231 && s < 182191){
+
+            return 29;
+
+        }else if(s >= 182191 && s < 268121){
+
+            return 30;
+
+        }else if(s >= 268121 && s < 319660){
+
+            return 31;
+
+        }else if(s >= 319660 && s < 403620){
+
+            return 32;
+
+        }else if(s >= 403620){
+
+            return 33;
+        }else{}
+
     }
 }
 

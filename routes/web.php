@@ -158,6 +158,12 @@ Route::get('/resume/{user_id}', function($user_id){
     ]);
 })->middleware( 'auth');
 
+
+/* 
+@desc to print something
+@method post
+@url /print
+*/
 Route::post('/print', function(Request $request){
 
     if ($request->has('printable')){
@@ -178,18 +184,11 @@ Route::post('/print', function(Request $request){
 
 
 
-// for testing purposes only
-
-// Route::get('/testing-2', function(){
-//     $sample = "okie";
-//     $user = User::where('email', 'jandusayjoe14@gmail.com')->first();
-//     Notification::send($user, new SampleNotification());
-// });
 
 
 Route::get('/testing', function(){
 
-    return view('components.admin-nav');
+    return 'kalma ako lang \'to';
 });
 
 

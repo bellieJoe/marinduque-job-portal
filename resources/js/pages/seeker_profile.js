@@ -14,6 +14,10 @@ $.ajaxSetup({
     }
 });
 
+const sg = (s) => devModule.defineSalaryGrade(s)
+
+console.log(sg(20000))
+
 const loading = $("#loading")
 loading.css('display', 'none')
 
@@ -24,6 +28,8 @@ new Vue({
         errors: [],
         job_industries: devModule.specializations,
         courses: devModule.course,
+        masters: devModule.masters,
+        doctors: devModule.doctors,
 
         // education data
         undergraduate: 0,
@@ -47,7 +53,11 @@ new Vue({
             company_name: null,
             job_description: null,
             date_started: null,
-            date_ended: null
+            date_ended: null,
+            salary: null,
+            salary_grade: null,
+            status_of_appointment: null,
+            govnt_service: null
         },
 
         // personal information
@@ -374,6 +384,10 @@ new Vue({
                     job_description: res.job_description,
                     date_started: moment(res.date_started).format('YYYY-MM-DD'),
                     date_ended: moment(res.date_ended).format('YYYY-MM-DD'),
+                    salary: res.salary,
+                    salary_grade: res.salary_grade,
+                    status_of_appointment: res.status_of_appointment,
+                    govnt_service: res.govnt_service
                 }
             })
 
@@ -467,7 +481,7 @@ new Vue({
                     nationality: res.nationality,
                     civil_status: res.civil_status,
                     birthdate: res.birthdate ? moment(res.birthdate).format('YYYY-MM-DD') : null,
-                    contact_number: res.conatact_number,
+                    contact_number: res.contact_number,
                     address: res.address
                 }
             })

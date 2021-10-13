@@ -18,10 +18,11 @@ class EmployerController extends Controller
     //
     public function register(Request $request){
 
+        // validation
         $request->validate([
             'contact_person_name' => 'required',
             'company_name' => 'required',
-            'contact_number' => 'required|max:12',
+            'contact_number' => 'required|digits:11',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed'
         ]);
@@ -53,7 +54,7 @@ class EmployerController extends Controller
     public function updateProfile(Request $request){
         $request->validate([
             'company_name' => 'required',
-            'contact_number' => 'required|max:11',
+            'contact_number' => 'required|digits:11',
             'contact_person_name' => 'required',
             'region' => 'nullable|required_with:province,municipality,barangay',
             'province' => 'nullable|required_with:region,municipality,barangay',
@@ -165,8 +166,6 @@ class EmployerController extends Controller
             'employersData' => $employers
         ]);
     }
-
-
 
 
 }

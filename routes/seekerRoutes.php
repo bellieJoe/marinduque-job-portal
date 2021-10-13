@@ -56,7 +56,7 @@ Route::prefix('seeker')->group(function(){
                 elseif($i->education_level == 'secondary education'){
                     $education_level_count['secondary_education']++;
                 }
-                elseif($i->education_level == 'tertiary education'){
+                elseif($i->education_level == 'tertiary education' || $i->education_level == 'master\'s degree' || $i->education_level == 'doctorate degree'){
                     $education_level_count['tertiary_education']++;
                 }
             }

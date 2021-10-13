@@ -16,7 +16,7 @@ class CreateExperiencesTable extends Migration
         Schema::create('experiences', function (Blueprint $table) {
             $table->id('experience_id');
             $table->foreignId('user_id');
-            $table->string('position');
+            // $table->string('position');
             $table->string('job_industry' , 100);
             $table->string('job_title');
             $table->string('company_name');

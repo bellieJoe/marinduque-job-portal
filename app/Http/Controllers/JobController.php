@@ -318,8 +318,6 @@ class JobController extends Controller
 
 
 
-
-
     // setters
     public function setDaysExpire($job_id, Request $request){
 

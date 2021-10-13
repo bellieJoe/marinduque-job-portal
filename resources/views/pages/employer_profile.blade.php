@@ -26,7 +26,6 @@
                         @if ($employer->company_logo)
                             <img class="mx-auto d-block com-logo" src="{{ url('image').'/employer/logo/'.$employer->company_logo }}" alt="">
                         @else
-                            {{-- <img class="com-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9nS21qlQQmvlrWPL4kEixfNWurjN0vY1tvQ&usqp=CAU" alt=""> --}}
                             <a href="/employer/profile/upload-logo" class="btn btn-lg btn-outline-light mx-auto text-white com-logo">Upload logo</a>
                         @endif
                         
@@ -162,7 +161,7 @@
 
                             <div class="mb-3">
                                 <label for="" class='mb-1 fw-bold'>Contact Number</label>
-                                <input type="tel" max="13" class="form-control" :class="errors.contact_number ? 'is-invalid' : '' "  v-model.lazy='employer.contact_number'>
+                                <input type="number"  class="form-control" :class="errors.contact_number ? 'is-invalid' : '' "  v-model.lazy='employer.contact_number'>
                                 <div class="alert-danger p-1" v-for='i of errors.contact_number'>@{{ i }}</div>
                             </div>
 

@@ -34,7 +34,7 @@
                         </div>
                         <div class="item px-3 py-2  {{ $view == 'experience' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('experience')">
                             <i class="fas fa-business-time cursor-pointer mr-2"></i>
-                            <label class="cursor-pointer" >Experience</label>
+                            <label class="cursor-pointer" >Work Experience</label>
                         </div>
                         <div class="item px-3 py-2  {{ $view == 'certificate' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('certificate')">
                             <i class="far fa-address-card cursor-pointer mr-2"></i>
@@ -74,19 +74,19 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
-                                            <label class="fw-bold mb-1">Name</label>
+                                            <label class="fw-bold mb-1">Name <span class="text-red-500">*</span></label>
                                             <div class="mb-3 col-md">
-                                                <label class="fw-bold mb-1">Firstname*</label>
+                                                <label class="fw-bold mb-1">Firstname <span class="text-red-500">*</span></label>
                                                 <input type="text" class="form-control" v-model="profile.firstname" :class="errors.firstname ? 'is-invalid' : ''">
                                                 <div class="text-danger" v-for="i in errors.firstname">@{{ i }}</div>
                                             </div>
                                             <div class="mb-3 col-md">
-                                                <label class="fw-bold mb-1">Middlename*</label>
+                                                <label class="fw-bold mb-1">Middlename <span class="text-red-500">*</span></label>
                                                 <input type="text" class="form-control" v-model="profile.middlename" :class="errors.middlename ? 'is-invalid' : ''">
                                                 <div class="text-danger" v-for="i in errors.middlename">@{{ i }}</div>
                                             </div>
                                             <div class="mb-3 col-md">
-                                                <label class="fw-bold mb-1">Lastname*</label>
+                                                <label class="fw-bold mb-1">Lastname <span class="text-red-500">*</span></label>
                                                 <input type="text" class="form-control" v-model="profile.lastname" :class="errors.lastname ? 'is-invalid' : ''">
                                                 <div class="text-danger" v-for="i in errors.lastname">@{{ i }}</div>
                                             </div>
@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="mb-3 col-lg-7">
                                             <label class="fw-bold mb-1">Contact Number</label>
-                                            <input type="tel" class="form-control" v-model="profile.contact_number" :class="errors.contact_number ? 'is-invalid' : ''">
+                                            <input type="number" class="form-control" v-model="profile.contact_number" :class="errors.contact_number ? 'is-invalid' : ''">
                                             <div class="text-danger" v-for="i in errors.contact_number">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 col-lg-7">
@@ -192,43 +192,47 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3 ">
-                                            <label class='mb-1 fw-bold'>Educational Level</label>
+                                            <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
                                             <select class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
                                                 <option value="" selected>--select level of education--</option>
                                                 <option value="primary education">Primary Education</option>
                                                 <option value="secondary education">Secondary Education</option>
                                                 <option value="tertiary education">Tertiary Education</option>
+                                                <option value="master's degree">Master's Degree</option>
+                                                <option value="doctorate degree">Doctorate Degree</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.education_level">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3 " v-if="education.education_level == 'tertiary education'">
-                                            <label class='mb-1 fw-bold'>Course Name</label>
+                                        <div class="mb-3 " v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
+                                            <label class='mb-1 fw-bold'>Course Name <span class="text-red-500">*</span></label>
                                             {{-- <input type="text" class='form-control' v-model='education.course' :class="errors.course ? 'is-invalid' : '' "> --}}
                                             <select class='form-select form-select' v-model='education.course' :class="errors.course ? 'is-invalid' : ''">
                                                 <option value="" selected>--select course--</option>
-                                                <option v-for="course of courses" :value="course">@{{ course }}</option>
+                                                <option v-if="education.education_level == 'tertiary education'" v-for="course of courses" :value="course">@{{ course }}</option>
+                                                <option v-if="education.education_level == `master's degree`" v-for="course of masters" :value="course">@{{ course }}</option>
+                                                <option v-if="education.education_level == 'doctorate degree'" v-for="course of doctors" :value="course">@{{ course }}</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.course">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 ">
-                                            <label class='mb-1 fw-bold'>School Name</label>
+                                            <label class='mb-1 fw-bold'>School Name <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control' v-model="education.school_name" :class="errors.school_name ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.school_name">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 ">
-                                            <label class='mb-1 fw-bold'>School Address</label>
+                                            <label class='mb-1 fw-bold'>School Address <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control' v-model="education.school_address" placeholder='barangay, municipality, province' :class="errors.school_address ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.school_address">@{{ i }}</div>
                                         </div>
 
-                                        <div class="form-check" v-if="education.education_level == 'tertiary education'">
+                                        <div class="form-check" v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
                                             <input class="form-check-input" type="checkbox" v-model="undergraduate" @change="toggleUndergraduate">
                                             <label class="form-check-label" for="flexCheckDefault">
                                               I am undergraduate
                                             </label>
                                         </div>
                                         <div class="mb-3" v-if="!undergraduate">
-                                            <label class='mb-1 fw-bold'>Year Graduated</label>
+                                            <label class='mb-1 fw-bold'>Year Graduated <span class="text-red-500">*</span></label>
                                             <input type="text" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.year_graduated">@{{ i }}</div>
                                         </div>
@@ -268,35 +272,39 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3 ">
-                                            <label class='mb-1 fw-bold'>Educational Level</label>
+                                            <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
                                             <select class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
                                                 <option value="" selected>--select level of education--</option>
                                                 <option value="primary education">Primary Education</option>
                                                 <option value="secondary education">Secondary Education</option>
                                                 <option value="tertiary education">Tertiary Education</option>
+                                                <option value="master's degree">Master's Degree</option>
+                                                <option value="doctorate degree">Doctorate Degree</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.education_level">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3 " v-if="education.education_level == 'tertiary education'">
-                                            <label class='mb-1 fw-bold'>Course Name</label>
+                                        <div class="mb-3 " v-if="education.education_level == 'tertiary education'  || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
+                                            <label class='mb-1 fw-bold'>Course Name <span class="text-red-500">*</span></label>
                                             <select class='form-select form-select' v-model='education.course' :class="errors.course ? 'is-invalid' : ''">
                                                 <option value="" selected>--select course--</option>
-                                                <option v-for="course of courses" :value="course">@{{ course }}</option>
+                                                <option v-if="education.education_level == 'tertiary education'" v-for="course of courses" :value="course">@{{ course }}</option>
+                                                <option v-if="education.education_level == `master's degree`" v-for="course of masters" :value="course">@{{ course }}</option>
+                                                <option v-if="education.education_level == 'doctorate degree'" v-for="course of doctors" :value="course">@{{ course }}</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.course">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 ">
-                                            <label class='mb-1 fw-bold'>School Name</label>
+                                            <label class='mb-1 fw-bold'>School Name <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control' v-model="education.school_name" :class="errors.school_name ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.school_name">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 ">
-                                            <label class='mb-1 fw-bold'>School Address</label>
+                                            <label class='mb-1 fw-bold'>School Address <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control' v-model="education.school_address" placeholder='barangay, municipality, province' :class="errors.school_address ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.school_address">@{{ i }}</div>
                                         </div>
 
-                                        <div class="form-check" v-if="education.education_level == 'tertiary education'">
+                                        <div class="form-check" v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
                                             <input class="form-check-input" type="checkbox" v-model="undergraduate" @change="toggleUndergraduate" >
                                             {{-- :checked="education.year_graduated == '0000' ? '1' : '0'  --}}
                                             <label class="form-check-label" for="flexCheckDefault">
@@ -304,7 +312,7 @@
                                             </label>
                                         </div>
                                         <div class="mb-3" v-if="!undergraduate">
-                                            <label class='mb-1 fw-bold'>Year Graduated</label>
+                                            <label class='mb-1 fw-bold'>Year Graduated <span class="text-red-500">*</span></label>
                                             <input type="text" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.year_graduated">@{{ i }}</div>
                                         </div>
@@ -360,13 +368,14 @@
                             <div>
                                 <h6 class="fw-bold"><i class="fa fa-list me-2"></i> Tertiary Education</h6>
                                 @foreach ($education as $i)
-                                    @if ($i->education_level == "tertiary education")
+                                    @if ($i->education_level == "tertiary education" || $i->education_level == 'master\'s degree' || $i->education_level == 'doctorate degree')
                                     <div class="my-4 ms-4">
                                         <div class="float-end">
                                             <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">edit</button>
                                             <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
+                                        {{-- <h6 class="my-0 fw-bold">{{ $i->education_level == 'tertiary education' ? 'Bachelors Degree' : Str::title($i->education_level) }} </h6> --}}
                                         <h6 class="my-0 fw-bold">{{ $i->course }}</h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
                                         @if ($i->year_graduated == "0000")
@@ -388,7 +397,7 @@
 
                     @if ($view == "experience")
                     <div>
-                        <h5 class="fw-bolder"><i class="fas fa-business-time me-2"></i>Job Experiences</h5>
+                        <h5 class="fw-bolder"><i class="fas fa-business-time me-2"></i>Work Experiences</h5>
                         <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlAddExperienceForm" @click="showAddExperienceForm"><i class='fa fa-plus'></i> Add Experience</button>
                         {{-- add experience form --}}
                         <div class="modal fade" id="mdlAddExperienceForm">
@@ -399,17 +408,17 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Job Title</label>
+                                            <label class='mb-1 fw-bold'>Position Title <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control' v-model="experience.job_title" :class="errors.job_title ? 'is-invalid' : '' " >
                                             <div class="text-danger" v-for="i of errors.job_title">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3 " >
+                                        {{-- <div class="mb-3 " >
                                             <label class='mb-1 fw-bold'>Position</label>
                                             <input type="text" class='form-control' v-model="experience.position" :class="errors.position ? 'is-invalid' : '' " >
                                             <div class="text-danger" v-for="i of errors.position">@{{ i }}</div>
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Job Industry</label>
+                                            <label class='mb-1 fw-bold'>Job Industry <span class="text-red-500">*</span></label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
                                                 <option value="null">--select one--</option>
                                                 <option v-for="industry of job_industries" :value="industry">@{{ industry }}</option>
@@ -417,7 +426,7 @@
                                             <div class="text-danger" v-for="i of errors.job_industry">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Company Name</label>
+                                            <label class='mb-1 fw-bold'>Company Name <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control'  :class="errors.company_name ? 'is-invalid' : '' " v-model="experience.company_name">
                                             <div class="text-danger" v-for="i of errors.company_name">@{{ i }}</div>
                                         </div>
@@ -425,21 +434,38 @@
                                             <label class='mb-1 fw-bold'>How long have you work here?</label>
                                             <div class="row">
                                                 <div class="col">
-                                                    <label class="mb-1 fw-bold">Date Started</label>
+                                                    <label class="mb-1 fw-bold">From <span class="text-red-500">*</span></label>
                                                     <input type="date" class="form-control" :class="errors.date_started ? 'is-invalid' : '' " v-model="experience.date_started">
                                                     <div class="text-danger" v-for="i of errors.date_started">@{{ i }}</div>
                                                 </div>
                                                 <div class="col">
-                                                    <label class="mb-1 fw-bold">Date Ended</label>
+                                                    <label class="mb-1 fw-bold">To <span class="text-red-500">*</span></label>
                                                     <input type="date" class="form-control" :class="errors.date_ended ? 'is-invalid' : '' " v-model="experience.date_ended">
                                                     <div class="text-danger" v-for="i of errors.date_ended">@{{ i }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mb-3 " >
-                                            <label class='mb-1 '><span class="fw-bold">What do you do on this job?</span> <span class="text-secondary">(optional)</span></label>
+                                            <label class='mb-1 '><span class="fw-bold">What do you do on this job?</span></label>
                                             <textarea type="text" class='form-control'  :class="errors.job_description ? 'is-invalid' : '' " v-model="experience.job_description"></textarea>
                                             <div class="text-danger" v-for="i of errors.job_description">@{{ i }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class='mb-1 '><span class="fw-bold">Monthly Salary</span> <span class="text-red-500">*</span></label>
+                                            <div class="input-group">
+                                                <label class="input-group-text">Php</label>
+                                                <input type="number" class="form-control" :class="errors.salary ? 'is-invalid' : '' " v-model="experience.salary">
+                                            </div>
+                                            
+                                            <div class="text-danger" v-for="i of errors.salary">@{{ i }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class='mb-1 '><span class="fw-bold">Status of Appointment</span> <span class="text-red-500">*</span></label>
+                                            <input type="text" class="form-control" :class="errors.status_of_appointment ? 'is-invalid' : '' " v-model="experience.salastatus_of_appointmentry">
+                                            <div class="text-danger" v-for="i of errors.status_of_appointment">@{{ i }}</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="checkbox" > <label >Government Service</label>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -458,17 +484,17 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Job Title</label>
+                                            <label class='mb-1 fw-bold'>Job Title/Position <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control' v-model="experience.job_title" :class="errors.job_title ? 'is-invalid' : '' " >
                                             <div class="text-danger" v-for="i of errors.job_title">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3 " >
+                                        {{-- <div class="mb-3 " >
                                             <label class='mb-1 fw-bold'>Position</label>
                                             <input type="text" class='form-control' v-model="experience.position" :class="errors.position ? 'is-invalid' : '' " >
                                             <div class="text-danger" v-for="i of errors.position">@{{ i }}</div>
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Job Industry</label>
+                                            <label class='mb-1 fw-bold'>Job Industry <span class="text-red-500">*</span></label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
                                                 <option value="null">--select one--</option>
                                                 <option v-for="industry of job_industries" :value="industry">@{{ industry }}</option>
@@ -476,7 +502,7 @@
                                             <div class="text-danger" v-for="i of errors.job_industry">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Company Name</label>
+                                            <label class='mb-1 fw-bold'>Company Name <span class="text-red-500">*</span></label>
                                             <input type="text" class='form-control'  :class="errors.company_name ? 'is-invalid' : '' " v-model="experience.company_name">
                                             <div class="text-danger" v-for="i of errors.company_name">@{{ i }}</div>
                                         </div>
@@ -484,12 +510,12 @@
                                             <label class='mb-1 fw-bold'>How long have you work here?</label>
                                             <div class="row">
                                                 <div class="col">
-                                                    <label class="mb-1 fw-bold">Date Started</label>
+                                                    <label class="mb-1 fw-bold">Date Started <span class="text-red-500">*</span></label>
                                                     <input type="date" class="form-control" :class="errors.date_started ? 'is-invalid' : '' " v-model="experience.date_started">
                                                     <div class="text-danger" v-for="i of errors.date_started">@{{ i }}</div>
                                                 </div>
                                                 <div class="col">
-                                                    <label class="mb-1 fw-bold">Date Ended</label>
+                                                    <label class="mb-1 fw-bold">Date Ended <span class="text-red-500">*</span></label>
                                                     <input type="date" class="form-control" :class="errors.date_ended ? 'is-invalid' : '' " v-model="experience.date_ended">
                                                     <div class="text-danger" v-for="i of errors.date_ended">@{{ i }}</div>
                                                 </div>
@@ -534,7 +560,7 @@
                                     <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDeleteExperience" @click="deleteExperience({{ $i->experience_id }}, false)">delete</button>
                                 </div>
                                 <h6 class="my-0 fw-bold">{{ $i->job_title }} </h6>
-                                <h6 class="my-0 ">{{ $i->position }} </h6>
+                                {{-- <h6 class="my-0 ">{{ $i->position }} </h6> --}}
                                 <h6 class="my-0">{{ $i->company_name }}</h6>
                                 <h6 class="my-0 text-secondary">Worked from {{ date_format($i->date_started, "F d, Y") }} to {{ date_format($i->date_ended, "F d, Y") }}</h6>
                             </div> 

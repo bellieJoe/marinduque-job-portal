@@ -12,7 +12,7 @@ class ExperienceController extends Controller
     public function addExperience(Request $request){
         $request->validate([
             'job_title' => 'required',
-            'position' => 'required',
+            // 'position' => 'required',
             'job_industry' => 'required',
             'company_name' => 'required',
             'job_description' => 'nullable',
@@ -23,7 +23,7 @@ class ExperienceController extends Controller
         Experience::create([
             'user_id' => Auth::user()->user_id,
             'job_title' => $request->input('job_title'),
-            'position' => $request->input('position'),
+            'position' => 'wala daw to',
             'job_industry' => $request->input('job_industry'),
             'company_name' => $request->input('company_name'),
             'date_started' => $request->input('date_started'),
@@ -40,7 +40,7 @@ class ExperienceController extends Controller
     public function updateExperience(Request $request, $id){
         $request->validate([
             'job_title' => 'required',
-            'position' => 'required',
+            // 'position' => 'required',
             'company_name' => 'required',
             'job_description' => 'nullable',
             'date_started' => 'required|date',
@@ -50,7 +50,7 @@ class ExperienceController extends Controller
         Experience::where('experience_id', $id)
         ->update([
             'job_title' => $request->input('job_title'),
-            'position' => $request->input('position'),
+            'position' => 'wala daw to',
             'company_name' => $request->input('company_name'),
             'date_started' => $request->input('date_started'),
             'date_ended' => $request->input('date_ended'),
