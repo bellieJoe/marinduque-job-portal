@@ -14,9 +14,7 @@ $.ajaxSetup({
     }
 });
 
-const sg = (s) => devModule.defineSalaryGrade(s)
 
-console.log(sg(20000))
 
 const loading = $("#loading")
 loading.css('display', 'none')
@@ -48,7 +46,6 @@ new Vue({
         expToDelete: null,
         experience: {
             job_title: null,
-            position: null,
             job_industry: null,
             company_name: null,
             job_description: null,
@@ -57,7 +54,7 @@ new Vue({
             salary: null,
             salary_grade: null,
             status_of_appointment: null,
-            govnt_service: null
+            govnt_service: true
         },
 
         // personal information
@@ -353,14 +350,26 @@ new Vue({
         },
 
         // experience methods
+        setGovntService(){
+            this.experience.govnt_service = $('#add_govnt_service')[0].checked
+        },
+        setSalaryGrade(){
+            this.experience.salary_grade = this.experience.salary ? devModule.defineSalaryGrade(this.experience.salary) : null
+        },
+
         showAddExperienceForm: function () {
             this.errors = []
             this.experience = {
-                position: null,
+                job_title: null,
+                job_industry: null,
                 company_name: null,
                 job_description: null,
                 date_started: null,
-                date_ended: null
+                date_ended: null,
+                salary: null,
+                salary_grade: null,
+                status_of_appointment: null,
+                govnt_service: null
             }
         },
 
@@ -372,13 +381,9 @@ new Vue({
                 method: "get",
             }).fail((res) => {
                 console.log(res)
-                // location.href = "/error"
             }).done((res) => {
-                // console.log(res)
-                console.log(moment(res.date_started).format('YYYY-MM-DD'))
                 this.experience = {
                     job_title: res.job_title,
-                    position: res.position,
                     job_industry: res.job_industry,
                     company_name: res.company_name,
                     job_description: res.job_description,
@@ -393,26 +398,29 @@ new Vue({
 
         },
 
-        addExperience() {
+        async addExperience() {
+            this.setGovntService()
             this.errors = []
-            console.log(this.experience)
-            loading.css('display', 'initial')
-            $.ajax({
-                url: `/seeker/profile/experience/add-experience`,
-                method: "post",
-                data: this.experience,
-                // statusCode: {
-                //     500: (res)=>{
-                //         location.href = "/error"
-                //     }
-                // },
-            }).fail((res) => {
-                console.log(res)
-                loading.css('display', 'none')
-                this.errors = res.responseJSON.errors
-            }).done(() => {
+            try {
+
+                loading.css('display', 'initial')
+                await $.ajax({
+                    url: `/seeker/profile/experience/add-experience`,
+                    method: "post",
+                    data: this.experience,
+                })
+
                 location.href = "/seeker/profile/experience"
-            })
+                console.log(this.experience)
+
+            } catch (error) {
+
+                console.log(error)
+                loading.css('display', 'none')
+                this.errors = error.responseJSON.errors
+
+            }
+            
         },
 
         updateExperience() {

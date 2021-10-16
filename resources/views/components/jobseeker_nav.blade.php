@@ -6,8 +6,8 @@
     {{-- to pass the auth user to the js  --}}
     <input type="hidden" id="User" value="{{ Auth::user() }}">
 
-    <div class="wrapper">
-        <div v-cloak class="item text-yellow-200" @click="toggleNotification">
+    <div class="wrapper" v-cloak>
+        <div v-cloak class="item text-yellow-200" @click="toggleNotification" v-cloak>
             <i class="fa fa-bell"></i>
             @{{ unreadNotificationsCount }}
         </div>
@@ -44,13 +44,13 @@
                 <h6 v-cloak class="text-indigo-400 font-bold">
                     @{{ notification.data.title }}
                 </h6>
-                 @{{ notification.data.message }}
-                 <p class="text-gray-400">@{{ notification.created_at_formatted }}</p>
+                 <span v-cloak>@{{ notification.data.message }}</span>
+                 <p v-cloak class="text-gray-400">@{{ notification.created_at_formatted }}</p>
                  
                  <div class="w-max ml-auto mr-0 duration-500 " :class="hoveredNotif == notification.id ? 'visible' : 'hidden'">
                      <button  @click="deleteNotificationById(notification.id)" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete Notification" class="btn text-gray-500"><i class="fa fa-trash-alt"></i></button>
                      <button v-if="!notification.read_at" @click="markAsRead(notification.id)" type="button" data-bs-toggle="tooltip" data-bs-placement="right" title="Mark as read" class="btn text-gray-500"><i class="fa fa-glasses"></i></button>
-                     <a @click="markAsRead(notification.id)" :href="notification.data.action" type="button" data-bs-toggle="tooltip" data-bs-placement="right" title="View Notification" class="btn  text-gray-500"><i class="fa fa-external-link-alt"></i></a>
+                     <a v-cloak @click="markAsRead(notification.id)" :href="notification.data.action" type="button" data-bs-toggle="tooltip" data-bs-placement="right" title="View Notification" class="btn  text-gray-500"><i class="fa fa-external-link-alt"></i></a>
                  </div>
             </div>
 

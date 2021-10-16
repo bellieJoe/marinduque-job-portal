@@ -17,7 +17,11 @@ class Experience extends Model
         'company_name',
         'job_description',
         'date_started',
-        'date_ended'
+        'date_ended',
+        'status_of_appointment',
+        'salary',
+        'salary_grade',
+        'govnt_service'
     ];
 
     protected $dates = [

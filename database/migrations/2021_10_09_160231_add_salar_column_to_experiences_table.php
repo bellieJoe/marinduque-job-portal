@@ -16,8 +16,8 @@ class AddSalarColumnToExperiencesTable extends Migration
         Schema::table('experiences', function (Blueprint $table) {
             //
             $table->dropColumn('position');
-            $table->double('salary');
-            $table->integer('salary_grade')->nullable(false);
+            $table->double('salary')->default(0);
+            $table->integer('salary_grade')->default(0);
             $table->string('status_of_appointment')->nullable(true);
             $table->boolean('govnt_service')->nullable(true);
         });

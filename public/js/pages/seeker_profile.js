@@ -174,12 +174,6 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default().ajaxSetup({
     'X-CSRF-TOKEN': jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name="_token"]').attr('content')
   }
 });
-
-var sg = function sg(s) {
-  return _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.defineSalaryGrade(s);
-};
-
-console.log(sg(20000));
 var loading = jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading");
 loading.css('display', 'none');
 new Vue({
@@ -207,7 +201,6 @@ new Vue({
     expToDelete: null,
     experience: {
       job_title: null,
-      position: null,
       job_industry: null,
       company_name: null,
       job_description: null,
@@ -216,7 +209,7 @@ new Vue({
       salary: null,
       salary_grade: null,
       status_of_appointment: null,
-      govnt_service: null
+      govnt_service: true
     },
     // personal information
     nationality: npm_nationality_list__WEBPACK_IMPORTED_MODULE_4__.getList(),
@@ -535,14 +528,25 @@ new Vue({
       });
     },
     // experience methods
+    setGovntService: function setGovntService() {
+      this.experience.govnt_service = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#add_govnt_service')[0].checked;
+    },
+    setSalaryGrade: function setSalaryGrade() {
+      this.experience.salary_grade = this.experience.salary ? _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.defineSalaryGrade(this.experience.salary) : null;
+    },
     showAddExperienceForm: function showAddExperienceForm() {
       this.errors = [];
       this.experience = {
-        position: null,
+        job_title: null,
+        job_industry: null,
         company_name: null,
         job_description: null,
         date_started: null,
-        date_ended: null
+        date_ended: null,
+        salary: null,
+        salary_grade: null,
+        status_of_appointment: null,
+        govnt_service: null
       };
     },
     showEditExperience: function showEditExperience(id) {
@@ -554,13 +558,10 @@ new Vue({
         url: "/seeker/profile/experience/get-experience/".concat(id),
         method: "get"
       }).fail(function (res) {
-        console.log(res); // location.href = "/error"
+        console.log(res);
       }).done(function (res) {
-        // console.log(res)
-        console.log(moment__WEBPACK_IMPORTED_MODULE_3___default()(res.date_started).format('YYYY-MM-DD'));
         _this6.experience = {
           job_title: res.job_title,
-          position: res.position,
           job_industry: res.job_industry,
           company_name: res.company_name,
           job_description: res.job_description,
@@ -576,25 +577,43 @@ new Vue({
     addExperience: function addExperience() {
       var _this7 = this;
 
-      this.errors = [];
-      console.log(this.experience);
-      loading.css('display', 'initial');
-      jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
-        url: "/seeker/profile/experience/add-experience",
-        method: "post",
-        data: this.experience // statusCode: {
-        //     500: (res)=>{
-        //         location.href = "/error"
-        //     }
-        // },
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this7.setGovntService();
 
-      }).fail(function (res) {
-        console.log(res);
-        loading.css('display', 'none');
-        _this7.errors = res.responseJSON.errors;
-      }).done(function () {
-        location.href = "/seeker/profile/experience";
-      });
+                _this7.errors = [];
+                _context3.prev = 2;
+                loading.css('display', 'initial');
+                _context3.next = 6;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: "/seeker/profile/experience/add-experience",
+                  method: "post",
+                  data: _this7.experience
+                });
+
+              case 6:
+                location.href = "/seeker/profile/experience";
+                console.log(_this7.experience);
+                _context3.next = 15;
+                break;
+
+              case 10:
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](2);
+                console.log(_context3.t0);
+                loading.css('display', 'none');
+                _this7.errors = _context3.t0.responseJSON.errors;
+
+              case 15:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[2, 10]]);
+      }))();
     },
     updateExperience: function updateExperience() {
       var _this8 = this;
@@ -733,13 +752,13 @@ new Vue({
     getLanguage: function getLanguage() {
       var _this12 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context4.prev = 0;
+                _context4.next = 3;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/seeker/profile/language/get-language',
                   method: 'post'
@@ -749,20 +768,20 @@ new Vue({
 
               case 3:
                 loading.css('display', 'none');
-                _context3.next = 9;
+                _context4.next = 9;
                 break;
 
               case 6:
-                _context3.prev = 6;
-                _context3.t0 = _context3["catch"](0);
-                console.log(_context3.t0);
+                _context4.prev = 6;
+                _context4.t0 = _context4["catch"](0);
+                console.log(_context4.t0);
 
               case 9:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, null, [[0, 6]]);
+        }, _callee4, null, [[0, 6]]);
       }))();
     },
     deleteLanguage: function deleteLanguage(lang) {

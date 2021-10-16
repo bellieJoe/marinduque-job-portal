@@ -38,12 +38,12 @@
                         </div>
                         <div class="item px-3 py-2  {{ $view == 'certificate' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('certificate')">
                             <i class="far fa-address-card cursor-pointer mr-2"></i>
-                            <label class="cursor-pointer" >License & Certificates</label>
+                            <label class="cursor-pointer" >Eligibility</label>
                         </div>
-                        <div class="item px-3 py-2  {{ $view == 'language' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('language')">
+                        {{-- <div class="item px-3 py-2  {{ $view == 'language' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('language')">
                             <i class="fas fa-language cursor-pointer mr-2"></i>
                             <label class="cursor-pointer" >Languages</label>
-                        </div>
+                        </div> --}}
                         <div class="item px-3 py-2  {{ $view == 'skill' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('skill')">
                             <i class="fas fa-cogs cursor-pointer mr-2"></i>
                             <label class="cursor-pointer">Skills</label>
@@ -59,7 +59,7 @@
 
 
                 {{-- views --}}
-                <div class="view-sec p-4 bg-white shadow-md rounded-md my-3 lg:col-span-3">
+                <div class="view-sec bg-white p-4 shadow-md rounded-md my-3 lg:col-span-3">
 
                     @if ($view == "personal")
                     <div >
@@ -335,8 +335,8 @@
                                     @if ($i->education_level == "primary education")
                                     <div class="my-4 ms-4">
                                         <div class="float-end">
-                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">edit</button>
-                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">delete</button>
+                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
@@ -353,8 +353,8 @@
                                     @if ($i->education_level == "secondary education")
                                     <div class="my-4 ms-4">
                                         <div class="float-end">
-                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">edit</button>
-                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">delete</button>
+                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }}  </h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
@@ -371,8 +371,8 @@
                                     @if ($i->education_level == "tertiary education" || $i->education_level == 'master\'s degree' || $i->education_level == 'doctorate degree')
                                     <div class="my-4 ms-4">
                                         <div class="float-end">
-                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">edit</button>
-                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">delete</button>
+                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
                                         {{-- <h6 class="my-0 fw-bold">{{ $i->education_level == 'tertiary education' ? 'Bachelors Degree' : Str::title($i->education_level) }} </h6> --}}
@@ -396,7 +396,7 @@
                     
 
                     @if ($view == "experience")
-                    <div>
+                    <div >
                         <h5 class="fw-bolder"><i class="fas fa-business-time me-2"></i>Work Experiences</h5>
                         <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlAddExperienceForm" @click="showAddExperienceForm"><i class='fa fa-plus'></i> Add Experience</button>
                         {{-- add experience form --}}
@@ -412,11 +412,6 @@
                                             <input type="text" class='form-control' v-model="experience.job_title" :class="errors.job_title ? 'is-invalid' : '' " >
                                             <div class="text-danger" v-for="i of errors.job_title">@{{ i }}</div>
                                         </div>
-                                        {{-- <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Position</label>
-                                            <input type="text" class='form-control' v-model="experience.position" :class="errors.position ? 'is-invalid' : '' " >
-                                            <div class="text-danger" v-for="i of errors.position">@{{ i }}</div>
-                                        </div> --}}
                                         <div class="mb-3 " >
                                             <label class='mb-1 fw-bold'>Job Industry <span class="text-red-500">*</span></label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
@@ -454,18 +449,21 @@
                                             <label class='mb-1 '><span class="fw-bold">Monthly Salary</span> <span class="text-red-500">*</span></label>
                                             <div class="input-group">
                                                 <label class="input-group-text">Php</label>
-                                                <input type="number" class="form-control" :class="errors.salary ? 'is-invalid' : '' " v-model="experience.salary">
+                                                <input type="number" class="form-control" :class="errors.salary ? 'is-invalid' : '' " v-model="experience.salary" @input="setSalaryGrade">
                                             </div>
-                                            
                                             <div class="text-danger" v-for="i of errors.salary">@{{ i }}</div>
+                                        </div>
+                                        <div class="mb-3" v-cloak v-if="experience.salary_grade">
+                                            <span class="font-bold">Salary Grade: </span>@{{ experience.salary_grade }}
                                         </div>
                                         <div class="mb-3">
                                             <label class='mb-1 '><span class="fw-bold">Status of Appointment</span> <span class="text-red-500">*</span></label>
-                                            <input type="text" class="form-control" :class="errors.status_of_appointment ? 'is-invalid' : '' " v-model="experience.salastatus_of_appointmentry">
+                                            <input type="text" class="form-control" :class="errors.status_of_appointment ? 'is-invalid' : '' " v-model="experience.status_of_appointment" min="12034">
                                             <div class="text-danger" v-for="i of errors.status_of_appointment">@{{ i }}</div>
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <input type="checkbox" > <label >Government Service</label>
+                                            <input type="checkbox" id="add_govnt_service"> <label >Government Service</label>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -488,11 +486,6 @@
                                             <input type="text" class='form-control' v-model="experience.job_title" :class="errors.job_title ? 'is-invalid' : '' " >
                                             <div class="text-danger" v-for="i of errors.job_title">@{{ i }}</div>
                                         </div>
-                                        {{-- <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Position</label>
-                                            <input type="text" class='form-control' v-model="experience.position" :class="errors.position ? 'is-invalid' : '' " >
-                                            <div class="text-danger" v-for="i of errors.position">@{{ i }}</div>
-                                        </div> --}}
                                         <div class="mb-3 " >
                                             <label class='mb-1 fw-bold'>Job Industry <span class="text-red-500">*</span></label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
@@ -526,6 +519,26 @@
                                             <textarea type="text" class='form-control'  :class="errors.job_description ? 'is-invalid' : '' " v-model="experience.job_description"></textarea>
                                             <div class="text-danger" v-for="i of errors.job_description">@{{ i }}</div>
                                         </div>
+                                        <div class="mb-3">
+                                            <label class='mb-1 '><span class="fw-bold">Monthly Salary</span> <span class="text-red-500">*</span></label>
+                                            <div class="input-group">
+                                                <label class="input-group-text">Php</label>
+                                                <input type="number" class="form-control" :class="errors.salary ? 'is-invalid' : '' " v-model="experience.salary" @input="setSalaryGrade">
+                                            </div>
+                                            <div class="text-danger" v-for="i of errors.salary">@{{ i }}</div>
+                                        </div>
+                                        <div class="mb-3" v-cloak v-if="experience.salary_grade">
+                                            <span class="font-bold">Salary Grade: </span>@{{ experience.salary_grade }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class='mb-1 '><span class="fw-bold">Status of Appointment</span> <span class="text-red-500">*</span></label>
+                                            <input type="text" class="form-control" :class="errors.status_of_appointment ? 'is-invalid' : '' " v-model="experience.status_of_appointment" min="12034">
+                                            <div class="text-danger" v-for="i of errors.status_of_appointment">@{{ i }}</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <input type="checkbox" id="add_govnt_service"> <label >Government Service</label>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-times" ></i> Close</button>
@@ -554,15 +567,45 @@
                         {{-- contents --}}
                         @if ($experience->first())
                             @foreach ($experience as $i)
-                            <div class="my-4 ms-4">
-                                <div class="float-end">
-                                    <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditExperienceForm" @click="showEditExperience({{ $i->experience_id }})">edit</button>
-                                    <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDeleteExperience" @click="deleteExperience({{ $i->experience_id }}, false)">delete</button>
+                            <div class="my-4 p-4 rounded-md border-1 bg-white">
+                                <div >
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">Position Title :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->job_title }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">Company Name :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->company_name }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">From :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->date_started->format('F d, Y') }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">To :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->date_ended->format('F d, Y') }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">Monthly Salary :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">Php {{ number_format($i->salary, 2) }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">Salary Grade :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->salary_grade }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">Status of Appointment :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->status_of_appointment }}</h6>
+                                    </div>
+                                    <div >
+                                        <h6 class="pr-4 ">Job Description :</h6>
+                                        <h6 class="text-gray-500 whitespace-pre-wrap  mt-2">{{ $i->job_description }}</h6>
+                                    </div>
                                 </div>
-                                <h6 class="my-0 fw-bold">{{ $i->job_title }} </h6>
-                                {{-- <h6 class="my-0 ">{{ $i->position }} </h6> --}}
-                                <h6 class="my-0">{{ $i->company_name }}</h6>
-                                <h6 class="my-0 text-secondary">Worked from {{ date_format($i->date_started, "F d, Y") }} to {{ date_format($i->date_ended, "F d, Y") }}</h6>
+                                <div class="w-max ml-auto mr-0 mt-2">
+                                    <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditExperienceForm" @click="showEditExperience({{ $i->experience_id }})">Edit</button>
+                                    <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDeleteExperience" @click="deleteExperience({{ $i->experience_id }}, false)">Delete</button>
+                                </div>
                             </div> 
                             @endforeach
                         @else
@@ -574,7 +617,14 @@
 
                     @if ($view == "certificate")
                     <div >
-                        <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Awards, Licenses & Certificates</h5>
+                        <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility</h5>
+                    </div>
+                    @endif
+
+
+                    @if ($view == 'nothing')
+                    <div >
+                        <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility</h5>
                         <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlChooseCredential" @click="clearCredential()"><i class='fa fa-plus'></i> Add credential</button>
                         {{-- modal choose type --}}
                         <div class="modal fade" id="mdlChooseCredential">
@@ -853,10 +903,10 @@
                     @endif
                     
 
-                    @if ($view == "language")
+                    {{-- @if ($view == "language")
                     <div>
                         <h5 class="fw-bolder"><i class="fas fa-language me-2"></i> Languages</h5>
-                        {{-- add language form --}}
+                        
                         <div class="mb-3 ">
                             <label class="fw-bold mb-1">Select Language</label>
                             <div class=" row">
@@ -873,7 +923,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- duplicate language alert --}}
+                        
                         <button class="d-none" id="btnShowDuplicateLanguageAlert" data-bs-toggle="modal" data-bs-target="#mdlDuplicateLanguageAlert"></button>
                         <div class="modal fade" id="mdlDuplicateLanguageAlert">
                             <div class="modal-dialog modal-dialog-centered">
@@ -890,7 +940,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- content --}}
+                        
                         <div id="bdgLanguage"  style="display: none">
                             <div  class="btn rounded-pill btn-outline-dark fs-6 fw-normal m-1" v-for="i in languageList">
                                 @{{ i }} 
@@ -899,7 +949,7 @@
                         </div>
 
                     </div>
-                    @endif
+                    @endif --}}
                     
 
                     @if ($view == "resume")
@@ -929,5 +979,5 @@
         </div>
 
     </body>
-    <script src="{{asset('js/pages/seeker_profile.js')}}"></script>
+    <script src="{{asset('js/pages/seeker_profile.js')}}" ></script>
 @endsection
