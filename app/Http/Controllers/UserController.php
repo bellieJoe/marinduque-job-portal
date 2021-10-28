@@ -69,7 +69,7 @@ class UserController extends Controller
             User::where('email', $request->input('email'))->update(['verified'=>true]);
             
             Auth::loginUsingId($user);
-            
+
             return redirect('/');
 
         }else{

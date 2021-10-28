@@ -53,6 +53,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/employer/edit-job.js', 'public/js/pages/employer')
     .js('resources/js/pages/employer/job.js', 'public/js/pages/employer')
     .js('resources/js/pages/employer/accept-application.js', 'public/js/pages/employer')
+    .js('resources/js/pages/employer/employer-verification.js', 'public/js/pages/employer')
 
     // scripts for admin
     .js('resources/js/pages/admin/admin-home.js', 'public/js/pages/admin')

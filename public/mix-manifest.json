@@ -32,6 +32,7 @@
     "/js/pages/employer/edit-job.js": "/js/pages/employer/edit-job.js",
     "/js/pages/employer/job.js": "/js/pages/employer/job.js",
     "/js/pages/employer/accept-application.js": "/js/pages/employer/accept-application.js",
+    "/js/pages/employer/employer-verification.js": "/js/pages/employer/employer-verification.js",
     "/js/pages/admin/admin-home.js": "/js/pages/admin/admin-home.js",
     "/js/pages/admin/employer-list.js": "/js/pages/admin/employer-list.js",
     "/js/pages/admin/job-seeker-list.js": "/js/pages/admin/job-seeker-list.js",

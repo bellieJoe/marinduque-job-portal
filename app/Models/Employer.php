@@ -19,7 +19,8 @@ class Employer extends Model
         'description',
         'mission',
         'vision',
-        'company_logo'
+        'company_logo',
+        'status'
     ];
 
 

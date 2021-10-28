@@ -38,7 +38,7 @@
                         </div>
                         <div class="item px-3 py-2  {{ $view == 'certificate' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('certificate')">
                             <i class="far fa-address-card cursor-pointer mr-2"></i>
-                            <label class="cursor-pointer" >Eligibility</label>
+                            <label class="cursor-pointer" >Eligibility, Certificates & Awards</label>
                         </div>
                         {{-- <div class="item px-3 py-2  {{ $view == 'language' ? 'fw-bold text-indigo-900' : '' }}text-indigo-700 hover:bg-indigo-200  hover:text-indigo-500 duration-500 cursor-pointer" @click="toggleView('language')">
                             <i class="fas fa-language cursor-pointer mr-2"></i>
@@ -615,17 +615,17 @@
                     @endif
                     
 
-                    @if ($view == "certificate")
+                    {{-- @if ($view == "certificate")
                     <div >
                         <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility</h5>
                     </div>
-                    @endif
+                    @endif --}}
 
 
-                    @if ($view == 'nothing')
+                    @if ($view == 'certificate')
                     <div >
-                        <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility</h5>
-                        <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlChooseCredential" @click="clearCredential()"><i class='fa fa-plus'></i> Add credential</button>
+                        <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility, Certificates & Awards</h5>
+                        <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlChooseCredential" @click="clearCredential()"><i class='fa fa-plus'></i> Add</button>
                         {{-- modal choose type --}}
                         <div class="modal fade" id="mdlChooseCredential">
                             <div class="modal-dialog modal-dialog-centered">
@@ -636,7 +636,7 @@
                                     <div class="modal-body">
                                         <button class="btn btn-lg d-block w-100 text-start" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#mdlAddCredential" @click="changeCredentialType('certification')"><i class='fa fa-certificate me-3 text-secondary'></i>Certification</button>
                                         <button class="btn btn-lg d-block w-100 text-start" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#mdlAddCredential" @click="changeCredentialType('award')"><i class='fa fa-award me-3 text-secondary'></i>Award</button>
-                                        <button class="btn btn-lg d-block w-100 text-start" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#mdlAddCredential" @click="changeCredentialType('license')"><i class='fa fa-id-badge me-3 text-secondary'></i>License</button>
+                                        <button class="btn btn-lg d-block w-100 text-start" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#mdlAddCredential" @click="changeCredentialType('eligibility')"><i class='fa fa-id-badge me-3 text-secondary'></i>Eligibility</button>
                                     </div>
                                 </div>
                             </div>
@@ -646,11 +646,11 @@
                             <div class="modal-dialog modal-fullscreen-md-down">
                                 <div class="modal-content p-3">
                                     <div class="modal-header">
-                                        <h5 class="fw-bold"><i class="fa fa-file-certificate"></i> Add Credential</h5>
+                                        <h5 class="fw-bold capitalize "><i class="fa fa-file-certificate"></i> Add @{{ credential.credential_type }}</h5>
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label class="fw-bold mb-1">Credential Name*</label>
+                                            <label class="fw-bold mb-1 capitalize">@{{ credential.credential_type }} Name*</label>
                                             <input type="text" class="form-control" v-model="credential.credential_name" :class="errors.credential_name ? 'is-invalid' : ''">
                                             <div class="text-danger" v-for=" i of errors.credential_name">@{{ i }}</div>
                                         </div>
@@ -659,7 +659,7 @@
                                             <input type="text" class="form-control" v-model="credential.issuing_organisation">
                                         </div>
                                         <div class="mb-4">
-                                            <label class="fw-bold mb-1">Credential Number</label>
+                                            <label class="fw-bold mb-1 capitalize">@{{ credential.credential_type }} Number</label>
                                             <input type="text" class="form-control" v-model="credential.credential_number">
                                         </div>
 
@@ -691,7 +691,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="fw-bold mb-1">Upload Credential Image</label>
+                                            <label class="fw-bold mb-1 capitalize">Upload @{{ credential.credential_type }} Image</label>
                                             <input type="file" accept="image/*" class="form-control" id="inCredentialImage" @change="setCredentialImage()">
                                         </div>
 

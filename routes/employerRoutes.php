@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\EmployerVerificationProofController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
 use App\Models\Employer;
+use App\Models\EmployerVerificationProof;
 use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\Seeker;
@@ -24,7 +26,7 @@ Route::prefix('employer')->group(function(){
     @method GET
     @desc Redirects to Employer Home View
     */
-    Route::view('home', 'pages.employer_home')->middleware('role:employer', 'auth');
+    Route::view('home', 'pages.employer_home')->middleware('role:employer', 'auth', 'employer-verified');
 
     Route::prefix('profile')->group(function(){
         
@@ -271,8 +273,41 @@ Route::prefix('employer')->group(function(){
     });
     // end of job prefix
 
+
 });
 // end of employer prefix
+
+/* 
+@desc redirects the user to employer verification 
+@method GET
+@url /verify-employer
+*/
+Route::get('verify-employer', function(){
+    $proofCount = EmployerVerificationProof::where([
+        ['user_id', Auth::user()->user_id]
+    ])->count();
+
+    $proofs = $proofCount > 0 ? 
+                EmployerVerificationProof::where([
+                    ['user_id', Auth::user()->user_id]
+                ])->get()
+                : null;
+
+    return view('pages.employer.employer-verification')->with([
+        'submitted' => $proofCount > 0 ? true : false,
+        'proofCount' => $proofCount,
+        'proofs' => $proofs
+    ]);
+})->middleware('role:employer', 'auth');
+
+/* 
+@desc submits and proces the employers proof
+@method GET
+@url /verify-employer
+*/
+Route::post('verify-employer', [EmployerVerificationProofController::class, 'createEmployerVerificationProof']);
+
+
 
 
 

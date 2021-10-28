@@ -4383,15 +4383,15 @@ new Vue({
       }, 1000);
     }
   },
-  mounted: function mounted() {
-    // this.toggleDetector()
-    try {// window.Echo.private(`App.Models.User.${User.user_id}`)
-      // .notification((notification) => {
-      //     console.log(notification);
-      // });
-    } catch (error) {
-      console.log(error);
-    }
+  mounted: function mounted() {// this.toggleDetector()
+    // try {
+    //     window.Echo.private(`App.Models.User.${User.user_id}`)
+    //     .notification((notification) => {
+    //         console.log(notification);
+    //     });
+    // } catch (error) {
+    //     console.log(error)
+    // }
   }
 });
 

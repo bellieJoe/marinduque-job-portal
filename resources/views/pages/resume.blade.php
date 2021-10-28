@@ -105,9 +105,24 @@
             </div>
         </section>
 
-        {{-- educational background --}}
+        @if (!empty($resumeData['skillData'][0]))
         <section class=" bg-gray-100 z-0">
             <div class="container py-10 px-5 mx-auto bg-gray-200">
+                <h2 class="text-blue-900 mt-2"><i class="fa fa-tools me-2"></i> Skills</h2>
+
+                @foreach ($resumeData['skillData'] as $skill)
+                <div class="mt-4">
+                    <h6><i class="fa fa-check me-2 text-green-400"></i>{{ $skill->skill_description }}</h6>
+                </div>
+                @endforeach
+
+            </div>
+        </section>
+        @endif
+
+        {{-- educational background --}}
+        <section class=" bg-gray-100 z-0">
+            <div class="container py-10 px-5 mx-auto bg-white">
                 <h2 class="text-blue-900 mt-2"><i class="fa fa-graduation-cap me-2"></i> Educational Background</h2>
                 @foreach ($resumeData['educationData'] as $education )
                     {{-- primary education --}}
@@ -152,7 +167,7 @@
         {{-- Work Experience --}}
         @if (!empty($resumeData['experienceData'][0]))
         <section class=" bg-gray-100 z-0">
-            <div class="container py-10 px-5 mx-auto bg-white">
+            <div class="container py-10 px-5 mx-auto bg-gray-200">
                 <h2 class="text-blue-900 mt-2"><i class="fa fa-business-time me-2"></i> Work Experience</h2>
 
                 @foreach ($resumeData['experienceData'] as $experience )
@@ -171,7 +186,7 @@
 
         @if (!empty($resumeData['credentialData'][0]))
         <section class=" bg-gray-100 z-0">
-            <div class="container py-10 px-5 mx-auto bg-gray-200">
+            <div class="container py-10 px-5 mx-auto bg-white">
                 <h2 class="text-blue-900 mt-2"><i class="fa fa-award me-2"></i> Liscences & Certificates</h2>
 
                 <div class="row">
@@ -245,20 +260,7 @@
         </section>
         @endif
 
-        @if (!empty($resumeData['skillData'][0]))
-        <section class=" bg-gray-100 z-0">
-            <div class="container py-10 px-5 mx-auto bg-white">
-                <h2 class="text-blue-900 mt-2"><i class="fa fa-tools me-2"></i> Skills</h2>
-
-                @foreach ($resumeData['skillData'] as $skill)
-                <div class="mt-4">
-                    <h6><i class="fa fa-check me-2 text-green-400"></i>{{ $skill->skill_description }}</h6>
-                </div>
-                @endforeach
-
-            </div>
-        </section>
-        @endif
+        
     </div>
 </body>
 <script src="{{ asset('js/pages/resume.js') }}"></script>

@@ -36,7 +36,6 @@ class JobApplicationSubmitted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // return new PrivateChannel('App.Models.User.1');
         return new Channel('notification');
     }
 }
