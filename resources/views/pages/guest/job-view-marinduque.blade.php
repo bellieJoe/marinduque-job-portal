@@ -40,10 +40,9 @@
 
             {{-- qualifications --}}
             <p class="font-bold mt-3">Qualifications</p>
-            @if ($job->gender)
-                <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ Str::ucfirst($job->gender) }}</p>
-            @endif
+            
             @if ($job->educational_attainment)
+                <h1 class="font-bold text-gray-500 mt-2">Educational Attainment</h1>
                 <p>
                     <i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>
                     {{ 
@@ -62,9 +61,24 @@
                 </p>       
             @endif
             @if ($job->experience)
+                <h1 class="font-bold text-gray-500 mt-2">Years of Experience</h1>
                 <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $job->experience }} years of experience.</p>
             @endif
+            @if ($job->skill)
+                <h1 class="font-bold text-gray-500 mt-2">Skills</h1>
+                @foreach (json_decode($job->skill) as $skill)
+                <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $skill }}</p>
+                @endforeach
+            @endif
+
+            @if ($job->gender || $job->other_qualification)
+            <h1 class="font-bold text-gray-500 mt-2">Others</h1>
+            @endif
+            @if ($job->gender)
+                <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ Str::ucfirst($job->gender) }}</p>
+            @endif
             @if ($job->other_qualification)
+
                 @foreach (json_decode($job->other_qualification) as $qualification)
                 <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $qualification }}</p>
                 @endforeach

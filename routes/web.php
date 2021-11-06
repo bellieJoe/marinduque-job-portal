@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\verify_email;
 use App\Models\Credential;
 use App\Models\Education;
+use App\Models\EmployerVerificationProof;
 use App\Models\Experience;
 use App\Models\Job;
 use App\Models\Seeker;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Http;
+use NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer;
+use NlpTools\Utils\StopWords;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +30,29 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+
+Route::get('/testing', function () {
+
+    // return $resp = var_dump(json_decode(json_encode(["ako", "si", "batman"])));
+    // $resp = json_decode(file_get_contents(env('JOB_MATCH_API_HOST_PORT')."/skill")); 
+
+
+    // array_map(function($res){
+
+    //     echo $res[0]." ".$res[1]."<br>";
+
+    // } ,$resp);
+
+    // return $resp;
+
+    $text1 = "I am a programmer";
+    $text2 = "I do programming";
+    $token = "f67600e62054435e9e35339a5c0033b4";
+
+    return file_get_contents("https://api.dandelion.eu/datatxt/sim/v1?token=".$token."&text1=".urlencode($text1)."&text2=".urlencode($text2)."&lang=en");
+
+     
+});
 
 
 
@@ -218,23 +244,16 @@ Route::post('/print', function (Request $request) {
 @url /proof
 @method GET
 */
-Route::get('proof/{proofTitle}', function($proofTitle){
+Route::get('proof/{proofID}', function($proofID){
+    $proof = EmployerVerificationProof::find($proofID);
 
     return view("pages.proof-view")->with([
-        'proof' => $proofTitle
+        'proof' => $proof
     ]);
 
-});
+})->middleware('auth');
 
 
 
 
 
-Route::get('/testing', function () {
-
-    return  User::where([
-        ['role', 'admin',],
-        ['email', '!=', 'jobportaldummy@gmail.com']
-    ])->pluck('email');
-    
-});

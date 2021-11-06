@@ -10,6 +10,7 @@ class EmployerVerificationProof extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'proof_id';
     protected $fillable = [
         'user_id',
         'title',

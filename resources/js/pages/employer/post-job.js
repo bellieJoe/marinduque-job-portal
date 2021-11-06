@@ -17,6 +17,8 @@ new Vue({
         errors: [],
         job_specialization_list: devModule.specializations,
         courses: devModule.course,
+        masters: devModule.masters,
+        doctors: devModule.doctors,
         sample: {
             sam: "okie"
         },
@@ -47,6 +49,8 @@ new Vue({
             experience: null,
             other_qualification: [],
             inputOtherQualification: null,
+            skill: [],
+            inputSkill: null,
             
             salary_range: {
                 max: null,
@@ -172,6 +176,7 @@ new Vue({
                 course_studied : this.job.course_studied,
                 experience : this.job.experience,
                 other_qualification : this.job.other_qualification,
+                skill: this.job.skill,
     
                 salary_max : this.job.salary_range.max,
                 salary_min : this.job.salary_range.min,
@@ -209,7 +214,25 @@ new Vue({
             })
 
 
-        }
+        },
+
+        addSkill(){
+            if(this.job.inputSkill && this.job.inputSkill.trim() != ""){
+
+                this.job.skill.push(this.job.inputSkill)
+                this.job.inputSkill = null
+
+            }
+        },
+
+        removeSkill(a){
+
+            this.job.skill.map((val, i)=>{
+                if(val == a){
+                    this.job.skill.splice(i, 1)
+                }
+            })
+        },
     }
 })
 

@@ -95,22 +95,35 @@
                     <li class="list-group-item border-0">
                       <h6><strong>Qualifications</strong></h6>
                       <ul>
-                        @if ($job['jobDetails']->gender)
-                          <li ><i class="fa fa-check text-success me-2"></i>{{ $job['jobDetails']->gender }} </li>
-                        @endif
                         @if ($job['jobDetails']->educational_attainment)
-                          <li ><i class="fa fa-check text-success me-2"></i>{{ $job['jobDetails']->educational_attainment }} </li>
+                        <h1 class="font-bold text-gray-500 mt-2">Educational Attainment</h1>
+                          <li ><i class="fa fa-check text-success me-2"></i>{{ Str::title($job['jobDetails']->educational_attainment) }} </li>
                         @endif
                         @if ($job['jobDetails']->course_studied )
-                            <li >
+                            @foreach (json_decode($job['jobDetails']->course_studied) as $course)
+                              <li >
                               <i class="fa fa-check text-success me-2"></i>
-                              @foreach (json_decode($job['jobDetails']->course_studied) as $course)
-                                {{ $course.', ' }} 
-                              @endforeach
-                            </li>
+                                {{ $course }} 
+                              </li>
+                            @endforeach
                         @endif
                         @if ($job['jobDetails']->experience)
+                        <h1 class="font-bold text-gray-500 mt-2">Years of Experience</h1>
                           <li ><i class="fa fa-check text-success me-2"></i>{{ $job['jobDetails']->experience.' years of experience' }} </li>
+                        @endif
+                        
+                        @if ($job['jobDetails']->skill)
+                        <h1 class="font-bold text-gray-500 mt-2">Skills</h1>
+                          @foreach (json_decode($job['jobDetails']->skill) as $skill )
+                            <li ><i class="fa fa-check text-success me-2"></i>{{ $skill }} </li>
+                          @endforeach
+                        @endif
+
+                        @if($job['jobDetails']->gender || $job['jobDetails']->other_qualification)
+                        <h1 class="font-bold text-gray-500 mt-2">Other Qualifications</h1>
+                        @endif
+                        @if ($job['jobDetails']->gender)
+                          <li ><i class="fa fa-check text-success me-2"></i>{{ Str::title($job['jobDetails']->gender) }} </li>
                         @endif
                         @if ($job['jobDetails']->other_qualification )
                               @foreach (json_decode($job['jobDetails']->other_qualification) as $qualification)
@@ -120,6 +133,7 @@
                                 </li>
                               @endforeach
                         @endif
+
                       </ul>
                     </li>
                   </ul>
@@ -270,7 +284,7 @@
 
                   {{-- setting expiration date --}}
                   <div>
-                    <div class="mb-3 p-2 rounded-2 duration-500 cursor-pointer hover:bg-indigo-100" data-bs-toggle="modal" data-bs-target="#mdlDaysExpire">
+                    <div class="mb-3 p-2 rounded-2 duration-500 cursor-pointer hover:bg-indigo-100 border " data-bs-toggle="modal" data-bs-target="#mdlDaysExpire">
                       <p class="font-bold">Set how many days does an application expire if unattended</p>
                       <p class="text-secondary">{{ $job['jobDetails']->days_expire ?  $job['jobDetails']->days_expire : '0'}} days</p>
                     </div>
@@ -302,7 +316,7 @@
 
                   {{-- open or close job hiring --}}
                   <div>
-                    <div class="mb-3 p-2 cursor-pointer duration-500 rounded-2 hover:bg-indigo-100" data-bs-toggle="modal" data-bs-target="#mdlToggleHiring">
+                    <div class="mb-3 p-2 cursor-pointer duration-500 rounded-2 hover:bg-indigo-100 border " data-bs-toggle="modal" data-bs-target="#mdlToggleHiring">
                       <p class="font-bold">{{ $job['jobDetails']->status == 'open' ? 'Close' : 'Open for' }} job hiring?</p>
                       <p class="text-secondary">{{ $job['jobDetails']->status }}</p>
                     </div>
@@ -325,9 +339,37 @@
                     </div>
                   </div>
                   
-                  <a  class="w-full btn text-left font-bold mb-3 p-2 cursor-pointer hover:bg-indigo-100" href="/employer/job/edit-job/{{ $job['jobDetails']->job_id }}">
+                  <a  class="w-full btn text-left font-bold mb-3 p-2 cursor-pointer hover:bg-indigo-100 border" href="/employer/job/edit-job/{{ $job['jobDetails']->job_id }}">
                     Edit job information?
                   </a>
+
+                  {{-- Applicant Matching --}}
+                  <div class="accordion" >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#applicant_match_toggles">
+                          Applicant Matching Preference
+                        </button>
+                      </h2>
+                      <div class="accordion-collapse collapse show" id="applicant_match_toggles">
+                        <div class="accordion-body">
+                          <div class="form-check form-switch">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Education Attainment</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {{-- <div>
+                    <h1>Applicant Matching Preference</h1>
+                    <div>
+                      <div class="form-check form-switch">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Education Attainment</label>
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                      </div>
+                    </div>
+                  </div> --}}
                 </div>
                 @endif
             </section>

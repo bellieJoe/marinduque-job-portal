@@ -174,6 +174,8 @@ new Vue({
     errors: [],
     job_specialization_list: _dev_module__WEBPACK_IMPORTED_MODULE_4__.default.specializations,
     courses: _dev_module__WEBPACK_IMPORTED_MODULE_4__.default.course,
+    masters: _dev_module__WEBPACK_IMPORTED_MODULE_4__.default.masters,
+    doctors: _dev_module__WEBPACK_IMPORTED_MODULE_4__.default.doctors,
     sample: {
       sam: "okie"
     },
@@ -202,6 +204,8 @@ new Vue({
       experience: null,
       other_qualification: [],
       inputOtherQualification: null,
+      skill: [],
+      inputSkill: null,
       salary_range: {
         max: null,
         min: null
@@ -343,6 +347,7 @@ new Vue({
         course_studied: this.job.course_studied,
         experience: this.job.experience,
         other_qualification: this.job.other_qualification,
+        skill: this.job.skill,
         salary_max: this.job.salary_range.max,
         salary_min: this.job.salary_range.min,
         benefits: this.job.benefits,
@@ -373,6 +378,21 @@ new Vue({
       }).done(function (res) {
         // console.log(res)
         location.href = "/employer/profile";
+      });
+    },
+    addSkill: function addSkill() {
+      if (this.job.inputSkill && this.job.inputSkill.trim() != "") {
+        this.job.skill.push(this.job.inputSkill);
+        this.job.inputSkill = null;
+      }
+    },
+    removeSkill: function removeSkill(a) {
+      var _this3 = this;
+
+      this.job.skill.map(function (val, i) {
+        if (val == a) {
+          _this3.job.skill.splice(i, 1);
+        }
       });
     }
   }

@@ -74,6 +74,7 @@ class JobController extends Controller
             'gender' => $request->input('gender'),
             'experience' => $request->input('experience'),
             'other_qualification' => $request->input('other_qualification') ? json_encode($request->input('other_qualification')) : null,
+            'skill' => $request->input('skill') ? json_encode($request->input('skill')) :  null,
 
             'salary_range' => json_encode([
                 'min' => $request->input('salary_min'),
@@ -162,6 +163,7 @@ class JobController extends Controller
             'gender' => $request->input('gender'),
             'experience' => $request->input('experience'),
             'other_qualification' => $request->input('other_qualification') ? json_encode($request->input('other_qualification')) : null,
+            'skill' => $request->input('skill') ? json_encode($request->input('skill')) :  null,
 
             'salary_range' => json_encode([
                 'min' => $request->input('salary_min'),
@@ -314,6 +316,7 @@ class JobController extends Controller
             'job' => $job,
             'seekerInterference' => $seekerInterference
         ]);
+        // return $job->skill;
     }
 
 

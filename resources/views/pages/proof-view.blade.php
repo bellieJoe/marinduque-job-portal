@@ -16,9 +16,16 @@
 </head>
 <body>
 
-    asmpasdasd
-    {{-- <embed src="{{ $ }}" type="" class="w-screen h-screen"> --}}
-    <img src="{{ Storage::url($proof) }}"  class="w-screen h-screen">
-    {{ Storage::url($proof) }}
+    @php
+        $extension = explode(".",$proof->title)[1];
+    @endphp
+
+    @if($extension == 'pdf')
+    <embed src="/storage/proofs/{{ $proof->user_id }}/{{ $proof->title }}"  class="mx-auto w-screen h-screen" type="application/pdf">
+    @else
+    <img src="/storage/proofs/{{ $proof->user_id }}/{{ $proof->title }}"  class="mx-auto w-screen h-auto">
+    @endif
+    
+
 </body>
 </html>

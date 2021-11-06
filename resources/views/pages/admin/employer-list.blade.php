@@ -16,7 +16,6 @@
             $employers = $employersData->paginate(50);
         }
     }
-    
 @endphp
 
 <body class="bg-gray-100">
@@ -24,15 +23,10 @@
 
     <div v-if="loading">
         @component('components.loading')@endcomponent
-        
     </div>
 
 
     <div >
-
-        {{-- @component('components.admin-nav')
-        @endcomponent --}}
-
         <section class="duration-500">
 
             <form action="" method="get" class="bg-gray-600 py-5 px-3">
@@ -53,15 +47,6 @@
                     <table class="table-auto shadow-md my-4 rounded-md bg-white">
                         <tr class="bg-gray-400 lg:sticky rounded-t-md ">
                             @if (isset($column) && isset($sort))
-                            {{-- <th class="p-2">
-                                @if ($column == 'user_id')
-                                    <a href="?sort={{ $sort == 'desc' ? 'asc' : 'desc' }}&column=user_id">
-                                        Employer Id <i class="fa fa-{{ $sort == 'desc' ? 'sort-down' : 'sort-up' }} ms-2"></i>
-                                    </a>
-                                @else
-                                    <a href="/admin/employers?sort=desc&column=user_id">Employer Id <i class="fa fa-sort ms-2"></i></a>
-                                @endif
-                            </th> --}}
                             <th class="p-2">
                                 @if ($column == 'company_name')
                                     <a href="?sort={{ $sort == 'desc' ? 'asc' : 'desc' }}&column=company_name">
@@ -154,7 +139,17 @@
                     </div>
                 </div>
             </div>
-            </section>
+        </section>
+    </div>
+
+    <div>
+        <div class="lg:w-10/12 mx-auto py-5">
+            <h6 class="text-lg font-bold">Unverified Employers</h6>
+            <div>
+    
+            </div>
+        </div>
+        
     </div>
 </div>
 

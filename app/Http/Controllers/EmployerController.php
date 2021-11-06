@@ -162,9 +162,17 @@ class EmployerController extends Controller
 
         $employers = Employer::join('users', 'employers.user_id', '=', 'users.user_id');
 
+        $unverifiedEmployers = Employer::where([
+
+            ['verified' , 0]
+
+        ])->pluck('user_id', 'company_name');
+
+
         return view('pages.admin.employer-list')
         ->with([
-            'employersData' => $employers
+            'employersData' => $employers,
+            'unverifiedEmployers' => $unverifiedEmployers
         ]);
     }
 

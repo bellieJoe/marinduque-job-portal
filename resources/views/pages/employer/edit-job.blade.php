@@ -3,22 +3,24 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/employer/edit-job.css') }}">
 <body class="edit-job">
-    <div class="wrapper container-lg" id="edit_job">
+    <div class=" " id="edit_job">
 
-        <div class="bg-light my-5 shadow-sm px-4 py-5 ">
+        <div class="container-lg bg-light my-5 shadow-sm px-4 py-5 ">
             
             <form action="" method="post" id="formEditJob">
-                {{-- @csrf --}}
+              
                 <h5 class="fw-bold mb-3 text-primary">Edit Job details</h5>
 
                 <input class="d-none" type="text" value="{{ $job->job_id }}" id="job_id">
 
                 <div class="row">
+           
                     <div class="col-md mb-3">
                         <label class="fw-bold">Job Title <span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" name="job_title" v-model.lazy="job.job_title" :class="errors.job_title ? 'is-invalid' : ''">
                         <div class="text-danger" v-if="errors.job_title" v-cloak>@{{ errors.job_title[0] }}</div>
                     </div>
+          
                     <div class="col-md mb-3">
                         <label class="fw-bold">Job Type<span class="text-danger"> *</span></label>
                         <select name="job_type" class="form-select" v-model.lazy="job.job_type" :class="errors.job_type ? 'is-invalid' : ''">
@@ -31,6 +33,7 @@
                         </select>
                         <div class="text-danger" v-if="errors.job_type" v-cloak>@{{ errors.job_type[0] }}</div>
                     </div>
+              
                     <div class="col-md mb-3">
                         <label class="fw-bold">Job Industry<span class="text-danger"> *</span></label>
                         <select name="job_industry" class="form-select" v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''">
@@ -40,13 +43,14 @@
                         <div class="text-danger" v-if="errors.job_industry" v-cloak>@{{ errors.job_industry[0] }}</div>
                     </div>
                 </div>
+          
                 <div class="col-md-7 mb-5">
                     <label class="fw-bold">Job Description</label>
                     <textarea name="job_description" v-model.lazy="job.job_description" class="form-control" :class="errors.job_description ? 'is-invalid' : ''"></textarea>
                     <div class="text-danger" v-if="errors.job_description" v-cloak>@{{ errors.job_description[0] }}</div>
                 </div>
 
-
+        
                 <div class="mb-3">
                     <input type="checkbox" class="form-check-input" v-model.lazy="toggle.useCompanyInformation" id="useCurrentInformation" @change="getCurrentCompany">
                     <label for="useCurrentInformation" class="form-check-label">Use current Company Information</label>
@@ -86,6 +90,7 @@
 
 
                 <label class="fw-bold mb-3">Qualifications</label>
+            
                 <div class="col-md-7 mb-3">
                     <input class="form-check-input" type="checkbox" v-model.lazy="toggle.educationalAttainment" id="educationalAttainment" @change="toggleEducationalAttainment">
                     <label for="educationalAttainment" class="fw-bold form-check-label">Educational Attainment</label>
@@ -94,16 +99,20 @@
                         <option value="primary education">Elementary Graduate</option>
                         <option value="secondary education">High School Graduate</option>
                         <option value="tertiary education">College Graduate</option>
+                        <option value="master's degree">Master's Degree</option>
+                        <option value="doctorate degree">Doctorate Degree</option>
                     </select>
                 </div>
-                <div class="col-md-7 mb-2" v-if="job.educational_attainment == 'tertiary education'">
+              
+                <div class="col-md-7 mb-2" v-if="job.educational_attainment == 'tertiary education' || job.educational_attainment == 'master\'s degree' || job.educational_attainment == 'doctorate degree' ">
                     <input class="form-check-input" type="checkbox" v-model.lazy="toggle.courseStudied" id="courseStudied" @change="toggleCourseStudied">
                     <label for="courseStudied" class="fw-bold form-check-label">Course Studied</label>
                     <div class="row" v-if="toggle.courseStudied">
                         <div class="col">
                             <select v-model.lazy="input.courseStudied" class="form-select">
-                                <option value="null">--select one--</option>
-                                <option v-for="course of courses" :value="course">@{{ course }}</option>      
+                                <option v-cloak v-if="job.educational_attainment == 'tertiary education'" v-for="course of courses" :value="course">@{{ course }}</option>
+                                <option v-cloak v-if="job.educational_attainment == 'master\'s degree'" v-for="course of masters" :value="course">@{{ course }}</option>
+                                <option v-cloak v-if="job.educational_attainment == 'doctorate degree'" v-for="course of doctors" :value="course">@{{ course }}</option>     
                             </select>
                         </div>
                         <div class="col-auto" >
@@ -117,6 +126,7 @@
                         <button type="button" v-for="i of job.course_studied" class="btn btn-outline-secondary text-start border-0" @click="removeCourse(i)">@{{ i }} <span class="text-white fw-light ms-5"><i>click to remove</i></span></button>
                     </div>
                 </div>
+       
                 <div class="col-md-7 mb-3">
                     <input class="form-check-input" type="checkbox" v-model.lazy="toggle.gender" id="gender" @change="toggleGender">
                     <label for="gender" class="fw-bold form-check-label">Gender</label>
@@ -126,6 +136,7 @@
                         <option value="female">Female</option>
                     </select>
                 </div>
+ 
                 <div class="col-md-7 mb-3">
                     <input class="form-check-input" type="checkbox" v-model="toggle.experience" id="experience" @change="toggleExperience" >
                     <label for="experience" class="fw-bold form-check-label">Years of job related experience</label>
@@ -135,6 +146,24 @@
                     </div>
                     <div class="text-danger" v-if="errors.experience" v-cloak>@{{ errors.experience[0] }}</div>
                 </div>
+      
+                <div class="col-md-7">
+                    <div class="mb-3">
+                        <h1 class="font-bold mb-1">Skills</h1>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" v-model.lazy="input.inputSkill" >
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary fw-bold" @click="addSkill">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2" v-if="job.skill" v-cloak>
+                        <button  title="Click to remove" v-cloak v-for="i of job.skill" type="button" class="btn   text-start text-secondary hover:bg-red-400" @click="removeSkill(i)"><i class="fa fa-check text-green-500"></i> @{{ i }}</button>
+                    </div>
+                </div>
+
                 <div class="col-md-7 mb-2">
                     <label class="fw-bold ">Other Qualifications</label>
                     <div class="row">
@@ -148,7 +177,7 @@
                 </div>
                 <div class="col-md-7 mb-5" v-if="job.other_qualification">
                     <div class="card p-2" >
-                        <button type="button" v-for="i of job.other_qualification" class="btn btn-outline-secondary mb-2 border-0 text-start" @click="removeQualification(i)">• @{{ i }} <span class="text-white fw-light ms-5"><i>click to remove</i></span></button>
+                        <button type="button" v-for="i of job.other_qualification" class="btn btn-outline-secondary mb-2 border-0 text-start hover:bg-red-400" @click="removeQualification(i)"><i class="fa fa-check text-green-500"></i> @{{ i }} </button>
                     </div>
                 </div>
 
@@ -185,9 +214,18 @@
                     </div>
                 </div>
 
+           
+
 
 
             </form>
+        </div>
+
+        {{-- loading --}}
+        <div v-if="loading">
+            @component('components.loading')
+                
+            @endcomponent
         </div>
         
 
@@ -195,16 +233,7 @@
 
 
 
-    {{-- modal loading --}}
-    <div class="modal fade" id="mdlLoading"  tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-transparent border-0">
-                <div class="spinner-border text-white mx-auto" role="status" style="width: 3rem; height: 3rem;">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </body>
 <script src="{{ asset('js/pages/employer/edit-job.js') }}"></script>
 @endsection

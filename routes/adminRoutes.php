@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function(){
         */
         Route::get('{status}/{user_id}', [UserController::class, 'setStatus'])->middleware('role:admin', 'auth');
 
+
     });
     // end of "employers" prefix
 
@@ -90,6 +91,17 @@ Route::prefix('admin')->group(function(){
     */
     Route::post('add-account', [AdminController::class, 'registerAdmin'])->middleware('role:admin', 'auth');
     
+    /* 
+    @method GET
+    @desc redirects to list of verificatin proofs of employer
+    @url /admin/add-account
+    */
+    Route::get('verification-proof/{employer_id}', function($employer_id){
+
+        return $employer_id;
+        
+    })->middleware('auth', 'role:admin');
+
 
 });
 // end of "admin" prefix

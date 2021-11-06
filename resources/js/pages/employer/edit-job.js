@@ -18,13 +18,16 @@ const loading = new bootstrap.Modal(document.getElementById("mdlLoading"),{
 new Vue({
     el: "#edit_job",
     data: {
+        loading: false,
         phil : philippines,
         job_data: null,
         errors : [],
         specializations: devModule.specializations,
         courses: devModule.course,
+        masters: devModule.masters,
+        doctors: devModule.doctors,
         job:{
-            job_title: null,
+            job_title: "okie",
             job_type: null,
             job_industry: null,
             job_description: null,
@@ -40,6 +43,8 @@ new Vue({
             gender: null,
             experience: null,
             other_qualification: null,
+            skill: [],
+            
 
             salary_max: null,
             salary_min: null,
@@ -57,6 +62,7 @@ new Vue({
         input:{
             courseStudied: null,
             otherQualification: null,
+            inputSkill: null,
         }
     },
     methods: {
@@ -177,9 +183,11 @@ new Vue({
             }
         },
 
-        updateJob(){
+         updateJob(){
             console.log(this.job)
-            loading.show()
+            // loading.show()
+            this.loading = true
+
             $.ajax({
                 url: `/employer/job/update-job/${this.job_data.job_id}`,
                 method: "post",
@@ -192,31 +200,44 @@ new Vue({
             }).fail((res)=>{
                 // console.log(res)
                 setTimeout(() => {
-                    loading.hide()
+                    this.loading = false
                 }, 1000);
                 this.errors = res.responseJSON.errors
             }).done((res)=>{
-                // console.log(res)
+                console.log(res)
                 location.href = "/employer/job"
             })
-        }
+        },
+
+        addSkill(){
+            if(this.input.inputSkill && this.input.inputSkill.trim() != ""){
+
+                this.job.skill.push(this.input.inputSkill)
+                this.input.inputSkill = null
+
+            }
+        },
+
+        removeSkill(a){
+
+            this.job.skill.map((val, i)=>{
+                if(val == a){
+                    this.job.skill.splice(i, 1)
+                }
+            })
+        },
         
     },
 
-    beforeCreate() {
-        loading.show()
-        $.ajax({
-            url: `/employer/job/get-job/${$("#job_id").val()}`,
-            method: "post"
-        }).fail((res)=>{
-            setTimeout(() => {
-                loading.hide()
-            }, 2000);
-            console.log(res)
-        }).done((res)=>{
-            setTimeout(() => {
-                loading.hide()
-            }, 2000);
+    async beforeCreate() {
+        this.loading = true
+        try {
+            let res = await $.ajax({
+                url: `/employer/job/get-job/${$("#job_id").val()}`,
+                method: "post"
+            })
+
+            this.loading = false
             console.log(res)
             this.job_data = res
             var address = JSON.parse(res.company_address)
@@ -228,6 +249,7 @@ new Vue({
                 experience: res.experience ? true : false,
                 status: res.status == 'open' ? true : false
             }
+            this.job.job_title = res.job_title
             this.job = {
                 job_title: res.job_title,
                 job_type: res.job_type,
@@ -245,12 +267,21 @@ new Vue({
                 gender: res.gender,
                 experience: res.experience,
                 other_qualification: res.other_qualification ? JSON.parse(res.other_qualification) : null,
+                skill: res.skill ? JSON.parse(res.skill) : [],
 
                 salary_max: res.salary_range ? JSON.parse(res.salary_range).max : null,
                 salary_min: res.salary_range ? JSON.parse(res.salary_range).min : null,
                 benefits: res.job_benefits,
                 status: res.status == 'open' ? 1 : 0
             }
-        })
+
+            console.log("ok")
+
+
+        } catch (res) {
+            this.loading = false
+            console.log(res)
+        }
+        
     },
 })

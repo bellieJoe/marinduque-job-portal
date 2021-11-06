@@ -49,7 +49,7 @@ class NewVerificationProofNotification extends Notification
                     ->subject('New Verification Request')
                     ->greeting('Hello Admin')
                     ->line($this->employer->company_name.' submitted a new verification proof for their account.')
-                    ->action('View Documents', url('/admin/verication-proof/'.$this->employer->user_id))
+                    ->action('View Documents', url('/admin/verification-proof/'.$this->employer->user_id))
                     ->line('Thank you and Good Day!');
     }
 

@@ -31,7 +31,8 @@ class Job extends Model
         'job_benefits',
         'status',
         'date_posted',
-        'days_expire'
+        'days_expire',
+        'skill'
     ];
 
     protected $dates = [

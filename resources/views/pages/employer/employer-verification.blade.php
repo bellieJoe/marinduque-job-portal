@@ -14,7 +14,7 @@
 
                         <div class="mb-3">
                             <label for="proof" class="mb-1 font-bold">Proof <span class="text-red-500">*</span></label>
-                            <input type="file" accept="image/*, ,pdf, .docx " name="proof[]" id="proof" class="form-control" multiple required>
+                            <input type="file" accept="image/*, .pdf " name="proof[]" id="proof" class="form-control" multiple required>
                         </div>
                         <button class="btn btn-success block ml-auto mr-0" >
                             Submit
@@ -26,7 +26,7 @@
 
             @if (Session::has('success') && Session::get('success'))
                 <div class="alert alert-success lg:w-5/12 mx-auto mt-5">
-                    Your Proofs has been submitted to LMD-PESO. <a href="" class="text-blue-500">Submit another proof?</a>
+                    Your Proofs has been submitted to LMD-PESO. Please expect an email about the status of your verification.<a href="" class="text-blue-500">Submit another proof?</a>
                 </div>
             @endif
 
@@ -36,11 +36,11 @@
                 </div>
 
                 <div class="shadow-md rounded-md bg-white lg:w-5/12 mx-auto mt-5 p-3">
-                    <h6>Here are the proofs you have submitted</h6>
+                    <h6 class="font-bold mb-3">Recently submitted</h6>
 
                     @foreach ($proofs as $proof)
-                    <div class="">
-                        <a href="{{ Storage::url($proof->title) }}" target="_blank">{{ $proof->title }}</a>
+                    <div class="p-2">
+                        <a href="/proof/{{ $proof->proof_id }}" target="_blank"><i class="fa fa-file mr-2"></i> {{ $proof->title }}</a>
                     </div>
                     @endforeach
                     
