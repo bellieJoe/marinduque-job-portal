@@ -75,7 +75,6 @@ class JobController extends Controller
             'experience' => $request->input('experience'),
             'other_qualification' => $request->input('other_qualification') ? json_encode($request->input('other_qualification')) : null,
             'skill' => $request->input('skill') ? json_encode($request->input('skill')) :  null,
-
             'salary_range' => json_encode([
                 'min' => $request->input('salary_min'),
                 'max' => $request->input('salary_max'),
@@ -164,7 +163,6 @@ class JobController extends Controller
             'experience' => $request->input('experience'),
             'other_qualification' => $request->input('other_qualification') ? json_encode($request->input('other_qualification')) : null,
             'skill' => $request->input('skill') ? json_encode($request->input('skill')) :  null,
-
             'salary_range' => json_encode([
                 'min' => $request->input('salary_min'),
                 'max' => $request->input('salary_max'),
@@ -358,7 +356,7 @@ class JobController extends Controller
 
             return redirect()->back();
         }
-    }
+    } 
 
     public function setStatus($status, $job_id){
         Job::where('job_id', $job_id)->update([
@@ -618,6 +616,45 @@ class JobController extends Controller
 
     }
 
+    public static function generateCandidates($job_id){
+        // $job = Job::find($job_id);
+
+        // // do not generate candidatte if the job is closef=d
+        // if($job->status == "closed"){
+        //     return null;
+        // }
+
+        // // data preparation
+        // $config = [
+        //     '1' => [],
+        //     '2' => [],
+        //     '3' => []
+        // ];
+
+        // foreach([$job->match_preference[0], $job->match_preference[1], $job->match_preference[2]] as $key => $val){
+        //     $name = $key == 0 ? 'educational_attainment' : ( $key == 1 ? 'skills' : 'yoe' );
+        //     array_push($config[$val], $name);
+        // }
+        // $education = [
+        //         'educational_attainment' => $job->educational_attainment,
+        //         'courses' => $job->course_studied ? json_decode($job->course_studied) : null
+        //     ];
+        // // skill should only be separated by comma
+        // $skills = "";
+        // foreach(json_decode($job->skill) as $skill){
+        //     $skills = $skills.$skill.", ";
+        // }
+
+        // if(!empty($config['1'])){
+
+        // } else if (!empty($config['2'])){
+
+        // } else {
+            
+        // }
+
+        // return $config;
+    }
 
 }
 

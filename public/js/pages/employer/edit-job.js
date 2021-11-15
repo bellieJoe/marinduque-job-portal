@@ -336,14 +336,9 @@ new Vue({
       jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
         url: "/employer/job/update-job/".concat(this.job_data.job_id),
         method: "post",
-        data: this.job,
-        statusCode: {
-          500: function _() {
-            location.href = "/error";
-          }
-        }
+        data: this.job
       }).fail(function (res) {
-        // console.log(res)
+        console.log(res);
         setTimeout(function () {
           _this3.loading = false;
         }, 1000);

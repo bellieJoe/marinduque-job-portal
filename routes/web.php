@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\EmsiAPIController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,8 @@ use Illuminate\Support\Facades\Http;
 use NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer;
 use NlpTools\Utils\StopWords;
 
+use function React\Promise\Timer\timeout;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,26 +36,8 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
+    
 
-    // return $resp = var_dump(json_decode(json_encode(["ako", "si", "batman"])));
-    // $resp = json_decode(file_get_contents(env('JOB_MATCH_API_HOST_PORT')."/skill")); 
-
-
-    // array_map(function($res){
-
-    //     echo $res[0]." ".$res[1]."<br>";
-
-    // } ,$resp);
-
-    // return $resp;
-
-    $text1 = "I am a programmer";
-    $text2 = "I do programming";
-    $token = "f67600e62054435e9e35339a5c0033b4";
-
-    return file_get_contents("https://api.dandelion.eu/datatxt/sim/v1?token=".$token."&text1=".urlencode($text1)."&text2=".urlencode($text2)."&lang=en");
-
-     
 });
 
 

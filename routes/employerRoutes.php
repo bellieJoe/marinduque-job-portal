@@ -63,6 +63,20 @@ Route::prefix('employer')->group(function(){
     Route::prefix('job')->group(function(){
         /* 
         @method POST
+        @desc Update the match preference
+        @url /job/{job_id}/match_preference/update
+        */
+        Route::post('{job_id}/match_preference/update', function ($job_id, Request $request) {
+
+            Job::find($job_id)->update([
+                'match_preference' => implode($request->input('match_preference'))
+            ]);
+            return back();
+            
+        })->middleware('role:employer', 'auth', 'employer-verified');
+
+        /* 
+        @method POST
         @desc Fetch the list of Jobs of an Employer
         */
         Route::post('get-job/{EmployerId}', [JobController::class, 'getJobByEmployerId'])->middleware('role:employer', 'auth');

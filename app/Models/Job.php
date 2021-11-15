@@ -32,7 +32,9 @@ class Job extends Model
         'status',
         'date_posted',
         'days_expire',
-        'skill'
+        'skill',
+        'generated_skills',
+        'match_preference'
     ];
 
     protected $dates = [

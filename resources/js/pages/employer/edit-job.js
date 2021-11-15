@@ -192,13 +192,8 @@ new Vue({
                 url: `/employer/job/update-job/${this.job_data.job_id}`,
                 method: "post",
                 data: this.job,
-                statusCode: {
-                    500: ()=>{
-                        location.href = "/error"
-                    }
-                }
             }).fail((res)=>{
-                // console.log(res)
+                console.log(res)
                 setTimeout(() => {
                     this.loading = false
                 }, 1000);

@@ -353,10 +353,40 @@
                       </h2>
                       <div class="accordion-collapse collapse show" id="applicant_match_toggles">
                         <div class="accordion-body">
-                          <div class="form-check form-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Education Attainment</label>
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                          </div>
+
+                          <p class="mb-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio expedita facere, recusandae repudiandae tempora eum earum vel magnam dicta perspiciatis.</p>
+                          <form action="/employer/job/{{ $job['jobDetails']->job_id }}/match_preference/update" method="post">
+                            @csrf
+                            {{-- educational attainment --}}
+                            <div class="form-check form-switch lg:grid lg:grid-cols-2 mb-2">
+                              <label class="form-check-label " for="flexSwitchCheckDefault">Education Attainment</label>
+                              <select id="" class="form-select" name="match_preference[0]">
+                                <option {{ $job['jobDetails']->match_preference[0] == '1' ? 'selected' : ''}} value="1">Highest Priority</option>
+                                <option {{ $job['jobDetails']->match_preference[0] == '2' ? 'selected' : ''}} value="2">Normal Priority</option>
+                                <option {{ $job['jobDetails']->match_preference[0] == '3' ? 'selected' : ''}} value="3">Less Priority</option>
+                              </select>
+                            </div>
+                            {{-- skills --}}
+                            <div class="form-check form-switch lg:grid lg:grid-cols-2 mb-2">
+                              <label class="form-check-label " for="flexSwitchCheckDefault">Skills</label>
+                              <select name="match_preference[1]" id="" class="form-select">
+                                <option {{ $job['jobDetails']->match_preference[1] == '1' ? 'selected' : ''}} value="1">Highest Priority</option>
+                                <option {{ $job['jobDetails']->match_preference[1] == '2' ? 'selected' : ''}} value="2">Normal Priority</option>
+                                <option {{ $job['jobDetails']->match_preference[1] == '3' ? 'selected' : ''}} value="3">Less Priority</option>
+                              </select>
+                            </div>
+                            {{-- Experience --}}
+                            <div class="form-check form-switch lg:grid lg:grid-cols-2 mb-4">
+                              <label class="form-check-label " for="flexSwitchCheckDefault">Years of Experience</label>
+                              <select name="match_preference[2]" id="" class="form-select">
+                                <option {{ $job['jobDetails']->match_preference[2] == '1' ? 'selected' : ''}} value="1">Highest Priority</option>
+                                <option {{ $job['jobDetails']->match_preference[2] == '2' ? 'selected' : ''}} value="2">Normal Priority</option>
+                                <option {{ $job['jobDetails']->match_preference[2] == '3' ? 'selected' : ''}} value="3">Less Priority</option>
+                              </select>
+                            </div>
+                            <button class="btn btn-success block ml-auto mr-0">Update</button>
+                          </form>
+
                         </div>
                       </div>
                     </div>
