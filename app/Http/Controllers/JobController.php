@@ -19,6 +19,16 @@ use App\Models\SavedJob;
 class JobController extends Controller
 {
 
+    private static function array_to_CSV($array){
+        $ret  = "";
+        foreach($array as $el){
+            $ret = $ret.$el.", ";
+        }
+
+        return $ret;
+    }
+
+
     public function addJob(Request $request){
         
         $validator = Validator::make($request->all(), [
@@ -51,7 +61,7 @@ class JobController extends Controller
             'salary_max.integer' => 'The Maximum Salary must be integer',
             'course_studied.*.distinct' => 'Duplicate entry found'
         ])->validate();
-
+        
 
         $job = Job::create([
             'user_id' => Auth::user()->user_id,
@@ -75,6 +85,7 @@ class JobController extends Controller
             'experience' => $request->input('experience'),
             'other_qualification' => $request->input('other_qualification') ? json_encode($request->input('other_qualification')) : null,
             'skill' => $request->input('skill') ? json_encode($request->input('skill')) :  null,
+            'generated_skills' => $request->input('skill') ? json_encode(EmsiAPIController::extractSkills(self::array_to_CSV($request->input('skill')))) : null,
             'salary_range' => json_encode([
                 'min' => $request->input('salary_min'),
                 'max' => $request->input('salary_max'),
@@ -108,36 +119,38 @@ class JobController extends Controller
     }
 
     public function updateJob($id, Request $request){
+        
         $validator = Validator::make($request->all(), [
-            'job_title' => 'required',
-            'job_type' => 'required',
-            'job_industry' => 'required',
-            'job_description' => 'nullable|min:100|max:5000',
+                'job_title' => 'required',
+                'job_type' => 'required',
+                'job_industry' => 'required',
+                'job_description' => 'nullable|min:100|max:5000',
 
-            'company_name' => 'required',
-            'region' => 'required',
-            'province' => 'required',
-            'municipality' => 'required',
-            'barangay' => 'required',
-            'company_description' => 'nullable|min:100|max:5000',
-            
-            'educational_attainment' => 'nullable',
-            'course_studied.*' => 'nullable|distinct',
-            'gender' => 'nullable',
-            'experience' => 'nullable|integer',
-            'other_qualification' => 'nullable',
+                'company_name' => 'required',
+                'region' => 'required',
+                'province' => 'required',
+                'municipality' => 'required',
+                'barangay' => 'required',
+                'company_description' => 'nullable|min:100|max:5000',
+                
+                'educational_attainment' => 'nullable',
+                'course_studied.*' => 'nullable|distinct',
+                'gender' => 'nullable',
+                'experience' => 'nullable|integer',
+                'other_qualification' => 'nullable',
 
-            'salary_min' => 'nullable|required_with:salary.max|integer',
-            'salary_max' => 'nullable|required_with:salary.min|integer|gt:salary_min',
-            'benefits' => 'nullable|min:50|max:5000',
-            'status' => 'nullable'
-        ], [
-            'salary_max.gt' => 'The Maximum salary must be greater than minimum',
-            'salary_max.required_with' => 'Maximum salary is required if minimum salary has a value',
-            'salary_min.integer' => 'The Minimum Salary must be integer',
-            'salary_max.integer' => 'The Maximum Salary must be integer',
-            'course_studied.*.distinct' => 'Duplicate entry found'
-        ])->validate();
+                'salary_min' => 'nullable|required_with:salary.max|integer',
+                'salary_max' => 'nullable|required_with:salary.min|integer|gt:salary_min',
+                'benefits' => 'nullable|min:50|max:5000',
+                'status' => 'nullable'
+            ], [
+                'salary_max.gt' => 'The Maximum salary must be greater than minimum',
+                'salary_max.required_with' => 'Maximum salary is required if minimum salary has a value',
+                'salary_min.integer' => 'The Minimum Salary must be integer',
+                'salary_max.integer' => 'The Maximum Salary must be integer',
+                'course_studied.*.distinct' => 'Duplicate entry found'
+            ])
+        ->validate();
 
         Job::where([
             'user_id' => Auth::user()->user_id,
@@ -163,6 +176,7 @@ class JobController extends Controller
             'experience' => $request->input('experience'),
             'other_qualification' => $request->input('other_qualification') ? json_encode($request->input('other_qualification')) : null,
             'skill' => $request->input('skill') ? json_encode($request->input('skill')) :  null,
+            'generated_skills' => $request->input('skill') ? json_encode(EmsiAPIController::extractSkills(self::array_to_CSV($request->input('skill')))) : null,
             'salary_range' => json_encode([
                 'min' => $request->input('salary_min'),
                 'max' => $request->input('salary_max'),

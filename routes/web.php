@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Http;
 use NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer;
 use NlpTools\Utils\StopWords;
 
-use function React\Promise\Timer\timeout;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,8 +34,11 @@ use function React\Promise\Timer\timeout;
 
 
 Route::get('/testing', function () {
-    
+    $text = "Great candidates also have, Experience with a particular JS MV* framework (we happen to use React), Experience working with databases, Experience with AWS, Familiarity with microservice architecture, Familiarity with modern CSS practices, e.g. LESS, SASS, CSS-in-JS, Can speak english, tagalog and spanish.";
+    // $text = "I am very understanding";
+    $res =  EmsiAPIController::extractSkills("dasdfas");
 
+    return $res;
 });
 
 

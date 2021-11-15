@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 class SkillController extends Controller
 {
     //
+
+
     public function getSkill($id){
         return Skill::where('skill_id', $id)->get()->first();
     }
@@ -20,8 +22,10 @@ class SkillController extends Controller
 
         Skill::create([
             'user_id' => Auth::user()->user_id,
-            'skill_description' => $request->input('skill')
+            'skill_description' => $request->input('skill'),
+            'generated_skills' => json_encode(EmsiAPIController::extractSkills($request->input('skill')))
         ]);
+    
     }
 
     public function updateSkill($id, Request $request){
@@ -31,7 +35,8 @@ class SkillController extends Controller
 
         Skill::where(['skill_id'=> $id, 'user_id' => Auth::user()->user_id])
         ->update([
-            'skill_description' => $request->input('skill')
+            'skill_description' => $request->input('skill'),
+            'generated_skills' => json_encode(EmsiAPIController::extractSkills($request->input('skill')))
         ]);
     }
 

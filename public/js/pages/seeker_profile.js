@@ -232,7 +232,7 @@ new Vue({
     skillToEdit: null,
     skillToDelete: null,
     skills: {
-      skill: null
+      skill: []
     },
     // credentials data
     crdtlToUpdate: null,
@@ -821,24 +821,44 @@ new Vue({
     addSkill: function addSkill() {
       var _this15 = this;
 
-      this.errors = [];
-      loading.css('display', 'initial');
-      console.log(this.skills);
-      jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
-        url: '/seeker/profile/skill/add-skill',
-        method: 'post',
-        data: this.skills,
-        statusCode: {
-          500: function _() {// location.href = "/error"
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this15.errors = [];
+                loading.css('display', 'initial');
+                console.log(_this15.skills);
+                _context5.prev = 3;
+                _context5.next = 6;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: '/seeker/profile/skill/add-skill',
+                  method: 'post',
+                  data: _this15.skills
+                });
+
+              case 6:
+                res = _context5.sent;
+                _context5.next = 13;
+                break;
+
+              case 9:
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](3);
+                console.log(_context5.t0);
+                _this15.errors = _context5.t0.responseJSON.errors;
+
+              case 13:
+                loading.css('display', 'none');
+
+              case 14:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }).fail(function (res) {
-        console.log(res);
-        loading.css('display', 'none');
-        _this15.errors = res.responseJSON.errors;
-      }).done(function () {
-        location.href = location.href;
-      });
+        }, _callee5, null, [[3, 9]]);
+      }))();
     },
     updateSkill: function updateSkill() {
       var _this16 = this;

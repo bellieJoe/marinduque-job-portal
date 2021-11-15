@@ -80,7 +80,7 @@ new Vue({
         skillToEdit: null,
         skillToDelete: null,
         skills: {
-            skill: null
+            skill: []
         },
 
         // credentials data
@@ -611,26 +611,28 @@ new Vue({
             })
         },
 
-        addSkill() {
+        async addSkill() {
             this.errors = []
             loading.css('display', 'initial')
             console.log(this.skills)
-            $.ajax({
-                url: '/seeker/profile/skill/add-skill',
-                method: 'post',
-                data: this.skills,
-                statusCode: {
-                    500: () => {
-                        // location.href = "/error"
-                    }
-                },
-            }).fail((res) => {
-                console.log(res)
-                loading.css('display', 'none')
-                this.errors = res.responseJSON.errors
-            }).done(() => {
-                location.href = location.href
-            })
+            
+            try {
+                
+                let res = await $.ajax({
+                    url: '/seeker/profile/skill/add-skill',
+                    method: 'post',
+                    data: this.skills,
+                    
+                })
+
+                
+            } catch (error) {
+                console.log(error)
+                
+                this.errors = error.responseJSON.errors
+            }
+
+            loading.css('display', 'none')
         },
 
         updateSkill() {

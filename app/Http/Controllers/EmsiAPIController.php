@@ -110,7 +110,8 @@ class EmsiAPIController extends Controller
             echo "cURL Error #:" . $err;
         } else {
             if ( isset(json_decode($response)->message) ){
-                return $response;
+                echo $response;
+                return http_response_code(404);
             } else {
                 $skills = [
                     'generated' => [],
@@ -164,7 +165,8 @@ class EmsiAPIController extends Controller
         } else {
 
             if(isset(json_decode($response)->message)){
-                return $response;
+                echo $response;
+                return http_response_code(404);
             }
 
             $relatedSkills = [];
