@@ -399,7 +399,7 @@ class JobController extends Controller
     }
 
 
-    // returns suggested jobs ids
+    // returns suggested jobs ids might delete later
     public function generateJobSuggestionsIds(){
 
         $userId = Auth::user()->user_id;

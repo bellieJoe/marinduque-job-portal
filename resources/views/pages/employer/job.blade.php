@@ -48,7 +48,7 @@
                     </ul>
                   </li>
                   <li>
-                    <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=job_statistics')" class="{{ $view == 'job_statistics' ? 'text-indigo-900 font-bold' : '' }} py-2 px-3 w-100 text-start hover:font-bold text-blue-500" @click="toggleView('job statistics')"><i class="fa fa-chart-pie me-2"></i>Job Statistics</button>
+                    <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=suggested_seekers')" class="{{ $view == 'suggested_seekers' ? 'text-indigo-900 font-bold' : '' }} py-2 px-3 w-100 text-start hover:font-bold text-blue-500" @click="toggleView('suggested seekers')"><i class="fa fa-user-check me-2"></i>Suggested  Seekers</button>
                   </li>
                   <li>
                     <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=job_preferences')" class="{{  $view == 'job_preferences' ? 'text-indigo-900 font-bold' : ''  }} py-2 px-3 w-100 text-start hover:font-bold text-blue-500" @click="toggleView('job preferences')"><i class="fa fa-sliders-h me-2"></i>Job Preferences</button>
@@ -271,10 +271,35 @@
                 </div>
                 @endif
 
-                {{-- job statistics --}}
-                @if ($view == 'job_statistics')
+                {{-- suggested seekers --}}
+                @if ($view == 'suggested_seekers')
                 <div >
-                  job statistics
+                  <input type="hidden" value="{{ $job['jobDetails']->job_id }}" id="jobId">
+                  <h1 class="font-bold">Suggested Seekers</h1>
+                  <button class="btn btn-outline-primary btn-sm block ml-auto mr-0 mb-2" @click="generateSuggestions()"><i class="fa fa-sync-alt"></i> Refresh</button>
+                  <div v-if="suggestedSeekers.length > 0">
+                    <div v-for="seeker in suggestedSeekers" class="mb-3 p-3 rounded-sm border-1" v-cloak>
+                      <h1 class="font-bold text-blue-800 mb-2" v-cloak>
+                        @{{ seeker.seeker.firstname + " " + seeker.seeker.lastname  }}
+                      </h1>
+                      <h1 class="text-gray-500" v-cloak>
+                        Educational Attainment: @{{ seeker.educationRate }}%
+                      </h1>
+                      <h1 class="text-gray-500" v-cloak>
+                        Skills: @{{ seeker.skillsRate }}%
+                      </h1>
+                      <h1 class="text-gray-500" v-cloak>
+                        Experience: @{{ seeker.yoeRate }}%
+                      </h1>
+                      <h1 v-cloak class="text-xl font-semibold text-green-700">
+                        @{{ seeker.total }}% match
+                      </h1>
+                      <a target="_blank" :href="'/resume/' + seeker.seeker_id" class="btn btn-primary btn-sm mt-2">View Resume</a>
+                    </div>
+                  </div>
+                  <div  v-if="suggestedSeekers.length < 1">
+                    <h1 class="text-center text-gray-600 my-48">No Suggestions. Try adding more data to your job postings.</h1>
+                  </div>
                 </div>
                 @endif
 
@@ -354,36 +379,48 @@
                       <div class="accordion-collapse collapse show" id="applicant_match_toggles">
                         <div class="accordion-body">
 
-                          <p class="mb-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio expedita facere, recusandae repudiandae tempora eum earum vel magnam dicta perspiciatis.</p>
-                          <form action="/employer/job/{{ $job['jobDetails']->job_id }}/match_preference/update" method="post">
+                          <p class="mb-3">Matching suggested candidates for your job will be based here.</p>
+                          <form action="/employer/job/{{ $job['jobDetails']->job_id }}/match_preferences/update" method="post">
                             @csrf
                             {{-- educational attainment --}}
                             <div class="form-check form-switch lg:grid lg:grid-cols-2 mb-2">
                               <label class="form-check-label " for="flexSwitchCheckDefault">Education Attainment</label>
-                              <select id="" class="form-select" name="match_preference[0]">
-                                <option {{ $job['jobDetails']->match_preference[0] == '1' ? 'selected' : ''}} value="1">Highest Priority</option>
-                                <option {{ $job['jobDetails']->match_preference[0] == '2' ? 'selected' : ''}} value="2">Normal Priority</option>
-                                <option {{ $job['jobDetails']->match_preference[0] == '3' ? 'selected' : ''}} value="3">Less Priority</option>
-                              </select>
+                              <div class="input-group w-32">
+                                <input 
+                                type="number" 
+                                name="match_preferences[educational_attainment]" 
+                                value="{{   json_decode($job['jobDetails']->match_preferences)->educational_attainment }}" 
+                                class="form-control" max="100" min="0">
+                                <label for="" class="input-group-text">%</label>
+                              </div>
                             </div>
                             {{-- skills --}}
                             <div class="form-check form-switch lg:grid lg:grid-cols-2 mb-2">
                               <label class="form-check-label " for="flexSwitchCheckDefault">Skills</label>
-                              <select name="match_preference[1]" id="" class="form-select">
-                                <option {{ $job['jobDetails']->match_preference[1] == '1' ? 'selected' : ''}} value="1">Highest Priority</option>
-                                <option {{ $job['jobDetails']->match_preference[1] == '2' ? 'selected' : ''}} value="2">Normal Priority</option>
-                                <option {{ $job['jobDetails']->match_preference[1] == '3' ? 'selected' : ''}} value="3">Less Priority</option>
-                              </select>
+                              <div class="input-group w-32">
+                                <input 
+                                type="number" 
+                                name="match_preferences[skills]" 
+                                value="{{ json_decode($job['jobDetails']->match_preferences)->skills }}" 
+                                class="form-control" max="100" min="0">
+                                <label for="" class="input-group-text">%</label>
+                              </div>
                             </div>
                             {{-- Experience --}}
                             <div class="form-check form-switch lg:grid lg:grid-cols-2 mb-4">
                               <label class="form-check-label " for="flexSwitchCheckDefault">Years of Experience</label>
-                              <select name="match_preference[2]" id="" class="form-select">
-                                <option {{ $job['jobDetails']->match_preference[2] == '1' ? 'selected' : ''}} value="1">Highest Priority</option>
-                                <option {{ $job['jobDetails']->match_preference[2] == '2' ? 'selected' : ''}} value="2">Normal Priority</option>
-                                <option {{ $job['jobDetails']->match_preference[2] == '3' ? 'selected' : ''}} value="3">Less Priority</option>
-                              </select>
+                              <div class="input-group w-32">
+                                <input 
+                                type="number" 
+                                name="match_preferences[yoe]" 
+                                value="{{ json_decode($job['jobDetails']->match_preferences)->yoe }}" 
+                                class="form-control" max="100" min="0">
+                                <label for="" class="input-group-text">%</label>
+                              </div>
                             </div>
+                            @error('not_100')
+                              <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             <button class="btn btn-success block ml-auto mr-0">Update</button>
                           </form>
 
@@ -391,15 +428,6 @@
                       </div>
                     </div>
                   </div>
-                  {{-- <div>
-                    <h1>Applicant Matching Preference</h1>
-                    <div>
-                      <div class="form-check form-switch">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Education Attainment</label>
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                      </div>
-                    </div>
-                  </div> --}}
                 </div>
                 @endif
             </section>

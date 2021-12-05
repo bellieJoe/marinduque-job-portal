@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\EmsiAPIController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobMatchingController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -34,11 +35,10 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
-    $text = "Great candidates also have, Experience with a particular JS MV* framework (we happen to use React), Experience working with databases, Experience with AWS, Familiarity with microservice architecture, Familiarity with modern CSS practices, e.g. LESS, SASS, CSS-in-JS, Can speak english, tagalog and spanish.";
-    // $text = "I am very understanding";
-    $res =  EmsiAPIController::extractSkills("dasdfas");
-
-    return $res;
+    
+    return JobMatchingController::genSuggestedCandidate(3);
+    // return JobMatchingController::sortSuggestedSeekers(JobMatchingController::genSuggestedCandidate(3)) ;
+    
 });
 
 

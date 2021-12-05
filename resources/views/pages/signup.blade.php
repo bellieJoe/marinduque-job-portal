@@ -18,11 +18,7 @@
                 <div class=" mb-3 mt-3">
                     <label class="fw-bold">Firstname <span class="text-danger">*</span></label>
                     <input type="text" placeholder="eg Juan" name="firstname" value="{{ old('firstname') }}" class="form-control @error('firstname') is-invalid @enderror">
-                    @error('firstname')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
+
                 </div>
                 
 

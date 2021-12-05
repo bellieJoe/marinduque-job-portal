@@ -34,7 +34,7 @@ class Job extends Model
         'days_expire',
         'skill',
         'generated_skills',
-        'match_preference'
+        'match_preferences'
     ];
 
     protected $dates = [

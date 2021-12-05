@@ -4,6 +4,7 @@ use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\EmployerVerificationProofController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobMatchingController;
 use App\Models\Employer;
 use App\Models\EmployerVerificationProof;
 use App\Models\Job;
@@ -12,6 +13,7 @@ use App\Models\Seeker;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Google\Cloud\Talent\V4beta1\JobApplication as V4beta1JobApplication;
+use Illuminate\Foundation\Console\JobMakeCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -66,10 +68,21 @@ Route::prefix('employer')->group(function(){
         @desc Update the match preference
         @url /job/{job_id}/match_preference/update
         */
-        Route::post('{job_id}/match_preference/update', function ($job_id, Request $request) {
+        Route::post('{job_id}/match_preferences/update', function ($job_id, Request $request) {
 
+            $sum = $request->input('match_preferences')['educational_attainment'] +  $request->input('match_preferences')['skills'] +  $request->input('match_preferences')['yoe'];
+            
+            
+
+            if($sum != 100){  
+                return back()->withErrors([
+                    "not_100" => "The Total of the criteria is not equal to 100."
+                ]);
+                // return $sum;
+            }  
+            
             Job::find($job_id)->update([
-                'match_preference' => implode($request->input('match_preference'))
+                'match_preferences' => json_encode($request->input('match_preferences'))
             ]);
             return back();
             
@@ -283,6 +296,15 @@ Route::prefix('employer')->group(function(){
         @url /employer/job/{job_id}/delete
         */
         Route::delete('{job_id}/delete', [JobController::class, 'deleteJobById'])->middleware('role:employer', 'auth');
+
+        /* 
+        @desc generates suggested applicants
+        @method get
+        @route employer/job/{job_id}/generate_suggested_applicants
+        */
+        Route::get('{job_id}/generate_suggested_applicants', function($job_id){
+            return JobMatchingController::genSuggestedCandidate($job_id);
+        });
 
     });
     // end of job prefix

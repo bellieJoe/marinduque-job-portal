@@ -12,12 +12,29 @@ new Vue({
     el: '#job',
     data: {
         daysExpForm : null,
-        loading : false
+        loading : false,
+        jobId : 0,
+        suggestedSeekers  : []
     },
     methods: {
         // toggleView(viewName){
         //     this.toggledView = viewName
         // },
+        async generateSuggestions() {
+            try {
+                this.toggleLoading()
+                let res = await $.ajax({
+                    method: "GET",
+                    url: `/employer/job/${this.jobId}/generate_suggested_applicants`,
+                })
+                this.suggestedSeekers = res
+                console.log(res)
+                this.toggleLoading()
+            } catch (err) {
+                console.log(err)
+                this.toggleLoading()
+            }
+        },
 
         toggleLoading(){
             if(this.loading){
@@ -46,6 +63,13 @@ new Vue({
             location.href = route
 
         }
+
+    },
+
+    mounted() {
+        this.jobId  = $("#jobId").val();
+        this.generateSuggestions()
+
 
     },
 
