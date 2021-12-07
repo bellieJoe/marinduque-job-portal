@@ -48,9 +48,9 @@
                 <button class="py-2 px-3 duration-300 hover:bg-indigo-600 rounded-t-md rounded-tr-md" :class="toggledJobs == 'suggestions' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'" @click="toggleJobs('suggestions')">
                     <i class="fa fa-archive me-1"></i> Suggested Jobs
                 </button>
-                <button class="py-2 px-3 hover:bg-indigo-600 duration-300 rounded-t-md rounded-tr-md" :class="toggledJobs == 'invitations' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'"  @click="toggleJobs('invitations')">
+                {{-- <button class="py-2 px-3 hover:bg-indigo-600 duration-300 rounded-t-md rounded-tr-md" :class="toggledJobs == 'invitations' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'"  @click="toggleJobs('invitations')">
                     <i class="fa fa-envelope me-1"></i> Invitations
-                </button>
+                </button> --}}
                 <button class="py-2 px-3 hover:bg-indigo-600 duration-300 rounded-t-md rounded-tr-md" :class="toggledJobs == 'saved jobs' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'"  @click="toggleJobs('saved jobs')">
                     <i class="fa fa-bookmark me-2"></i> 
                     Saved Jobs 
@@ -60,22 +60,29 @@
                     Applications
                 </button>
             </nav>
-            {{-- featur contents --}}
+            {{-- feature contents --}}
             <div class="bg-blue-100 mb-5">
+                <input type="hidden" id="toggle" value="{{ isset($_GET["toggle"]) ? $_GET["toggle"] : null }}">
                 {{-- suggested jobs --}}
                 <div v-if="toggledJobs == 'suggestions'" class="p-3" v-cloak>
                       <h1 class="text-gray-500 mb-3 fw-bold">Jobs that matches your profile</h1>
                       <div v-for="job of jobSuggestions">
                           
                           <div @click="redirectRoute('/job-search-mdq/view/'+job.job_id)" class="rounded-md  p-3 mb-2 bg-white hover:shadow-lg cursor-pointer duration-300 ">
-                              <h6 class="font-bold text-indigo-500">@{{ job.job_title }}</h6>
-                              <p class="text-gray-500">@{{ job.company_name }}</p>
+                              <h6 class="font-bold text-indigo-500">@{{ job.job.job_title }}</h6>
+                              <p class="text-gray-500">@{{ job.job.company_name }}</p>
                               
-                              <div class="mt-3">
-                                <p>@{{ job.job_industry }}</p>
+                              <div class="mt-3 text-sm">
+                                <p>@{{ job.job.job_industry }}</p>
                                 <p class="" v-if="job.salary_range.max && job.salary_range.min">Php @{{ job.salary_range.min }} - Php @{{ job.salary_range.max }}</p>
-                                <p>@{{ job.job_type }}</p>
+                                <p>@{{ job.job.job_type }}</p>
                                 <p>@{{ job.company_address.municipality.name }}, @{{ job.company_address.province.name }}</p>
+                                <p class="mt-2">
+                                    <span class="text-xl text-green-600 font-bold">@{{ job.total }}% <span class="font-normal">match</span></span> 
+                                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Education: @{{ job.educationRate }}%</span>
+                                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Skills: @{{ job.skillsRate }}%</span>
+                                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Experience: @{{ job.yoeRate }}%</span>
+                                </p>
                               </div>
                               
                               <p class="text-gray-400 mt-3">@{{ job.date_posted_diffForHumans  }}</p>
@@ -91,10 +98,10 @@
                     
                 </div>
                 {{-- job invitions --}}
-                <div v-if="toggledJobs == 'invitations'" class="p-3" v-cloak>
+                {{-- <div v-if="toggledJobs == 'invitations'" class="p-3" v-cloak>
                     <h1 class="text-gray-500 mb-3 fw-bold">Job Invitations</h1>
                     invitations
-                </div>
+                </div> --}}
                 {{-- saved jobs --}}
                 <div v-if="toggledJobs == 'saved jobs'" class="p-3" v-cloak>
                     <h1 class="text-gray-500 mb-3 fw-bold">Saved jobs</h1>

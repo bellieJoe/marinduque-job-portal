@@ -36,7 +36,7 @@ use NlpTools\Utils\StopWords;
 
 Route::get('/testing', function () {
     
-    return JobMatchingController::genSuggestedCandidate(3);
+    return JobMatchingController::genSuggestedJobs();
     // return JobMatchingController::sortSuggestedSeekers(JobMatchingController::genSuggestedCandidate(3)) ;
     
 });

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Validator;
 use Algolia\AlgoliaSearch\SearchIndex;
 use App\Models\SavedJob;
+use App\Notifications\InvitationNotification;
+use Illuminate\Support\Facades\Mail;
 
 class JobController extends Controller
 {
@@ -605,27 +607,16 @@ class JobController extends Controller
 
     public function generateJobSuggestionsPreview(){
 
-        $jobs = Job::whereIn('job_id', $this->generateJobSuggestionsIds())
-        ->inRandomOrder()
-        ->limit(20)
-        ->get();
-
-        $job = $this->generateJobSuggestionsIds();
-
-        // return [];
-        return $jobs;
+        $res = collect(JobMatchingController::genSuggestedJobs());
+        return $res->count() < 11 ? $res : $res->splice(10);
     }
 
     public function generateJobSuggestionsFull(){
 
-        $jobs = Job::whereIn('job_id', $this->generateJobSuggestionsIds())
-        ->inRandomOrder()
-        ->paginate(5);
-
 
         return view('pages.seeker.job-suggestions-full')
                 ->with([
-                    'jobs' => $jobs
+                    'jobs' => JobMatchingController::genSuggestedJobs()
                 ]);
 
     }
@@ -668,6 +659,26 @@ class JobController extends Controller
         // }
 
         // return $config;
+    }
+
+    public function sendInvitation(Request $request){
+
+        $seeker = Seeker::where("user_id", $request->input("seeker_id"))->first();
+        $seekerAcc = User::find($request->input("seeker_id"));
+        $job = Job::find($request->input("job_id"));
+        $seekerAcc->notify(new InvitationNotification($seeker, $job, $request->input("message")));
+
+        $invitations = $job->invitation ? json_decode($job->invitation) : [];
+
+        array_push($invitations, $request->input("seeker_id"));
+
+        Job::where("job_id", $request->input("job_id"))->update([
+            "invitation" => json_encode($invitations)
+        ]);
+
+        return back()->with([
+            "InvitationSuccessMessage" => "The Invitation was sent successfully."
+        ]);
     }
 
 }

@@ -8,16 +8,97 @@ use App\Models\Job;
 use App\Models\Seeker;
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobMatchingController extends Controller
 {
 
-    public static function genSuggestedJobs($user_id = 4)
+    public static function genSuggestedJobs()
     {
 
+        $user_id = Auth::user()->user_id;
         $seeker = Seeker::where('user_id', $user_id)->first();
         $jobs = Job::where('status', "open")->get(); 
+        $education = Education::where("user_id", $user_id)->get();
+        $suggestedJobs = collect([]);
+
+        foreach ($jobs as $job) {
+            // if($job->generated_skills == null || $job->experience == null){
+            //     return null;
+            // } 
+            $educRate = number_format(self::rateEducationSeeker($job, $education) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
+            $skillsRate = $job->generated_skills && !empty(json_decode($job->generated_skills)->generated) ?  number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",") : 0;
+            $yoeRate = number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",");
+            // echo "Job Title : $job->job_title, Education: $educRate, Skills Rate:  $skillsRate , Experience Rate: $yoeRate<br>";
+            $suggestedJobs->push( [
+                "job" => $job,
+                "educationRate" => $educRate,
+                "skillsRate" => $skillsRate,
+                'yoeRate' => $yoeRate,
+                'total' => number_format( ($educRate + $skillsRate + $yoeRate), 2, '.', ',' )
+            ]);
+        }
+
+        a:
+        $sorted = true;
+        foreach($suggestedJobs as $i => $seeker){
+            if($i < (count($suggestedJobs)-1)){
+                if($suggestedJobs[$i]["total"] < $suggestedJobs[($i+1)]["total"]){
+                    // echo "<br>sorting<br>";
+                    $_seeker = $suggestedJobs[$i];
+                    // echo "Before: ".$seekers[$i]["total"]." After: ".$seekers[($i+1)]["total"]."<br>";
+                    $suggestedJobs[$i] = $suggestedJobs[($i+1)];
+                    $suggestedJobs[($i+1)] = $_seeker;
+                    $sorted = false;
+                }
+            }
+        }
+
+
+        if(!$sorted){
+            goto a;
+        }
+
+        return $suggestedJobs->where("total", ">", 50);
     }
+
+    public static function rateEducationSeeker(Job $job, $educations)
+    {
+
+        $rate = 0;
+
+        foreach($educations as $education){
+            if($job->educational_attainment == $education->education_level){
+                $courses = $job->course_studied ? json_decode($job->course_studied) : null; 
+                
+                if(in_array($job->educational_attainment, ["primary education", "secondary education"] )){
+                    return 100;
+                }
+                else{
+
+                    if($courses){
+                        if($courses && in_array($education->course, $courses)){
+                            return 100;
+                        }
+                        else{
+                            $rate = 0;
+                        }
+                    }
+                    else{
+                        return 100;
+                    }
+                    
+                }
+
+                
+            }
+        }
+
+        return $rate;
+
+    }
+
+
 
     public static function genSuggestedCandidate($job_id)
     {
@@ -25,7 +106,7 @@ class JobMatchingController extends Controller
         $job = Job::find($job_id);
         $seekers = Seeker::all();
         $candidates = [];
-
+        $invitedSeekers = json_decode($job->invitation) ? json_decode($job->invitation) : [];
 
         if($job->generated_skills == null || $job->experience == null){
             return null;
@@ -34,6 +115,9 @@ class JobMatchingController extends Controller
         /* educational attainment */
         foreach($seekers as $seeker){
             // echo "<br>User ID: " .$seeker->user_id."<br>";
+            if(in_array($seeker->user_id , $invitedSeekers)){
+                continue;
+            }
             $educRate  = number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
             $skillRate = number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",");
             $yoeRate = number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",");
@@ -188,9 +272,11 @@ class JobMatchingController extends Controller
         $seekerEducation = Education::where('user_id', $seeker->user_id)->get(['education_level', 'course']);
         foreach($seekerEducation as $education){
             if($education->education_level == $job->educational_attainment){
-                $rate = 50;
-                $courses = json_decode($job->course_studied); 
-                if(!empty($courses)){
+                if(in_array($job->educational_attainment, ["primary education", "secondary education"])){
+                    return 100;
+                }
+                $courses = $job->course_studied ? json_decode($job->course_studied) : null; 
+                if($courses){
                     foreach($courses as $course){
                         foreach($seekerEducation as $education){
                             if($course == $education->course){

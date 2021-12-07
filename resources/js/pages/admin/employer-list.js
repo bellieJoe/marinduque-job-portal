@@ -27,5 +27,8 @@ new Vue({
         redirectRoute(route){
             location.href = route
         },
-    }
+    },
+    mounted() {
+        // window.print()
+    },
 })

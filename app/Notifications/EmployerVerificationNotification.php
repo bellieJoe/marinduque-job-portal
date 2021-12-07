@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
+use App\Models\Employer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewVerificationProofNotification extends Notification
+class EmployerVerificationNotification extends Notification
 {
     use Queueable;
 
@@ -17,12 +17,10 @@ class NewVerificationProofNotification extends Notification
      *
      * @return void
      */
-    public function __construct($verificationProof, $employer)
+    public function __construct(Employer $employer)
     {
         //
-        $this->verificationProof = $verificationProof;
         $this->employer = $employer;
-
     }
 
     /**
@@ -33,7 +31,7 @@ class NewVerificationProofNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast'];
+        return ['mail'];
     }
 
     /**
@@ -45,12 +43,12 @@ class NewVerificationProofNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->success()
-                    ->subject('New Verification Request')
-                    ->greeting('Hello Admin')
-                    ->line($this->employer->company_name.' submitted a new verification proof for their account.')
-                    ->action('View Documents', url('/admin/proof/'.$this->employer->user_id))
-                    ->line('Thank you and Good Day!');
+                    ->subject("Account fully verified")
+                    ->greeting("Good Day ".$this->employer->contact_person_name)
+                    ->line('We are please to announce that your company account has been fully verified by our admin and has been prove to be a legitimate company/organzation.')
+                    ->line('You can now add job postings and use all features of our website dedicated to the employers.')
+                    ->action('Sign In', url(''))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -63,9 +61,7 @@ class NewVerificationProofNotification extends Notification
     {
         return [
             //
-            'title' => 'Verification Proof',
-            'message' => $this->employer->company_name.' submitted a new verification proof for their account.',
-            'action' => url('/admin/proof/'.$this->employer->user_id)
+
         ];
     }
 }

@@ -158,21 +158,31 @@ class EmployerController extends Controller
         return Employer::where('user_id', Auth::user()->user_id)->get('address')->first();
     }
 
-    public function getEmployers(){
+    public function getEmployers(Request $request){
 
-        $employers = Employer::join('users', 'employers.user_id', '=', 'users.user_id');
+        $employers = [];
+        
+        if($request->has('search')){
+            $employer = Employer::search($request->input('search'))->get();
+            $id = [];
+            foreach($employer as $emp){
+                array_push($id, $emp->user_id);
+            }
+            $users = User::whereIn('user_id', $id);
+            $employers = Employer::joinSub($users, 'users', function($join){
+                $join->on('employers.user_id', '=', 'users.user_id');
+            });
+        }else{
+            $employers = Employer::join('users', 'employers.user_id', '=', 'users.user_id');
+        }
+        
 
-        $unverifiedEmployers = Employer::where([
-
-            ['verified' , 0]
-
-        ])->pluck('user_id', 'company_name');
 
 
         return view('pages.admin.employer-list')
         ->with([
             'employersData' => $employers,
-            'unverifiedEmployers' => $unverifiedEmployers
+
         ]);
     }
 

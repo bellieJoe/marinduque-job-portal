@@ -33,6 +33,8 @@ new Vue({
     redirectRoute: function redirectRoute(route) {
       location.href = route;
     }
+  },
+  mounted: function mounted() {// window.print()
   }
 });
 

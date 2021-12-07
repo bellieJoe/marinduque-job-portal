@@ -5,7 +5,7 @@
 <body class="bg-gray-200">
     <div id="job">
 
-        <section class="container-lg mx-auto my-4 row rounded-2 shadow-sm p-0">
+        <section class="container-lg mx-auto my-4 md:grid grid-cols-4 rounded-2 shadow-sm p-0">
 
           {{-- states --}}
           @php
@@ -16,7 +16,7 @@
           @endphp
 
             {{-- job navigation --}}
-            <aside class="col-auto bg-blue-100 p-0 rounded-start">
+            <aside class="md:col-span-1 md:inline-block bg-blue-100 p-0 rounded-start">
                 <h5 class="p-3"><strong>{{ $job['jobDetails']->job_title }}</strong></h5>
                 <ul>
                   <li>
@@ -58,7 +58,7 @@
 
 
             {{-- contents --}}
-            <section class="col py-4 px-3 bg-white rounded-end">
+            <section class="md:col-span-3 md:inline-block py-4 px-3 bg-white rounded-end">
                 {{-- job details --}}
                 @if ($view == 'job_details')
                 <div>
@@ -71,10 +71,12 @@
                       <h6><strong>Job Type</strong></h6>
                       {{ $job['jobDetails']->job_type }}
                     </li>
+                    @if ($job['jobDetails']->job_descriptio)
                     <li class="list-group-item border-0">
                       <h6><strong>Job Desciption</strong></h6>
                       {{ $job['jobDetails']->job_description }}
                     </li>
+                    @endif
                     <li class="list-group-item border-0">
                       <h6><strong>Company Name</strong></h6>
                       {{ $job['jobDetails']->company_name}}
@@ -113,10 +115,26 @@
                         @endif
                         
                         @if ($job['jobDetails']->skill)
-                        <h1 class="font-bold text-gray-500 mt-2">Skills</h1>
+                          <h1 class="font-bold text-gray-500 mt-2">Skills</h1>
                           @foreach (json_decode($job['jobDetails']->skill) as $skill )
                             <li ><i class="fa fa-check text-success me-2"></i>{{ $skill }} </li>
                           @endforeach
+                          @if ($job["jobDetails"]->generated_skills)
+                              <label for="" class="text-sm text-gray-500" title="This extracted skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Extracted Skills: </label>
+                            @foreach (json_decode($job["jobDetails"]->generated_skills)->generated as $skill)
+                              <div class="inline-block bg-green-200 rounded-sm m-1 p-1 text-sm">
+                                {{ $skill->name }}
+                              </div> 
+                            @endforeach
+                          @endif
+                          @if ($job["jobDetails"]->generated_skills)
+                              <br><label for="" class="text-sm text-gray-500" title="This related skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Related Skills: </label>
+                            @foreach (json_decode($job["jobDetails"]->generated_skills)->related as $skill)
+                              <div class="inline-block bg-purple-200 rounded-sm m-1 p-1 text-sm">
+                                {{ $skill->name }}
+                              </div> 
+                            @endforeach
+                          @endif
                         @endif
 
                         @if($job['jobDetails']->gender || $job['jobDetails']->other_qualification)
@@ -277,6 +295,11 @@
                   <input type="hidden" value="{{ $job['jobDetails']->job_id }}" id="jobId">
                   <h1 class="font-bold">Suggested Seekers</h1>
                   <button class="btn btn-outline-primary btn-sm block ml-auto mr-0 mb-2" @click="generateSuggestions()"><i class="fa fa-sync-alt"></i> Refresh</button>
+                  @if (Session::has('InvitationSuccessMessage'))
+                    <div class="m-2">
+                      <p  class="text-green-500">{{ Session::get('InvitationSuccessMessage') }}</p>
+                    </div>
+                  @endif
                   <div v-if="suggestedSeekers.length > 0">
                     <div v-for="seeker in suggestedSeekers" class="mb-3 p-3 rounded-sm border-1" v-cloak>
                       <h1 class="font-bold text-blue-800 mb-2" v-cloak>
@@ -295,6 +318,35 @@
                         @{{ seeker.total }}% match
                       </h1>
                       <a target="_blank" :href="'/resume/' + seeker.seeker_id" class="btn btn-primary btn-sm mt-2">View Resume</a>
+                      <button data-bs-toggle="modal" data-bs-target="#inviteModal" class="btn btn-success btn-sm mt-2"><i class="fa fa-envelope"></i> Invite</button>
+                      <form action="/employer/job/sendInvitation" method="POST" >
+                        @csrf
+                        <input type="hidden" name="seeker_id" :value="seeker.seeker.user_id">
+                        <input type="hidden" name="job_id" value="{{ $job["jobDetails"]->job_id }}">
+                        <div class="modal fade" id="inviteModal">
+                          <div class="modal-dialog modal-dialog-centered ">
+                            <div class="modal-content">
+                              <div class="modal-header border-none">
+                                <div>
+                                  <h1 class="text-xl font-bold">Invitation</h1>
+                                  <p class="block ">Send an email invitation to apply to your job posting</p>
+                                </div>
+                                
+                              </div>
+                              <div class="modal-body border-none">
+                                <div>
+                                  <label for="" class="font-bold mb-1">Write a message for your invitation <span class="text-danger">*</span></label>
+                                  <textarea name="message" id="" cols="30" rows="10" class="form-control" required></textarea>
+                                </div>
+                              </div>
+                              <div class="modal-footer border-none">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" ><i class="fa fa-envelope"></i> Send</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
                     </div>
                   </div>
                   <div  v-if="suggestedSeekers.length < 1">
@@ -431,6 +483,9 @@
                 </div>
                 @endif
             </section>
+
+
+            
         </section>
 
 
@@ -439,7 +494,8 @@
           @component('components.loading')
           @endcomponent
         </div>
-        
+
+
     </div>
 </body>
 <script src="{{ asset('js/pages/employer/job.js') }}"></script>

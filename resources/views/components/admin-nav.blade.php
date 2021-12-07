@@ -11,8 +11,19 @@
 
         <h1 class="text-lg font-bold p-2  lg:hidden">Admin</h1>
 
-        <div @click="redirectRoute('/admin/employers')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
+        {{-- <div @click="redirectRoute('/admin/employers')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6><i class="fa fa-building mr-2"></i>Employers</h6>
+        </div> --}}
+        <div @mouseover="showEmployerNav" @mouseleave="hideEmployerNav"  class="text-gray-400  hover:text-white duration-500 cursor-pointer lg:inline-block">
+            <h6 class="p-2"><i class="fa fa-building mr-2"></i>Employers</h6>
+            <div v-cloak class="lg:absolute bg-gray-800 shadow-md lg:rounded-md" :class=" employerNavToggle ? 'lg:visible' : 'lg:hidden' ">
+                <div class="text-gray-400 ml-4 p-2  hover:text-white duration-500 cursor-pointer">
+                    <a href="/admin/employers"><i class="fa fa-plus-circle me-2"></i>Employers List</a>
+                </div>
+                <div class="text-gray-400 ml-4 p-2  hover:text-white duration-500 cursor-pointer">
+                    <a href="/admin/employers/unverified"><i class="fa fa-plus-circle me-2"></i>Verify Employer</a>
+                </div>
+            </div>
         </div>
         <div @click="redirectRoute('/admin/job-seekers')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6><i class="fa fa-users mr-2"></i>Job Seekers</h6>

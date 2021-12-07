@@ -147,34 +147,46 @@
                                 <h6 class="fw-bold mb-1"><i class="fa fa-tag me-2"></i> Full Name</h6>
                                 <label > {{ $profile->firstname }} {{ $profile->middlename[0] }}. {{ $profile->lastname }} </label>
                             </div>
+                            @if ($profile->gender) 
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fa fa-venus-mars me-2"></i> Gender</h6>
-                                <label >@if ($profile->gender) {{ Str::ucfirst($profile->gender) }} @else <span class="text-secondary">unset</span> @endif</label>
+                                <label >{{ Str::ucfirst($profile->gender) }} </label>
                             </div>
+                            @endif
+                            @if ($profile->nationality)
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fa fa-flag me-2"></i> Nationality</h6>
-                                <label >@if ($profile->nationality) {{ $profile->nationality }} @else <span class="text-secondary">unset</span> @endif</label>
+                                <label > {{ $profile->nationality }} </label>
                             </div>
+                            @endif
+                            @if ($profile->civil_status)
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fa fa-ring me-2"></i> Civil Status</h6>
-                                <label >@if ($profile->civil_status) {{ Str::ucfirst($profile->civil_status) }} @else <span class="text-secondary">unset</span> @endif</label>
+                                <label > {{ Str::ucfirst($profile->civil_status) }} </label>
                             </div>
+                            @endif
+                            @if ($profile->birthdate) 
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fas fa-birthday-cake me-2"></i> Birthdate</h6>
-                                <label >@if ($profile->birthdate) {{ date_format($profile->birthdate, 'F d, Y') }} @else <span class="text-secondary">unset</span> @endif</label>
+                                <label >{{ date_format($profile->birthdate, 'F d, Y') }}  </label>
                             </div>
+                            @endif
+                            @if ($profile->contact_number)
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fas fa-address-book me-2"></i> Contact Number</h6>
-                                <label >@if ($profile->contact_number) {{ $profile->contact_number }} @else <span class="text-secondary">unset</span> @endif</label>
+                                <label > {{ $profile->contact_number }} </label>
                             </div>
+                            @endif
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fas fa-at me-2"></i> Email Address</h6>
                                 <label >{{ Auth::user()->email }}</label>
                             </div>
+                            @if ($profile->address)
                             <div class="m-4">
                                 <h6 class="fw-bold mb-1"><i class="fas fa-address-card me-2"></i> Address</h6>
-                                <label >@if ($profile->address) {{ $profile->address }} @else <span class="text-secondary">unset</span> @endif</label>
+                                <label > {{ $profile->address }} </label>
                             </div>
+                            @endif
                         </div>
                     </div>
                     @endif
@@ -887,6 +899,14 @@
                                     </div>
                                     <div class="col ">
                                         <p class="d-inline" style="white-space: pre-wrap">{{ $item->skill_description }}</p>
+                                        @if ($item->generated_skills && json_decode($item->generated_skills)->generated)
+                                            <br><label for="" class="text-sm text-gray-500" title="This extracted skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Extracted Skills: </label>
+                                            @foreach (json_decode($item->generated_skills)->generated as $skill1)
+                                            <div class="inline-block bg-green-200 rounded-sm m-1 p-1 text-sm">
+                                                {{ $skill1->name }}
+                                            </div> 
+                                            @endforeach
+                                        @endif
                                     </div>
                                     <div class="col-lg-auto m-sm-2">
                                         <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditSkill" @click="showEditSkill({{ $item->skill_id }})">edit</button>

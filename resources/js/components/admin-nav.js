@@ -10,11 +10,20 @@ new Vue({
         loading: false,
         navToggle: false,
         reportToggle: false,
+        employerNavToggle: false
     },
     methods: {
 
         toggleLoading(){
             this.loading = this.loading ? false : true
+        },
+
+        showEmployerNav(){
+            this.employerNavToggle = true
+        },
+
+        hideEmployerNav(){
+            this.employerNavToggle = false
         },
 
         showReports(){

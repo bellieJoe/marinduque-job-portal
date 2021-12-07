@@ -73,7 +73,7 @@ class JobApplicationResponseNotification extends Notification
             //
             'title' => 'Application Status',
             'message' => 'One of your application has been updated.',
-            'action' => url('/seeker/home')
+            'action' => url('/seeker/home?toggle=applications')
         ];
     }
 
@@ -82,7 +82,7 @@ class JobApplicationResponseNotification extends Notification
             //
             'title' => 'Application Status',
             'message' => 'One of your application has been updated.',
-            'action' => url('/seeker/home')
+            'action' => url('/seeker/home?toggle=applications')
         ];
     }
 }

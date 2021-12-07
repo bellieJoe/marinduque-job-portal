@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployerVerificationProofController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobMatchingController;
+use App\Http\Controllers\SeekerController;
 use App\Models\Employer;
 use App\Models\EmployerVerificationProof;
 use App\Models\Job;
@@ -305,6 +306,13 @@ Route::prefix('employer')->group(function(){
         Route::get('{job_id}/generate_suggested_applicants', function($job_id){
             return JobMatchingController::genSuggestedCandidate($job_id);
         });
+
+        /* 
+        @desc send invitation email to the seeker
+        @method post
+        @url employer/job/sedInvitation
+        */
+        Route::post('sendInvitation', [JobController::class, "sendInvitation"]);
 
     });
     // end of job prefix

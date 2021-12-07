@@ -19,9 +19,11 @@ new Vue({
         toggledJobs: "suggestions",
         jobApplicationFilter: "all",
         jobApplications: [],
+        toggle: null,
 
         // loaders
-        JobApplicationLoader : false
+        JobApplicationLoader : false,
+        
     },
     methods: {
         getSavedJobs(){
@@ -104,10 +106,12 @@ new Vue({
                     this.jobSuggestions.map((val, i)=>{
                         let job = val
     
-                        job.date_posted_diffForHumans = devModule.diffForHumans(val.date_posted)
-                        job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null
-                        job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null
-                        job.company_address = val.company_address ? JSON.parse(val.company_address) : null
+                        job.date_posted_diffForHumans = devModule.diffForHumans(val.job.date_posted)
+                        job.salary_range = val.job.salary_range ? JSON.parse(val.job.salary_range) : null
+                        job.course_studied = val.job.course_studied ? JSON.parse(val.job.course_studied) : null
+                        job.company_address = val.job.company_address ? JSON.parse(val.job.company_address) : null
+
+                        // this.jobSuggestions.push(job)
                     })
                 }
 
@@ -134,9 +138,19 @@ new Vue({
             location.href = route
         },
 
+        
+
     },
     mounted() {
         this.getJobSuggestions()
-        this.toggleJobs('suggestions')
+        
+        if(!$("#toggle").val()){
+            this.toggleJobs('suggestions')
+        }else{
+            this.toggleJobs($("#toggle").val())
+        }
+        
+        
+       
     },
 })

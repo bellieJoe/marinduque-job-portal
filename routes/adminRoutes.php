@@ -16,7 +16,7 @@ Route::prefix('admin')->group(function(){
     @url /admin
     */
     Route::get('', function(){
-        return view('pages.admin.admin-home');
+        return redirect("/admin/employers");
     })->middleware('role:admin', 'auth');
 
     Route::prefix('employers')->group(function(){
@@ -34,9 +34,32 @@ Route::prefix('admin')->group(function(){
         */
         Route::get('{status}/{user_id}', [UserController::class, 'setStatus'])->middleware('role:admin', 'auth');
 
+        /* 
+        @method GET
+        @desc redirects to page that contains unverified employers
+        @url /admin/employer/unverified
+        */
+        Route::get('unverified', [AdminController::class , 'unverifiedEmployers'])->middleware("role:admin", "auth");
+
+        
 
     });
     // end of "employers" prefix
+
+    
+    /* 
+    @method GET
+    @desc redirects to the list of proofs sent by the employer
+    @url /admin/employer/{employer_id}
+    */
+    Route::get('proof/{employer_id}', [AdminController::class , 'viewProofs'])->middleware('role:admin', 'auth');
+
+    /* 
+    @method GET
+    @desc verifies the employer
+    @url /admin/employer/{employer_id}/verify
+    */
+    Route::post('proof/{employer_id}/verify', [AdminController::class , 'verifyEmployer'])->middleware('role:admin', 'auth');
 
     Route::prefix('job-seekers')->group(function(){
 

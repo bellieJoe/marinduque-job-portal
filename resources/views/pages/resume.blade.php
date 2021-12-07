@@ -13,7 +13,7 @@
     <title>Resume</title>
 </head>
 <body>
-    <div id="resume w-max">
+    <div id="resume">
 
         <header class="bg-blue-900 py-10  z-10 shadow-sm">
             <div class="container mx-auto row">
@@ -255,9 +255,16 @@
                     </div>
                     @endif
                     @endforeach
+                    @if (Auth::user()->role == "employer")
+                    <div v-if="!isPrinting">
+                        <button class="btn btn-primary" @click="printResume"><i class="fa fa-print"></i> Print Resume</button>
+                    </div>
+                    @endif
                 </div>
             </div>
         </section>
+
+
         @endif
 
         

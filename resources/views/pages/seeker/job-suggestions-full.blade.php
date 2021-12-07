@@ -8,7 +8,10 @@
 
     <section class="lg:w-10/12 mx-auto my-3">
         <h6 class="font-bold my-3">Job that matches your profile</h6>
-        @foreach ($jobs as $job)
+        @foreach ($jobs as $jobTemp)
+        @php
+            $job = $jobTemp["job"];
+        @endphp
         <div @click="redirectRoute('/job-search-mdq/view/{{ $job->job_id }}')" class="rounded-md bg-white my-3 p-3 hover:shadow-lg duration-500 cursor-pointer">
             @php
                 $salary = $job->salary_range ? json_decode($job->salary_range) : null;
@@ -25,15 +28,21 @@
                 
                 <p>{{ $job->job_type }}</p>
                 <p>{{ $company_address->municipality->name }}, {{ $company_address->province->name }}</p>
+                <p class="mt-2">
+                    <span class="text-xl text-green-600 font-bold">{{ $jobTemp["total"] }}% <span class="font-normal">match</span></span> 
+                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Education: {{ $jobTemp["educationRate"] }}%</span>
+                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Skills: {{ $jobTemp["skillsRate"] }}%</span>
+                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Experience: {{ $jobTemp["yoeRate"] }}%</span>
+                </p>
             </div>
                                       
             <p class="text-gray-400 mt-3">{{ $job->date_posted->diffForHumans() }}</p>
         </div>
         @endforeach
 
-        <div>
+        {{-- <div>
             {{ $jobs }}
-        </div>
+        </div> --}}
     </section>
 
     

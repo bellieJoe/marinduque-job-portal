@@ -170,6 +170,7 @@ new Vue({
     toggledJobs: "suggestions",
     jobApplicationFilter: "all",
     jobApplications: [],
+    toggle: null,
     // loaders
     JobApplicationLoader: false
   },
@@ -279,10 +280,10 @@ new Vue({
 
                   _this4.jobSuggestions.map(function (val, i) {
                     var job = val;
-                    job.date_posted_diffForHumans = _dev_module_js__WEBPACK_IMPORTED_MODULE_2__.default.diffForHumans(val.date_posted);
-                    job.salary_range = val.salary_range ? JSON.parse(val.salary_range) : null;
-                    job.course_studied = val.course_studied ? JSON.parse(val.course_studied) : null;
-                    job.company_address = val.company_address ? JSON.parse(val.company_address) : null;
+                    job.date_posted_diffForHumans = _dev_module_js__WEBPACK_IMPORTED_MODULE_2__.default.diffForHumans(val.job.date_posted);
+                    job.salary_range = val.job.salary_range ? JSON.parse(val.job.salary_range) : null;
+                    job.course_studied = val.job.course_studied ? JSON.parse(val.job.course_studied) : null;
+                    job.company_address = val.job.company_address ? JSON.parse(val.job.company_address) : null; // this.jobSuggestions.push(job)
                   });
                 }
 
@@ -318,7 +319,12 @@ new Vue({
   },
   mounted: function mounted() {
     this.getJobSuggestions();
-    this.toggleJobs('suggestions');
+
+    if (!jquery__WEBPACK_IMPORTED_MODULE_1___default()("#toggle").val()) {
+      this.toggleJobs('suggestions');
+    } else {
+      this.toggleJobs(jquery__WEBPACK_IMPORTED_MODULE_1___default()("#toggle").val());
+    }
   }
 });
 

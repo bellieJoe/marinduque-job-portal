@@ -7,6 +7,7 @@ use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobMatchingController;
 use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\SkillController;

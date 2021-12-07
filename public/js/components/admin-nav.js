@@ -18,11 +18,18 @@ new Vue({
   data: {
     loading: false,
     navToggle: false,
-    reportToggle: false
+    reportToggle: false,
+    employerNavToggle: false
   },
   methods: {
     toggleLoading: function toggleLoading() {
       this.loading = this.loading ? false : true;
+    },
+    showEmployerNav: function showEmployerNav() {
+      this.employerNavToggle = true;
+    },
+    hideEmployerNav: function hideEmployerNav() {
+      this.employerNavToggle = false;
     },
     showReports: function showReports() {
       this.reportToggle = true;
