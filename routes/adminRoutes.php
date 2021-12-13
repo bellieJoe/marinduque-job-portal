@@ -126,6 +126,28 @@ Route::prefix('admin')->group(function(){
     })->middleware('auth', 'role:admin');
 
 
+    /* 
+    admin reports
+    */
+    Route::prefix("reports")->group(function(){
+
+        /* 
+        @method GET
+        @desc add lmi report
+        @url /admin/reports/lmi-report
+        */
+        Route::view("lmi-report", 'pages.admin.add-lmi')->middleware("auth", "role:admin");
+
+        /* 
+        @method GET
+        @desc add sprs report
+        @url /admin/reports/sprs-report
+        */
+        Route::view("sprs-report", 'pages.admin.add-sprs')->middleware("auth", "role:admin");
+    });
+    // end of reports prefix
+
+
 });
 // end of "admin" prefix
 
