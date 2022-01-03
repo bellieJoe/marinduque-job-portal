@@ -48,12 +48,15 @@ class JobApplicationController extends Controller
 
         foreach($applications as $i){
             $job = Job::where("job_id", $i->job_id)->first();
-            $toInsert = $i;
-            $toInsert->job_title = $job->job_title;
-            $toInsert->company_name = $job->company_name;
-            $toInsert->date_applied = $i->created_at->format("F d, Y")." ".$i->created_at->format("h:m a");
-
-            array_push($jobApplications, $toInsert);
+            if(!empty($job)){
+                $toInsert = $i;
+                $toInsert->job_title = $job->job_title;
+                $toInsert->company_name = $job->company_name;
+                $toInsert->date_applied = $i->created_at->format("F d, Y")." ".$i->created_at->format("h:m a");
+    
+                array_push($jobApplications, $toInsert);
+            }
+            
             
         }
 

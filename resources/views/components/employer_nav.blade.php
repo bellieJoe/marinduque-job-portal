@@ -59,7 +59,7 @@
           <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/job' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/job"><i class="fas fa-briefcase"></i> My Jobs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/settings' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/job"><i class="fas fa-cog"></i> Settings</a>
+          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/settings' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/settings"><i class="fas fa-cog"></i> Settings</a>
         </li>
         <li class="nav-item">
           <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/post-job' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/post-job"><i class="fas fa-plus-circle"></i> Create Job</a>

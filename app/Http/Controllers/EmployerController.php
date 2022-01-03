@@ -41,7 +41,8 @@ class EmployerController extends Controller
             'company_name' => $request->input('company_name'),
             'contact_number' => $request->input('contact_number'),
             'contact_person_name' => $request->input('contact_person_name'),
-            'status' => 'deactivated'
+            // 'status' => 'deactivated'
+            'verified' => 0
         ]);
 
         //verify email

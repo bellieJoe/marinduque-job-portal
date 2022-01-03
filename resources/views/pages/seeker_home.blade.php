@@ -68,7 +68,7 @@
                       <h1 class="text-gray-500 mb-3 fw-bold">Jobs that matches your profile</h1>
                       <div v-for="job of jobSuggestions">
                           
-                          <div @click="redirectRoute('/job-search-mdq/view/'+job.job_id)" class="rounded-md  p-3 mb-2 bg-white hover:shadow-lg cursor-pointer duration-300 ">
+                          <div @click="redirectRoute('/job-search-mdq/view/' + job.job.job_id )" class="rounded-md  p-3 mb-2 bg-white hover:shadow-lg cursor-pointer duration-300 ">
                               <h6 class="font-bold text-indigo-500">@{{ job.job.job_title }}</h6>
                               <p class="text-gray-500">@{{ job.job.company_name }}</p>
                               
@@ -123,7 +123,7 @@
                                 <button class="btn btn-sm btn-success" @click="viewJob(i.job_id)">View</button>
                             </div>
                         </div>
-                        <h1 v-if="!savedJobs[0]" class="text-gray-300 text-center m-5 fs-3">No Recent Jobs Saved</h1>
+                        <h1 v-if="!savedJobs[0]" class="text-gray-500 text-center m-5 ">No Recent Jobs Saved</h1>
                     </div>
                 </div>
                 {{-- applications --}}

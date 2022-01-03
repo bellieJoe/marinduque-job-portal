@@ -36,7 +36,10 @@ use NlpTools\Utils\StopWords;
 
 Route::get('/testing', function () {
     
-    return JobMatchingController::genSuggestedJobs();
+    $faker = Faker\Factory::create('en_PH');
+
+    return $faker->barangay().', '.$faker->municipality().', '.$faker->province();
+    // return JobMatchingController::genSuggestedCandidate(22);
     // return JobMatchingController::sortSuggestedSeekers(JobMatchingController::genSuggestedCandidate(3)) ;
     
 });

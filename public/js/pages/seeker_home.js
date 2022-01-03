@@ -178,14 +178,37 @@ new Vue({
     getSavedJobs: function getSavedJobs() {
       var _this = this;
 
-      jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
-        url: '/seeker/home/get-saved-jobs',
-        method: "post"
-      }).fail(function (res) {
-        console.log(res); // location.href = "/error"
-      }).done(function (res) {
-        _this.savedJobs = res;
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: '/seeker/home/get-saved-jobs',
+                  method: "post"
+                });
+
+              case 3:
+                res = _context.sent;
+                _this.savedJobs = res;
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 7]]);
+      }))();
     },
     deleteSavedJob: function deleteSavedJob(saved_job_id) {
       var _this2 = this;
@@ -223,57 +246,57 @@ new Vue({
     getJobApplications: function getJobApplications() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var jobApplications;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                _context2.prev = 0;
+                _context2.next = 3;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: "/seeker/get-job-applications",
                   method: "post"
                 });
 
               case 3:
-                jobApplications = _context.sent;
+                jobApplications = _context2.sent;
                 _this3.jobApplications = jobApplications.length != 0 ? jobApplications : null;
-                _context.next = 10;
+                _context2.next = 10;
                 break;
 
               case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
 
               case 10:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee2, null, [[0, 7]]);
       }))();
     },
     getJobSuggestions: function getJobSuggestions() {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var suggestedJobs;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.prev = 0;
+                _context3.prev = 0;
                 _this4.jobApplicationLoader = true;
-                _context2.next = 4;
+                _context3.next = 4;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/seeker/home/get-job-suggestions-preview',
                   method: 'GET'
                 });
 
               case 4:
-                suggestedJobs = _context2.sent;
+                suggestedJobs = _context3.sent;
 
                 if (suggestedJobs.length > 0) {
                   _this4.jobSuggestions = suggestedJobs;
@@ -289,21 +312,21 @@ new Vue({
 
                 console.log(_this4.jobSuggestions);
                 _this4.jobApplicationLoader = false;
-                _context2.next = 14;
+                _context3.next = 14;
                 break;
 
               case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](0);
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](0);
                 _this4.jobApplicationLoader = false;
-                console.log(_context2.t0);
+                console.log(_context3.t0);
 
               case 14:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[0, 10]]);
+        }, _callee3, null, [[0, 10]]);
       }))();
     },
     filterSuggestedJobs: function filterSuggestedJobs(a) {

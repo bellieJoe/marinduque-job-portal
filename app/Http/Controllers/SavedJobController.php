@@ -25,13 +25,20 @@ class SavedJobController extends Controller
 
         $jobs = [];
         $saved =  SavedJob::where("user_id", Auth::user()->user_id)->orderBy('created_at', 'desc')->get();
-        foreach($saved as $i){
-            $job = Job::where("job_id", $i->job_id)->first();
-            $job->saved_job_id = $i->saved_job_id;
-            array_push($jobs, $job);
-            
+        // echo var_dump($saved);
+        if(count($saved) > 0){
+            foreach($saved as $i){
+                $job = Job::where("job_id", $i->job_id)->first();
+                if(!empty($job)){
+                    $job->saved_job_id = $i->saved_job_id;
+                    array_push($jobs, $job);
+                }
+            }
+            return $jobs;
+        }else{
+            return null;
         }
-        return $jobs;
+        
     }
 
 

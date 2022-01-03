@@ -12,20 +12,23 @@ class Employer extends Model
 
     protected $primaryKey = 'user_id';
 
-    protected $fillable = [
-        'user_id',
-        'company_name',
-        'address',
-        'contact_number',
-        'contact_person_name',
-        'description',
-        'mission',
-        'vision',
-        'company_logo',
-        'status',
-        'verified_by',
-        'date_verified'
-    ];
+    // protected $fillable = [
+    //     'user_id',
+    //     'company_name',
+    //     'address',
+    //     'contact_number',
+    //     'contact_person_name',
+    //     'description',
+    //     'mission',
+    //     'vision',
+    //     'company_logo',
+    //     'status',
+    //     'verified',
+    //     'verified_by',
+    //     'date_verified'
+    // ];
+    
+    protected $guarded = [];
 
     public function toSearchableArray()
     {

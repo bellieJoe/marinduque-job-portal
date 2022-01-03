@@ -818,20 +818,33 @@ new Vue({
         };
       });
     },
-    addSkill: function addSkill() {
-      var _this15 = this;
-
+    getSkill: function getSkill() {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    addSkill: function addSkill() {
+      var _this15 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
                 _this15.errors = [];
                 loading.css('display', 'initial');
                 console.log(_this15.skills);
-                _context5.prev = 3;
-                _context5.next = 6;
+                _context6.prev = 3;
+                _context6.next = 6;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/seeker/profile/skill/add-skill',
                   method: 'post',
@@ -839,25 +852,26 @@ new Vue({
                 });
 
               case 6:
-                res = _context5.sent;
-                _context5.next = 13;
+                res = _context6.sent;
+                location.href = location.href;
+                _context6.next = 14;
                 break;
 
-              case 9:
-                _context5.prev = 9;
-                _context5.t0 = _context5["catch"](3);
-                console.log(_context5.t0);
-                _this15.errors = _context5.t0.responseJSON.errors;
-
-              case 13:
-                loading.css('display', 'none');
+              case 10:
+                _context6.prev = 10;
+                _context6.t0 = _context6["catch"](3);
+                console.log(_context6.t0);
+                _this15.errors = _context6.t0.responseJSON.errors;
 
               case 14:
+                loading.css('display', 'none');
+
+              case 15:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, null, [[3, 9]]);
+        }, _callee6, null, [[3, 10]]);
       }))();
     },
     updateSkill: function updateSkill() {

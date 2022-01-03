@@ -36,8 +36,8 @@
                     <div class=" border-1 border-gray-500">
                         <h1 class="text-center">ACTUAL</h1>
                     </div>
-                    <div class=" border-1 border-gray-500">
-                        <h1 class="text-center">Current reporting Month</h1>
+                    <div class=" border-1 border-gray-500 row-span-2 grid grid-cols-1">
+                        <h1 class="text-center self-center">Current reporting Month</h1>
                     </div>
                     <div class=" border-1 border-gray-500">
 

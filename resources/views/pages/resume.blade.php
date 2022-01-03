@@ -18,7 +18,12 @@
         <header class="bg-blue-900 py-10  z-10 shadow-sm">
             <div class="container mx-auto row">
                 <div class="col-auto m-2">
-                    <img class="w-40 h-40 shadow" src="{{ asset('image/seeker/profile/'.$resumeData['userData']->display_picture) }}" alt="">
+                    @if ($resumeData['userData']->display_picture)
+                        <img class="w-40 h-40 shadow" src="{{ asset('image/seeker/profile/'.$resumeData['userData']->display_picture) }}" alt="{{ $resumeData['userData']->display_picture }}">
+                    @else
+                        <h1 class="py-4 text-lg text-blue-500">No Photo</h1>
+                    @endif
+                    
                 </div>
                 <div class="col m-2">
                     <h1 class="text-white">{{ $resumeData['userData']->firstname.' '.$resumeData['userData']->middlename[0].'. '.$resumeData['userData']->lastname }}</h1>

@@ -218,16 +218,17 @@ Route::prefix('seeker')->group(function(){
         Route::post('save-job/{job_id}', [SavedJobController::class, 'addSavedJob'])->middleware('auth', 'role:seeker');
     });
 
+
     /* 
     @desc settings of seeker
     @method GET
     @url /seeker/settings
-     */
+    */
     Route::get('settings', function(){
 
-        return view('pages.seeker.settings');
+        return view('pages..settings');
         
-    })->middleware('auth', 'role:seeker');
+    })->middleware('auth');
 
 });
 

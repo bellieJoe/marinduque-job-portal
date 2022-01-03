@@ -13,7 +13,9 @@ class Job extends Model
 
     protected $primaryKey = 'job_id';
 
-    protected $fillable = [
+    protected $guarded = [];
+
+   /*  protected $fillable = [
         'user_id',
         'job_industry',
         'job_title',	
@@ -36,7 +38,7 @@ class Job extends Model
         'generated_skills',
         'match_preferences',
         'invitation'
-    ];
+    ]; */
 
     protected $dates = [
         'date_posted'

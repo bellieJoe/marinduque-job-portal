@@ -33,13 +33,13 @@ Route::prefix('employer')->group(function(){
 
     Route::prefix('profile')->group(function(){
         
-        Route::post('update-description', [EmployerController::class, 'updateDescription'])->middleware('role:employer', 'auth');
+        Route::post('update-description', [EmployerController::class, 'updateDescription'])->middleware('role:employer', 'auth', 'employer-verified');
 
         Route::get('', function(){
             $employer = Employer::where('user_id', Auth::user()->user_id)->first();
             $address = $employer->address;
             return view('pages.employer_profile')->with([ 'employer' => $employer, 'address' => $address]);
-        })->middleware('role:employer', 'auth'); 
+        })->middleware('role:employer', 'auth', 'employer-verified'); 
 
         Route::get('upload-logo', function () {
             return view('pages.employer.upload-logo');
@@ -47,20 +47,20 @@ Route::prefix('employer')->group(function(){
 
         Route::post('upload-logo/upload', [EmployerController::class, 'uploadLogo']);
 
-        Route::post('update', [EmployerController::class, 'updateProfile'])->middleware('role:employer', 'auth');
+        Route::post('update', [EmployerController::class, 'updateProfile'])->middleware('role:employer', 'auth', 'employer-verified');
 
-        Route::post('set-mission', [EmployerController::class, 'setMission'])->middleware('role:employer', 'auth');
+        Route::post('set-mission', [EmployerController::class, 'setMission'])->middleware('role:employer', 'auth', 'employer-verified');
 
-        Route::post('set-vision', [EmployerController::class, 'setVision'])->middleware('role:employer', 'auth');
+        Route::post('set-vision', [EmployerController::class, 'setVision'])->middleware('role:employer', 'auth', 'employer-verified');
     });
 
     // posting job
     Route::prefix('post-job')->group(function(){
-        Route::get('', function(){ return view('pages.employer.post-job'); })->middleware('role:employer', 'auth');
+        Route::get('', function(){ return view('pages.employer.post-job'); })->middleware('role:employer', 'auth', 'employer-verified');
 
-        Route::post('get-company-information', [EmployerController::class, 'getEmployer'])->middleware('role:employer', 'auth');
+        Route::post('get-company-information', [EmployerController::class, 'getEmployer'])->middleware('role:employer', 'auth', 'employer-verified');
 
-        Route::post('add-job', [JobController::class, 'addJob'])->middleware('role:employer', 'auth');
+        Route::post('add-job', [JobController::class, 'addJob'])->middleware('role:employer', 'auth', 'employer-verified');
     });
 
     Route::prefix('job')->group(function(){
@@ -93,7 +93,7 @@ Route::prefix('employer')->group(function(){
         @method POST
         @desc Fetch the list of Jobs of an Employer
         */
-        Route::post('get-job/{EmployerId}', [JobController::class, 'getJobByEmployerId'])->middleware('role:employer', 'auth');
+        Route::post('get-job/{EmployerId}', [JobController::class, 'getJobByEmployerId'])->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @method GET
@@ -175,13 +175,13 @@ Route::prefix('employer')->group(function(){
                 ]);
             }
             
-        })->middleware('role:employer', 'auth');
+        })->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @method POST
         @desc Updates Jobs Status if open or not
         */
-        Route::post('update-job-status', [JobController::class, 'updateStatus'])->middleware('role:employer', 'auth');
+        Route::post('update-job-status', [JobController::class, 'updateStatus'])->middleware('role:employer', 'auth', 'employer-verified');
 
         /*  
         @desc redirects to editing of job details
@@ -196,16 +196,16 @@ Route::prefix('employer')->group(function(){
             return view('pages.employer.edit-job')->with([
                 'job' => $job
             ]);
-        })->middleware('role:employer', 'auth');
+        })->middleware('role:employer', 'auth', 'employer-verified');
 
-        Route::post('update-job/{id}', [JobController::class, 'updateJob'])->middleware('role:employer', 'auth');
+        Route::post('update-job/{id}', [JobController::class, 'updateJob'])->middleware('role:employer', 'auth', 'employer-verified');
 
         /*  
         @desc updates the status of a job if close or open
         @method POST
         @route /employer/job/update-status/{id}
         */
-        Route::post('update-status/{id}', [JobController::class, 'updateStatus'])->middleware('role:employer', 'auth');
+        Route::post('update-status/{id}', [JobController::class, 'updateStatus'])->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @method GET
@@ -236,7 +236,7 @@ Route::prefix('employer')->group(function(){
             return view('pages.employer.job')->with([
                 'job' => $job
             ]);
-        })->middleware('role:employer', 'auth');
+        })->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @method GET
@@ -260,14 +260,14 @@ Route::prefix('employer')->group(function(){
             }else{
                 return view('errors.unauthorized');
             }
-        })->middleware('role:employer', 'auth');
+        })->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @method POST
         @desc updates the job hiraing status of a job
         @url /employer/job/{job_id}/status
         */
-        Route::post('{job_id}/status', [JobController::class, 'toggleStatus'])->middleware('role:employer', 'auth');
+        Route::post('{job_id}/status', [JobController::class, 'toggleStatus'])->middleware('role:employer', 'auth', 'employer-verified');
 
 
         /* 
@@ -275,14 +275,14 @@ Route::prefix('employer')->group(function(){
         @method POST
         @url /employer/job/accept-application/{application_id}
         */
-        Route::post('accept-application/{application_id}', [JobApplicationController::class, 'confirmApplication'])->middleware('role:employer', 'auth');
+        Route::post('accept-application/{application_id}', [JobApplicationController::class, 'confirmApplication'])->middleware('role:employer', 'auth', 'employer-verified');
         
         /* 
         @desc decline job application
         @method POST
         @url /employer/job/decline-application/{application_id}
         */
-        Route::post('decline-application/{application_id}', [JobApplicationController::class, 'declineApplication'])->middleware('role:employer', 'auth');
+        Route::post('decline-application/{application_id}', [JobApplicationController::class, 'declineApplication'])->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @desc set the days expire of a job
@@ -296,7 +296,7 @@ Route::prefix('employer')->group(function(){
         @method delete
         @url /employer/job/{job_id}/delete
         */
-        Route::delete('{job_id}/delete', [JobController::class, 'deleteJobById'])->middleware('role:employer', 'auth');
+        Route::delete('{job_id}/delete', [JobController::class, 'deleteJobById'])->middleware('role:employer', 'auth', 'employer-verified');
 
         /* 
         @desc generates suggested applicants
@@ -316,6 +316,8 @@ Route::prefix('employer')->group(function(){
 
     });
     // end of job prefix
+
+    Route::view('settings', 'pages.settings')->middleware('auth');
 
 
 });

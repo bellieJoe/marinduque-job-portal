@@ -8,6 +8,9 @@
 
     <section class="lg:w-10/12 mx-auto my-3">
         <h6 class="font-bold my-3">Job that matches your profile</h6>
+        @if (count($jobs) < 1)
+            <h1 class="text-center text-gray-500 text-lg">No Suggestions</h1>
+        @endif
         @foreach ($jobs as $jobTemp)
         @php
             $job = $jobTemp["job"];

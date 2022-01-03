@@ -26,18 +26,20 @@ new Vue({
         
     },
     methods: {
-        getSavedJobs(){
-            $.ajax({
-                url: '/seeker/home/get-saved-jobs',
-                method: "post",
+        async getSavedJobs(){
+            try {
+                let res = await $.ajax({
+                    url: '/seeker/home/get-saved-jobs',
+                    method: "post",
+    
+                })
 
-            }).fail((res)=>{
-                console.log(res)
-                // location.href = "/error"
-            }).done((res)=>{
                 this.savedJobs = res
- 
-            })
+
+            } catch (error) {
+                console.log(error)
+            }
+            
         },
 
         deleteSavedJob(saved_job_id){

@@ -25,6 +25,8 @@ class SkillController extends Controller
             'skill_description' => $request->input('skill'),
             'generated_skills' => json_encode(EmsiAPIController::extractSkills($request->input('skill')))
         ]);
+
+        // return
     
     }
 

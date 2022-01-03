@@ -611,6 +611,11 @@ new Vue({
             })
         },
 
+        async getSkill(){
+
+        
+        },
+
         async addSkill() {
             this.errors = []
             loading.css('display', 'initial')
@@ -624,6 +629,8 @@ new Vue({
                     data: this.skills,
                     
                 })
+
+               location.href = location.href
 
                 
             } catch (error) {

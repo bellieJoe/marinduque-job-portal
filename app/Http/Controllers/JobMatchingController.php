@@ -28,7 +28,7 @@ class JobMatchingController extends Controller
             // } 
             $educRate = number_format(self::rateEducationSeeker($job, $education) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
             $skillsRate = $job->generated_skills && !empty(json_decode($job->generated_skills)->generated) ?  number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",") : 0;
-            $yoeRate = number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",");
+            $yoeRate = $job->experience ? number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",") : json_decode($job->match_preferences)->yoe;
             // echo "Job Title : $job->job_title, Education: $educRate, Skills Rate:  $skillsRate , Experience Rate: $yoeRate<br>";
             $suggestedJobs->push( [
                 "job" => $job,
@@ -59,7 +59,8 @@ class JobMatchingController extends Controller
             goto a;
         }
 
-        return $suggestedJobs->where("total", ">", 50);
+        return $suggestedJobs->where("total", ">", 0);
+        // return $suggestedJobs;
     }
 
     public static function rateEducationSeeker(Job $job, $educations)
@@ -104,11 +105,13 @@ class JobMatchingController extends Controller
     {
 
         $job = Job::find($job_id);
+        // echo $job;
+        // $job = Job::find(22);
         $seekers = Seeker::all();
         $candidates = [];
         $invitedSeekers = json_decode($job->invitation) ? json_decode($job->invitation) : [];
 
-        if($job->generated_skills == null || $job->experience == null){
+        if($job->generated_skills == null ){
             return null;
         }   
 
@@ -118,9 +121,9 @@ class JobMatchingController extends Controller
             if(in_array($seeker->user_id , $invitedSeekers)){
                 continue;
             }
-            $educRate  = number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
-            $skillRate = number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",");
-            $yoeRate = number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",");
+            $educRate  = $job->educational_attainment ?  number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",") : json_decode($job->match_preferences)->educational_attainment;
+            $skillRate = $job->generated_skills ? number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",") : json_decode($job->match_preferences)->skills;
+            $yoeRate = $job->experience ? number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",") : json_decode($job->match_preferences)->yoe;
             array_push($candidates, [
                 "seeker_id" => $seeker->user_id,
                 "seeker" => $seeker,
@@ -129,6 +132,7 @@ class JobMatchingController extends Controller
                 'yoeRate' => $yoeRate,
                 'total' => number_format( ($educRate + $skillRate + $yoeRate), 2, '.', ',' )
             ]);
+            
         }
 
 
@@ -155,7 +159,9 @@ class JobMatchingController extends Controller
 
         $candidates = collect($candidates);
 
-        return $candidates->where("total", ">", 50);
+        return $candidates->where("total", ">", 0);
+
+        // return $candidates;
     }
 
 
@@ -165,24 +171,26 @@ class JobMatchingController extends Controller
         $checkedIndustry = [];
         $rate = 0;
 
-        foreach (Experience::where('user_id', $seeker->user_id)->get() as  $exp) {
-            if( !in_array($exp->job_industry, $checkedIndustry)){
-                array_push($checkedIndustry, $exp->job_industry);
-                array_push($seekerExps, [
-                    "job_industry" => $exp->job_industry,
-                    "years" => $exp->date_started->floatDiffInYears($exp->date_ended)
-                ]);
-                
-            }
-            else{
-                foreach($seekerExps as $key => $val){
-                    if($val["job_industry"] == $exp->job_industry){
-                        $seekerExps[$key]["years"] += $exp->date_started->floatDiffInYears($exp->date_ended);
-                    }
-                }   
+        if($job->experience){
+            foreach (Experience::where('user_id', $seeker->user_id)->get() as  $exp) {
+                if( !in_array($exp->job_industry, $checkedIndustry)){
+                    array_push($checkedIndustry, $exp->job_industry);
+                    array_push($seekerExps, [
+                        "job_industry" => $exp->job_industry,
+                        "years" => $exp->date_started->floatDiffInYears($exp->date_ended)
+                    ]);
+                    
+                }
+                else{
+                    foreach($seekerExps as $key => $val){
+                        if($val["job_industry"] == $exp->job_industry){
+                            $seekerExps[$key]["years"] += $exp->date_started->floatDiffInYears($exp->date_ended);
+                        }
+                    }   
+                }
             }
         }
-
+        
         if($job->experience){
             foreach($seekerExps as $exp){
                 // echo var_dump($exp)."<br>";
