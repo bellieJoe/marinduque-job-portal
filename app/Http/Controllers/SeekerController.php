@@ -28,6 +28,7 @@ class SeekerController extends Controller
             'middlename' => 'required|min:2',
             'lastname' => 'required|min:2',
             'email' => 'required|unique:users|email',
+            'gender' => 'required',
             'password' => 'required|min:8',
         ]);
 
@@ -45,6 +46,7 @@ class SeekerController extends Controller
             'firstname' => $request->input('firstname'),
             'lastname' => $request->input('lastname'),
             'middlename' => $request->input('middlename'),
+            'gendedr' => $request->input('gender')
         ]);
         
         $ret_user = User::where('email', $request->input('email'))->first();
