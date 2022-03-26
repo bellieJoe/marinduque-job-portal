@@ -11,21 +11,26 @@
             <div class="px-2 py-3">
                 <div >
                     <label for="" class="font-semibold">LMI ANALYSIS FOR THE MONTH OF</label>
-                    <select name="" id="" class="border-black border-b">
-                        <option value="">January</option>
-                        <option value="">February</option>
-                        <option value="">March</option>
-                        <option value="">April</option>
-                        <option value="">May</option>
-                        <option value="">June</option>
-                        <option value="">July</option>
-                        <option value="">August</option>
-                        <option value="">September</option>
-                        <option value="">October</option>
-                        <option value="">November</option>
-                        <option value="">December</option>
+                    <select name="month" class="form-select w-32 inline">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                     </select>
-                    <input type="number" min="2021" max="{{ \Carbon\Carbon::now()->format("Y") }}" step="1" value="{{ \Carbon\Carbon::now()->format("Y") }}" />
+                    <select name="year" class="form-select w-28 inline">
+                        @for ($i = 2022; $i <= \Carbon\Carbon::now()->format("Y"); $i++)
+                        <option value="{{ $i }}">{{ $i }}</option>  
+                        @endfor
+                    </select>
+                    {{-- <input type="number" min="2021" max="{{ \Carbon\Carbon::now()->format("Y") }}" step="1" value="{{ \Carbon\Carbon::now()->format("Y") }}" /> --}}
                 </div>
             </div>
             <section class="p-2">

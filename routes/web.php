@@ -17,6 +17,7 @@ use App\Models\EmployerVerificationProof;
 use App\Models\Experience;
 use App\Models\Job;
 use App\Models\JobApplication;
+use App\Models\LmiReport;
 use App\Models\Seeker;
 use App\Models\Skill;
 use Carbon\Carbon;
@@ -38,9 +39,31 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
-    $applications = JobApplication::whereMonth('created_at', 3)->whereYear('created_at', 2022);
-    // $maleApplicationsCount = 0;
-    return $applications->where(['application_status' => 'hired'])->count();
+    $month = Carbon::now()->format("m") > 1 ? Carbon::now()->format("m") - 1 : 12;
+            $year = $month == 1 ? Carbon::now()->format("Y") - 1 : Carbon::now()->format("Y");
+            $jobs = Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year);
+            $applications = JobApplication::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year);
+            $applicationIds = $applications->pluck('applicant_id');
+            $referredSeekers = Seeker::whereIn('user_id', $applicationIds);
+            $hiredSeekers = Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'));
+
+
+            LmiReport::create([
+                'jobs_solicited_total' => $jobs->count(),
+                "jobs_solicited_local" => Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 1)->count(),
+                "jobs_solicited_overseas" => Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 0)->count(),
+                "applicants_referred_total" => JobApplication::whereMonth('created_at', $month)->count(),
+                "applicants_referred_male" => $referredSeekers->where(['gender' => 'male'])->count(),
+                "applicants_referred_female" => $referredSeekers->where(['gender' => 'female'])->count(),
+                "applicants_placed_total" => JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->count(),
+                "applicants_placed_male" => Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'male'])->count(),
+                "applicants_placed_female" => Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'female'])->count(),
+                "year" => $year,
+                "month" => $month
+            ]);
+            echo $jobs->where('isLocal', 1)->count();
+            return $jobs->where('isLocal', 0)->count();
 });
 
 

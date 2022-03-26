@@ -11,6 +11,7 @@ use App\Notifications\SampleNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -56,31 +57,31 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $month = Carbon::now()->format("m") > 1 ? Carbon::now()->format("m") - 1 : 12;
             $year = $month == 1 ? Carbon::now()->format("Y") - 1 : Carbon::now()->format("Y");
-            $jobs = Job::whereMonth('date_posted', $month)
-            ->whereYear('date_posted', $year);
+            $jobs = Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year);
             $applications = JobApplication::whereMonth('created_at', $month)
             ->whereYear('created_at', $year);
-            $seekers = Seeker::whereIn('user_id', $applications->pluck('applicant_id'));
-
+            $applicationIds = $applications->pluck('applicant_id');
+            $referredSeekers = Seeker::whereIn('user_id', $applicationIds);
+            $hiredSeekers = Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'));
 
 
             LmiReport::create([
                 'jobs_solicited_total' => $jobs->count(),
-       
-                "jobs_solicited_local" => $jobs->where('isLocal', 1)->count(),
-                "jobs_solicited_overseas" => $jobs->where('isLocal', 0)->count(),
-                "applicants_referred_total" => $applications->count(),
-                "applicants_referred_male" => $seekers->where(['gender' => 'male'])->count(),
-                "applicants_referred_female" => $seekers->where(['gender' => 'female'])->count(),
-                "applicants_placed_total" => $applications->where(['application_status' => 'hired'])->count(),
-                "applicants_placed_male" => $applications->where(['application_status' => 'hired', 'gender' => 'male'])->count(),
-                "applicants_placed_female" => $applications->where(['application_status' => 'hired', 'gender' => 'female'])->count(),
+                "jobs_solicited_local" => Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 1)->count(),
+                "jobs_solicited_overseas" => Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 0)->count(),
+                "applicants_referred_total" => JobApplication::whereMonth('created_at', $month)->count(),
+                "applicants_referred_male" => $referredSeekers->where(['gender' => 'male'])->count(),
+                "applicants_referred_female" => $referredSeekers->where(['gender' => 'female'])->count(),
+                "applicants_placed_total" => JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->count(),
+                "applicants_placed_male" => Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'male'])->count(),
+                "applicants_placed_female" => Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'female'])->count(),
                 "year" => $year,
                 "month" => $month
             ]);
 
+            // send notification to admins
             
-        })->monthly();
+        })->everyMinute();
     }
 
     /**
