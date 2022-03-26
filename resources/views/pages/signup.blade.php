@@ -56,8 +56,8 @@
                 <div class=" mb-3">
                     <label class="fw-bold">Gender <span class="text-danger">*</span></label>
                     <select name="gender" class="form-select">
-                        <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                        <option value="Female"  {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                        <option value="male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                        <option value="female"  {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
                     </select>
                     @error('gender')
                         <div class="text-danger">
