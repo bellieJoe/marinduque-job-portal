@@ -5,6 +5,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobSpecializationController;
+use App\Http\Controllers\LmiReportController;
 use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\UserController;
@@ -198,7 +199,7 @@ Route::prefix('admin')->group(function(){
         @desc add lmi report
         @url /admin/reports/lmi-report
         */
-        Route::view("lmi-report", 'pages.admin.lmi')->middleware("auth", "role:admin");
+        Route::get("lmi-report", [LmiReportController::class, 'getLMI'])->middleware("auth", "role:admin");
 
         /* 
         @method GET
