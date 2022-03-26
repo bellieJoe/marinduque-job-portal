@@ -58,7 +58,7 @@
             <h6 class="p-2"><i class="fa fa-folder mr-2 "></i>General Reports</h6>
             <div v-cloak class="lg:absolute bg-gray-800 shadow-md lg:rounded-md" :class=" reportToggle ? 'lg:visible' : 'lg:hidden' ">
                 <div @click="redirectRoute('/admin/reports/lmi-report?month=1&year=2022')" class="text-gray-400 ml-4 p-2  hover:text-white duration-500 cursor-pointer">
-                    <i class="fa fa-plus-circle me-2"></i>Add LMI
+                    <i class="fa fa-file me-2"></i>LMI
                 </div>
                 <div @click="redirectRoute('/admin/reports/sprs-report')" class="text-gray-400 ml-4 p-2  hover:text-white duration-500 cursor-pointer">
                     <i class="fa fa-plus-circle me-2"></i>Add SPRS
