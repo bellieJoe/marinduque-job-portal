@@ -1,5 +1,7 @@
 
-
+@php
+  use Carbon\Carbon;
+@endphp
 <nav class="bg-indigo-900 " id="employer_nav">
 
     <input type="hidden" value="{{ Auth::user() }}" id="User">
@@ -65,7 +67,7 @@
           <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/post-job' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/post-job"><i class="fas fa-plus-circle"></i> Create Job</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/placement-report' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="/employer/placement-report"><i class="fas fa-table"></i> Placement Report</a>
+          <a class="nav-link hover:text-gray-100 hover:font-bold {{ Request::url() == config('app.url').':8000/employer/placement-report/' ? 'font-bold text-gray-100' : 'text-indigo-200' }}" href="{{ '/employer/placement-report/'.Carbon::now()->format("m").'/'.Carbon::now()->format("Y") }}"><i class="fas fa-table"></i> Placement Report</a>
         </li>
         
     </ul>

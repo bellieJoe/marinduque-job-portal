@@ -45,6 +45,9 @@
                       <li>
                         <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=expired')" class="{{ $view == 'applicants' && $applicants == 'expired' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>Expired</button>
                       </li>
+                      <li>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=hired')" class="{{ $view == 'applicants' && $applicants == 'hired' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold "><i class="fa fa-check mr-2"></i>Hired</button>
+                      </li>
                     </ul>
                   </li>
                   <li>
@@ -85,14 +88,19 @@
                       <h6><strong>Company Address</strong></h6>
                       {{-- {{ json_decode($job['jobDetails']->company_address)-> }} --}}
                       @php
-                          $companyAddress  = json_decode($job['jobDetails']->company_address);
+                          $companyAddress  = $job["jobDetails"]->isLocal ? json_decode($job['jobDetails']->company_address) : null;
                       @endphp
+                      @if ($job["jobDetails"]->isLocal)
                       <p>
                         {{ $companyAddress->barangay->name.', ' }} 
                         {{ $companyAddress->municipality->name.', ' }}
                         {{ $companyAddress->province->name.', ' }}
                         {{ $companyAddress->region->name }}
                       </p>
+                      @else
+                      <p>Overseas, {{ $job["jobDetails"]->country }}</p>
+                      @endif
+                      
                     </li>
                     <li class="list-group-item border-0">
                       <h6><strong>Qualifications</strong></h6>
@@ -166,17 +174,28 @@
                     @if ($job['jobApplications'])
                       <div class="w-full" >
                       @foreach ($job['jobApplications'] as $jobApplication)
+                        @isset($_GET['applicants'])
+                          <div>
+                            <h1 class="font-bold">{{ Str::ucfirst($_GET['applicants'])  }} Applicants</h1>
+                          </div>
+                        @endisset
                         @if ( $applicants && ( $applicants == 'all' || $applicants ==  $jobApplication['applicationInformation']->application_status ) )
                         @php
                           $hasApplications = true;
                         @endphp
-                        <div class='{{ $jobApplication['applicationInformation']->application_status == 'pending' ? 'border-gray-500' : ($jobApplication['applicationInformation']->application_status == 'approved' ? 'border-green-500' : ($jobApplication['applicationInformation']->application_status == 'declined' ? 'border-red-500' : ($jobApplication['applicationInformation']->application_status == 'expired' ? 'border-yellow-500' : ''))) }} border-l-4  rounded-2 shadow-md duration-500 my-4' >
+                        <div class='{{ $jobApplication['applicationInformation']->application_status == 'pending' ? 'border-gray-500' : ($jobApplication['applicationInformation']->application_status == 'approved' ? 'border-green-500' : ($jobApplication['applicationInformation']->application_status == 'declined' ? 'border-red-500' : ($jobApplication['applicationInformation']->application_status == 'expired' ? 'border-yellow-500' : 'border-black'))) }} border-l-4  rounded-2 shadow-md duration-500 my-4' >
                           <div class="p-3 ">
                             <div>
                               <h6 class="text-blue-500 font-bold my-0">Application# {{ $jobApplication['applicationInformation']->job_application_id }}</h6>
                               <h6 class="py-0 my-0">From <span class="font-bold">{{ $jobApplication['applicantInformation']->firstname.' '.Str::ucfirst($jobApplication['applicantInformation']->middlename[0]).'. '.$jobApplication['applicantInformation']->lastname }}</span></h6>
                               <h6 class="text-gray-500 my-0">{{ date_format($jobApplication['applicationInformation']->created_at ,"F d Y").', '  }}{{ $jobApplication['applicationInformation']->created_at->diffForHumans() }}</h6>
-                              
+                              {{-- matchRate --}}
+                              <h6  class="text-gray-500">
+                                 {{ $jobApplication['applicationInformation']->match_rate['total'] }}% Match. 
+                                 Education {{ $jobApplication['applicationInformation']->match_rate['educRate'] }}%, 
+                                 Skills {{ $jobApplication['applicationInformation']->match_rate['skillRate'] }}%, 
+                                 Experience {{ $jobApplication['applicationInformation']->match_rate['yoeRate'] }}%, 
+                              </h6>
                               {{-- application status --}}
                               <h6  class="text-gray-500">
                                 Status: {{ $jobApplication['applicationInformation']->application_status }}
@@ -225,52 +244,29 @@
                                     </div>
                                   </div>
                                   @endif
-                                  <a class="btn btn-primary" href="/resume/{{ $jobApplication['applicantInformation']->user_id }}" target="_blank_">View Resume</a>
-                                </div>
-
-
-                              {{-- @php
-                                $appStat = $jobApplication['applicationInformation']->application_status;
-                              @endphp
-
-                              checks if a job application has expiration date
-                              @if ($jobApplication['applicationInformation']->expiry_date != null)
-                                @if ($jobApplication['applicationInformation']->created_at->diffInDays($jobApplication['applicationInformation']->expiry_date, false) > 0)
-                                  <h6 class="text-gray-500 my-0">Expiration Date: {{ $jobApplication['applicationInformation']->expiry_date->format("F d Y H:m A")  }}</h6>
-                                  
-                                  application status
-                                  <h6  class="text-gray-500">
-                                    Status: {{ $jobApplication['applicationInformation']->application_status == 'approved' ? 'accepted' : $jobApplication['applicationInformation']->application_status }}
-                                  </h6>
-
-
-                                  action buttons
-                                  <div class="ms-auto me-0 mb-2 mt-4 w-max">
-                                    @if ($jobApplication['applicationInformation']->application_status == 'pending')
-                                    <a href="/employer/job/accept-application/{{ $jobApplication['applicationInformation']->job_application_id }}" class="btn btn-success">Accept Application</a>
-                                    @endif
-                                    <a class="btn btn-primary" href="/resume/{{ $jobApplication['applicantInformation']->user_id }}" target="_blank_">View Resume</a>
-                                  </div>
-
-                                @else
-                                <h6 class="text-red-500 mt-3">This application has expired.</h6>
-                                @endif
-                              @else
-                                <h6 class="text-gray-500">
-                                  Status: {{ $jobApplication['applicationInformation']->application_status == 'approved' ? 'accepted' : $jobApplication['applicationInformation']->application_status }}
-                                </h6>
-
-
-                                
-
-                                action buttons
-                                <div class="ms-auto me-0 mb-2 mt-4 w-max">
-                                  @if ($jobApplication['applicationInformation']->application_status == 'pending')
-                                  <a href="/employer/job/accept-application/{{ $jobApplication['applicationInformation']->job_application_id }}" class="btn btn-success">Accept Application</a>
+                                  @if ($jobApplication['applicationInformation']->application_status == 'approved')
+                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#hireModal">Add to Hired List</button>
+                                    <form class="modal fade" id="hireModal" method="post" action="/employer/hire/{{ $jobApplication['applicationInformation']->job_application_id }}">
+                                      @csrf
+                                      <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                          <div class="modal-header border-none">
+                                            <h1 class="font-bold">Confirm Hiring</h1>
+                                          </div>
+                                          <div class="modal-body  border-none">
+                                            Adding hired applicants to your hired list will reflect your placement report which will be acquired by the LMD PESO Admin. Therefore this action is permanent and cannot be reverted.
+                                          </div>
+                                          <div class="modal-footer border-none">
+                                            <button t ype="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <input type="submit" class="btn btn-success" value="Continue">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </form>
                                   @endif
                                   <a class="btn btn-primary" href="/resume/{{ $jobApplication['applicantInformation']->user_id }}" target="_blank_">View Resume</a>
                                 </div>
-                              @endif --}}
+
                               
                             </div>
                           </div>
@@ -278,11 +274,16 @@
                         @endif
                       @endforeach
 
-                      <h6 class="text-center text-gray-500">{{ $hasApplications ? '' : 'No Applications to show' }}</h6>
-
+                      <div class="mt-10">
+                        <h6 class="text-center text-gray-500 mt-6">{{ $hasApplications ? '' : 'No Applications to show' }}</h6>
+                      </div>
                       </div>
                     @else
-                      No applicants
+                    <div class="mt-6">
+                      <h1 class="text-gray-500 text-center ">
+                        No applicants
+                      </h1>
+                    </div>
                     @endif
                     
                   </div>

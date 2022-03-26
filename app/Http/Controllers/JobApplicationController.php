@@ -41,6 +41,18 @@ class JobApplicationController extends Controller
         
     }
 
+    public function hireJobApplication($job_application_id){
+
+        $jobApplication = JobApplication::find($job_application_id)
+        ->update([
+            'date_hired' => Carbon::now()->format("Y-m-d"),
+            'application_status' => 'hired'
+        ]);
+
+        return redirect()->back();
+
+    }
+
     // getters
     public function getJobApplications(){
         $applications =  JobApplication::where('applicant_id', Auth::user()->user_id)->orderBy('created_at', "desc")->get();
@@ -121,7 +133,5 @@ class JobApplicationController extends Controller
 
         return back();
     }
-
-
 
 }

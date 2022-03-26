@@ -22,10 +22,10 @@ new Vue({
         phil : philippines,
         job_data: null,
         errors : [],
-        specializations: devModule.specializations,
-        courses: devModule.course,
-        masters: devModule.masters,
-        doctors: devModule.doctors,
+        specializations: null,
+        courses: null,
+        masters: null,
+        doctors: null,
         job:{
             job_title: "okie",
             job_type: null,
@@ -221,10 +221,59 @@ new Vue({
                 }
             })
         },
+
+        async getSpecializations(){
+            try {
+                let spec = await $.ajax({
+                    url: '/job_specializations',
+                    method: "get"
+                })
+
+                console.log(spec)
+                this.specializations = spec.length > 0 ? spec : null
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getCourses(){
+            try {
+                let masters = []
+                let doctors = []
+                let bachelors = []
+                let courses = await $.ajax({
+                    url: "/courses",
+                    method: "get"
+                })
+
+                courses.map((val, i) => { 
+                    switch (val.course_type) {
+                        case "bachelor":
+                            bachelors.push(val.course)
+                            break
+                        case "master":
+                            masters.push(val.course)
+                            break
+                        case "doctor":
+                            doctors.push(val.course)
+                            break
+                    }
+                }) 
+
+                this.courses = bachelors.length > 0 ? bachelors : null
+                this.doctors = doctors.length > 0 ? doctors  : null
+                this.masters = masters.length > 0 ? masters : null
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
         
     },
 
-    async beforeCreate() {
+    
+
+    async mounted(){
         this.loading = true
         try {
             let res = await $.ajax({
@@ -275,8 +324,10 @@ new Vue({
 
         } catch (res) {
             this.loading = false
-            console.log(res)
         }
+
+        this.getSpecializations()
+        this.getCourses()
         
     },
 })

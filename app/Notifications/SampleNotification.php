@@ -16,11 +16,10 @@ class SampleNotification extends Notification
      *
      * @return void
      */
-    public function __construct(array $job)
+    public function __construct()
     {
         //
         // data = ['url' , 'job[]'
-        $this->job = $job;
     }
 
     /**
@@ -31,7 +30,7 @@ class SampleNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -44,8 +43,7 @@ class SampleNotification extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good News!')
-                    ->line('Your Job Posting titled '.$this->data['message'])
-                    ->action('Notification Action', url('/seeker/job/10'))
+                    ->line('This is a sample notification for development purpose only please disregard this message.')
                     ->line('Thank you for using our application!');
     }
 
@@ -62,7 +60,5 @@ class SampleNotification extends Notification
             'title' => 'sample notification',
             'message' => 'This is a sample notification'
         ];
-
-
     }
 }

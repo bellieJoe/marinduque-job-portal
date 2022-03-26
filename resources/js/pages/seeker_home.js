@@ -23,21 +23,29 @@ new Vue({
 
         // loaders
         JobApplicationLoader : false,
+        savedJobsLoader : false,
+        errors : {
+            saveJobs : false,
+            invitations : false,
+            suggestedJobs : false,
+            applications : false
+        }
         
     },
     methods: {
         async getSavedJobs(){
             try {
+                this.savedJobsLoader = true
                 let res = await $.ajax({
                     url: '/seeker/home/get-saved-jobs',
                     method: "post",
-    
                 })
-
+                this.savedJobsLoader = false
                 this.savedJobs = res
-
             } catch (error) {
                 console.log(error)
+                this.savedJobsLoader = false
+                this.errors.saveJobs = true
             }
             
         },
@@ -53,7 +61,7 @@ new Vue({
                 location.href = "/error"
             }).done((res)=>{
                 $("#loading").css("display", "none")
-                console.log(res)
+                // console.log(res)
                 this.getSavedJobs()
             })
         },

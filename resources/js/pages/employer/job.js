@@ -28,7 +28,7 @@ new Vue({
                     url: `/employer/job/${this.jobId}/generate_suggested_applicants`,
                 })
                 this.suggestedSeekers = res
-                console.log(res)
+                // console.log(res)
                 this.toggleLoading()
             } catch (err) {
                 console.log(err)
@@ -55,22 +55,21 @@ new Vue({
             
             window.history.pushState(null, '', url)
 
-            console.log(url.searchParams.get('view'))
+            // console.log(url.searchParams.get('view'))
         },
 
         redirectRoute(route){
             this.toggleLoading()
             location.href = route
-
         }
 
     },
 
     mounted() {
-        this.jobId  = $("#jobId").val();
-        this.generateSuggestions()
-
-
+        this.jobId  = $("#jobId").val()
+        if(this.jobId){
+            this.generateSuggestions()
+        }
     },
 
 })

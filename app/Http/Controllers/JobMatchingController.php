@@ -109,11 +109,11 @@ class JobMatchingController extends Controller
         // $job = Job::find(22);
         $seekers = Seeker::all();
         $candidates = [];
-        $invitedSeekers = json_decode($job->invitation) ? json_decode($job->invitation) : [];
+        $invitedSeekers = $job->invitation && !empty(json_decode($job->invitation)) ? json_decode($job->invitation) : [];
 
         if($job->generated_skills == null ){
             return null;
-        }   
+        } 
 
         /* educational attainment */
         foreach($seekers as $seeker){

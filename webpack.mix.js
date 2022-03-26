@@ -54,6 +54,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/employer/job.js', 'public/js/pages/employer')
     .js('resources/js/pages/employer/accept-application.js', 'public/js/pages/employer')
     .js('resources/js/pages/employer/employer-verification.js', 'public/js/pages/employer')
+    .js('resources/js/pages/employer/placement-report.js', 'public/js/pages/employer')
 
     // scripts for admin
     .js('resources/js/pages/admin/admin-home.js', 'public/js/pages/admin')
@@ -61,6 +62,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/admin/job-seeker-list.js', 'public/js/pages/admin')
     .js('resources/js/pages/admin/job-list.js', 'public/js/pages/admin')
     .js('resources/js/pages/admin/add-admin-account.js', 'public/js/pages/admin')
+    .js('resources/js/pages/admin/job_specializations.js', 'public/js/pages/admin')
+    .js('resources/js/pages/admin/courses.js', 'public/js/pages/admin')
     
 
     //scripts for auth

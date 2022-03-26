@@ -4366,8 +4366,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 chart_js__WEBPACK_IMPORTED_MODULE_4__.Chart.register.apply(chart_js__WEBPACK_IMPORTED_MODULE_4__.Chart, _toConsumableArray(chart_js__WEBPACK_IMPORTED_MODULE_4__.registerables));
 var User = JSON.parse(jquery__WEBPACK_IMPORTED_MODULE_2___default()("#User").val()); // console.log(navigator.onLine)
+// console.log(keyword_analyzer.wrest('bar bar bar foo foo foo foo'))
 
-console.log(keyword_analyzer__WEBPACK_IMPORTED_MODULE_3__.wrest('bar bar bar foo foo foo foo'));
 new Vue({
   el: '#internetConnectionDetector',
   data: {

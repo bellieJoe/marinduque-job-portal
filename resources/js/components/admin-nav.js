@@ -10,12 +10,21 @@ new Vue({
         loading: false,
         navToggle: false,
         reportToggle: false,
-        employerNavToggle: false
+        employerNavToggle: false,
+        jobNavToggle: false
     },
     methods: {
 
         toggleLoading(){
             this.loading = this.loading ? false : true
+        },
+
+        showJobNav(){
+            this.jobNavToggle = true
+        },
+
+        hideJobNav(){
+            this.jobNavToggle = false
         },
 
         showEmployerNav(){
@@ -43,7 +52,12 @@ new Vue({
         },
 
         redirectRoute(route){
-            location.href = route
+            if(route == '/admin/reports/placement-report'){
+                location.href = `${route}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`
+            }else{
+                location.href = route
+            }
+            
         },
     }
 })

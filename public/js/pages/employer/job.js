@@ -70,27 +70,26 @@ new Vue({
 
               case 4:
                 res = _context.sent;
-                _this.suggestedSeekers = res;
-                console.log(res);
+                _this.suggestedSeekers = res; // console.log(res)
 
                 _this.toggleLoading();
 
-                _context.next = 14;
+                _context.next = 13;
                 break;
 
-              case 10:
-                _context.prev = 10;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
                 _this.toggleLoading();
 
-              case 14:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[0, 9]]);
       }))();
     },
     toggleLoading: function toggleLoading() {
@@ -108,8 +107,7 @@ new Vue({
         url.searchParams.set('applicants', params.applicants);
       }
 
-      window.history.pushState(null, '', url);
-      console.log(url.searchParams.get('view'));
+      window.history.pushState(null, '', url); // console.log(url.searchParams.get('view'))
     },
     redirectRoute: function redirectRoute(route) {
       this.toggleLoading();
@@ -118,7 +116,10 @@ new Vue({
   },
   mounted: function mounted() {
     this.jobId = jquery__WEBPACK_IMPORTED_MODULE_1___default()("#jobId").val();
-    this.generateSuggestions();
+
+    if (this.jobId) {
+      this.generateSuggestions();
+    }
   }
 });
 

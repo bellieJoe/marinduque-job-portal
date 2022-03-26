@@ -12,15 +12,20 @@
                 <div @click="redirectTo('/job-search-mdq/view/{{ $job->job_id }}')" class="rounded-md bg-white my-3 hover:shadow-lg duration-500 cursor-pointer hover:bg-gray-100">
                     <div class="card-body">
                         @php
-                            $address = json_decode($job->company_address);
-                            $salary = $job->salary_range ? json_decode($job->salary_range) : null
+                            $address = $job->isLocal ? json_decode($job->company_address) : $job->country;
+                            $salary = $job->salary_range ? json_decode($job->salary_range) : null;
                         @endphp
                         <p class="font-bold text-lg text-blue-800 leading-tight">{{ $job->job_title }}</p>
                         <p class="text-gray-400 leading-tight mb-2">{{ $job->company_name }}</p>
                         @if ($salary->max && $salary->min)
                         <p class="">₱{{ number_format($salary->min, '0', '.', ',') }} - ₱{{ number_format($salary->max, '0', '.', ',') }}</p>
                         @endif
+                        @if ($job->isLocal == 1)
                         <p>{{ $address->barangay->name }}, {{ $address->municipality->name }}, {{ $address->province->name }}</p>
+                        @else
+                        <p>Overseas, {{ $job->country }}</p>
+                        @endif
+                        
                         <p class="font-bold mt-3">Qualifications</p>
                         @if ($job->gender)
                             <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ Str::ucfirst($job->gender) }}</p>

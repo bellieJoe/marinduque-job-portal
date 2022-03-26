@@ -25,7 +25,7 @@
                             <label class='fw-bold mb-1'>Job Industry<span class="text-danger">*</span></label>
                             <select v-cloak class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''" >
                                 {{-- <option value="null">--choose one--</option> --}}
-                                <option  v-for="specialization of job_specialization_list" :value="specialization">@{{ specialization }}</option>
+                                <option v-cloak v-for="specialization of job_specialization_list" :value="specialization.specialization">@{{ specialization.specialization }}</option>
                             </select>
                             <div class="text-danger"  v-for="i of errors.job_industry" v-cloak>@{{ i }}</div>
                         </div>
@@ -68,54 +68,69 @@
                         {{-- company address --}}
                         <div class="mb-3">
                             <label for="" class='fw-bold mb-1'>Company Address<span class="text-danger">*</span></label>
-                            <div class="form-control" :class="errors.region || errors.province || errors.municipality || errors.barangay ? 'is-invalid' : ''">
-                                <div >
-                                    {{-- region --}}
-                                    <select class='form-select  border-0 d-block my-1' id="region"  @change="toggleAddress('reg')" v-model.lazy="job.company_address.region" >
-                                        <option value="null" class="text-secondary" >region</option>
-                                        <option 
-                                        v-for="i of phil.regions" 
-                                        :value="i" >
-                                            @{{ i.name }}
-                                        </option>
-                                    </select>
-                                    {{-- province --}}
-                                    <select class='form-select border-0 d-block my-1' placeholder="/ province" v-model.lazy="job.company_address.province" :disabled="job.company_address.region  ? false : true"  @change="toggleAddress('prov')" >
-                                        <option value="null" class="text-secondary" selected>province</option>
-                                        <option 
-                                        v-for="i of phil.provinces" 
-                                        :value="i" 
-                                        v-if="job.company_address.region && job.company_address.region.reg_code == i.reg_code"
-                                        >
-                                            @{{ i.name }}
-                                        </option>
-                                    </select>
-                                    {{-- municipality --}}
-                                    <select class='form-select border-0 col my-1' placeholder="/ municipality" v-model.lazy="job.company_address.municipality"  :disabled="job.company_address.province  ? false : true"  @change="toggleAddress('mun')" >
-                                        <option value="null" class="text-secondary" selected>municipality</option>
-                                        <option 
-                                        v-for="i of phil.city_mun" 
-                                        :value="i" 
-                                        v-if="job.company_address.province && job.company_address.province.prov_code == i.prov_code"
-                                        >
-                                            @{{ i.name }}
-                                        </option>
-                                    </select>
-                                    {{-- barangay --}}
-                                    <select class='form-select border-0 col my-1' placeholder="/ brgy" v-model.lazy="job.company_address.barangay"  :disabled="job.company_address.municipality  ? false : true">
-                                        <option value="null" class="text-secondary" selected>brgy</option>
-                                        <option 
-                                        v-for="i of phil.barangays" 
-                                        :value="i" 
-                                        v-if="job.company_address.municipality && job.company_address.municipality.mun_code == i.mun_code"
-                                        >
-                                        @{{ i.name }}
-                                        </option>
-                                    </select>
-                                </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox"  id="inputOverseas" @input="inputOverseas_changed">
+                                <label for="inputOverseas" class="form-check-label">Is this job overseas?</label>
                             </div>
-                            <div class="text-danger" v-if="errors.region || errors.province || errors.municipality || errors.barangay" v-cloak>The company address is incomplete</div>
                             
+                            {{-- local address --}}
+                            <div  v-if="job.isLocal">
+                                <div class="form-control mb-2" :class="errors.region || errors.province || errors.municipality || errors.barangay ? 'is-invalid' : ''">
+                                    <div >
+                                        {{-- region --}}
+                                        <select class='form-select  border-0 d-block my-1' id="region"  @change="toggleAddress('reg')" v-model.lazy="job.company_address.region" >
+                                            <option value="null" class="text-secondary" >Region</option>
+                                            <option 
+                                            v-for="i of phil.regions" 
+                                            :value="i" >
+                                                @{{ i.name }}
+                                            </option>
+                                        </select>
+                                        {{-- province --}}
+                                        <select class='form-select border-0 d-block my-1' placeholder="/ province" v-model.lazy="job.company_address.province" :disabled="job.company_address.region  ? false : true"  @change="toggleAddress('prov')" >
+                                            <option value="null" class="text-secondary" selected>Province</option>
+                                            <option 
+                                            v-for="i of phil.provinces" 
+                                            :value="i" 
+                                            v-if="job.company_address.region && job.company_address.region.reg_code == i.reg_code"
+                                            >
+                                                @{{ i.name }}
+                                            </option>
+                                        </select>
+                                        {{-- municipality --}}
+                                        <select class='form-select border-0 col my-1' placeholder="/ municipality" v-model.lazy="job.company_address.municipality"  :disabled="job.company_address.province  ? false : true"  @change="toggleAddress('mun')" >
+                                            <option value="null" class="text-secondary" selected>Municipality</option>
+                                            <option 
+                                            v-for="i of phil.city_mun" 
+                                            :value="i" 
+                                            v-if="job.company_address.province && job.company_address.province.prov_code == i.prov_code"
+                                            >
+                                                @{{ i.name }}
+                                            </option>
+                                        </select>
+                                        {{-- barangay --}}
+                                        <select class='form-select border-0 col my-1' placeholder="/ brgy" v-model.lazy="job.company_address.barangay"  :disabled="job.company_address.municipality  ? false : true">
+                                            <option value="null" class="text-secondary" selected>Baranggay</option>
+                                            <option 
+                                            v-for="i of phil.barangays" 
+                                            :value="i" 
+                                            v-if="job.company_address.municipality && job.company_address.municipality.mun_code == i.mun_code"
+                                            >
+                                            @{{ i.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-danger" v-if="errors.region || errors.province || errors.municipality || errors.barangay" v-cloak>The company address is incomplete</div>
+                            </div>
+                            {{-- overseas --}}
+                            <div v-cloak v-if="!job.isLocal" class="mb-2">
+                                <label >Select Country</label>
+                                <select class="form-select" v-model="job.country">
+                                    <option v-for="country of countries" v-if="country != 'Philippines'" :value="country">@{{ country }}</option>
+                                </select>
+                                <div class="text-danger" v-for="i of errors.isLocal" v-cloak>@{{ i }}</div>
+                            </div>
                         </div>
                         {{-- company description --}}
                         <div class="mb-3">
@@ -158,12 +173,12 @@
                                     </select>
                                 </div>
                                 <div class="col-auto" v-cloak>
-                                    <button v-cloak type="button" class="btn btn-primary font-bold" @click="addCourse">+</button>
+                                    <button v-cloak type="button" class="btn btn-primary font-bold" @click="addCourse">Add</button>
                                 </div>
                                 <div class="mt-2">
-                                    <div  v-for="i of job.course_studied"  class="btn border-1 border-black m-2"  >
+                                    <div  v-for="i of job.course_studied"  class="btn border-1 btn-outline-dark m-2"  >
                                         @{{ i }}
-                                        <button class="btn btn-close" @click="removeCourse(i)"></button>
+                                        <button class="" @click="removeCourse(i)"><i class="fa fa-times"></i></button>
                                     </div>
                                     <div v-cloak class="text-danger" v-for="i of errors.course_studied">@{{ i }}</div>
                                 </div>
@@ -191,7 +206,7 @@
                             <div class="text-danger" v-for="i of errors.experience" v-cloak>@{{ i }}</div>
                         </div>
                         {{-- skill --}}
-                        <div>
+                        <div :class="job.skill[0] ? 'bg-indigo-100 p-1 rounded-md' : ''">
                             <div class="mb-3">
                                 <h1 class="font-bold mb-1">Skills</h1>
                                 <div class="row">
@@ -199,17 +214,22 @@
                                         <input type="text" class="form-control" v-model.lazy="job.inputSkill" >
                                     </div>
                                     <div class="col-auto">
-                                        <button type="button" class="btn btn-primary fw-bold" @click="addSkill">+</button>
+                                        <button type="button" class="btn btn-primary fw-bold" @click="addSkill">Add</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-2" v-if="job.skill[0] != null" v-cloak>
-                                <button data-bs-toggle="tooltip" data-bs-placement="top" title="Click to remove" v-cloak v-for="i of job.skill" type="button" class="btn d-block  text-start text-secondary hover:bg-red-400" @click="removeSkill(i)"><i class="fa fa-check text-green-500"></i> @{{ i }}</button>
+                            <div class="mb-2 " v-if="job.skill[0] != null" v-cloak>
+                                <div class="w-max btn btn-outline-dark p-2 m-1" v-cloak v-for="i of job.skill">
+                                    <label ><i class="fa fa-check text-green-500"></i> @{{ i }}</label>
+                                    <button   type="button" class=" hover:text-red-500  text-secondary" @click="removeSkill(i)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
         
                         {{-- other qualifications --}}
-                        <div>
+                        <div :class="job.other_qualification[0] ? 'bg-indigo-100 p-1 rounded-md mt-2' : ''">
                             <div class="mb-3">
                                 <label class='form-check-label fw-bold mb-1'>Other qualifications</label>
                                 <div class="row">
@@ -217,13 +237,17 @@
                                         <input type="text" class="form-control" v-model.lazy="job.inputOtherQualification" >
                                     </div>
                                     <div class="col-auto">
-                                        <button type="button" class="btn btn-primary fw-bold" @click="addQualification">+</button>
+                                        <button type="button" class="btn btn-primary fw-bold" @click="addQualification">Add</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-2" v-if="job.other_qualification[0] != null" v-cloak>
-                                {{-- <label class="text-secondary">Others</label> --}}
-                                <button data-bs-toggle="tooltip" data-bs-placement="top" title="Click to remove" v-cloak v-for="i of job.other_qualification" type="button" class="btn d-block w-max text-start text-secondary hover:bg-red-400" @click="removeQualification(i)"><i class="fa fa-check text-green-500"></i> @{{ i }}</button>
+                                <div class="w-max inline-block m-1 btn btn-outline-dark" v-for="i of job.other_qualification">
+                                    <i class="fa fa-check text-green-500"></i> @{{ i }}
+                                    <button data-bs-toggle="tooltip" data-bs-placement="top" title="Click to remove"  type="button" class="text-secondary " @click="removeQualification(i)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

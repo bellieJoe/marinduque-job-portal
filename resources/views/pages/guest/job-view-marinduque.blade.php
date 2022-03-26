@@ -22,14 +22,11 @@
 
             {{-- specfificatopns --}}
             <p class="font-bold mt-3">Job Specifications</p>
-            <div class="py-1">
-                <p class="text-xs text-gray-500">Job Industry</p>
-                <p>{{ $job->job_industry }}</p>
-            </div>
-            <div class="py-1">
-                <p class="text-xs text-gray-500">Job Type</p>
-                <p>{{ $job->job_type }}</p>
-            </div>
+            <h6 class=" text-indigo-800">{{ Str::title($job->job_type) }}</h6>
+            <h6 class=" text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
+            @if(!$job->isLocal)
+                <h6 class="mb-4 text-indigo-800">Overseas</h6>
+            @endif
 
             {{-- job description --}}
             @if($job->job_description)

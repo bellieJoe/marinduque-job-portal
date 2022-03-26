@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployerVerificationProofController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobMatchingController;
+use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\SeekerController;
 use App\Models\Employer;
 use App\Models\EmployerVerificationProof;
@@ -25,6 +26,7 @@ Route::prefix('employer')->group(function(){
     Route::get('', function(){
         return redirect('/employer/home');
     });
+    
     /* 
     @method GET
     @desc Redirects to Employer Home View
@@ -216,9 +218,22 @@ Route::prefix('employer')->group(function(){
 
             $jobApplications = JobApplication::where('job_id', $job_id)->get();
             $completeJobApplications = [];
+            $job = Job::find($job_id);
 
             if(sizeof($jobApplications) != 0){
                 foreach($jobApplications as $i){
+                    $seeker = Seeker::where('user_id', $i->applicant_id)->first();
+                    $educRate  = $job->educational_attainment ?  number_format(JobMatchingController::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",") : json_decode($job->match_preferences)->educational_attainment;
+                    $skillRate = $job->generated_skills ? number_format(JobMatchingController::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",") : json_decode($job->match_preferences)->skills;
+                    $yoeRate = $job->experience ? number_format(JobMatchingController::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",") : json_decode($job->match_preferences)->yoe;
+                    $i->match_rate = [
+                        'educRate' => $educRate,
+                        'skillRate' => $skillRate,
+                        'yoeRate' => $yoeRate,
+                        'total' => number_format( ($educRate + $skillRate + $yoeRate), 2, '.', ',' )
+                    ];
+
+
                     $application = [];
                     $application['applicantInformation'] = Seeker::where('user_id', $i->applicant_id)->first();
                     $application['applicationInformation'] = $i;
@@ -319,6 +334,9 @@ Route::prefix('employer')->group(function(){
 
     Route::view('settings', 'pages.settings')->middleware('auth');
 
+    Route::get('placement-report/{month}/{year}', [PlacementReportController::class, 'getEmployerPlacementReport'])->middleware('role:employer', 'auth', 'employer-verified');
+
+    Route::post('hire/{job_application_id}', [JobApplicationController::class, 'hireJobApplication'])->middleware('role:employer', 'auth', 'employer-verified');
 
 });
 // end of employer prefix
@@ -352,9 +370,5 @@ Route::get('verify-employer', function(){
 @url /verify-employer
 */
 Route::post('verify-employer', [EmployerVerificationProofController::class, 'createEmployerVerificationProof']);
-
-
-
-
 
 ?>

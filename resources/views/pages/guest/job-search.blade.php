@@ -133,7 +133,12 @@
                             <h6 class="mb-4">{{ $job->company_name }}</h6>
 
                             <h6 class=" text-indigo-800">{{ Str::title($job->job_type) }}</h6>
-                            <h6 class="mb-4 text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
+                            <h6 class=" text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
+                            @if(!$job->isLocal)
+                            <h6 class="mb-4 text-indigo-800">Overseas</h6>
+                            @endif
+                            
+
                             @if ($job->salary_range)
                                 <h6>Php {{  number_format(json_decode($job->salary_range)->min, 0)  }} - Php {{  number_format(json_decode($job->salary_range)->max, 0)  }} </h6>
                             @endif

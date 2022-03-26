@@ -19,11 +19,18 @@ new Vue({
     loading: false,
     navToggle: false,
     reportToggle: false,
-    employerNavToggle: false
+    employerNavToggle: false,
+    jobNavToggle: false
   },
   methods: {
     toggleLoading: function toggleLoading() {
       this.loading = this.loading ? false : true;
+    },
+    showJobNav: function showJobNav() {
+      this.jobNavToggle = true;
+    },
+    hideJobNav: function hideJobNav() {
+      this.jobNavToggle = false;
     },
     showEmployerNav: function showEmployerNav() {
       this.employerNavToggle = true;
@@ -45,7 +52,11 @@ new Vue({
       }
     },
     redirectRoute: function redirectRoute(route) {
-      location.href = route;
+      if (route == '/admin/reports/placement-report') {
+        location.href = "".concat(route, "/").concat(new Date().getMonth() + 1, "/").concat(new Date().getFullYear());
+      } else {
+        location.href = route;
+      }
     }
   }
 });

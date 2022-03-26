@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\JobController;
+use App\Models\Course;
 use App\Models\Employer;
 use App\Models\Job;
+use App\Models\JobSpecialization;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/job-search-mdq')->group(function(){
+Route::prefix('/job-search-mdq')->group(function (){
     Route::get('', function(Request $request){
 
         $from = $request->has('from') ? $request->input('from') : null;
@@ -20,9 +22,9 @@ Route::prefix('/job-search-mdq')->group(function(){
             ['address->province->name', 'MARINDUQUE']
         ])
         ->inRandomOrder()
-        ->get();
+        ->take(10)->get();
 
-        
+     
 
         if($keyword){
 
@@ -63,7 +65,7 @@ Route::prefix('/job-search-mdq')->group(function(){
 });
 // end of job-search-mdq prefix
 
-Route::prefix('employers')->group(function(){
+Route::prefix('employers')->group(function (){
     /* 
     @method GET
     @desc redirects to view the jobs from specific employer
@@ -124,7 +126,7 @@ Route::prefix('employers')->group(function(){
 // end of employers prefix
 
 
-Route::prefix('job-search')->group(function(){
+Route::prefix('job-search')->group(function (){
     Route::get('', function () {
         return view('pages.guest.job-search')->with([
             'jobs'=> NULL,
@@ -148,6 +150,24 @@ Route::prefix('job-search')->group(function(){
 });
 // end of job-search prefix
 
+
+/* 
+@method get 
+@desc fetch all job specializations
+@route /job_specializations
+*/
+Route::get('job_specializations', function () {
+    return JobSpecialization::all();
+});
+
+/* 
+@method get
+@desc fetch all courses
+@route /courses
+*/
+Route::get("courses" , function () {
+    return Course::all();
+});
 
 
 

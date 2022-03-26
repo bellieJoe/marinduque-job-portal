@@ -15,10 +15,11 @@ new Vue({
     data:{
         phil: phil,
         errors: [],
-        job_specialization_list: devModule.specializations,
-        courses: devModule.course,
-        masters: devModule.masters,
-        doctors: devModule.doctors,
+        job_specialization_list: null,
+        courses: null,
+        masters: null,
+        doctors: null,
+        countries : devModule.countryList,
         sample: {
             sam: "okie"
         },
@@ -50,6 +51,8 @@ new Vue({
             other_qualification: [],
             inputOtherQualification: null,
             skill: [],
+            isLocal: true,
+            country: null,
             inputSkill: null,
             
             salary_range: {
@@ -60,8 +63,14 @@ new Vue({
             status: 1
 
         }
+
+
     },
     methods: {
+
+        inputOverseas_changed () {
+            this.job.isLocal =  !$("#inputOverseas")[0].checked
+        },
 
         async toggleUserCurrentInformation(){
             console.log(this.job.useCurrentInformation)
@@ -153,65 +162,54 @@ new Vue({
             this.job.other_qualification.splice(this.job.other_qualification.indexOf(val), 1)
         },
 
-        postJob(){
+        async postJob(){
             // console.log(loading)
             // loading.show()
-            this.errors = []
-            $('#errorMessage').css('display', 'initial')
-            var job = {
-                job_title : this.job.job_title,
-                job_industry : this.job.job_industry,
-                job_type : this.job.job_type,
-                job_description : this.job.job_description,
-    
-                company_name : this.job.company_name,
-                region : this.job.company_address.region,
-                province : this.job.company_address.province,
-                municipality : this.job.company_address.municipality,
-                barangay :this.job.company_address.barangay,
-                company_description : this.job.company_description,
-    
-                educational_attainment : this.job.educational_attainment,
-                gender: this.job.gender,
-                course_studied : this.job.course_studied,
-                experience : this.job.experience,
-                other_qualification : this.job.other_qualification,
-                skill: this.job.skill,
-    
-                salary_max : this.job.salary_range.max,
-                salary_min : this.job.salary_range.min,
-                benefits : this.job.benefits,
-                status : this.job.status,
+            try {
+                this.errors = []
+                $('#errorMessage').css('display', 'initial')
+                var job = {
+                    job_title : this.job.job_title,
+                    job_industry : this.job.job_industry,
+                    job_type : this.job.job_type,
+                    job_description : this.job.job_description,
+        
+                    company_name : this.job.company_name,
+                    region : this.job.company_address.region,
+                    province : this.job.company_address.province,
+                    municipality : this.job.company_address.municipality,
+                    barangay :this.job.company_address.barangay,
+                    company_description : this.job.company_description,
+                    isLocal: this.job.isLocal,
+                    country: this.job.country,
+        
+                    educational_attainment : this.job.educational_attainment,
+                    gender: this.job.gender,
+                    course_studied : this.job.course_studied,
+                    experience : this.job.experience,
+                    other_qualification : this.job.other_qualification,
+                    skill: this.job.skill,
+        
+                    salary_max : this.job.salary_range.max,
+                    salary_min : this.job.salary_range.min,
+                    benefits : this.job.benefits,
+                    status : this.job.status,
+                }
+                
+                await $.ajax({
+                    url:  '/employer/post-job/add-job',
+                    method: 'post',
+                    data: job,
+
+                })
+                
+                location.href = "/employer/profile"
+
+            } catch (error) {
+                console.log(error)
+                this.errors = error.responseJSON.errors
             }
             
-            $.ajax({
-                url:  '/employer/post-job/add-job',
-                method: 'post',
-                data: job,
-                statusCode: {
-                    500: ()=>{
-                        // location.href ="/error"
-                    }
-                },
-                
-            }).fail((res)=>{
-                console.log(res)
-                setTimeout(() => {
-                    // loading.hide()
-                    $(window).scrollTop(0)
-                    this.errors = res.responseJSON.errors
-                    for(var i = 0 ; i < this.job.course_studied.length; i++){
-                        if(this.errors[`course_studied.${i}`]){
-                            this.errors['course_studied'] = ["Duplicate Entry"]
-                            i = this.job.course_studied.length
-                        }
-                    }
-                }, 500);
-            
-            }).done((res)=>{
-                // console.log(res)
-                location.href = "/employer/profile"
-            })
 
 
         },
@@ -233,7 +231,58 @@ new Vue({
                 }
             })
         },
-    }
+
+        async getSpecializations(){
+            try {
+                let spec = await $.ajax({
+                    url: '/job_specializations',
+                    method: "get"
+                })
+
+                this.job_specialization_list = spec.length > 0 ? spec : null
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getCourses(){
+            try {
+                let masters = []
+                let doctors = []
+                let bachelors = []
+                let courses = await $.ajax({
+                    url: "/courses",
+                    method: "get"
+                })
+
+                courses.map((val, i) => { 
+                    switch (val.course_type) {
+                        case "bachelor":
+                            bachelors.push(val.course)
+                            break
+                        case "master":
+                            masters.push(val.course)
+                            break
+                        case "doctor":
+                            doctors.push(val.course)
+                            break
+                    }
+                }) 
+
+                this.courses = bachelors.length > 0 ? bachelors : null
+                this.doctors = doctors.length > 0 ? doctors  : null
+                this.masters = masters.length > 0 ? masters : null
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    },
+
+    mounted() {
+        this.getSpecializations()
+        this.getCourses()
+    },
 })
 
 

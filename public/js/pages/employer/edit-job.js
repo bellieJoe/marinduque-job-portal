@@ -27,10 +27,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var devModule = {
   // data
-  specializations: ['Accountancy, banking and finance', 'Business, consulting and management', 'Charity and voluntary work', 'Creative arts and design', 'Energy and utilities', 'Engineering and manufacturing', 'Environment and agriculture', 'Healthcare', 'Hospitality and events management', 'Information and Technology', 'Law', 'Law enforcement and security', 'Leisure, sports and tourism', 'Marketing, advertising and PR', 'Media and internet', 'Property and construction', 'Public services and administration', 'Recruitment and HR', 'Retail', 'Sales', 'Science and pharmaceuticals', 'Social care', 'Teacher training and education', 'Transport and logisctics', 'Entertainment'],
+  specializations: ['Accountancy, banking and finance', 'Business, consulting and management', 'Charity and voluntary work', 'Creative arts and design', 'Energy and utilities', 'Engineering and manufacturing', 'Environment and agriculture', 'Healthcare', 'Hospitality and events management', 'Information and Technology', 'Law', 'Law enforcement and security', 'Leisure, sports and tourism', 'Marketing, advertising and PR', 'Media and internet', 'Property and construction', 'Public services and administration', 'Recruitment and HR', 'Retail', 'Sales', 'Science and pharmaceuticals', 'Social care', 'Teacher training and education', 'Transport and logisctics', 'Entertainment', 'Education/Training'],
   course: ['Bachelor of Science in Accountancy', 'Bachelor of Science in Management Accounting', 'Bachelor of Science in Business Administration Major in Financial Management', 'Bachelor of Science in Architecture', 'Bachelor of Science and Interior Design', 'Bachelor of Arts in English Language Studies', 'Bachelor of Arts in Filipino', 'Bachelor of Arts Literary and Cultural Studies', 'Bachelor of Arts in Philosophy', 'Bachelor of Performing Arts Major in Theater Arts', 'Bachelor of Science and Business Administration Major in Human Resource Management', 'Bachelor of Science in Business Administration Major in Marketing Management', 'Bachelor of Enterpreneurship', 'Bachelor of Science Office Administration', 'Bachelor in Advertising and Public Relations', 'Bachelor of Arts in Broadcasting', 'Bachelor of Arts in Communication Research', 'Bachelor of Arts in Journalism', 'Bachelor of Science in Computer Science', 'Bachelor of Science in Information Technology', 'Bachelor in Elementary Education', 'Bachelor in Library and Information Science', 'Bachelor of Secondary Education Major in English', 'Bachelor of Secondary Education Major in Filipino', 'Bachelor of Secondary Education Major in Mathematics', 'Bachelor of Secondary Education Major in Science', 'Bachelor of Secondary Education Major in Social Studies', 'Bachelor of Science in Civil Engineering', 'Bachelor of Science in Computer Engineering', 'Bachelor of Science in Electrical Engineering', 'Bachelor of Science in Electronics Engineering', 'Bachelor of Science in Industrial Engineering', 'Bachelor of Science in Mechanical Engineering', 'Bachelor of Physcial Education', 'Bachelor of Science in Exercises and Sports', 'Bachelor of Public Administration', 'Bachelor of Arts in International Studies', 'Bachelor of Arts in Political Economy', 'Bachelor of Arts in Political Science', 'Bachelor of Science in Economics', 'Bachelor of Science in Psychology', 'Bachelor of Science Food Technology', 'Bachelor of Science in Applied Mathematics', 'Bachelor of Science in Biology', 'Bachelor of Science in Chemistry', 'Bachelor of Science in Mathematics', 'Bachelor of Science in Nutrition and Dietetics', 'Bachelor of Science in Physics', 'Bachelor of Science in Statistics', 'Bachelor of Science in Hospitality Management', 'Bachelor of Science in Tourism Management', 'Bachelor of Science in Transportation Management'],
   masters: ['Master of Arts', 'Master of Science', 'Master of Research', 'Master of Studies', 'Master of Business Administration', 'Master of Library Science', 'Master of Public Administration', 'Master of Public Health', 'Master of Social Work', 'Master of Arts in Liberal Studies', 'Master of Fine Arts', 'Master of Music', 'Master of Education', 'Master of Engineering', 'Master of Architecture'],
   doctors: ['PhD in Educational Administration', 'PhD in Education', 'PhD in Philosophy', 'PhD in Pscychology', 'PhD in Science Education', 'PhD in Science Education', 'PhD in Biology', 'PhD in Computer Science', 'PhD in Mathematics', 'PhD in Electronics Engineering', 'PhD in Chemistry', 'PhD in Chemical Engineering', 'PhD in Business Management', 'PhD in Development Administration', 'PhD in Agricultural Sciences', 'PhD in Communication'],
+  countryList: ["Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bonaire, Sint Eustatius and Saba", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos Islands", "Colombia", "Comoros", "Congo", "Cook Islands", "Costa Rica", "Croatia", "Cuba", "Curaçao", "Cyprus", "Czechia", "Côte d'Ivoire", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "South Korea", "North Korea", "Kuwait", "Kyrgyzstan", "Lao People's Democratic Republic", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands)", "Norway", "Oman", "Pakistan", "Palau", "Palestine, State of", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Republic of North Macedonia", "Romania", "Russian Federation", "Rwanda", "Réunion", "Saint Barthélemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Svalbard and Jan Mayen", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom of Great Britain and Northern Ireland", "United States Minor Outlying Islands", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela)", "Viet Nam", "Virgin Islands", "Virgin Islands", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe", "Åland Islands"],
   // methods
   diffForHumans: function diffForHumans(date) {
     var startDateTime = luxon__WEBPACK_IMPORTED_MODULE_0__.DateTime.fromISO(date);
@@ -175,10 +176,10 @@ new Vue({
     phil: (phil_reg_prov_mun_brgy__WEBPACK_IMPORTED_MODULE_2___default()),
     job_data: null,
     errors: [],
-    specializations: _dev_module_js__WEBPACK_IMPORTED_MODULE_3__.default.specializations,
-    courses: _dev_module_js__WEBPACK_IMPORTED_MODULE_3__.default.course,
-    masters: _dev_module_js__WEBPACK_IMPORTED_MODULE_3__.default.masters,
-    doctors: _dev_module_js__WEBPACK_IMPORTED_MODULE_3__.default.doctors,
+    specializations: null,
+    courses: null,
+    masters: null,
+    doctors: null,
     job: {
       job_title: "okie",
       job_type: null,
@@ -362,32 +363,123 @@ new Vue({
           _this4.job.skill.splice(i, 1);
         }
       });
+    },
+    getSpecializations: function getSpecializations() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var spec;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: '/job_specializations',
+                  method: "get"
+                });
+
+              case 3:
+                spec = _context.sent;
+                console.log(spec);
+                _this5.specializations = spec.length > 0 ? spec : null;
+                _context.next = 11;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 8]]);
+      }))();
+    },
+    getCourses: function getCourses() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var masters, doctors, bachelors, courses;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                masters = [];
+                doctors = [];
+                bachelors = [];
+                _context2.next = 6;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: "/courses",
+                  method: "get"
+                });
+
+              case 6:
+                courses = _context2.sent;
+                courses.map(function (val, i) {
+                  switch (val.course_type) {
+                    case "bachelor":
+                      bachelors.push(val.course);
+                      break;
+
+                    case "master":
+                      masters.push(val.course);
+                      break;
+
+                    case "doctor":
+                      doctors.push(val.course);
+                      break;
+                  }
+                });
+                _this6.courses = bachelors.length > 0 ? bachelors : null;
+                _this6.doctors = doctors.length > 0 ? doctors : null;
+                _this6.masters = masters.length > 0 ? masters : null;
+                _context2.next = 16;
+                break;
+
+              case 13:
+                _context2.prev = 13;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+
+              case 16:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 13]]);
+      }))();
     }
   },
-  beforeCreate: function beforeCreate() {
-    var _this5 = this;
+  mounted: function mounted() {
+    var _this7 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
       var res, address;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _this5.loading = true;
-              _context.prev = 1;
-              _context.next = 4;
+              _this7.loading = true;
+              _context3.prev = 1;
+              _context3.next = 4;
               return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                 url: "/employer/job/get-job/".concat(jquery__WEBPACK_IMPORTED_MODULE_1___default()("#job_id").val()),
                 method: "post"
               });
 
             case 4:
-              res = _context.sent;
-              _this5.loading = false;
+              res = _context3.sent;
+              _this7.loading = false;
               console.log(res);
-              _this5.job_data = res;
+              _this7.job_data = res;
               address = JSON.parse(res.company_address);
-              _this5.toggle = {
+              _this7.toggle = {
                 useCompanyInformation: false,
                 educationalAttainment: res.educational_attainment ? true : false,
                 courseStudied: res.course_studied ? true : false,
@@ -395,8 +487,8 @@ new Vue({
                 experience: res.experience ? true : false,
                 status: res.status == 'open' ? true : false
               };
-              _this5.job.job_title = res.job_title;
-              _this5.job = {
+              _this7.job.job_title = res.job_title;
+              _this7.job = {
                 job_title: res.job_title,
                 job_type: res.job_type,
                 job_industry: res.job_industry,
@@ -418,21 +510,25 @@ new Vue({
                 status: res.status == 'open' ? 1 : 0
               };
               console.log("ok");
-              _context.next = 19;
+              _context3.next = 18;
               break;
 
             case 15:
-              _context.prev = 15;
-              _context.t0 = _context["catch"](1);
-              _this5.loading = false;
-              console.log(_context.t0);
+              _context3.prev = 15;
+              _context3.t0 = _context3["catch"](1);
+              _this7.loading = false;
 
-            case 19:
+            case 18:
+              _this7.getSpecializations();
+
+              _this7.getCourses();
+
+            case 20:
             case "end":
-              return _context.stop();
+              return _context3.stop();
           }
         }
-      }, _callee, null, [[1, 15]]);
+      }, _callee3, null, [[1, 15]]);
     }))();
   }
 });

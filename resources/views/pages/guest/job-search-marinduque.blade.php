@@ -6,28 +6,32 @@
     <div id="jobsFromMarinduque">
 
 
+
         {{-- employers from marinduque --}}
         <div class="bg-gray-800 ">
-            <div class="mx-auto lg:w-10/12 py-4 ">
+            <div class="mx-auto lg:w-10/12 pt-4">
                 <h6 class="font-bold mb-2 text-gray-300">Employers from Marinduque 
-                    @if (sizeof($employers) > 10)
+                    @if (sizeof($employers) == 10)  
                     <button class="btn btn-outline-light ml-3 " @click="redirectTo('/employers?from=MARINDUQUE')">
-                        See More Employers
+                        See All Employers from Marinduque
                     </button>
                     @endif
                 </h6>
-    
+            </div>
+            <div class="mx-auto lg:w-10/12 py-4 lg:grid lg:grid-cols-5">
                 @foreach ($employers as $employer)
-                <div @click="redirectTo('/employers/{{ $employer->user_id }}/jobs')" class="rounded-md bg-white inline-block w-max p-3 m-2 hover:shadow-md duration-500 cursor-pointer">
+                <div @click="redirectTo('/employers/{{ $employer->user_id }}/jobs')" class="rounded-md bg-gray-600  p-3 m-2 hover:shadow-md duration-500 cursor-pointer">
                     @if ($employer->company_logo)
                     <img class="w-20 block mx-auto" src="{{ url('image') }}/employer/logo/{{ $employer->company_logo }}" alt="">
                     @else
-                    <h6 class="text-blue-600 text-4xl font-bold">{{ Str::ucfirst($employer->company_name)[0] }}</h6>
+                    <h6 class="text-gray-200 text-4xl font-bold text-center py-3">{{ Str::ucfirst($employer->company_name)[0] }}</h6>
                     @endif
                     
-                    <h6 class="font-bold text-center mt-2">{{ $employer->company_name }}</h6>
+                    <h6 class="font-bold text-center mt-2 text-white">{{ $employer->company_name }}</h6>
                 </div>
                 @endforeach
+
+                
             </div>
         </div>
         
@@ -91,7 +95,10 @@
                         <p class="mb-2">{{ $address->barangay->name }}, {{ $address->municipality->name }}</p>
 
                         <h6 class=" text-indigo-800">{{ Str::title($job->job_type) }}</h6>
-                        <h6 class="mb-4 text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
+                        <h6 class=" text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
+                        @if(!$job->isLocal)
+                            <h6 class="mb-4 text-indigo-800">Overseas</h6>
+                        @endif
 
                         @if ($salary->max && $salary->min)
                         <p class="font-bold">₱{{ number_format($salary->min, '0', '.', ',') }} - ₱{{ number_format($salary->max, '0', '.', ',') }}</p>

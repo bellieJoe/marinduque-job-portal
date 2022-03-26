@@ -40,11 +40,12 @@ class JobController extends Controller
             'job_description' => 'nullable|min:50|max:5000',
 
             'company_name' => 'required',
-            'region' => 'required',
-            'province' => 'required',
-            'municipality' => 'required',
-            'barangay' => 'required',
+            'region' => 'required_if:isLocal,true',
+            'province' => 'required_if:isLocal,true',
+            'municipality' => 'required_if:isLocal,true',
+            'barangay' => 'required_if:isLocal,true',
             'company_description' => 'nullable|min:50|max:5000',
+            'country' => 'required_if:isLocal,false',
             
             'educational_attainment' => 'nullable',
             'course_studied.*' => 'nullable',
@@ -73,13 +74,15 @@ class JobController extends Controller
             'job_description' => $request->input('job_description'),
 
             'company_name' => $request->input('company_name'),
-            'company_descrption' => $request->input('company_description'),
+            'company_description' => $request->input('company_description'),
             'company_address' => json_encode([
                 'region' => $request->input('region'),
                 'province' => $request->input('province'),
                 'municipality' => $request->input('municipality'),
                 'barangay' => $request->input('barangay'),
             ]), 
+            'country' => $request->input("country"),
+            'isLocal' => $request->input("isLocal") === true ? 1 : 0,
 
             'educational_attainment' => $request->input('educational_attainment'),
             'course_studied' => $request->input('course_studied') ? json_encode($request->input('course_studied')) : null,
@@ -239,6 +242,13 @@ class JobController extends Controller
                     ['status', 'open'],
                     ['company_address->province->name', 'like', $request->input('province') ? $request->input('province') : '%'],
                     ['company_address->municipality->name', 'like', $request->input('municipality') ? $request->input('municipality') : '%'],
+                    ...$salary_query
+                ])
+                ->orWhere([
+                    ['status', 'open'],
+                    ['company_address->province->name', 'like', $request->input('province') ? $request->input('province') : '%'],
+                    ['company_address->municipality->name', 'like', $request->input('municipality') ? $request->input('municipality') : '%'],
+                    ['isLocal', false],
                     ...$salary_query
                 ])
                 ->whereIn('job_id', $jobIds)

@@ -47,7 +47,7 @@ class NewApplicationNotification extends Notification
         return (new MailMessage)
                     ->greeting('Good News!')
                     ->line('You Job Posting titled '.$this->job->job_title.' has new Application from '.$applicantName.'.')
-                    ->action('View', url('/employer/job/'.$this->job->job_id));
+                    ->action('View', url('/employer/job/'.$this->job->job_id.'?view=applicants&applicants=pending'));
     }
 
     /**
@@ -62,7 +62,7 @@ class NewApplicationNotification extends Notification
             //
             'title' => 'New Job Application',
             'message' => 'Your job posting titled '.$this->job->job_title.' has new application.',
-            'action' => url('/employer/job/'.$this->job->job_id)
+            'action' => url('/employer/job/'.$this->job->job_id.'?view=applicants&applicants=pending')
         ];
     }
 

@@ -25,7 +25,7 @@ new Vue({
         unreadNotificationsCount: null,
         notifications: [],
         hoveredNotif: null,
-        notificationCount : 0
+        notificationCount : 0,
     },
     methods: {
         

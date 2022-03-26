@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobSpecializationController;
+use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\UserController;
+use App\Models\Course;
+use App\Models\JobSpecialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +23,7 @@ Route::prefix('admin')->group(function(){
     Route::get('', function(){
         return redirect("/admin/employers");
     })->middleware('role:admin', 'auth');
+
 
     Route::prefix('employers')->group(function(){
         /* 
@@ -94,6 +100,62 @@ Route::prefix('admin')->group(function(){
         */
         Route::get('{status}/{job_id}', [JobController::class, 'setStatus'])->middleware('role:admin', 'auth');
 
+        /* 
+        @method get
+        @desc redirect to list oof job specializations
+        @route admin/jobs/job_specialization
+        */
+        Route::get('job_specializations', function(){
+            return view('pages.admin.job_specializations')
+            ->with([
+                'job_specializations' => JobSpecialization::all()
+            ]);
+        })->middleware('auth', "role:admin");
+
+        
+        /* 
+        @method post
+        @desc redirect to create new spec
+        @route admin/jobs/job_specialization
+        */
+        Route::post('job_specializations', [JobSpecializationController::class, 'create'])->middleware('auth', "role:admin");
+
+        /* 
+        @method post
+        @desc delete spec
+        @route admin/jobs/job_specialization
+        */
+        Route::delete('job_specializations', [JobSpecializationController::class, 'deleteSpecialization'])->middleware('auth', "role:admin");
+
+        /* 
+        @method get
+        @dedsc redirects to the admin course list
+        @route admin/jobs/courses
+        */
+        Route::get("courses", function () {
+             
+            return view("pages.admin.courses")
+            ->with([
+                "courses" => Course::all()
+            ]);
+
+        })->middleware('auth', "role:admin");
+
+        /* 
+        @method post
+        @dedsc add new course record
+        @route admin/jobs/courses
+        */
+        Route::post("courses", [CourseController::class, "create"])->middleware("auth", "role:admin");
+
+        /* 
+        @method delete
+        @dedsc deletes course
+        @route admin/jobs/courses
+        */
+        Route::delete("courses", [CourseController::class, "delete"])->middleware("auth", "role:admin");
+
+        
     });
     // end of jobs prefix
 
@@ -136,7 +198,7 @@ Route::prefix('admin')->group(function(){
         @desc add lmi report
         @url /admin/reports/lmi-report
         */
-        Route::view("lmi-report", 'pages.admin.add-lmi')->middleware("auth", "role:admin");
+        Route::view("lmi-report", 'pages.admin.lmi')->middleware("auth", "role:admin");
 
         /* 
         @method GET
@@ -144,8 +206,20 @@ Route::prefix('admin')->group(function(){
         @url /admin/reports/sprs-report
         */
         Route::view("sprs-report", 'pages.admin.add-sprs')->middleware("auth", "role:admin");
+
+
+        /* 
+        @method GET
+        @desc get placement reports
+        @url /admin/reports/placement reports
+        */
+        Route::get('placement-report/{month}/{year}', [PlacementReportController::class, 'getAdminPlacementReport'])->middleware('auth','role:admin');
+
+       
     });
     // end of reports prefix
+
+    
 
 
 });

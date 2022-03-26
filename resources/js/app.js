@@ -17,7 +17,7 @@ Chart.register(...registerables);
 const User = JSON.parse($("#User").val())
 
 // console.log(navigator.onLine)
-console.log(keyword_analyzer.wrest('bar bar bar foo foo foo foo'))
+// console.log(keyword_analyzer.wrest('bar bar bar foo foo foo foo'))
 
 
 

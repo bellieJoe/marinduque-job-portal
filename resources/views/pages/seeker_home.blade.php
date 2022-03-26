@@ -10,7 +10,9 @@
         {{-- home navigation --}}
         <div class="bg-gradient-to-t from-indigo-500 to-indigo-900 pt-3">
             <div class=" p-3 mb-4 lg:w-10/12 mx-auto ">
-                <img class="mt-2 w-52 d-block mx-auto rounded-full shadow-lg {{ $seeker->display_picture ? '' : 'd-none' }}" src="{{ url('image') }}\seeker\profile\{{  $seeker->display_picture }}" alt="profile">
+                @if ($seeker->display_picture)
+                    <img class="mt-2 w-52 d-block mx-auto rounded-full shadow-lg {{ $seeker->display_picture ? '' : 'd-none' }}" src="{{ url('image') }}\seeker\profile\{{  $seeker->display_picture }}" alt="profile">
+                @endif
                 <a href="/seeker/profile/upload-image/seeker-profile" class=" duration-500 rounded-md hover:text-gray-50 pt-16 text-center fw-bold text-gray-400 hover:bg-gray-300 mt-2 border-3 border-dashed  w-40 h-40 d-block mx-auto bg-gray-100 {{ $seeker->display_picture ? 'd-none' : '' }}">Upload photo</a>
                 <a href="/seeker/profile/upload-image/seeker-profile" class="mx-auto btn btn-outline-light block  my-2 w-52  {{ $seeker->display_picture ? '' : 'd-none' }}">Upload display photo</a>
                 <h6 class="fw-bold text-3xl text-white my-3 text-center ">{{ $seeker->firstname.' '.Str::ucfirst($seeker->middlename[0]).'. '.$seeker->lastname }}</h6>
@@ -40,17 +42,15 @@
             </div> 
         </div>
 
-
-
         {{-- seeker features --}}
         <div class="lg:w-10/12 mx-auto shadow-md">
             <nav class="bg-indigo-800 pt-1 ps-1 pe-1" v-cloak>
                 <button class="py-2 px-3 duration-300 hover:bg-indigo-600 rounded-t-md rounded-tr-md" :class="toggledJobs == 'suggestions' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'" @click="toggleJobs('suggestions')">
                     <i class="fa fa-archive me-1"></i> Suggested Jobs
                 </button>
-                {{-- <button class="py-2 px-3 hover:bg-indigo-600 duration-300 rounded-t-md rounded-tr-md" :class="toggledJobs == 'invitations' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'"  @click="toggleJobs('invitations')">
+                <button class="py-2 px-3 hover:bg-indigo-600 duration-300 rounded-t-md rounded-tr-md" :class="toggledJobs == 'invitations' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'"  @click="toggleJobs('invitations')">
                     <i class="fa fa-envelope me-1"></i> Invitations
-                </button> --}}
+                </button>
                 <button class="py-2 px-3 hover:bg-indigo-600 duration-300 rounded-t-md rounded-tr-md" :class="toggledJobs == 'saved jobs' ? 'bg-white text-indigo-800' : 'bg-indigo-800 text-white'"  @click="toggleJobs('saved jobs')">
                     <i class="fa fa-bookmark me-2"></i> 
                     Saved Jobs 
@@ -76,7 +76,9 @@
                                 <p>@{{ job.job.job_industry }}</p>
                                 <p class="" v-if="job.salary_range.max && job.salary_range.min">Php @{{ job.salary_range.min }} - Php @{{ job.salary_range.max }}</p>
                                 <p>@{{ job.job.job_type }}</p>
-                                <p>@{{ job.company_address.municipality.name }}, @{{ job.company_address.province.name }}</p>
+                                <p v-if="job.isLocal">@{{ job.company_address.municipality.name }}, @{{ job.company_address.province.name }}</p>
+                                <p v-if="!job.isLocal">@{{ job.country }}</p>
+                                
                                 <p class="mt-2">
                                     <span class="text-xl text-green-600 font-bold">@{{ job.total }}% <span class="font-normal">match</span></span> 
                                     <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Education: @{{ job.educationRate }}%</span>
@@ -91,21 +93,21 @@
                       <div v-if="jobSuggestions">
                         <a href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-blue-500">See more</a>
                       </div>  
-                      <div v-if="!jobSuggestions">
+                      {{-- <div v-if="!jobSuggestions">
                         <h6 href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-gray-500">No job suggestions, try updating your profile.</h6>
-                      </div>  
+                      </div>   --}}
                       
                     
                 </div>
                 {{-- job invitions --}}
-                {{-- <div v-if="toggledJobs == 'invitations'" class="p-3" v-cloak>
+                <div v-if="toggledJobs == 'invitations'" class="p-3" v-cloak>
                     <h1 class="text-gray-500 mb-3 fw-bold">Job Invitations</h1>
-                    invitations
-                </div> --}}
+                    Not yet functional
+                </div>
                 {{-- saved jobs --}}
                 <div v-if="toggledJobs == 'saved jobs'" class="p-3" v-cloak>
                     <h1 class="text-gray-500 mb-3 fw-bold">Saved jobs</h1>
-                    <div v-if="!savedJobs">
+                    <div v-if="savedJobsLoader">
                         <div class="spinner-border spinner-border-sm  text-primary" role="status" >
                             <span class="visually-hidden">Loading...</span>
                         </div>
@@ -123,7 +125,12 @@
                                 <button class="btn btn-sm btn-success" @click="viewJob(i.job_id)">View</button>
                             </div>
                         </div>
-                        <h1 v-if="!savedJobs[0]" class="text-gray-500 text-center m-5 ">No Recent Jobs Saved</h1>
+                    </div>
+                    <div v-if="errors.saveJobs">
+                        <h1 class="text-gray-500 text-center m-5 ">Something went wrong</h1>
+                    </div>
+                    <div v-if="!errors.saveJobs">
+                        <h1 v-if="!savedJobs && !savedJobsLoader" class="text-gray-500 text-center m-5 ">No Recent Jobs Saved</h1>
                     </div>
                 </div>
                 {{-- applications --}}

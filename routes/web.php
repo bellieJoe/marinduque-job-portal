@@ -4,6 +4,7 @@ use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\EmsiAPIController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobMatchingController;
+use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +16,10 @@ use App\Models\Education;
 use App\Models\EmployerVerificationProof;
 use App\Models\Experience;
 use App\Models\Job;
+use App\Models\JobApplication;
 use App\Models\Seeker;
 use App\Models\Skill;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer;
@@ -35,13 +38,8 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
-    
-    $faker = Faker\Factory::create('en_PH');
-
-    return $faker->barangay().', '.$faker->municipality().', '.$faker->province();
-    // return JobMatchingController::genSuggestedCandidate(22);
-    // return JobMatchingController::sortSuggestedSeekers(JobMatchingController::genSuggestedCandidate(3)) ;
-    
+    // return Hash::check($value, $hashedValue);
+    return Http::get("localhost:8000/api/pota");
 });
 
 
