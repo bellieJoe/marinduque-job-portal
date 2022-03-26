@@ -7,6 +7,7 @@ use App\Models\JobApplication;
 use App\Models\LmiReport;
 use App\Models\Seeker;
 use App\Models\User;
+use App\Notifications\LMIGeneratedNotification;
 use App\Notifications\SampleNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -80,8 +81,15 @@ class Kernel extends ConsoleKernel
             ]);
 
             // send notification to admins
+            $admins = User::where([
+                'role' => 'admin'
+            ])->get();
+        
+            foreach ($admins as $admin) {
+                $admin->notify(new LMIGeneratedNotification());
+            }
             
-        })->everyMinute();
+        })->monthly();
     }
 
     /**
