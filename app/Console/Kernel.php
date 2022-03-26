@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\LmiReport;
+use App\Models\Seeker;
 use App\Models\User;
 use App\Notifications\SampleNotification;
 use Carbon\Carbon;
@@ -57,8 +58,11 @@ class Kernel extends ConsoleKernel
             $year = $month == 1 ? Carbon::now()->format("Y") - 1 : Carbon::now()->format("Y");
             $jobs = Job::whereMonth('date_posted', $month)
             ->whereYear('date_posted', $year);
-            $applications = JobApplication::whereMonth('createed_at', $month)
+            $applications = JobApplication::whereMonth('created_at', $month)
             ->whereYear('created_at', $year);
+            $seekers = Seeker::whereIn('user_id', $applications->pluck('applicant_id'));
+
+
 
             LmiReport::create([
                 'jobs_solicited_total' => $jobs->count(),
@@ -66,13 +70,13 @@ class Kernel extends ConsoleKernel
                 "jobs_solicited_local" => $jobs->where('isLocal', 1)->count(),
                 "jobs_solicited_overseas" => $jobs->where('isLocal', 0)->count(),
                 "applicants_referred_total" => $applications->count(),
-                "applicants_referred_male" => '',
-                "applicants_referred_female" => '',
-                "applicants_placed_total" => '',
-                "applicants_placed_male" => '',
-                "applicants_placed_female" => '',
-                "year" => '',
-                "month" => ''
+                "applicants_referred_male" => $seekers->where(['gender' => 'male'])->count(),
+                "applicants_referred_female" => $seekers->where(['gender' => 'female'])->count(),
+                "applicants_placed_total" => $applications->where(['application_status' => 'hired'])->count(),
+                "applicants_placed_male" => $applications->where(['application_status' => 'hired', 'gender' => 'male'])->count(),
+                "applicants_placed_female" => $applications->where(['application_status' => 'hired', 'gender' => 'female'])->count(),
+                "year" => $year,
+                "month" => $month
             ]);
 
             

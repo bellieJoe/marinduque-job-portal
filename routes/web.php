@@ -38,8 +38,9 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
-    // return Hash::check($value, $hashedValue);
-    return Http::get("localhost:8000/api/pota");
+    $applications = JobApplication::whereMonth('created_at', 3)->whereYear('created_at', 2022);
+    // $maleApplicationsCount = 0;
+    return $applications->where(['application_status' => 'hired'])->count();
 });
 
 
