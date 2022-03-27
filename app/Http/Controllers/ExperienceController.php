@@ -18,7 +18,7 @@ class ExperienceController extends Controller
             'job_description' => 'nullable|max:3000',
             'date_started' => 'required|date|before_or_equal:'.Carbon::now().'|before:'.$request->input('date_ended'),
             'date_ended' => 'required|date|before_or_equal:'.Carbon::now(),
-            'salary' => 'required|numeric|gte:12034',
+            'salary' => 'required|numeric|gt:1',
             'salary_grade' => 'required',
             'status_of_appointment' => 'required|max:20',
             'govnt_service' => 'required'
@@ -52,7 +52,7 @@ class ExperienceController extends Controller
             'job_description' => 'nullable|max:3000',
             'date_started' => 'required|date|before_or_equal:'.Carbon::now().'|before:'.$request->input('date_ended'),
             'date_ended' => 'required|date|before_or_equal:'.Carbon::now(),
-            'salary' => 'required|numeric|gte:12034',
+            'salary' => 'required|numeric|gt:1',
             'salary_grade' => 'required',
             'status_of_appointment' => 'required|max:20',
             'govnt_service' => 'required'

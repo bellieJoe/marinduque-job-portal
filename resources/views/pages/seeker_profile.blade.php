@@ -469,8 +469,8 @@
                                             </div>
                                             <div class="text-danger" v-for="i of errors.salary">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3" v-cloak v-if="experience.salary_grade">
-                                            <span class="font-bold">Salary Grade: </span>@{{ experience.salary_grade }}
+                                        <div class="mb-3" v-cloak v-if="experience.salary_grade != null">
+                                            <span class="font-bold">Salary Grade: </span>@{{  experience.salary_grade == 0 ? "Below minimum" : experience.salary_grade  }}
                                         </div>
                                         <div class="mb-3">
                                             <label class='mb-1 '><span class="fw-bold">Status of Appointment</span> <span class="text-red-500">*</span></label>
@@ -543,8 +543,8 @@
                                             </div>
                                             <div class="text-danger" v-for="i of errors.salary">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3" v-cloak v-if="experience.salary_grade">
-                                            <span class="font-bold">Salary Grade: </span>@{{ experience.salary_grade }}
+                                        <div class="mb-3" v-cloak v-if="experience.salary_grade != null">
+                                            <span class="font-bold">Salary Grade: </span>@{{ experience.salary_grade == 0 ? "Below minimum" : experience.salary_grade }}
                                         </div>
                                         <div class="mb-3">
                                             <label class='mb-1 '><span class="fw-bold">Status of Appointment</span> <span class="text-red-500">*</span></label>
@@ -607,7 +607,7 @@
                                     </div>
                                     <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
                                         <h6 class="pr-4 md:col-1 w-full">Salary Grade :</h6>
-                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->salary_grade }}</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->salary_grade == 0 ? 'Below minimum' : $i->salary_grade }}</h6>
                                     </div>
                                     <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
                                         <h6 class="pr-4 md:col-1 w-full">Status of Appointment :</h6>

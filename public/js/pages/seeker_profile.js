@@ -63,7 +63,9 @@ var devModule = {
     console.log(diff.years);
   },
   defineSalaryGrade: function defineSalaryGrade(s) {
-    if (s >= 12034 && s < 12790) {
+    if (s < 12034) {
+      return 0;
+    } else if (s >= 12034 && s < 12790) {
       return 1;
     } else if (s >= 12790 && s < 13572) {
       return 2;
@@ -541,7 +543,8 @@ new Vue({
       this.experience.govnt_service = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#add_govnt_service')[0].checked;
     },
     setSalaryGrade: function setSalaryGrade() {
-      this.experience.salary_grade = this.experience.salary ? _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.defineSalaryGrade(this.experience.salary) : null;
+      this.experience.salary_grade = this.experience.salary && _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.defineSalaryGrade(this.experience.salary);
+      console.log(_dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.defineSalaryGrade(this.experience.salary));
     },
     showAddExperienceForm: function showAddExperienceForm() {
       this.errors = [];

@@ -63,7 +63,9 @@ var devModule = {
     console.log(diff.years);
   },
   defineSalaryGrade: function defineSalaryGrade(s) {
-    if (s >= 12034 && s < 12790) {
+    if (s < 12034) {
+      return 0;
+    } else if (s >= 12034 && s < 12790) {
       return 1;
     } else if (s >= 12790 && s < 13572) {
       return 2;

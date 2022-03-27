@@ -431,8 +431,10 @@ const devModule = {
     },
 
     defineSalaryGrade(s){
+        if(s < 12034){
+            return 0;
 
-        if(s >= 12034 && s < 12790){
+        }else if(s >= 12034 && s < 12790){
 
             return 1;
 
@@ -563,7 +565,9 @@ const devModule = {
         }else if(s >= 403620){
 
             return 33;
-        }else{}
+        }else{
+    
+        }
 
     }
 }

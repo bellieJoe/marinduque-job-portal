@@ -365,7 +365,8 @@ new Vue({
             this.experience.govnt_service = $('#add_govnt_service')[0].checked
         },
         setSalaryGrade(){
-            this.experience.salary_grade = this.experience.salary ? devModule.defineSalaryGrade(this.experience.salary) : null
+            this.experience.salary_grade = this.experience.salary && devModule.defineSalaryGrade(this.experience.salary)
+            console.log(devModule.defineSalaryGrade(this.experience.salary));
         },
 
         showAddExperienceForm: function () {
