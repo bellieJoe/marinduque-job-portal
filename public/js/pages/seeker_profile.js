@@ -177,11 +177,13 @@ jquery__WEBPACK_IMPORTED_MODULE_1___default().ajaxSetup({
 });
 var loading = jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading");
 loading.css('display', 'none');
+var mdlAddEducation = new bootstrap.Modal(document.getElementById("mdlAddEducationForm"));
 new Vue({
   el: '#SeekerProfile',
   data: {
     user: null,
     errors: [],
+    educationLevelError: null,
     job_industries: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.specializations,
     courses: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.course,
     masters: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.masters,
@@ -250,10 +252,14 @@ new Vue({
     }
   },
   methods: {
+    closeEducationLevelError: function closeEducationLevelError() {
+      this.educationLevelError = null;
+    },
     closeLoading: function closeLoading() {
-      setTimeout(function () {
-        loading.css('display', 'none');
-      }, 3000);
+      // setTimeout(() => {
+      //     loading.css('display', 'none')
+      // }, 3000);
+      loading.css('display', 'none');
     },
     // credential methods
     clearCredential: function clearCredential() {
@@ -462,11 +468,13 @@ new Vue({
 
               case 5:
                 education = _context2.sent;
-                location.href = "/seeker/profile/education"; // .fail((res)=>{
-                //     loading.css('display' , 'none')
-                //     this.errors = res.responseJSON.errors
-                // }).done((res)=>{
-                // })
+
+                if (JSON.parse(education).educationLevelError) {
+                  this.educationLevelError = JSON.parse(education).educationLevelError;
+                  this.closeLoading(); // this.closeAddEducationForm()
+                } else {
+                  location.href = "/seeker/profile/education";
+                }
 
                 _context2.next = 14;
                 break;

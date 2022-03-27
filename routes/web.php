@@ -41,13 +41,13 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
-    $admins = User::where([
-        'role' => 'admin'
-    ])->get();
+    return Education::where([
+        'user_id' => Auth::user()->user_id,
+    ])
+    ->whereIn('education_level', ['primary education', 'secondary education'])
+    ->pluck('education_level');
 
-    foreach ($admins as $admin) {
-        $admin->notify(new LMIGeneratedNotification());
-    }
+    
 });
 
 

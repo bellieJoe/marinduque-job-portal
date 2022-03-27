@@ -203,6 +203,10 @@
                                         <h5 class='fw-bold'><i class="fas fa-graduation-cap me-2"></i>Add Education</h5>
                                     </div>
                                     <div class="modal-body">
+                                        <div v-if="educationLevelError" class="p-2 bg-red-300 text-red-800 my-4 rounded-sm grid grid-cols-4 items-center">
+                                            <h1 class="col-span-3">@{{ educationLevelError }}</h1>
+                                            <button @click="closeEducationLevelError" class="btn btn-clear-danger w-max col-span-1 justify-self-end"><i class="fa fa-times text-red-800"></i></button>
+                                        </div>
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
                                             <select class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
@@ -285,7 +289,7 @@
                                     <div class="modal-body">
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
-                                            <select class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
+                                            <select disabled class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
                                                 <option value="" selected>--select level of education--</option>
                                                 <option value="primary education">Primary Education</option>
                                                 <option value="secondary education">Secondary Education</option>

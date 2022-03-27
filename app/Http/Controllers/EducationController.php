@@ -18,14 +18,27 @@ class EducationController extends Controller
             'year_graduated' => 'required|min:4|max:4',
         ]);
 
-        Education::create([
+        $education_levels = Education::where([
             'user_id' => Auth::user()->user_id,
-            'education_level' => $request->input('education_level'),
-            'school_name' => $request->input('school_name'),
-            'school_address' => $request->input('school_address'),
-            'course' => $request->input('course'),
-            'year_graduated' => $request->input('year_graduated'),
-        ]);
+        ])
+        ->whereIn('education_level', ['primary education', 'secondary education'])
+        ->pluck('education_level')->toArray();
+
+        if(!in_array($request->education_level, $education_levels)){
+            Education::create([
+                'user_id' => Auth::user()->user_id,
+                'education_level' => $request->input('education_level'),
+                'school_name' => $request->input('school_name'),
+                'school_address' => $request->input('school_address'),
+                'course' => $request->input('course'),
+                'year_graduated' => $request->input('year_graduated'),
+            ]);
+        } else{
+            return json_encode([
+                'educationLevelError' => "Already have ".$request->education_level." Level"
+            ]);
+        }
+        
     }
 
     public function updateEducation(Request $request, $id){

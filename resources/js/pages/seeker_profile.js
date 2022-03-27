@@ -18,12 +18,14 @@ $.ajaxSetup({
 
 const loading = $("#loading")
 loading.css('display', 'none')
+const mdlAddEducation = new bootstrap.Modal(document.getElementById("mdlAddEducationForm"))
 
 new Vue({
     el: '#SeekerProfile',
     data: {
         user: null,
         errors: [],
+        educationLevelError: null,
         job_industries: devModule.specializations,
         courses: devModule.course,
         masters: devModule.masters,
@@ -101,10 +103,15 @@ new Vue({
     },
     methods: {
 
+        closeEducationLevelError(){
+            this.educationLevelError = null
+        },
+
         closeLoading() {
-            setTimeout(() => {
-                loading.css('display', 'none')
-            }, 3000);
+            // setTimeout(() => {
+            //     loading.css('display', 'none')
+            // }, 3000);
+            loading.css('display', 'none')
         },
 
         // credential methods
@@ -292,13 +299,17 @@ new Vue({
                     data: this.education,
                     
                 })
-                location.href = "/seeker/profile/education"
-                // .fail((res)=>{
-                //     loading.css('display' , 'none')
-                //     this.errors = res.responseJSON.errors
-                // }).done((res)=>{
 
-                // })
+                if(JSON.parse(education).educationLevelError){
+                    this.educationLevelError = JSON.parse(education).educationLevelError
+                    this.closeLoading()
+                    // this.closeAddEducationForm()
+                }else{
+                    location.href = "/seeker/profile/education"
+                }
+
+                
+
             } catch (error) {
                 console.log(error)
                 this.errors = error.responseJSON.errors ? error.responseJSON.errors : null 
