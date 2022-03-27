@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Employer;
 use App\Models\EmployerVerificationProof;
 use App\Models\User;
+use App\Notifications\AdminCreatedNotification;
 use App\Notifications\DeleteAdminNotification;
 use App\Notifications\EmployerVerificationNotification;
 use Carbon\Carbon;
@@ -18,7 +19,7 @@ class AdminController extends Controller
     public function registerAdmin(Request $request){
         $request->validate([
             'fullname' => 'required|max:50',
-            'contact_number' => 'required|max:11',
+            'contact_number' => 'required|max:11|digits:11',
             'address' => 'required|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed'
@@ -39,7 +40,7 @@ class AdminController extends Controller
             'address' => $request->input('address')
         ]);
 
-        // mail the new admin
+        $user->notify(new AdminCreatedNotification());  
 
         return redirect()->back()->with([
             'message' => 'A new admin user '.$request->input('email').' has been created'
