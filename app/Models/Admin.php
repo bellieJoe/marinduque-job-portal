@@ -15,4 +15,5 @@ class Admin extends Model
         'contact_number',
         'address'
     ];
+
 }

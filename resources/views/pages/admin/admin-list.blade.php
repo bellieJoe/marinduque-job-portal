@@ -27,7 +27,30 @@
                     <h1 class="text-gray-500 justify-self-center">{{ $admin->address }}</h1>
                     <div class="w-max justify-self-end">
                         <button @click="addModalIdParam('mdlUpdate'+{{ $admin->user_id }})" class="btn btn-sm btn-success w-max" data-bs-toggle="modal" data-bs-target="#mdlUpdate{{ $admin->user_id }}">Edit</button>
-                        <button class="btn btn-sm btn-danger w-max">Delete</button>
+                        <button class="btn btn-sm btn-danger w-max" data-bs-toggle="modal" data-bs-target="#alertDeleteAdmin{{ $admin->user_id }}">Delete</button>
+                        <div class="modal fade" id="alertDeleteAdmin{{ $admin->user_id }}">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <form action="/admin/deleteAdmin" method="POST" class="modal-content">
+                                    <div class="modal-header border-0">
+                                        <h1 class="text-lg font-bold">Delete <span class="font-semibold">{{ $admin->email }}</span></h1>
+                                    </div>
+                                    <div class="modal-body border-0">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="hidden" name="user_id" value="{{ $admin->user_id }}">
+                                        <p>You are about to delete the admin <span class="text-gray-500">{{ $admin->email }}</span>, this action is permanent and will no longer allow the admin to access the admin panel.</p>
+                                        <p>Are you sure you want to delete this admin?</p>
+                                    </div>
+                                    <div class="modal-header border-0">
+                                        <div class="w-max ml-auto mr-0">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="far fa-window-close"></i> Cancel</button>
+                                            <button type="submit" class="btn btn-danger" @click="showLoader()"><i class="far fa-save" ></i> Delete</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div id="mdlUpdate{{ $admin->user_id }}" action="" class="modal fade " >
                         <div class="modal-dialog modal-dialog-centered">
@@ -83,7 +106,7 @@
                 @if ($modal)
                 <input type="hidden" id="updateModalId" value="{{ $modal }}">
                 @endif
-                @if (empty($admins))
+                @if (empty($admins[0]))
                 <div class="py-6">
                     <h1 class="text-center text-gray-500">No other administrators</h1>
                 </div>

@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Employer;
 use App\Models\EmployerVerificationProof;
 use App\Models\User;
+use App\Notifications\DeleteAdminNotification;
 use App\Notifications\EmployerVerificationNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,6 +38,8 @@ class AdminController extends Controller
             'contact_number' => $request->input('contact_number'),
             'address' => $request->input('address')
         ]);
+
+        // mail the new admin
 
         return redirect()->back()->with([
             'message' => 'A new admin user '.$request->input('email').' has been created'
@@ -121,4 +124,19 @@ class AdminController extends Controller
 
         return redirect(url('/admin/admin-list'));
     }   
+
+    public function deleteAdmin(Request $req){
+        Admin::where([
+            'user_id' => $req->user_id
+        ])
+        ->delete();
+        
+        User::find($req->user_id)->notify(new DeleteAdminNotification());
+
+        User::find($req->user_id)->delete();
+        
+        
+
+        return redirect(url('/admin/admin-list'));
+    }
 }

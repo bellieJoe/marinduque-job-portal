@@ -234,6 +234,13 @@ Route::prefix('admin')->group(function(){
     */
     Route::post('updateAdmin', [AdminController::class, 'updateAdmin'])->middleware('auth', 'role:admin', 'admin_role:master');
 
+    /* 
+    @method DELETE
+    @desc delete admin
+    @url /admin/deleteAdmin
+    */
+    Route::delete('deleteAdmin', [AdminController::class, 'deleteAdmin'])->middleware('auth', 'role:admin', 'admin_role:master');
+
 });
 // end of "admin" prefix
 
