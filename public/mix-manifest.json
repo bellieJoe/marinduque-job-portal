@@ -41,6 +41,7 @@
     "/js/pages/admin/add-admin-account.js": "/js/pages/admin/add-admin-account.js",
     "/js/pages/admin/job_specializations.js": "/js/pages/admin/job_specializations.js",
     "/js/pages/admin/courses.js": "/js/pages/admin/courses.js",
+    "/js/pages/admin/admin-list.js": "/js/pages/admin/admin-list.js",
     "/js/auth/password-reset.js": "/js/auth/password-reset.js",
     "/css/forgot-password.css": "/css/forgot-password.css",
     "/css/signin.css": "/css/signin.css",

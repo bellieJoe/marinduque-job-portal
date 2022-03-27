@@ -64,6 +64,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/pages/admin/add-admin-account.js', 'public/js/pages/admin')
     .js('resources/js/pages/admin/job_specializations.js', 'public/js/pages/admin')
     .js('resources/js/pages/admin/courses.js', 'public/js/pages/admin')
+    .js('resources/js/pages/admin/admin-list.js', 'public/js/pages/admin')
     
 
     //scripts for auth

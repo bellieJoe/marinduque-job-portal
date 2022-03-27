@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function registerAdmin(Request $request){
         $request->validate([
             'fullname' => 'required|max:50',
-            'contact_number' => 'required|max:15',
+            'contact_number' => 'required|max:11',
             'address' => 'required|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed'
@@ -28,7 +28,8 @@ class AdminController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'role' => 'admin',
-            'verification_code' => '000000'
+            'verification_code' => '000000',
+            'admin_role' => 'aide'
         ]);
 
         Admin::create([
@@ -90,4 +91,35 @@ class AdminController extends Controller
         ]);
 
     }
+
+    public function getAdmins(){
+        $users = User::where([
+            'role' => 'admin'
+        ])
+        ->join('admins', 'users.user_id', '=', 'admins.user_id')
+        ->get();
+
+        return view('pages.admin.admin-list')->with([
+            'admins' => $users
+        ]);
+    }
+
+    public function updateAdmin(Request $req){
+        $req->validate([
+            'fullname' => 'required|max:50',
+            'contact_number' => 'required|max:11|digits:11',
+            'address' => 'required|max:100',
+        ]);
+
+        Admin::where([
+            'user_id' => $req->user_id
+        ])
+        ->update([
+            'fullname' => $req->fullname,
+            'contact_number' => $req->contact_number,
+            'address' => $req->address
+        ]);
+
+        return redirect(url('/admin/admin-list'));
+    }   
 }

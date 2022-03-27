@@ -49,8 +49,8 @@
         </div>
 
         {{-- admins --}}
-        <div @click="redirectRoute('/admin/add-account')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
-            <h6><i class="fa fa-user-plus mr-2"></i>Add Admin Account</h6>
+        <div @click="redirectRoute('/admin/admin-list')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
+            <h6><i class="fa fa-user mr-2"></i>Admin List</h6>
         </div>
 
         {{-- reports --}}

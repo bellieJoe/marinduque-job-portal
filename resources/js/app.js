@@ -50,3 +50,8 @@ new Vue({
     },
 })
 
+// window.onload(function(ev){
+//     var modalId = document.getElementById("updateModalId").val
+//     var modal = new bootstrap.Modal(document.getElementById("#"+modalId)).show()
+// })
+

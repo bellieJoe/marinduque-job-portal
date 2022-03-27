@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
                 'email' => 'jobportaldummy@gmail.com',
                 'password' => 'password',
                 'role' => 'admin',
+                'admin_role' => 'master'
             ],
             // employers
             [

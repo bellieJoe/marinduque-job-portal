@@ -168,14 +168,14 @@ Route::prefix('admin')->group(function(){
     */
     Route::get('add-account', function(){
         return view('pages.admin.add-admin-account');
-    })->middleware('role:admin', 'auth');
+    })->middleware('role:admin', 'auth', 'admin_role:master');
 
     /* 
     @method POST
     @desc redirects to registe new admin
     @url /admin/add-account
     */
-    Route::post('add-account', [AdminController::class, 'registerAdmin'])->middleware('role:admin', 'auth');
+    Route::post('add-account', [AdminController::class, 'registerAdmin'])->middleware('role:admin', 'auth', 'admin_role:master');
     
     /* 
     @method GET
@@ -220,8 +220,19 @@ Route::prefix('admin')->group(function(){
     });
     // end of reports prefix
 
-    
+    /* 
+    @method GET
+    @desc list off all admins
+    @url /admin/admin-list
+    */
+    Route::get('admin-list', [AdminController::class, 'getAdmins'])->middleware('auth', 'role:admin', 'admin_role:master');
 
+    /* 
+    @method POST
+    @desc update admin details
+    @url /admin/updateAdmin
+    */
+    Route::post('updateAdmin', [AdminController::class, 'updateAdmin'])->middleware('auth', 'role:admin', 'admin_role:master');
 
 });
 // end of "admin" prefix

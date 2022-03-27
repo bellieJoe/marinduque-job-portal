@@ -4393,7 +4393,10 @@ new Vue({
     //     console.log(error)
     // }
   }
-});
+}); // window.onload(function(ev){
+//     var modalId = document.getElementById("updateModalId").val
+//     var modal = new bootstrap.Modal(document.getElementById("#"+modalId)).show()
+// })
 
 /***/ }),
 
