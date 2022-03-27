@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
- 
     public function registerAdmin(Request $request){
         $request->validate([
             'fullname' => 'required|max:50',
