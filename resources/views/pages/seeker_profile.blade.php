@@ -469,7 +469,7 @@
                                             </div>
                                             <div class="text-danger" v-for="i of errors.salary">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3" v-cloak v-if="experience.salary_grade != null">
+                                        <div class="mb-3" v-cloak v-if="experience.salary_grade != null ">
                                             <span class="font-bold">Salary Grade: </span>@{{  experience.salary_grade == 0 ? "Below minimum" : experience.salary_grade  }}
                                         </div>
                                         <div class="mb-3">
