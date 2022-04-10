@@ -30,7 +30,8 @@
                 @endif
                 
                 <p>{{ $job->job_type }}</p>
-                <p>{{ $company_address->municipality->name }}, {{ $company_address->province->name }}</p>
+                
+                <p>{{ $company_address->municipality ? $company_address->municipality->name : '' }}, {{ $company_address->province ? $company_address->province->name : '' }}</p>
                 <p class="mt-2">
                     <span class="text-xl text-green-600 font-bold">{{ $jobTemp["total"] }}% <span class="font-normal">match</span></span> 
                     <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Education: {{ $jobTemp["educationRate"] }}%</span>

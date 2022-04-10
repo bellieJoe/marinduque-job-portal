@@ -158,6 +158,7 @@
                             <h6 class="text-blue-500 mb-0"><i class="fa fa-graduation-cap"></i> {{ Str::title($education->education_level) }}</h6>
                             <h6 class="mb-0">{{ $education->school_name }}</h6>
                             <h6 class="mb-0 font-light">{{ $education->school_address }}</h6>
+                            <h6 class="mb-0 font-light">{{ $education->course }}</h6>
                             @if ($education->year_graduated == '0000')
                                 <h6 class="mb-0 font-light">Undergraduate</h6>
                             @else

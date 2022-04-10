@@ -108,10 +108,10 @@ new Vue({
         },
 
         closeLoading() {
-            // setTimeout(() => {
-            //     loading.css('display', 'none')
-            // }, 3000);
-            loading.css('display', 'none')
+            setTimeout(() => {
+                loading.css('display', 'none')
+            }, 3000);
+           
         },
 
         // credential methods
@@ -289,10 +289,11 @@ new Vue({
             })
         },
 
-        addNewEducation: async function () {
-            loading.css('display', 'initial')
-            console.log(this.education)
+        async addNewEducation() {
+           
             try {
+                loading.css('display', 'initial')
+                console.log(this.education)
                 const education = await $.ajax({
                     url: "/seeker/profile/add-education",
                     method: "post",
@@ -305,10 +306,13 @@ new Vue({
                     this.closeLoading()
                     // this.closeAddEducationForm()
                 }else{
+                    loading.css('display', 'none')
+                    this.closeLoading()
                     location.href = "/seeker/profile/education"
                 }
 
-                
+                loading.css('display', 'none')
+                this.closeLoading()
 
             } catch (error) {
                 console.log(error)

@@ -61,6 +61,7 @@ class ExperienceController extends Controller
         Experience::where('experience_id', $id)
         ->update([
             'job_title' => $request->input('job_title'),
+            'job_industry' => $request->input('job_industry'),
             'company_name' => $request->input('company_name'),
             'date_started' => $request->input('date_started'),
             'date_ended' => $request->input('date_ended'),

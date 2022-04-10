@@ -8,7 +8,7 @@
                 <img src="{{ url('image') }}/website/favicon.png" alt="logo" class="">
                 <div class="w-max inline-block">
                     <h1 class="font-bold tracking-widest">Job Portal</h1>
-                    <h6 class="text-sm font-normal text-gray-400">LMD PESO Marinduquqe</h6>
+                    <h6 class="text-sm font-normal text-gray-400">LMD PESO Marinduque</h6>
                 </div>
             </div>
         </a>
