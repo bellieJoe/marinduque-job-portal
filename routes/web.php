@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use NlpTools\Tokenizers\WhitespaceAndPunctuationTokenizer;
 use NlpTools\Utils\StopWords;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,13 +42,9 @@ use NlpTools\Utils\StopWords;
 
 
 Route::get('/testing', function () {
-    return Education::where([
-        'user_id' => Auth::user()->user_id,
-    ])
-    ->whereIn('education_level', ['primary education', 'secondary education'])
-    ->pluck('education_level');
 
-    
+    // return var_dump(2022 <= 2022);
+
 });
 
 

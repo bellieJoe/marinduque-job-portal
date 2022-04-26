@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use App\Mail\verify_email;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\Validator;
 
 class SeekerController extends Controller
 {
@@ -23,14 +24,19 @@ class SeekerController extends Controller
     }
 
     public function register(Request $request){
-        $validation = $request->validate([
+        $validBirthdate = Carbon::now()->subYear(18);
+
+        Validator::make($request->all(), [
             'firstname' => 'required|min:2',
             'middlename' => 'required|min:2',
             'lastname' => 'required|min:2',
             'email' => 'required|unique:users|email',
             'gender' => 'required',
-            'password' => 'required|min:8',
-        ]);
+            'birthdate' => 'required|before_or_equal:'.$validBirthdate,
+            'password' => 'required|min:8'
+        ], [
+            'birhtdate.before_or_equal' => 'You should be at legal age which is 18.'
+        ])->validate();
 
         User::create([
             'email' => $request->input('email'),
@@ -59,12 +65,13 @@ class SeekerController extends Controller
     }
 
     public function updateProfile(Request $request){
+
         $request->validate([
             'firstname' => 'required',
             'middlename' => 'required',
             'lastname' => 'required',
             'address' => 'nullable',
-            'birthdate' => 'nullable|date',
+            // 'birthdate' => 'nullable|date',
             'contact_number' => 'nullable|digits:11',
             'gender' => 'nullable',
             'nationality' => 'nullable',
@@ -77,7 +84,7 @@ class SeekerController extends Controller
             'middlename' => $request->input('middlename'),
             'lastname' => $request->input('lastname'),
             'address' => $request->input('address'),
-            'birthdate' => $request->input('birthdate'),
+            // 'birthdate' => $request->input('birthdate'),
             'contact_number' => $request->input('contact_number'),
             'gender' => $request->input('gender'),
             'nationality' => $request->input('nationality'),

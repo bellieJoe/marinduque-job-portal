@@ -35,12 +35,25 @@ new Vue({
         undergraduate: 0,
         eduToDelete: null,
         eduToUpdate: null,
+        // eduToAdd: {
+        //     value: "primary education",
+        //     change(val){
+        //         this.value = val
+        //     }
+        // },
         education: {
             education_level: null,
             school_name: null,
             school_address: null,
             course: null,
             year_graduated: null,
+            clear(){
+                this.education_level = null
+                this.school_name = null
+                this.school_address = null
+                this.course = null
+                this.year_graduated = null
+            }
         },
 
         // experience data
@@ -100,17 +113,20 @@ new Vue({
         }
 
 
+
     },
     methods: {
+
 
         closeEducationLevelError(){
             this.educationLevelError = null
         },
 
         closeLoading() {
-            setTimeout(() => {
+            loading.css('display', 'none')
+            /* setTimeout(() => {
                 loading.css('display', 'none')
-            }, 3000);
+            }, 3000); */
            
         },
 
@@ -253,16 +269,11 @@ new Vue({
             }
         },
 
-        showAddEducationForm: function () {
+        showAddEducationForm: function (eduToAdd) {
             this.errors = []
             this.undergraduate = 0
-            this.education = {
-                education_level: null,
-                school_name: null,
-                school_address: null,
-                course: null,
-                year_graduated: null,
-            }
+            this.education.clear()
+            this.education.education_level = eduToAdd
         },
 
         showEditEducationForm: function (id) {
@@ -289,38 +300,35 @@ new Vue({
             })
         },
 
+        
         async addNewEducation() {
-           
+            
             try {
                 loading.css('display', 'initial')
-                console.log(this.education)
                 const education = await $.ajax({
                     url: "/seeker/profile/add-education",
                     method: "post",
-                    data: this.education,
-                    
+                    data: {
+                        education_level: this.education.education_level,
+                        school_name: this.education.school_name,
+                        school_address: this.education.school_address,
+                        course: this.education.course,
+                        year_graduated: this.education.year_graduated
+                    }
                 })
 
-                if(JSON.parse(education).educationLevelError){
-                    this.educationLevelError = JSON.parse(education).educationLevelError
-                    this.closeLoading()
-                    // this.closeAddEducationForm()
-                }else{
-                    loading.css('display', 'none')
-                    this.closeLoading()
-                    location.href = "/seeker/profile/education"
-                }
-
-                loading.css('display', 'none')
-                this.closeLoading()
+                // if(JSON.parse(education).educationLevelError){
+                //     this.educationLevelError = JSON.parse(education).educationLevelError
+                //     // this.closeAddEducationForm()
+                // }else{
+                //     location.href = "/seeker/profile/education"
+                // }
+                location.href = "/seeker/profile/education"
 
             } catch (error) {
-                console.log(error)
                 this.errors = error.responseJSON.errors ? error.responseJSON.errors : null 
                 this.closeLoading()
-                // window.alert('Something went wrong while uploading the data')
             }
-
         },
 
         deleteEducation: function (id, confirmed) {
@@ -352,12 +360,23 @@ new Vue({
 
         updateEducation: function () {
             loading.css('display', 'initial')
+            console.log(this.education)
+            
             $.ajax({
                 url: `/seeker/profile/update-education/${this.eduToUpdate}`,
                 method: "post",
-                data: this.education
-            }).fail(() => {
+                data: {
+                    education_level: this.education.education_level,
+                    school_name: this.education.school_name,
+                    school_address: this.education.school_address,
+                    course: this.education.course,
+                    year_graduated:  parseInt(this.education.year_graduated)
+                }
+            }).fail((err) => {
+                console.log(err)
                 loading.css('display', 'none')
+                this.errors = err.responseJSON.errors ? err.responseJSON.errors : null
+                console.log(this.errors)
                 // location.href = "/error"
             }).done(() => {
                 location.href = "/seeker/profile/education"
@@ -368,6 +387,7 @@ new Vue({
         setGovntService(){
             this.experience.govnt_service = $('#add_govnt_service')[0].checked
         },
+
         setSalaryGrade(){
             this.experience.salary_grade = this.experience.salary && devModule.defineSalaryGrade(this.experience.salary)
             console.log(devModule.defineSalaryGrade(this.experience.salary));

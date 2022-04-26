@@ -118,11 +118,11 @@
                                             </select>
                                             <div class="text-danger" v-for="i in errors.civil_status">@{{ i }}</div>
                                         </div>
-                                        <div class="mb-3 col-lg-7">
+                                        {{-- <div class="mb-3 col-lg-7">
                                             <label class="fw-bold mb-1">Birthdate</label>
                                             <input type="date" class="form-control" v-model="profile.birthdate" :class="errors.birthdate ? 'is-invalid' : ''">
                                             <div class="text-danger" v-for="i in errors.birthdate">@{{ i }}</div>
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-3 col-lg-7">
                                             <label class="fw-bold mb-1">Contact Number</label>
                                             <input type="number" class="form-control" v-model="profile.contact_number" :class="errors.contact_number ? 'is-invalid' : ''">
@@ -194,7 +194,6 @@
                     @if ($view == "education")
                     <div >
                         <h5 class="fw-bolder"><i class="fas fa-graduation-cap"></i> Educational Attainments</h5>
-                        <button type='button' class='btn btn-primary ms-auto me-0 d-block' @click='showAddEducationForm()' data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm"><i class='fa fa-plus'></i> Add Education</button>
                         {{-- add education form --}}
                         <div class="modal fade " id='mdlAddEducationForm' aria-hidden="true" tabindex='-1'>
                             <div class="modal-dialog modal-fullscreen-md-down">
@@ -209,15 +208,7 @@
                                         </div>
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
-                                            <select class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
-                                                <option value="" selected>--select level of education--</option>
-                                                <option value="primary education">Primary Education</option>
-                                                <option value="secondary education">Secondary Education</option>
-                                                <option value="tertiary education">Tertiary Education</option>
-                                                <option value="master's degree">Master's Degree</option>
-                                                <option value="doctorate degree">Doctorate Degree</option>
-                                            </select>
-                                            <div class="text-danger" v-for="i of errors.education_level">@{{ i }}</div>
+                                            <input type="text" class="form-control" :value="education.education_level" disabled>
                                         </div>
                                         <div class="mb-3 " v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
                                             <label class='mb-1 fw-bold'>Course Name <span class="text-red-500">*</span></label>
@@ -249,7 +240,7 @@
                                         </div>
                                         <div class="mb-3" v-if="!undergraduate">
                                             <label class='mb-1 fw-bold'>Year Graduated <span class="text-red-500">*</span></label>
-                                            <input type="text" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
+                                            <input type="number" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.year_graduated">@{{ i }}</div>
                                         </div>
                                     </div>
@@ -289,14 +280,7 @@
                                     <div class="modal-body">
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
-                                            <select disabled class='form-select form-select' v-model='education.education_level' :class="errors.education_level ? 'is-invalid' : ''">
-                                                <option value="" selected>--select level of education--</option>
-                                                <option value="primary education">Primary Education</option>
-                                                <option value="secondary education">Secondary Education</option>
-                                                <option value="tertiary education">Tertiary Education</option>
-                                                <option value="master's degree">Master's Degree</option>
-                                                <option value="doctorate degree">Doctorate Degree</option>
-                                            </select>
+                                            <input type="text" class="form-control" :value="education.education_level" disabled>
                                             <div class="text-danger" v-for="i of errors.education_level">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 " v-if="education.education_level == 'tertiary education'  || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
@@ -316,7 +300,7 @@
                                         </div>
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>School Address <span class="text-red-500">*</span></label>
-                                            <input type="text" class='form-control' v-model="education.school_address" placeholder='barangay, municipality, province' :class="errors.school_address ? 'is-invalid' : '' ">
+                                            <input type="number" class='form-control' v-model="education.school_address" placeholder='barangay, municipality, province' :class="errors.school_address ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.school_address">@{{ i }}</div>
                                         </div>
 
@@ -329,7 +313,7 @@
                                         </div>
                                         <div class="mb-3" v-if="!undergraduate">
                                             <label class='mb-1 fw-bold'>Year Graduated <span class="text-red-500">*</span></label>
-                                            <input type="text" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
+                                            <input type="number" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.year_graduated">@{{ i }}</div>
                                         </div>
                                     </div>
@@ -343,14 +327,44 @@
                             </div>
                         </div>
                         {{-- contents --}}
-                        @if ($education->first())
-                            @if ($education_count['primary_education'] != 0)
-                            <div class="mb-5">
-                                <h6 class="fw-bold mb-2"><i class="fa fa-list me-2"></i> Primary Education</h6>
+                        @php
+                            $educationCounts = [
+                                'primary education' => 0,
+                                'secondary education' => 0,
+                                'tertiary education' => 0,
+                                "master's degree" => 0,
+                                'doctorate degree' => 0
+                            ];
+
+                            foreach ($education as $i) {
+                                if ($i->education_level == 'primary education') {
+                                    $educationCounts["primary education"]++;
+                                }
+                                else if ($i->education_level == 'secondary education') {
+                                    $educationCounts["secondary education"]++;
+                                }
+                                else if ($i->education_level == 'tertiary education') {
+                                    $educationCounts["tertiary education"]++;
+                                }
+                                else if ($i->education_level == "master's degree") {
+                                    $educationCounts["master's degree"]++;
+                                }
+                                else if ($i->education_level == "doctorate degree") {
+                                    $educationCounts["doctorate degree"]++;
+                                }
+                                else {
+
+                                }
+                            }
+                        @endphp
+                        {{-- primary --}}
+                        <div class="mb-5">
+                            <h6 class="fw-bold mb-2"><i class="fa fa-list me-2"></i> Primary Education</h6>
+                            @if ($educationCounts["primary education"] > 0 )
                                 @foreach ($education as $i)
                                     @if ($i->education_level == "primary education")
-                                    <div class="my-4 ms-4">
-                                        <div class="float-end">
+                                    <div class="py-4 ps-4 bg-gray-100">
+                                        <div class="float-end mr-4">
                                             <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
                                             <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
@@ -360,53 +374,104 @@
                                     </div> 
                                     @endif
                                 @endforeach
+                            @else
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto" @click="showAddEducationForm('primary education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Set Primary Education</button>
                             </div>
                             @endif
-                            @if ($education_count['secondary_education'] != 0)
-                            <div class="mb-5">
-                                <h6 class="fw-bold"><i class="fa fa-list me-2"></i> Secondary Education</h6>
+                        </div>
+                        {{-- secondary --}}
+                        <div class="mb-5">
+                            <h6 class="fw-bold mb-2"><i class="fa fa-list me-2"></i> Secondary Education</h6>
+                            @if ($educationCounts["secondary education"] > 0 )
                                 @foreach ($education as $i)
                                     @if ($i->education_level == "secondary education")
-                                    <div class="my-4 ms-4">
-                                        <div class="float-end">
+                                    <div class="py-4 ps-4 bg-gray-100">
+                                        <div class="float-end mr-4">
                                             <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
-                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
-                                        <h6 class="my-0 fw-bold">{{ $i->school_name }}  </h6>
+                                        <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
                                         <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
                                     </div> 
                                     @endif
                                 @endforeach
+                            @else
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto"  @if($educationCounts['primary education'] < 1) disabled @endif  @click="showAddEducationForm('secondary education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Set Secondary Education</button>
                             </div>
                             @endif
-                            @if ($education_count['tertiary_education'] != 0)
-                            <div>
-                                <h6 class="fw-bold"><i class="fa fa-list me-2"></i> Tertiary Education</h6>
+                        </div>
+                        {{-- tertiary --}}
+                        <div class="mb-5">
+                            <h6 class="fw-bold mb-2"><i class="fa fa-list me-2"></i> Tertiary Education</h6>
+                            @if ($educationCounts["secondary education"] > 0 )
                                 @foreach ($education as $i)
-                                    @if ($i->education_level == "tertiary education" || $i->education_level == 'master\'s degree' || $i->education_level == 'doctorate degree')
-                                    <div class="my-4 ms-4">
-                                        <div class="float-end">
+                                    @if ($i->education_level == "tertiary education")
+                                    <div class="py-4 ps-4 bg-gray-100">
+                                        <div class="float-end mr-4">
                                             <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
-                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1" data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
-                                        {{-- <h6 class="my-0 fw-bold">{{ $i->education_level == 'tertiary education' ? 'Bachelors Degree' : Str::title($i->education_level) }} </h6> --}}
-                                        <h6 class="my-0 fw-bold">{{ $i->course }}</h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
-                                        @if ($i->year_graduated == "0000")
-                                            <h6 class="my-0 text-secondary">Undergraduate</h6>
-                                        @else
-                                            <h6 class="my-0 text-secondary ">Graduated on year {{ $i->year_graduated }}</h6>
-                                        @endif
+                                        <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
                                     </div> 
                                     @endif
                                 @endforeach
+                            @else
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts['secondary education'] < 1) disabled @endif  @click="showAddEducationForm('tertiary education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Set Tertiary Education</button>
                             </div>
                             @endif
-                        @else
-                            <h4 class='fs-4 text-center my-4 text-black-50 '>Don't forget to add your educational attainments.</h4>
-                        @endif
+                        </div>
+                        {{-- masters --}}
+                        <div class="mb-5">
+                            <h6 class="fw-bold mb-2 text-blue-500"><i class="fa fa-list me-2"></i> Master's Degree</h6>
+                            @if ($educationCounts["master's degree"] > 0 )
+                                @foreach ($education as $i)
+                                    @if ($i->education_level == "master's degree")
+                                    <div class="py-4 ps-4 bg-gray-100">
+                                        <div class="float-end mr-4">
+                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
+                                        </div>
+                                        <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
+                                        <h6 class="my-0">{{ $i->school_address }}</h6>
+                                        <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
+                                    </div> 
+                                    @endif
+                                @endforeach
+                            @else
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["tertiary education"] < 1) disabled @endif  @click="showAddEducationForm('master\'s education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Master's Degree</button>
+                            </div>
+                            @endif
+                        </div>
+                        {{-- doctors --}}
+                        <div class="mb-5">
+                            <h6 class="fw-bold mb-2 text-blue-500"><i class="fa fa-list me-2"></i> Doctors's Degree</h6>
+                            @if ($educationCounts["doctorate degree"] > 0 )
+                                @foreach ($education as $i)
+                                    @if ($i->education_level == "master's degree")
+                                    <div class="py-4 ps-4 bg-gray-100">
+                                        <div class="float-end mr-4">
+                                            <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
+                                            <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
+                                        </div>
+                                        <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
+                                        <h6 class="my-0">{{ $i->school_address }}</h6>
+                                        <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
+                                    </div> 
+                                    @endif
+                                @endforeach
+                            @else
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["master's degree"] < 1) disabled @endif  @click="showAddEducationForm('doctorate education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Doctor's Degree</button>
+                            </div>
+                            @endif
+                        </div>
                     </div>
                     @endif
                     

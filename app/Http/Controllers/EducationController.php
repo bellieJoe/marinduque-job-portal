@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Education;
+use App\Models\Seeker;
+use App\Rules\EducationYear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class EducationController extends Controller
 {
     //
     public function addEducation(Request $request){
+
         $request->validate([
             'education_level' => 'required',
             'school_name' => 'required',
             'school_address' => 'required',
             'course' => 'required_if:education_level,tertiary education,master\'s degree,doctorate degree',
-            'year_graduated' => 'required|min:4|max:4',
+            'year_graduated' => ['required', 'min:4', 'max:4', new EducationYear],
         ]);
 
         $education_levels = Education::where([
@@ -47,7 +51,7 @@ class EducationController extends Controller
             'school_name' => 'required',
             'school_address' => 'required',
             'course' => 'required_if:education_level,tertiary education,master\'s degree,doctorate degree',
-            'year_graduated' => 'required|min:4|max:4',
+            'year_graduated' => ['required', 'min:4', 'max:4'],
         ]);
 
         Education::where('education_id', $id)->update([
