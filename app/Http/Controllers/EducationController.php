@@ -19,7 +19,7 @@ class EducationController extends Controller
             'school_name' => 'required',
             'school_address' => 'required',
             'course' => 'required_if:education_level,tertiary education,master\'s degree,doctorate degree',
-            'year_graduated' => ['required', 'min:4', 'max:4', new EducationYear],
+            'year_graduated' => ['required', 'min:4', 'max:4'],
         ]);
 
         $education_levels = Education::where([
