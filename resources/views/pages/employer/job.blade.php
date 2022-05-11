@@ -315,7 +315,7 @@
                       <h1 class="text-gray-500" v-cloak>
                         Experience: @{{ seeker.yoeRate }}%
                       </h1>
-                      <h1 v-cloak class="text-xl font-semibold text-green-700">
+                      <h1 v-cloak :class="seeker.total > 50 ? 'text-xl font-semibold text-green-700' : 'text-xl font-semibold text-red-500'">
                         @{{ seeker.total }}% match
                       </h1>
                       <a target="_blank" :href="'/resume/' + seeker.seeker_id" class="btn btn-primary btn-sm mt-2">View Resume</a>

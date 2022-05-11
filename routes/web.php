@@ -42,12 +42,16 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
+    // function sayHello(){
+    //     function ok(){
+    //         return "Okie";
+    //     }
+    // }
 
-    // return var_dump(2022 <= 2022);
-
+    // for($i=0; $i<3;$i++){
+    //     echo sayHello();
+    // }
 });
-
-
 
 
 

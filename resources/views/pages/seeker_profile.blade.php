@@ -415,16 +415,18 @@
                                             <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
+                                        <h6 class="my-0">{{ $i->course }}</h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
                                         <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
                                     </div> 
                                     @endif
                                 @endforeach
                             @else
-                            <div class="bg-gray-100 py-8 rounded-sm">
-                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts['secondary education'] < 1) disabled @endif  @click="showAddEducationForm('tertiary education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Set Tertiary Education</button>
-                            </div>
                             @endif
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts['secondary education'] < 1) disabled @endif  @click="showAddEducationForm('tertiary education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Tertiary Education</button>
+                                {{-- <button class="btn btn-sm btn-outline-primary block mx-auto "  @click="showAddEducationForm('tertiary education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Set Tertiary Education</button> --}}
+                            </div>
                         </div>
                         {{-- masters --}}
                         <div class="mb-5">

@@ -618,7 +618,7 @@ class JobController extends Controller
     public function generateJobSuggestionsPreview(){
 
         $res = collect(JobMatchingController::genSuggestedJobs());
-        return $res->count() < 11 ? $res : $res->splice(10);
+        return $res->count() < 11 ? $res : $res->take(10);
     }
 
     public function generateJobSuggestionsFull(){
