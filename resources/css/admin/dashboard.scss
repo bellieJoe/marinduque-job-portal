@@ -1,0 +1,36 @@
+
+#admin-dashboard{
+    .dashboard-head{
+        h1{
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgb(34, 34, 34);
+        }
+    }
+    .user-charts{
+        background: white;
+        border-radius: 5px;
+        padding: 1rem;
+        
+        div:first-child{
+            h1{
+                font-weight: bold;
+            }
+        }
+    }
+    .charts{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        justify-content: center;
+        margin: 0rem auto;
+        @media only screen and (max-width: 1300px) {
+            grid-template-columns: 1fr 4fr;
+        }
+        @media only screen and (max-width: 800px) {
+            display: initial;
+        }
+    }
+ 
+}
+     
+

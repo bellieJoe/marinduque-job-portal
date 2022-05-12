@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  transition: 0.4s;
 }
 
 .admin-nav {
@@ -37,6 +38,7 @@
   text-decoration: none;
 }
 .admin-nav li a:hover {
+  transition: 0.4s;
   color: inherit;
 }
 .admin-nav ul.nav-ul li {
@@ -51,17 +53,20 @@
   background: #2f3543;
   color: white;
 }
+.admin-nav ul.nav-ul li.general-reports, .admin-nav ul.nav-ul li.employers, .admin-nav ul.nav-ul li.jobs {
+  transition: 0.4s;
+}
 .admin-nav ul.nav-ul li.general-reports:hover ul, .admin-nav ul.nav-ul li.employers:hover ul, .admin-nav ul.nav-ul li.jobs:hover ul {
-  position: initial;
+  height: initial;
 }
 .admin-nav ul.nav-ul li.general-reports ul, .admin-nav ul.nav-ul li.employers ul, .admin-nav ul.nav-ul li.jobs ul {
-  position: absolute;
-  left: -20rem;
+  height: 0rem;
+  overflow-y: hidden;
   transition: 0.4s;
 }
 .admin-nav ul.nav-ul li.general-reports ul li, .admin-nav ul.nav-ul li.employers ul li, .admin-nav ul.nav-ul li.jobs ul li {
   border-radius: 5px;
-  transition: 0s;
+  transition: 0.4s;
 }
 .admin-nav ul.nav-ul li.general-reports ul li:hover, .admin-nav ul.nav-ul li.employers ul li:hover, .admin-nav ul.nav-ul li.jobs ul li:hover {
   background: #444d61;

@@ -26,7 +26,7 @@
         "aos": "^2.3.4",
         "b64-to-blob": "^1.2.19",
         "bootstrap-icons": "^1.5.0",
-        "chart.js": "^3.5.1",
+        "chart.js": "^3.7.1",
         "jquery": "^3.5.1",
         "js-cropper": "^1.0.1",
         "keyword-analyzer": "0.0.5",

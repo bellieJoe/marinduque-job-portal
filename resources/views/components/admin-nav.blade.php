@@ -79,7 +79,7 @@
         <button id="btnAdminMenuHide"><i class="fa-solid fa-arrow-left"></i></button>
     </div>
     <ul class="nav-ul">
-        <li><a href="/admin/"><i class="fa fa-users"></i> Dashboard</a></li>
+        <li><a href="/admin/"><i class="fa-solid fa-clipboard"></i> Dashboard</a></li>
         <li class="employers">
             <div><i class="fa fa-building"></i> Employers</div>
             <ul>

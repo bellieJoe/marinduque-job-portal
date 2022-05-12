@@ -1,5 +1,6 @@
 *{
     box-sizing: border-box;
+    transition: .4s;
 }
 
 .admin-nav{
@@ -36,6 +37,7 @@
     li a{
         text-decoration: none;
         &:hover{
+            transition: .4s;
             color: inherit;
         }
     }
@@ -53,16 +55,20 @@
             }
         }
         li.general-reports, li.employers, li.jobs{
+            transition: .4s;
             &:hover ul{
-                position: initial;
+                // position: initial;
+                height: initial;
             }
             ul{
-                position: absolute;
-                left: -20rem;
+                // position: absolute;
+                // left: -20rem;
+                height: 0rem;
+                overflow-y: hidden;
                 transition: .4s;
                 li{
                     border-radius: 5px;
-                    transition: 0s;
+                    transition: .4s;
                     
                     &:hover{
                         background: #444d61;
