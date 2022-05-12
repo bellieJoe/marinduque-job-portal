@@ -14,7 +14,7 @@
 
         <h1 class="text-lg font-bold p-2  lg:hidden">Admin</h1>
 
-        {{-- employer --}}
+
         <div @mouseover="showEmployerNav" @mouseleave="hideEmployerNav"  class="text-gray-400  hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6 class="p-2"><i class="fa fa-building mr-2"></i>Employers</h6>
             <div v-cloak class="lg:absolute bg-gray-800 shadow-md lg:rounded-md" :class=" employerNavToggle ? 'lg:visible' : 'lg:hidden' ">
@@ -27,12 +27,12 @@
             </div>
         </div>
 
-        {{-- jobseekers --}}
+
         <div @click="redirectRoute('/admin/job-seekers')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6><i class="fa fa-users mr-2"></i>Job Seekers</h6>
         </div>
 
-        {{-- jobs --}}
+
         <div @mouseover="showJobNav" @mouseleave="hideJobNav"  class="text-gray-400  hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6 class="p-2"><i class="fa fa-briefcase mr-2"></i>Jobs</h6>
             <div v-cloak class="lg:absolute bg-gray-800 shadow-md lg:rounded-md" :class=" jobNavToggle ? 'lg:visible' : 'lg:hidden' ">
@@ -48,12 +48,12 @@
             </div>
         </div>
 
-        {{-- admins --}}
+
         <div @click="redirectRoute('/admin/admin-list')" class="text-gray-400 p-2 hover:bg-gray-600 hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6><i class="fa fa-user mr-2"></i>Admin List</h6>
         </div>
 
-        {{-- reports --}}
+
         <div @mouseover="showReports" @mouseleave="hideReports"  class="text-gray-400  hover:text-white duration-500 cursor-pointer lg:inline-block">
             <h6 class="p-2"><i class="fa fa-folder mr-2 "></i>General Reports</h6>
             <div v-cloak class="lg:absolute bg-gray-800 shadow-md lg:rounded-md" :class=" reportToggle ? 'lg:visible' : 'lg:hidden' ">

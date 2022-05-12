@@ -42,15 +42,10 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    // function sayHello(){
-    //     function ok(){
-    //         return "Okie";
-    //     }
-    // }
-
-    // for($i=0; $i<3;$i++){
-    //     echo sayHello();
-    // }
+    Mail::send('pages.signup', [], function ($message) {
+        $message->to('jandusayjoe14@gmail.com', 'John Doe');
+        $message->subject('Subject');
+    });
 });
 
 

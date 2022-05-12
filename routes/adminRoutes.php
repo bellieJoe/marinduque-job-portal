@@ -22,7 +22,7 @@ Route::prefix('admin')->group(function(){
     @url /admin
     */
     Route::get('', function(){
-        return redirect("/admin/employers");
+        return view('pages.admin.dashboard');
     })->middleware('role:admin', 'auth');
 
 
