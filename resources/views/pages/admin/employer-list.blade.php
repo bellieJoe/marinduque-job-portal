@@ -53,7 +53,7 @@
                         <h3 class="font-bold text-lg">Employer List</h3>
                     </div>
                     <table class="w-full table-auto shadow-md my-4 rounded-md bg-white">
-                        <tr class="bg-gray-400 lg:sticky rounded-t-md ">
+                        <tr class="bg-gray-400  rounded-t-md ">
                             @if (isset($column) && isset($sort))
                             <th class="p-2">
                                 @if ($column == 'company_name')

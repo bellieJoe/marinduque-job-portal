@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+.admin-nav {
+  background: #111827;
+  width: 15rem;
+  min-height: 100vh;
+  padding: 1rem 0rem;
+  color: #c9c2e5;
+  position: fixed;
+  top: 0px;
+  left: -20rem;
+  transition: 0.4s;
+}
+.admin-nav button.menu-button {
+  outline: none;
+  background: #e0e0e0;
+}
+.admin-nav .nav-header {
+  transition: 0.4s;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+}
+.admin-nav .nav-header h1 {
+  color: white;
+}
+.admin-nav .nav-header button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1rem;
+}
+.admin-nav .nav-header button:hover {
+  color: white;
+}
+.admin-nav li a {
+  text-decoration: none;
+}
+.admin-nav li a:hover {
+  color: inherit;
+}
+.admin-nav ul.nav-ul li {
+  transition: 0.4s;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.admin-nav ul.nav-ul li i {
+  margin-right: 1rem;
+}
+.admin-nav ul.nav-ul li:hover {
+  background: #2f3543;
+  color: white;
+}
+.admin-nav ul.nav-ul li.general-reports:hover ul, .admin-nav ul.nav-ul li.employers:hover ul, .admin-nav ul.nav-ul li.jobs:hover ul {
+  position: initial;
+}
+.admin-nav ul.nav-ul li.general-reports ul, .admin-nav ul.nav-ul li.employers ul, .admin-nav ul.nav-ul li.jobs ul {
+  position: absolute;
+  left: -20rem;
+  transition: 0.4s;
+}
+.admin-nav ul.nav-ul li.general-reports ul li, .admin-nav ul.nav-ul li.employers ul li, .admin-nav ul.nav-ul li.jobs ul li {
+  border-radius: 5px;
+  transition: 0s;
+}
+.admin-nav ul.nav-ul li.general-reports ul li:hover, .admin-nav ul.nav-ul li.employers ul li:hover, .admin-nav ul.nav-ul li.jobs ul li:hover {
+  background: #444d61;
+}

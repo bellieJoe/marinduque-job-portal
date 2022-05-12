@@ -61,6 +61,21 @@ new Vue({
   }
 });
 
+(function () {
+  var btnMenuShow = document.getElementById("btnAdminMenuShow");
+  var btnMenuHide = document.getElementById("btnAdminMenuHide");
+  var adminNav = document.getElementById("admin_nav");
+  btnMenuShow.addEventListener("click", function (ev) {
+    adminNav.style.left = "0px";
+  });
+  adminNav.addEventListener("mouseleave", function (ev) {
+    adminNav.style.left = "-20rem";
+  });
+  btnMenuHide.addEventListener("click", function (ev) {
+    adminNav.style.left = "-20rem";
+  });
+})();
+
 /***/ }),
 
 /***/ "./node_modules/jquery/dist/jquery.js":

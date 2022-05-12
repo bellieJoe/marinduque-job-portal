@@ -1,0 +1,74 @@
+*{
+    box-sizing: border-box;
+}
+
+.admin-nav{
+    background: #111827;
+    width: 15rem;
+    min-height: 100vh;
+    padding: 1rem 0rem;
+    color: rgb(201, 194, 229);
+    position: fixed;
+    top: 0px;
+    left: -20rem;
+    transition: .4s;
+    
+    button.menu-button{
+        outline: none;
+        background: rgb(224, 224, 224);
+    }
+    .nav-header{
+        transition: .4s;
+        padding: .5rem 1rem;
+        font-weight: bold;
+        h1{
+            color: white;
+        }
+        button{
+            position: absolute;
+            top: 1.5rem;
+            right: 1rem;
+            &:hover{
+                color: white;
+            }
+        }
+    }
+    li a{
+        text-decoration: none;
+        &:hover{
+            color: inherit;
+        }
+    }
+    ul.nav-ul{
+        li{
+            transition: .4s;
+            padding: .5rem 1rem;
+            cursor: pointer;
+            i{
+                margin-right: 1rem;
+            }
+            &:hover{
+                background: #2f3543;
+                color: white;
+            }
+        }
+        li.general-reports, li.employers, li.jobs{
+            &:hover ul{
+                position: initial;
+            }
+            ul{
+                position: absolute;
+                left: -20rem;
+                transition: .4s;
+                li{
+                    border-radius: 5px;
+                    transition: 0s;
+                    
+                    &:hover{
+                        background: #444d61;
+                    }
+                }
+            }
+        }
+    }
+}

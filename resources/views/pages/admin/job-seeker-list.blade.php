@@ -44,7 +44,7 @@
                     <h3 class="font-bold text-lg">Job seeker List</h3>
                 </div>
                 <table class="table-auto w-full shadow-md border-black bg-white my-4">
-                    <tr class="bg-gray-400 sticky">
+                    <tr class="bg-gray-400 ">
                         @if (isset($column) && isset($sort))
                         {{-- <th class="p-2">
                             @if ($column == 'user_id')

@@ -110,6 +110,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     // styles for admin
     .sass('resources/css/admin/admin-home.scss', 'public/css/admin')
+    .sass('resources/css/components/admin-nav.scss', 'public/css/components')
 
     .sass('resources/css/email_verification.scss', 'public/css');
 

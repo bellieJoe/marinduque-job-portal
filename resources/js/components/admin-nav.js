@@ -3,7 +3,6 @@ console.log("admin nav list page connected")
 import $ from 'jquery'
 
 
-
 new Vue({
     el: '#admin_nav',
     data: {
@@ -60,4 +59,20 @@ new Vue({
             
         },
     }
-})
+});
+
+(()=>{
+    const btnMenuShow = document.getElementById("btnAdminMenuShow")
+    const btnMenuHide = document.getElementById("btnAdminMenuHide")
+    const adminNav = document.getElementById("admin_nav")
+    
+    btnMenuShow.addEventListener("click", ev => {
+        adminNav.style.left = "0px"
+    })
+    adminNav.addEventListener("mouseleave", ev => {
+        adminNav.style.left = "-20rem"
+    })
+    btnMenuHide.addEventListener("click", ev => {
+        adminNav.style.left = "-20rem"
+    })
+})();

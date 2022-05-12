@@ -46,7 +46,6 @@
         @component('components.jobseeker_nav')@endcomponent  
 
     @elseif(Auth::user()->role === 'admin')
-
         @component('components.admin-nav')@endcomponent
 
     @endif

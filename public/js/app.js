@@ -47798,6 +47798,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/css/components/admin-nav.scss":
+/*!*************************************************!*\
+  !*** ./resources/css/components/admin-nav.scss ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/email_verification.scss":
 /*!***********************************************!*\
   !*** ./resources/css/email_verification.scss ***!
@@ -52788,6 +52801,7 @@ runtime.setup(pusher_Pusher);
 /******/ 			["./resources/css/seeker/view-job.scss"],
 /******/ 			["./resources/css/seeker/apply-job.scss"],
 /******/ 			["./resources/css/admin/admin-home.scss"],
+/******/ 			["./resources/css/components/admin-nav.scss"],
 /******/ 			["./resources/css/email_verification.scss"],
 /******/ 			["./resources/css/app_sample.css"]
 /******/ 		];
