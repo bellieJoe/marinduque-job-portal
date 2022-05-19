@@ -15,7 +15,7 @@
 <body>
     <div id="resume">
 
-        <header class="bg-blue-900 py-10  z-10 shadow-sm">
+        <header class="bg-blue-900 py-10  z-10 shadow-sm bg-subtle-prism">
             <div class="container mx-auto row">
                 <div class="col-auto m-2">
                     @if ($resumeData['userData']->display_picture)
@@ -193,13 +193,13 @@
         @if (!empty($resumeData['credentialData'][0]))
         <section class=" bg-gray-100 z-0">
             <div class="container py-10 px-5 mx-auto bg-white">
-                <h2 class="text-blue-900 mt-2"><i class="fa fa-award me-2"></i> Liscences & Certificates</h2>
+                <h2 class="text-blue-900 mt-2"><i class="fa fa-award me-2"></i> Licenses & Certificates</h2>
 
                 <div class="row">
                     @foreach ($resumeData['credentialData'] as $credential)
                     @if ($credential->credential_type == 'award')
                     <div class="mt-4 bg-white p-4 rounded-2  w-max col-auto m-2">
-                        <h6 class="text-yellow-400 font-normal mb-0"><i class="fa fa-award me-2"></i>Award</h6>
+                        <h6 class="text-yellow-400 font-normal mb-0 text-lg"><i class="fa fa-award me-2"></i>Award</h6>
                         @if ($credential->credential_number)
                         <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
                         @endif
@@ -220,7 +220,7 @@
                     @endif
                     @if ($credential->credential_type == 'license')
                     <div class="mt-4 bg-white p-4 rounded-2 w-max col-auto m-2">
-                        <h6 class="text-yellow-400 font-normal mb-0"><i class="fa fa-id-badge me-2"></i>License</h6>
+                        <h6 class="text-yellow-400 font-normal mb-0 text-lg"><i class="fa fa-id-badge me-2"></i>License</h6>
                         @if ($credential->credential_number)
                         <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
                         @endif
@@ -241,7 +241,28 @@
                     @endif
                     @if ($credential->credential_type == 'certification')
                     <div class="mt-4 bg-white p-4 rounded-2 w-max col-auto m-2">
-                        <h6 class="text-yellow-400 font-normal mb-0"><i class="fa fa-id-certificate me-2"></i>Certificate</h6>
+                        <h6 class="text-yellow-400 font-normal mb-0 text-lg"><i class="fas fa-certificate me-2"></i>Certificate</h6>
+                        @if ($credential->credential_number)
+                        <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
+                        @endif
+                        <h6 class="mb-0">{{ $credential->credential_name }}</h6>
+                        @if ($credential->issuing_organization)
+                        <h6 class="mb-0">{{ $credential->issuing_organization }}</h6>
+                        @endif   
+                        <h6 class="mb-0 font-normal">Issued on {{ $credential->date_issued->format("F d Y") }}</h6>
+                        @if ($credential->non_expiry == 1)
+                        <h6 class="mb-0 font-normal">No Validity</h6>
+                        @else
+                        <h6 class="mb-0 font-normal">Valid until {{ $credential->expiry_date->format("F d Y") }}</h6>
+                        @endif
+                        @if ($credential->credential_image)
+                            <a href="{{ url('image').'/seeker/credential/'.$credential->credential_image}}" class="link-primary" target="_blank">View Credential Image</a>
+                        @endif
+                    </div>
+                    @endif
+                    @if ($credential->credential_type == 'eligibility')
+                    <div class="mt-4 bg-white p-4 rounded-2 w-max col-auto m-2">
+                        <h6 class="text-yellow-400 font-normal mb-0 text-lg"><i class="fas fa-id-card me-2"></i>Eligibility</h6>
                         @if ($credential->credential_number)
                         <h6 class="mb-0 text-gray-400">{{ $credential->credential }}</h6>
                         @endif
