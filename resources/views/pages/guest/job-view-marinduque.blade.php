@@ -57,10 +57,10 @@
                     @endforeach
                 </p>       
             @endif
-            @if ($job->experience)
-                <h1 class="font-bold text-gray-500 mt-2">Years of Experience</h1>
-                <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $job->experience }} years of experience.</p>
-            @endif
+    
+            <h1 class="font-bold text-gray-500 mt-2">Years of Experience</h1>
+            <p><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $job->experience ? $job->experience : "Less than 1" }} year/s of experience.</p>
+     
             @if ($job->skill)
                 <h1 class="font-bold text-gray-500 mt-2">Skills</h1>
                 @foreach (json_decode($job->skill) as $skill)

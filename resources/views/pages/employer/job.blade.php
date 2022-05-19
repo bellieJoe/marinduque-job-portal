@@ -304,7 +304,8 @@
                   <div v-if="suggestedSeekers.length > 0">
                     <div v-for="seeker in suggestedSeekers" class="mb-3 p-3 rounded-sm border-1" v-cloak>
                       <h1 class="font-bold text-blue-800 mb-2" v-cloak>
-                        @{{ seeker.seeker.firstname + " " + seeker.seeker.lastname  }}
+                        @{{ seeker.seeker.firstname + " " + seeker.seeker.lastname  }} 
+                        <i class="fa-solid fa-certificate text-yellow-400" title="With Eligibility" v-if="seeker.eligibility"></i>
                       </h1>
                       <h1 class="text-gray-500" v-cloak>
                         Educational Attainment: @{{ seeker.educationRate }}%

@@ -657,6 +657,10 @@
                                         <h6 class="text-gray-500 w-full md:col-3">{{ $i->job_title }}</h6>
                                     </div>
                                     <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
+                                        <h6 class="pr-4 md:col-1 w-full">Job Industry :</h6>
+                                        <h6 class="text-gray-500 w-full md:col-3">{{ $i->job_industry }}</h6>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
                                         <h6 class="pr-4 md:col-1 w-full">Company Name :</h6>
                                         <h6 class="text-gray-500 w-full md:col-3">{{ $i->company_name }}</h6>
                                     </div>

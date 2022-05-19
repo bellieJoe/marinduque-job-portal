@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Job;
+use App\Models\Credential;
 use App\Models\Seeker;
 use App\Models\Skill;
 use Illuminate\Http\Request;
@@ -102,6 +103,10 @@ class JobMatchingController extends Controller
             array_push($candidates, [
                 "seeker_id" => $seeker->user_id,
                 "seeker" => $seeker,
+                "eligibility" => Credential::where([
+                    "user_id" => $seeker->user_id,
+                    "credential_type" => "eligibility"
+                ])->first(),
                 "educationRate" => $educRate,
                 "skillsRate" => $skillRate,
                 'yoeRate' => $yoeRate,
@@ -246,36 +251,11 @@ class JobMatchingController extends Controller
 
     }
 
+    
     public static function rateEducation(Job $job, Seeker $seeker){
 
         $rate = 0;
 
-        /* foreach($educations as $education){
-            if($job->educational_attainment == $education->education_level){
-                $courses = $job->course_studied ? json_decode($job->course_studied) : null; 
-                
-                if(in_array($job->educational_attainment, ["primary education", "secondary education"] )){
-                    return 100;
-                }
-                else{
-
-                    if($courses){
-                        if($courses && in_array($education->course, $courses)){
-                            return 100;
-                        }
-                        else{
-                            $rate = 0;
-                        }
-                    }
-                    else{
-                        return 100;
-                    }
-                    
-                }
-
-                
-            }
-        } */
         $highestEducation = (function(Seeker $seeker){
             $seekerEducation = Education::where('user_id', $seeker->user_id)->get(['education_level', 'course']);
             $highest = [];
@@ -333,7 +313,7 @@ class JobMatchingController extends Controller
                 return $courses;
             })($highestEducation);
 
-            if($requiredEducationIndex > 1) { // if mataas ang educ required sa job
+            if($requiredEducationIndex > 1) { // if mas mababa ang educ required sa job
                 if($educationGap == 0) {// qualified
                     $rate = 30;
                     if(is_null(json_decode($job->course_studied))){
@@ -363,21 +343,24 @@ class JobMatchingController extends Controller
                             $rate += 70;
                         }
                     }
+                    // $rate = 0;
                 }
                 else { // underqualified
                     $rate = 0;
                 }
             }
-            else { // if mataas ang educ required sa job
+            else { // if mas mataas ang educ required sa job
                 if($educationGap == 0) {// qualified
-                    $rate = 100;
+                    // $rate = 100;
+                    $rate = 0;
                 }
                 else if($educationGap > 0) {// underqualified
                     $rate = 0;
                 }
                 else { // overqualified
                     // $rate = (100 / 2) * abs(2 - abs($educationGap));
-                    $rate = 100;
+                    $rate = 0;
+                    // $rate = 100;
                 }
             }
             
@@ -387,6 +370,7 @@ class JobMatchingController extends Controller
         return $rate;
 
     }
+    
 
     public static function rateEducationForJob(Job $job, Seeker $seeker){
         // done pansamantala

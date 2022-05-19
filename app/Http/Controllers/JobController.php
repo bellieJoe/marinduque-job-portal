@@ -238,21 +238,23 @@ class JobController extends Controller
             ];
         }
 
-        $jobs = Job::where([
+        $jobs = Job::whereIn('job_id', $jobIds)
+                ->where([
                     ['status', 'open'],
                     ['company_address->province->name', 'like', $request->input('province') ? $request->input('province') : '%'],
                     ['company_address->municipality->name', 'like', $request->input('municipality') ? $request->input('municipality') : '%'],
                     ...$salary_query
                 ])
-                ->orWhere([
-                    ['status', 'open'],
-                    ['company_address->province->name', 'like', $request->input('province') ? $request->input('province') : '%'],
-                    ['company_address->municipality->name', 'like', $request->input('municipality') ? $request->input('municipality') : '%'],
-                    ['isLocal', false],
-                    ...$salary_query
-                ])
-                ->whereIn('job_id', $jobIds)
                 ->paginate(10);
+                // ->where([
+                //     ['status', 'open'],
+                //     ['company_address->province->name', 'like', $request->input('province') ? $request->input('province') : '%'],
+                //     ['company_address->municipality->name', 'like', $request->input('municipality') ? $request->input('municipality') : '%'],
+                //     ['isLocal', false],
+                //     ...$salary_query
+                // ])
+                
+                
 
 
         return view('pages.guest.job-search')->with([

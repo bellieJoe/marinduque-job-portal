@@ -8,6 +8,7 @@ use App\Http\Controllers\JobMatchingController;
 use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\SeekerController;
 use App\Models\Employer;
+use App\Models\Credential;
 use App\Models\EmployerVerificationProof;
 use App\Models\Job;
 use App\Models\JobApplication;
@@ -236,6 +237,10 @@ Route::prefix('employer')->group(function(){
 
                     $application = [];
                     $application['applicantInformation'] = Seeker::where('user_id', $i->applicant_id)->first();
+                    // $application['eligibility'] = Credential::where([
+                    //     "user_id" => $i->applicant_id,
+                    //     "credential_type" => "eligibility"
+                    // ])->get();
                     $application['applicationInformation'] = $i;
                     array_push($completeJobApplications, $application);
                 }

@@ -145,7 +145,10 @@
                             <h6 >{{ Str::title(json_decode($job->company_address)->municipality->name) }}, {{ Str::title(json_decode($job->company_address)->province->name) }}</h6>
                             <div class="mt-4">
                                 <h6 class="fw-bold text-secondary mb-1">Qualifications</h6>
-                                <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $job->educational_attainment  ? ($job->educational_attainment == "tertiary education" ? "Must be a College graduate." : ($job->educational_attainment == "secondary education" ? "Must be atleast Highschool graduate." : ($job->educational_attainment == "primary education" ? "Must be atleast Elementary graduate." : ''))) : '' }}</h6>
+                                @if ($job->educational_attainment)
+                                    <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>{{ $job->educational_attainment  ? ($job->educational_attainment == "tertiary education" ? "Must be a College graduate." : ($job->educational_attainment == "secondary education" ? "Must be atleast Highschool graduate." : ($job->educational_attainment == "primary education" ? "Must be atleast Elementary graduate." : ''))) : '' }}</h6>
+                                @endif
+                                
                                 @if ($job->course_studied)
                                 <h6 class="mb-1"><i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i> Required course studied:</h6>
                                     @foreach (json_decode($job->course_studied) as $course)
