@@ -37,7 +37,7 @@
         </header>
 
         <section class="overflow-x-scroll lg:w-10/12 mx-auto">
-
+            {{-- {{ $placementReportData }} --}}
             <table class="min-w-max bg-white rounded-md w-full">
                 <tr class="bg-blue-400 rounded-t-md ">
                     <th class="p-2  text-sm rounded-tl-md">Full Name</th>

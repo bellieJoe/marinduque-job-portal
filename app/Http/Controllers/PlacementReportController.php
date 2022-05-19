@@ -67,7 +67,6 @@ class PlacementReportController extends Controller
                 $item->contact_number = $seeker->contact_number ? $seeker->contact_number : "N/A";
                 return $item;
             });
-            
             return $jobPlacements ;
 
         }else{

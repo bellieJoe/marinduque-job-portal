@@ -15,8 +15,8 @@
         {{-- notifications --}}
         <li class="nav-item" >
             <div class="nav-link">
-                <button v-cloak class="bg-yellow-300 rounded-full px-2 text-indigo-900 " data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="notificationContainer">
-                    <i class="fas fa-bell"></i> 
+                <button v-cloak class="bg-red-500 rounded-full px-2 text-white " data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="notificationContainer">
+                    <i class="fas fa-bell "></i> 
                     @{{ notificationCount }}
                 </button>
             </div> 

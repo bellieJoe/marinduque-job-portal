@@ -173,12 +173,13 @@
                   <div >
                     @if ($job['jobApplications'])
                       <div class="w-full" >
+                      @isset($_GET['applicants'])
+                        <div>
+                          <h1 class="font-bold">{{ Str::ucfirst($_GET['applicants'])  }} Applicants</h1>
+                        </div>
+                      @endisset
                       @foreach ($job['jobApplications'] as $jobApplication)
-                        @isset($_GET['applicants'])
-                          <div>
-                            <h1 class="font-bold">{{ Str::ucfirst($_GET['applicants'])  }} Applicants</h1>
-                          </div>
-                        @endisset
+                        
                         @if ( $applicants && ( $applicants == 'all' || $applicants ==  $jobApplication['applicationInformation']->application_status ) )
                         @php
                           $hasApplications = true;
