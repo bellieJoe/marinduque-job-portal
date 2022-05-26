@@ -42,10 +42,21 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    Mail::send('pages.signup', [], function ($message) {
-        $message->to('jandusayjoe14@gmail.com', 'John Doe');
-        $message->subject('Subject');
-    });
+    $educationLevelCount = [
+        'primary education' => 0,
+        'secondary education' => 0,
+        'tertiary education' => 0,
+        "masters's degree" => 0,
+        'doctorate degree' => 0
+    ];
+    $educationLevels = [
+        'primary education',
+        'secondary education',
+        'tertiary education',
+        "masters's degree",
+        'doctorate degree'
+    ];
+    echo array_search("secondary education", $educationLevels);
 });
 
 

@@ -72,6 +72,6 @@
     "/css/employer_home.css": "/css/employer_home.css",
     "/css/employer_nav.css": "/css/employer_nav.css",
     "/css/employer_signup.css": "/css/employer_signup.css",
-    "/css/guest/job-search.css": "/css/guest/job-search.css",
-    "/css/resume.css": "/css/resume.css"
+    "/css/resume.css": "/css/resume.css",
+    "/css/guest/job-search.css": "/css/guest/job-search.css"
 }

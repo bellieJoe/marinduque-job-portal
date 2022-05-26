@@ -253,123 +253,190 @@ class JobMatchingController extends Controller
 
     
     public static function rateEducation(Job $job, Seeker $seeker){
+        $educationLevels = [
+            'primary education',
+            'secondary education',
+            'tertiary education',
+            "masters's degree",
+            'doctorate degree'
+        ];
+        $seekerEducations = Education::where([
+            'user_id' => $seeker->user_id
+        ])->get();
+        $seekerCourses = Education::where([
+            'user_id' => $seeker->user_id
+        ])->pluck('course');
 
-        $rate = 0;
-
-        $highestEducation = (function(Seeker $seeker){
-            $seekerEducation = Education::where('user_id', $seeker->user_id)->get(['education_level', 'course']);
-            $highest = [];
-
-            foreach ($seekerEducation as $education) {
-                switch ($education->education_level) {
-                    case "doctorate degree":
-                        $highest = self::setHighEducation($education, $highest);
-                        break;
-                    case "master's degree":
-                        $highest = self::setHighEducation($education, $highest);
-                        break;
-                    case "tertiary education":
-                        $highest = self::setHighEducation($education, $highest);
-                        break;
-                    case "secondary education":
-                        $highest = self::setHighEducation($education, $highest);
-                        break;
-                    case "primary education":
-                        $highest = self::setHighEducation($education, $highest);
-                        break;
-                    default:
-                        break;
+        $seekerHighestEducation = (function($seekerEducations, $educationLevels){
+            $educationLevelCount = [
+                'primary education' => 0,
+                'secondary education' => 0,
+                'tertiary education' => 0,
+                "masters's degree" => 0,
+                'doctorate degree' => 0
+            ];
+            
+            foreach($seekerEducations as $education){
+                foreach($educationLevels as $educLevel){
+                    if($education->education_level == $educLevel){
+                        $educationLevelCount[$educLevel]++;
+                    }
                 }
             }
+            foreach($educationLevelCount as $educLevel => $educCount){
+                if($educCount > 0){
+                    return $educLevel;
+                }
+            }
+        })($seekerEducations, $educationLevels);
 
-            return $highest;
-        })($seeker);
-
-        if(empty($highestEducation)){
+        if(array_search($job->educationl_attainment, $educationLevels) > array_search($seekerHighestEducation, $educationLevels)){
             return 0;
         }
 
-        /* match the education */
-        /* education_level 30% course 70% */
-        $rate = (function($highestEducation, Job $job){
-            $EDUCATION_LEVELS = [
-                "primary education",
-                "secondary education",
-                "tertiary education",
-                "master's degree",
-                "doctorate degree"
-            ];
-            $rate = 0;
-
-            
-            $requiredEducationIndex = array_search($job->educational_attainment, $EDUCATION_LEVELS, true);
-            $highestEducationIndex = array_search($highestEducation[0]->education_level, $EDUCATION_LEVELS, true);
-            $educationGap = $requiredEducationIndex - $highestEducationIndex;
-            $seekerCourses = (function($highestEducation){
-                $courses = [];
-                foreach ($highestEducation as $educ) {
-                    array_push($courses, $educ->course);
-                }
-                return $courses;
-            })($highestEducation);
-
-            if($requiredEducationIndex > 1) { // if mas mababa ang educ required sa job
-                if($educationGap == 0) {// qualified
-                    $rate = 30;
-                    if(is_null(json_decode($job->course_studied))){
-                        $rate == 100;
-                    }
-                    else {
-                        $isCourseMatch = (function($seekerCourses, $jobCourses){
-                            return !empty(array_intersect($seekerCourses, $jobCourses));
-                        })($seekerCourses, json_decode($job->course_studied));
-
-                        if($isCourseMatch){
-                            $rate = 100;
-                        }
-                    }
-                }
-                else if($educationGap < 0) { // overqualified
-                    $rate = (30 / 3) * abs(3 - abs($educationGap));
-                    if(is_null(json_decode($job->course_studied))){
-                        $rate += 70;
-                    }
-                    else {
-                        $isCourseMatch = (function($seekerCourses, $jobCourses){
-                            return !empty(array_intersect($seekerCourses, $jobCourses));
-                        })($seekerCourses, json_decode($job->course_studied));
-    
-                        if($isCourseMatch){
-                            $rate += 70;
-                        }
-                    }
-                    // $rate = 0;
-                }
-                else { // underqualified
-                    $rate = 0;
-                }
+        if(in_array($job->educational_attainment, ['primary education','secondary education'])){
+            if($job->educational_attainment == $seekerHighestEducation){
+                return 100;
             }
-            else { // if mas mataas ang educ required sa job
-                if($educationGap == 0) {// qualified
-                    // $rate = 100;
-                    $rate = 0;
-                }
-                else if($educationGap > 0) {// underqualified
-                    $rate = 0;
-                }
-                else { // overqualified
-                    // $rate = (100 / 2) * abs(2 - abs($educationGap));
-                    $rate = 0;
-                    // $rate = 100;
-                }
+            else {
+                return 0;
             }
             
-            return $rate;
-        })($highestEducation, $job);
+        }
+        
+        if(!$job->course_studied){
+            return 100;
+        }
 
-        return $rate;
+        foreach ($seekerCourses as $course) {
+            if(in_array($course, json_decode($job->course_studied))){
+                return 100;
+            }
+        }
+
+        return 0;
+
 
     }
+
+    // public static function rateEducation(Job $job, Seeker $seeker){
+
+    //     $rate = 0;
+
+    //     $highestEducation = (function(Seeker $seeker){
+    //         $seekerEducation = Education::where('user_id', $seeker->user_id)->get(['education_level', 'course']);
+    //         $highest = [];
+
+    //         foreach ($seekerEducation as $education) {
+    //             switch ($education->education_level) {
+    //                 case "doctorate degree":
+    //                     $highest = self::setHighEducation($education, $highest);
+    //                     break;
+    //                 case "master's degree":
+    //                     $highest = self::setHighEducation($education, $highest);
+    //                     break;
+    //                 case "tertiary education":
+    //                     $highest = self::setHighEducation($education, $highest);
+    //                     break;
+    //                 case "secondary education":
+    //                     $highest = self::setHighEducation($education, $highest);
+    //                     break;
+    //                 case "primary education":
+    //                     $highest = self::setHighEducation($education, $highest);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //         }
+
+    //         return $highest;
+    //     })($seeker);
+
+    //     if(empty($highestEducation)){
+    //         return 0;
+    //     }
+
+    //     /* match the education */
+    //     /* education_level 30% course 70% */
+    //     $rate = (function($highestEducation, Job $job){
+    //         $EDUCATION_LEVELS = [
+    //             "primary education",
+    //             "secondary education",
+    //             "tertiary education",
+    //             "master's degree",
+    //             "doctorate degree"
+    //         ];
+    //         $rate = 0;
+
+            
+    //         $requiredEducationIndex = array_search($job->educational_attainment, $EDUCATION_LEVELS, true);
+    //         $highestEducationIndex = array_search($highestEducation[0]->education_level, $EDUCATION_LEVELS, true);
+    //         $educationGap = $requiredEducationIndex - $highestEducationIndex;
+    //         $seekerCourses = (function($highestEducation){
+    //             $courses = [];
+    //             foreach ($highestEducation as $educ) {
+    //                 array_push($courses, $educ->course);
+    //             }
+    //             return $courses;
+    //         })($highestEducation);
+
+    //         if($requiredEducationIndex > 1) { // if mas mababa ang educ required sa job
+    //             if($educationGap == 0) {// qualified
+    //                 $rate = 30;
+    //                 if(is_null(json_decode($job->course_studied))){
+    //                     $rate == 100;
+    //                 }
+    //                 else {
+    //                     $isCourseMatch = (function($seekerCourses, $jobCourses){
+    //                         return !empty(array_intersect($seekerCourses, $jobCourses));
+    //                     })($seekerCourses, json_decode($job->course_studied));
+
+    //                     if($isCourseMatch){
+    //                         $rate = 100;
+    //                     }
+    //                 }
+    //             }
+    //             else if($educationGap < 0) { // overqualified
+    //                 $rate = (30 / 3) * abs(3 - abs($educationGap));
+    //                 if(is_null(json_decode($job->course_studied))){
+    //                     $rate += 70;
+    //                 }
+    //                 else {
+    //                     $isCourseMatch = (function($seekerCourses, $jobCourses){
+    //                         return !empty(array_intersect($seekerCourses, $jobCourses));
+    //                     })($seekerCourses, json_decode($job->course_studied));
+    
+    //                     if($isCourseMatch){
+    //                         $rate += 70;
+    //                     }
+    //                 }
+    //                 // $rate = 0;
+    //             }
+    //             else { // underqualified
+    //                 $rate = 0;
+    //             }
+    //         }
+    //         else { // if mas mataas ang educ required sa job
+    //             if($educationGap == 0) {// qualified
+    //                 // $rate = 100;
+    //                 $rate = 0;
+    //             }
+    //             else if($educationGap > 0) {// underqualified
+    //                 $rate = 0;
+    //             }
+    //             else { // overqualified
+    //                 // $rate = (100 / 2) * abs(2 - abs($educationGap));
+    //                 $rate = 0;
+    //                 // $rate = 100;
+    //             }
+    //         }
+            
+    //         return $rate;
+    //     })($highestEducation, $job);
+
+    //     return $rate;
+
+    // }
     
 
     public static function rateEducationForJob(Job $job, Seeker $seeker){
