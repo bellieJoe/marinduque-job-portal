@@ -15,30 +15,6 @@ class Job extends Model
 
     protected $guarded = [];
 
-   /*  protected $fillable = [
-        'user_id',
-        'job_industry',
-        'job_title',	
-        'job_type'	,
-        'job_description',	
-        'company_name',
-        'company_address',
-        'company_description',	
-        'educational_attainment',	
-        'course_studied',	
-        'gender',
-        'experience',
-        'other_qualification',
-        'salary_range',
-        'job_benefits',
-        'status',
-        'date_posted',
-        'days_expire',
-        'skill',
-        'generated_skills',
-        'match_preferences',
-        'invitation'
-    ]; */
 
     protected $dates = [
         'date_posted'

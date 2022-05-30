@@ -131,10 +131,11 @@ Route::prefix('seeker')->group(function(){
 
         Route::get('', function(){
             $seeker = Seeker::where('user_id', Auth::user()->user_id)->first();
-
+            $invitations = Job::whereJsonContains('invitation', json_encode(Auth::user()->user_id))->get();
             
             return view('pages.seeker_home')->with([
-                'seeker' => $seeker
+                'seeker' => $seeker,
+                'invitations' => $invitations
             ]);
         })->middleware('role:seeker', 'auth');
 

@@ -300,7 +300,7 @@
                                         </div>
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>School Address <span class="text-red-500">*</span></label>
-                                            <input type="number" class='form-control' v-model="education.school_address" placeholder='barangay, municipality, province' :class="errors.school_address ? 'is-invalid' : '' ">
+                                            <input type="text" class='form-control' v-model="education.school_address" placeholder='barangay, municipality, province' :class="errors.school_address ? 'is-invalid' : '' ">
                                             <div class="text-danger" v-for="i of errors.school_address">@{{ i }}</div>
                                         </div>
 
@@ -440,6 +440,7 @@
                                             <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
+                                        <h6 class="my-0">{{ $i->course }}</h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
                                         <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
                                     </div> 
@@ -456,13 +457,14 @@
                             <h6 class="fw-bold mb-2 text-blue-500"><i class="fa fa-list me-2"></i> Doctors's Degree</h6>
                             @if ($educationCounts["doctorate degree"] > 0 )
                                 @foreach ($education as $i)
-                                    @if ($i->education_level == "master's degree")
+                                    @if ($i->education_level == "doctorate degree")
                                     <div class="py-4 ps-4 bg-gray-100">
                                         <div class="float-end mr-4">
                                             <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditEducationForm" @click="showEditEducationForm({{ $i->education_id }})">Edit</button>
                                             <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlConfirmDelete" @click="deleteEducation({{ $i->education_id }}, false)">Delete</button>
                                         </div>
                                         <h6 class="my-0 fw-bold">{{ $i->school_name }} </h6>
+                                        <h6 class="my-0">{{ $i->course }}</h6>
                                         <h6 class="my-0">{{ $i->school_address }}</h6>
                                         <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
                                     </div> 
@@ -890,7 +892,7 @@
                                     {{ $i->credential_name }}
                                 </h6>
                                 @if ($i->issuing_organization)
-                                <h6 class="my-0">Issued by: {{ $i->issuing_ordanization }}</h6>
+                                <h6 class="my-0 ">Issued by: <span class="font-bold">{{ $i->issuing_organization }}</span></h6>
                                 @endif
                                 @if ($i->credential_number)
                                 <h6 class="my-0">Credential# {{ $i->credential_number }}</h6>
