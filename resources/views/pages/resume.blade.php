@@ -65,7 +65,7 @@
                     @endif
                     <div class="col-auto mt-4">
                         <h6 class="text-lg text-gray-400 my-0">Gender</h6>
-                        <h6 class="text-lg">{{ $resumeData['userData']->gender }}</h6>
+                        <h6 class="text-lg">{{ Str::ucfirst($resumeData['userData']->gender) }}</h6>
                     </div>
                     @if ($resumeData['userData']->nationality)
                         <div class="col-auto mt-4">
@@ -154,6 +154,38 @@
                 @foreach ($resumeData['educationData'] as $education )
                     {{-- tertiary education --}}
                     @if ($education->education_level === 'tertiary education')
+                        <div class="mt-4 py-2">
+                            <h6 class="text-blue-500 mb-0"><i class="fa fa-graduation-cap"></i> {{ Str::title($education->education_level) }}</h6>
+                            <h6 class="mb-0">{{ $education->school_name }}</h6>
+                            <h6 class="mb-0 font-light">{{ $education->school_address }}</h6>
+                            <h6 class="mb-0 font-light">{{ $education->course }}</h6>
+                            @if ($education->year_graduated == '0000')
+                                <h6 class="mb-0 font-light">Undergraduate</h6>
+                            @else
+                                <h6 class="mb-0 font-light">Graduated on {{ $education->year_graduated }}</h6>
+                            @endif
+                        </div>
+                    @endif
+                @endforeach
+                @foreach ($resumeData['educationData'] as $education )
+                    {{-- masters education --}}
+                    @if ($education->education_level === "master's degree")
+                        <div class="mt-4 py-2">
+                            <h6 class="text-blue-500 mb-0"><i class="fa fa-graduation-cap"></i> {{ Str::title($education->education_level) }}</h6>
+                            <h6 class="mb-0">{{ $education->school_name }}</h6>
+                            <h6 class="mb-0 font-light">{{ $education->school_address }}</h6>
+                            <h6 class="mb-0 font-light">{{ $education->course }}</h6>
+                            @if ($education->year_graduated == '0000')
+                                <h6 class="mb-0 font-light">Undergraduate</h6>
+                            @else
+                                <h6 class="mb-0 font-light">Graduated on {{ $education->year_graduated }}</h6>
+                            @endif
+                        </div>
+                    @endif
+                @endforeach
+                @foreach ($resumeData['educationData'] as $education )
+                    {{-- masters education --}}
+                    @if ($education->education_level === "doctorate degree")
                         <div class="mt-4 py-2">
                             <h6 class="text-blue-500 mb-0"><i class="fa fa-graduation-cap"></i> {{ Str::title($education->education_level) }}</h6>
                             <h6 class="mb-0">{{ $education->school_name }}</h6>
