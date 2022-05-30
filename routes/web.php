@@ -56,7 +56,46 @@ Route::get('/testing', function () {
         "masters's degree",
         'doctorate degree'
     ];
-    echo array_search("secondary education", $educationLevels);
+
+    $seekerEducations = Education::where([
+        'user_id' => 4
+    ])->get();
+
+    $seekerHighestEducation = (function($seekerEducations, $educationLevels){
+        $educationLevelCount = [
+            'doctorate degree' => 0,
+            "masters's degree" => 0,
+            'tertiary education' => 0,
+            'secondary education' => 0,
+            'primary education' => 0,
+        ];
+
+        // echo var_dump($educationLevelCount);
+        
+        foreach($seekerEducations as $education){
+            foreach($educationLevels as $educLevel){
+                if($education->education_level == $educLevel){
+                    // echo $educLevel."<br>";
+                    $educationLevelCount[$educLevel]++;
+                    // echo $educationLevelCount[$educLevel];
+                }
+            }
+        }
+        foreach($educationLevelCount as $educLevel => $educCount){
+            if($educCount > 0){
+                return $educLevel;
+            }
+        }
+
+        echo var_dump($educationLevelCount);
+    })($seekerEducations, $educationLevels);
+
+    // echo $seekerHighestEducation;
+
+    if(array_search("doctorate degree", $educationLevels) > array_search("tertiary education", $educationLevels)){
+        echo "underqualified";
+        return 0;
+    }
 });
 
 

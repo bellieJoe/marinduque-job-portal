@@ -269,11 +269,11 @@ class JobMatchingController extends Controller
 
         $seekerHighestEducation = (function($seekerEducations, $educationLevels){
             $educationLevelCount = [
-                'primary education' => 0,
-                'secondary education' => 0,
-                'tertiary education' => 0,
+                'doctorate degree' => 0,
                 "masters's degree" => 0,
-                'doctorate degree' => 0
+                'tertiary education' => 0,
+                'secondary education' => 0,
+                'primary education' => 0,
             ];
             
             foreach($seekerEducations as $education){
@@ -289,8 +289,8 @@ class JobMatchingController extends Controller
                 }
             }
         })($seekerEducations, $educationLevels);
-
-        if(array_search($job->educationl_attainment, $educationLevels) > array_search($seekerHighestEducation, $educationLevels)){
+        
+        if(array_search($job->educational_attainment, $educationLevels) > array_search($seekerHighestEducation, $educationLevels)){
             return 0;
         }
 

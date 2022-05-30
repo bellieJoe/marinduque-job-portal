@@ -127,7 +127,8 @@
                           @foreach (json_decode($job['jobDetails']->skill) as $skill )
                             <li ><i class="fa fa-check text-success me-2"></i>{{ $skill }} </li>
                           @endforeach
-                          @if ($job["jobDetails"]->generated_skills)
+          
+                          @if ($job["jobDetails"]->generated_skills && $job["jobDetails"]->generated_skills != 200 && json_decode($job["jobDetails"]->generated_skills) != null)
                               <label for="" class="text-sm text-gray-500" title="This extracted skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Extracted Skills: </label>
                             @foreach (json_decode($job["jobDetails"]->generated_skills)->generated as $skill)
                               <div class="inline-block bg-green-200 rounded-sm m-1 p-1 text-sm">
@@ -135,7 +136,7 @@
                               </div> 
                             @endforeach
                           @endif
-                          @if ($job["jobDetails"]->generated_skills)
+                          @if ($job["jobDetails"]->generated_skills && $job["jobDetails"]->generated_skills != 200 && json_decode($job["jobDetails"]->generated_skills) != null)
                               <br><label for="" class="text-sm text-gray-500" title="This related skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Related Skills: </label>
                             @foreach (json_decode($job["jobDetails"]->generated_skills)->related as $skill)
                               <div class="inline-block bg-purple-200 rounded-sm m-1 p-1 text-sm">
@@ -304,7 +305,7 @@
                   @endif
                   <div v-if="suggestedSeekers.length > 0">
                     <div v-for="seeker in suggestedSeekers" class="mb-3 p-3 rounded-sm border-1" v-cloak>
-                      <h1 class="font-bold text-blue-800 mb-2" v-cloak>
+                      <h1 class="font-bold text-blue-800 mb-2 text-xl" v-cloak>
                         @{{ seeker.seeker.firstname + " " + seeker.seeker.lastname  }} 
                         <i class="fa-solid fa-certificate text-yellow-400" title="With Eligibility" v-if="seeker.eligibility"></i>
                       </h1>

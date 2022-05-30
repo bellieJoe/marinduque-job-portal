@@ -31,6 +31,7 @@ class UserSeeder extends Seeder
                 'admin_role' => 'master'
             ],
             // employers
+            /* *
             [
                 'email' => 'psamduque@pubh.site',
                 'password' => 'password',
@@ -134,6 +135,7 @@ class UserSeeder extends Seeder
                 'birthdate' => '1/10/1980',
                 'contact_number' => $faker->mobileNumber(),
             ],
+            */
         ];
 
         foreach($usersData as $i){

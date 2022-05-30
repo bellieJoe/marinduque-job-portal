@@ -205,7 +205,7 @@
                                         <div v-if="educationLevelError" class="p-2 bg-red-300 text-red-800 my-4 rounded-sm grid grid-cols-4 items-center">
                                             <h1 class="col-span-3">@{{ educationLevelError }}</h1>
                                             <button @click="closeEducationLevelError" class="btn btn-clear-danger w-max col-span-1 justify-self-end"><i class="fa fa-times text-red-800"></i></button>
-                                        </div>
+                                        </div>  
                                         <div class="mb-3 ">
                                             <label class='mb-1 fw-bold'>Educational Level <span class="text-red-500">*</span></label>
                                             <input type="text" class="form-control" :value="education.education_level" disabled>
@@ -447,7 +447,7 @@
                                 @endforeach
                             @else
                             <div class="bg-gray-100 py-8 rounded-sm">
-                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["tertiary education"] < 1) disabled @endif  @click="showAddEducationForm('master\'s education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Master's Degree</button>
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["tertiary education"] < 1) disabled @endif  @click="showAddEducationForm('master\'s degree')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Master's Degree</button>
                             </div>
                             @endif
                         </div>
@@ -470,7 +470,7 @@
                                 @endforeach
                             @else
                             <div class="bg-gray-100 py-8 rounded-sm">
-                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["master's degree"] < 1) disabled @endif  @click="showAddEducationForm('doctorate education')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Doctor's Degree</button>
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["master's degree"] < 1) disabled @endif  @click="showAddEducationForm('doctorate degree')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Doctor's Degree</button>
                             </div>
                             @endif
                         </div>
@@ -974,7 +974,7 @@
                                     </div>
                                     <div class="col ">
                                         <p class="d-inline" style="white-space: pre-wrap">{{ $item->skill_description }}</p>
-                                        @if ($item->generated_skills && json_decode($item->generated_skills)->generated)
+                                        @if ($item->generated_skills && $item->generated_skills != 200 && json_decode($item->generated_skills)->generated)
                                             <br><label for="" class="text-sm text-gray-500" title="This extracted skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Extracted Skills: </label>
                                             @foreach (json_decode($item->generated_skills)->generated as $skill1)
                                             <div class="inline-block bg-green-200 rounded-sm m-1 p-1 text-sm">

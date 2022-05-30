@@ -11,14 +11,14 @@ class EmsiAPIController extends Controller
     // private static $CLIENT_ID = "tks2leakw6xsqeiu";
     // private static $CLIENT_SECRET = "pCkcLCbC";
 
-    // // Email: kmorechta.nay@refo.site
-    // private static $CLIENT_ID = "o3rgzlbe44hw6nr9";
-    // private static $CLIENT_SECRET = "5U7bBr71";
+    // Email: kmorechta.nay@refo.site
+    private static $CLIENT_ID = "o3rgzlbe44hw6nr9";
+    private static $CLIENT_SECRET = "5U7bBr71";
 
 
     // Email: kmorechta.nay@refo.site
-    private static $CLIENT_ID = "3c1dvzkdcuvts0hj";
-    private static $CLIENT_SECRET = "RKTj2ZvJ";
+    // private static $CLIENT_ID = "3c1dvzkdcuvts0hj";
+    // private static $CLIENT_SECRET = "RKTj2ZvJ";
 
 
     public static $ACCESS_TOKEN = null;

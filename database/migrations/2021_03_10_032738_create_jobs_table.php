@@ -23,7 +23,7 @@ class CreateJobsTable extends Migration
             // company information
             $table->string('company_name');
             $table->json('company_address');
-            $table->string('company_description')->nullable();
+            $table->string('company_description', 5000)->nullable();
             // qualifications
             $table->string('educational_attainment')->nullable();
             $table->string('course_studied')->nullable();
