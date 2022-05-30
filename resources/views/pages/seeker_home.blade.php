@@ -102,7 +102,18 @@
                 {{-- job invitions --}}
                 <div v-if="toggledJobs == 'invitations'" class="p-3" v-cloak>
                     <h1 class="text-gray-500 mb-3 fw-bold">Job Invitations</h1>
-                    Not yet functional
+                    @if (!empty($invitations))
+                        @foreach ($invitations as $job)
+                        <div class="bg-white rounded-sm p-4">
+                            <a href="/job-search-mdq/view/{{ $job->job_id }}" class="btn btn-primary float-right">View</a>
+                            <h1 class="font-bold ">{{ $job->job_title }}</h1>
+                            <h1 class="">{{ $job->company_name }}</h1>
+                            
+                        </div>
+                        @endforeach
+                    @else
+                        <h6 class="text-center text-gray-400 py-4">No Invitations</h6>
+                    @endif
                 </div>
                 {{-- saved jobs --}}
                 <div v-if="toggledJobs == 'saved jobs'" class="p-3" v-cloak>
