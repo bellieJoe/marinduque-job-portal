@@ -214,7 +214,7 @@
                     <h6 class="mb-0">{{ $experience->job_title }}</h6>
                     <h6 class="mb-0">{{ $experience->company_name }}</h6>
                     <h6 class="mb-0 font-light">From {{ $experience->date_started->format('F Y') }} to {{ $experience->date_ended->format('F Y') }}</h6>
-                    <h6 class="mb-0 font-light">{{ round($experience->date_started->floatDiffInYears($experience->date_ended), 1) }} years</h6>
+                    <h6 class="mb-0 font-light">{{ round($experience->date_started->floatDiffInYears($experience->date_ended), 1) }} year/s</h6>
                     <h6 class="mt-2 font-normal">{{ $experience->job_description }}</h6>
                 </div>
                 @endforeach
@@ -314,7 +314,7 @@
                     </div>
                     @endif
                     @endforeach
-                    @if (Auth::user()->role == "employer")
+                    @if ( in_array(Auth::user()->role, ["seeker", "employer"]))
                     <div v-if="!isPrinting">
                         <button class="btn btn-primary" @click="printResume"><i class="fa fa-print"></i> Print Resume</button>
                     </div>

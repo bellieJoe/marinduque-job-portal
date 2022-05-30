@@ -104,10 +104,25 @@
                     <h1 class="text-gray-500 mb-3 fw-bold">Job Invitations</h1>
                     @if (!empty($invitations))
                         @foreach ($invitations as $job)
-                        <div class="bg-white rounded-sm p-4">
+                        <div class="bg-white rounded-md p-4">
                             <a href="/job-search-mdq/view/{{ $job->job_id }}" class="btn btn-primary float-right">View</a>
-                            <h1 class="font-bold ">{{ $job->job_title }}</h1>
-                            <h1 class="">{{ $job->company_name }}</h1>
+                            <h1 class="font-bold text-indigo-500  ">{{ $job->job_title }}</h1>
+                            <h1 class="mb-3">{{ $job->company_name }}</h1>
+                            <h1 >{{ Str::title($job->job_type) }}</h1>
+                            <h1 >
+                            @if ($job->company_address)
+                                @if (json_decode($job->company_address)->municipality)
+                                    {{ json_decode($job->company_address)->municipality->name }},
+                                @endif
+                                @if (json_decode($job->company_address)->province)
+                                    {{ json_decode($job->company_address)->province->name }}
+                                @endif
+                            @endif
+                            </h1>
+                            @if ($job->country)
+                                <h1 >{{ $job->country }}</h1>
+                            @endif
+                            <h1 >{{ Str::title($job->status) }}</h1>
                             
                         </div>
                         @endforeach
