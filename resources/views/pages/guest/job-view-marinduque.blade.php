@@ -104,14 +104,14 @@
                         @endif
 
                         @if (!$seekerInterference['applied'])
-                            <a class="btn  bg-pink-800 text-white  mx-auto mt-5" href="/seeker/apply-job/{{ $job->job_id }}">Apply</a>  
+                            <a class="btn  bg-green-500 text-white  mx-auto mt-5" href="/seeker/apply-job/{{ $job->job_id }}">Apply</a>  
                         @else
                             <label class="text-green-500 mt-5 btn p-2 hover:text-green-500"><i class="fa fa-check mr-2"></i>Applied</label>
                         @endif
                     @endif                         
                 @endauth
                 @guest
-                    <a href="/signin" class="btn  bg-pink-800 text-white  mx-auto mt-5">Sign In to Apply</a>  
+                    <a href="/signin" class="btn  bg-green-500 text-white  mx-auto mt-5">Sign In to Apply</a>  
                 @endguest
             </div>
 

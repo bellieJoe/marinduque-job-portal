@@ -15,7 +15,7 @@
                 <h6 class="text-green-900 font-normal">Application from {{ $application['applicant']->firstname.' '.$application['applicant']->middlename[0].'. '.$application['applicant']->lastname }}</h6>
             </div>
             <div class="p-4">
-                <h5 class="mb-3 text-green-500 fw-bold text-lg">Congrats employer!</h5>
+                <h5 class="mb-3 text-green-500 fw-bold text-lg">Approve Application</h5>
                 <p class="mb-2 ">It seems that you have chosen a possible candidate for your job vacancy.</p>
                 <p class="mb-3">By confirming this action we will notify the Applicant that you have accepted his/her application, you may contact or email the applicant about the next steps to do to be hired by refering to the information below.</p>
                 

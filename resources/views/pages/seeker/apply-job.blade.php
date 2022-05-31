@@ -28,7 +28,7 @@
                         <div class="text-danger"  >@{{ errors.other_information[0] }}</div>
                     @enderror
                 </div>
-                <button class="btn btn-lg bg-pink-800 text-white mt-4  ms-auto me-0 d-block mb-4" >Submit Application</button>
+                <button class="btn btn-lg bg-green-500 text-white mt-4  ms-auto me-0 d-block mb-4" >Submit Application</button>
             </div>
         </form>
        

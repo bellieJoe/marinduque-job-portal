@@ -366,7 +366,7 @@ new Vue({
                   skill: _this2.job.skill,
                   salary_max: _this2.job.salary_range.max,
                   salary_min: _this2.job.salary_range.min,
-                  benefits: _this2.job.benefits,
+                  benefits: _this2.job.job_benefits,
                   status: _this2.job.status
                 };
                 _context2.next = 6;

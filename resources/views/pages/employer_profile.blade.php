@@ -31,7 +31,7 @@
                         
                     </div>
                     <div class="col-sm">
-                        <h1 class="com-name fw-bold my-3">{{ $employer->company_name }}</h1>
+                        <h1 class="com-name fw-bold my-3 text-xl">{{ $employer->company_name }}</h1>
                         <label class="fs-5 d-block text-secondary">
                             @if ($employer->address)
                             {{ json_decode($employer->address)->{'barangay'}->{'name'}.', '

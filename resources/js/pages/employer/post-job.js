@@ -192,7 +192,7 @@ new Vue({
         
                     salary_max : this.job.salary_range.max,
                     salary_min : this.job.salary_range.min,
-                    benefits : this.job.benefits,
+                    benefits : this.job.job_benefits,
                     status : this.job.status,
                 }
                 

@@ -82,8 +82,7 @@
                                                             You are about to delete  a job posting you created titled <strong>{{ $job->job_title }}</strong>. Pending applicants from this job posting will be automatically declined after deleting.
                                                         </p>
                                                         <br>
-                                                        <p>Ire baga ay aburahin talaga?</p>
-                                                        {{-- <p>Are you sure you want to delete this Job?</p> --}}
+                                                        <p>Are you sure you want to delete this Job?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>

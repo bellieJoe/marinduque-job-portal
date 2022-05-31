@@ -71,15 +71,14 @@ class PlacementReportController extends Controller
 
         }else{
             
-
-            
             $jobPlacements = JobApplication::whereMonth('date_hired', $month)
             ->whereYear('date_hired', $year)
             ->where('application_status', 'hired')
             ->get()
             ->map(function ($item, $key) {
                 $seeker = Seeker::where('user_id', $item->applicant_id)->first();
-                $job = Job::where('job_id', $item->job_id)->first();
+                $job = Job::withTrashed()->where('job_id', $item->job_id)->first();
+                
                 $item->fullname = $seeker->firstname." ".$seeker->middlename." ".$seeker->lastname;
                 $item->reffered_job = $job->job_title;
                 $item->company_name = $job->company_name;

@@ -65,6 +65,7 @@
                 {{-- job details --}}
                 @if ($view == 'job_details')
                 <div>
+                  <h1 class="font-bold text-lg">Job Details</h1>
                   <ul class="list-group" class="bg-indigo-100">
                     <li class="list-group-item border-0">
                       <h6><strong>Job Title</strong></h6>
@@ -72,7 +73,7 @@
                     </li>
                     <li class="list-group-item border-0">
                       <h6><strong>Job Type</strong></h6>
-                      {{ $job['jobDetails']->job_type }}
+                      {{ Str::title($job['jobDetails']->job_type) }}
                     </li>
                     @if ($job['jobDetails']->job_descriptio)
                     <li class="list-group-item border-0">
@@ -88,9 +89,9 @@
                       <h6><strong>Company Address</strong></h6>
                       {{-- {{ json_decode($job['jobDetails']->company_address)-> }} --}}
                       @php
-                          $companyAddress  = $job["jobDetails"]->isLocal ? json_decode($job['jobDetails']->company_address) : null;
+                          $companyAddress  = !$job["jobDetails"]->country ? json_decode($job['jobDetails']->company_address) : null;
                       @endphp
-                      @if ($job["jobDetails"]->isLocal)
+                      @if (!$job["jobDetails"]->country)
                       <p>
                         {{ $companyAddress->barangay->name.', ' }} 
                         {{ $companyAddress->municipality->name.', ' }}
@@ -162,6 +163,12 @@
                         @endif
 
                       </ul>
+                    </li>
+                    <li class="list-group-item border-0">
+                      @if ($job["jobDetails"]->job_benefits)
+                        <h6><strong>Job Benefits</strong></h6>
+                        {{ $job["jobDetails"]->job_benefits }}
+                      @endif
                     </li>
                   </ul>
                 </div>
@@ -296,7 +303,7 @@
                 @if ($view == 'suggested_seekers')
                 <div >
                   <input type="hidden" value="{{ $job['jobDetails']->job_id }}" id="jobId">
-                  <h1 class="font-bold">Suggested Seekers</h1>
+                  <h1 class="font-bold text-lg">Suggested Seekers</h1>
                   <button class="btn btn-outline-primary btn-sm block ml-auto mr-0 mb-2" @click="generateSuggestions()"><i class="fa fa-sync-alt"></i> Refresh</button>
                   @if (Session::has('InvitationSuccessMessage'))
                     <div class="m-2">
@@ -362,7 +369,7 @@
                 {{-- job prefeerences --}}
                 @if ($view == 'job_preferences')
                 <div >
-
+                  <h1 class="font-bold text-lg mb-3">Job Preferences</h1>
                   {{-- setting expiration date --}}
                   <div>
                     <div class="mb-3 p-2 rounded-2 duration-500 cursor-pointer hover:bg-indigo-100 border " data-bs-toggle="modal" data-bs-target="#mdlDaysExpire">

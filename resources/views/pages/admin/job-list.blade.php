@@ -100,7 +100,7 @@
 
             {{ $jobsData }}
 
-            <div>
+            <div class="mx-auto lg:w-10/12">
                 <h5 class="text-md">Total no. of Jobs: <span class="font-bold">{{ number_format($jobCount) }}</span></h5>
             </div>
             

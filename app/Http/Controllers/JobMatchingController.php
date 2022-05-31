@@ -18,7 +18,16 @@ class JobMatchingController extends Controller
 
         $user_id = Auth::user()->user_id;
         $seeker = Seeker::where('user_id', $user_id)->first();
-        $jobs = Job::where('status', "open")->get(); 
+        $jobsUnfiltered = Job::where('status', "open")
+        ->get(); 
+
+        $jobs = [];
+        foreach ($jobsUnfiltered as $job) {
+            if(!($job->invitation && in_array(Auth::user()->user_id, json_decode($job->invitation)))){
+                array_push($jobs, $job); 
+            }
+        }
+
         $education = Education::where("user_id", $user_id)->get();
         $suggestedJobs = collect([]);
 

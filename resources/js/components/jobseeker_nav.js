@@ -131,15 +131,19 @@ new Vue({
 
         countNewNotification(){
             this.notificationCount = 0
-            if(this.notifications.length != 0){
+            this.unreadNotificationsCount = 0
+            if(this.notifications.length > 0){
                 this.notifications.map((val, i)=>{
 
                     if(!val.read_at){
                         this.notificationCount++
+                        this.unreadNotificationsCount++
                     }
                     
                 })
+
             }
+
             
         }
 

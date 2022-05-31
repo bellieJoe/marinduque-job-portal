@@ -63,7 +63,7 @@
 
                     @if ($view == "personal")
                     <div >
-                        <h5 class="fw-bolder"><i class="fas fa-user me-2"></i> Personal Information</h5>
+                        <h5 class="fw-bolder text-lg"><i class="fas fa-user me-2"></i> Personal Information</h5>
                         <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlEditPersonalInformation" @click="showUpdateProfile({{ Auth::user()->user_id }})"><i class='fa fa-edit'></i> Edit Personal Information</button>
                         {{-- edit personal information form --}}
                         <div class="modal fade " id="mdlEditPersonalInformation">
@@ -193,7 +193,7 @@
                     
                     @if ($view == "education")
                     <div >
-                        <h5 class="fw-bolder"><i class="fas fa-graduation-cap"></i> Educational Attainments</h5>
+                        <h5 class="fw-bolder text-lg mb-3"><i class="fas fa-graduation-cap"></i> Educational Attainments</h5>
                         {{-- add education form --}}
                         <div class="modal fade " id='mdlAddEducationForm' aria-hidden="true" tabindex='-1'>
                             <div class="modal-dialog modal-fullscreen-md-down">
@@ -482,7 +482,7 @@
 
                     @if ($view == "experience")
                     <div >
-                        <h5 class="fw-bolder"><i class="fas fa-business-time me-2"></i>Work Experiences</h5>
+                        <h5 class="fw-bolder text-lg"><i class="fas fa-business-time me-2"></i>Work Experiences</h5>
                         <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlAddExperienceForm" @click="showAddExperienceForm"><i class='fa fa-plus'></i> Add Experience</button>
                         {{-- add experience form --}}
                         <div class="modal fade" id="mdlAddExperienceForm">
@@ -713,7 +713,7 @@
 
                     @if ($view == 'certificate')
                     <div >
-                        <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility, Certificates & Awards</h5>
+                        <h5 class="fw-bolder text-lg"><i class="fa fa-trophy me-2"></i> Eligibility, Certificates & Awards</h5>
                         <button type='button' class='btn btn-primary ms-auto me-0 d-block' data-bs-toggle="modal" data-bs-target="#mdlChooseCredential" @click="clearCredential()"><i class='fa fa-plus'></i> Add</button>
                         {{-- modal choose type --}}
                         <div class="modal fade" id="mdlChooseCredential">
@@ -916,7 +916,7 @@
 
                     @if ($view == "skill")
                     <div >
-                        <h5 class="fw-bolder"><i class="fas fa-cogs me-2"></i> Skills</h5>
+                        <h5 class="fw-bolder text-lg mb-3"><i class="fas fa-cogs me-2"></i> Skills</h5>
                         {{-- add skill --}}
                         <div class="mb-4">
                             <label class="fw-bold mb-1">Add Skill</label>

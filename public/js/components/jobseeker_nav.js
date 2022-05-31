@@ -2085,11 +2085,13 @@ new Vue({
       var _this5 = this;
 
       this.notificationCount = 0;
+      this.unreadNotificationsCount = 0;
 
-      if (this.notifications.length != 0) {
+      if (this.notifications.length > 0) {
         this.notifications.map(function (val, i) {
           if (!val.read_at) {
             _this5.notificationCount++;
+            _this5.unreadNotificationsCount++;
           }
         });
       }
