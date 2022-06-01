@@ -28,4 +28,8 @@ class CourseController extends Controller
         ]);
     }
 
+    public static function getAll(){
+        return Course::all();
+    }
+
 }

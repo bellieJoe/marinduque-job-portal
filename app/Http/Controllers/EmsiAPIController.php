@@ -8,12 +8,12 @@ class EmsiAPIController extends Controller
 {
     /* API Crededntials */ /* just uncomment if you have to used, Warning, this crededntials are only limited to 50 request */
     // Email: jandusayjoe14@gmail.com
-    // private static $CLIENT_ID = "tks2leakw6xsqeiu";
-    // private static $CLIENT_SECRET = "pCkcLCbC";
+    private static $CLIENT_ID = "tks2leakw6xsqeiu";
+    private static $CLIENT_SECRET = "pCkcLCbC";
 
     // Email: kmorechta.nay@refo.site
-    private static $CLIENT_ID = "o3rgzlbe44hw6nr9";
-    private static $CLIENT_SECRET = "5U7bBr71";
+    // private static $CLIENT_ID = "o3rgzlbe44hw6nr9";
+    // private static $CLIENT_SECRET = "5U7bBr71";
 
 
     // Email: kmorechta.nay@refo.site
@@ -54,6 +54,7 @@ class EmsiAPIController extends Controller
         }
         
     }
+
 
     public static function isHealthy(){
         $curl = curl_init();
@@ -182,9 +183,5 @@ class EmsiAPIController extends Controller
             return $relatedSkills;
         }
     }
-
-
-
-
 
 }

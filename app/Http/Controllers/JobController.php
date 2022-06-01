@@ -55,7 +55,7 @@ class JobController extends Controller
 
             'salary_min' => 'nullable|required_with:salary.max|integer',
             'salary_max' => 'nullable|required_with:salary.min|integer|gt:salary_min',
-            'benefits' => 'nullable|min:50|max:5000',
+            'benefits' => 'nullable|max:5000',
             'status' => 'nullable'
         ], [
             'salary_max.gt' => 'The Maximum salary must be greater than minimum',
@@ -82,7 +82,7 @@ class JobController extends Controller
                 'barangay' => $request->input('barangay'),
             ]), 
             'country' => $request->input("country"),
-            'isLocal' => $request->input("isLocal") === true ? 1 : 0,
+            'isLocal' => $request->input("isLocal") == true ? 1 : 0,
 
             'educational_attainment' => $request->input('educational_attainment'),
             'course_studied' => $request->input('course_studied') ? json_encode($request->input('course_studied')) : null,
@@ -146,7 +146,7 @@ class JobController extends Controller
 
                 'salary_min' => 'nullable|required_with:salary.max|integer',
                 'salary_max' => 'nullable|required_with:salary.min|integer|gt:salary_min',
-                'benefits' => 'nullable|min:50|max:5000',
+                'benefits' => 'nullable|max:5000',
                 'status' => 'nullable'
             ], [
                 'salary_max.gt' => 'The Maximum salary must be greater than minimum',
@@ -174,6 +174,8 @@ class JobController extends Controller
                 'municipality' => $request->input('municipality'),
                 'barangay' => $request->input('barangay'),
             ]), 
+            'country' => $request->input("country"),
+            'isLocal' => $request->input("isLocal") == true ? 1 : 0,
 
             'educational_attainment' => $request->input('educational_attainment'),
             'course_studied' => $request->input('course_studied') ? json_encode($request->input('course_studied')) : null,

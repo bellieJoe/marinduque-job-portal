@@ -13,6 +13,7 @@ $.ajaxSetup({
 new Vue({
     el: '#post-job',
     data:{
+        loading: false,
         phil: phil,
         errors: [],
         job_specialization_list: null,
@@ -165,6 +166,7 @@ new Vue({
         async postJob(){
             // console.log(loading)
             // loading.show()
+            this.loading = true
             try {
                 this.errors = []
                 $('#errorMessage').css('display', 'initial')
@@ -196,21 +198,24 @@ new Vue({
                     status : this.job.status,
                 }
                 
-                await $.ajax({
-                    url:  '/employer/post-job/add-job',
-                    method: 'post',
-                    data: job,
+                console.log(job);
+                // await $.ajax({
+                //     url:  '/employer/post-job/add-job',
+                //     method: 'post',
+                //     data: job,
 
-                })
+                // })
                 
-                location.href = "/employer/profile"
+                // // location.href = "/employer/profile"
+                this.loading = false
 
             } catch (error) {
                 console.log(error)
+                this.loading = false
+                // alert(JSON.stringify(error))
                 this.errors = error.responseJSON.errors
             }
-            
-
+            this.loading = false
 
         },
 

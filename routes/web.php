@@ -6,6 +6,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobMatchingController;
 use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    return Job::where('job_id', 5)->first();
+    return CourseController::getAll();
 });
 
 

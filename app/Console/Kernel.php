@@ -58,7 +58,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $month = Carbon::now()->format("m") > 1 ? Carbon::now()->format("m") - 1 : 12;
             $year = $month == 1 ? Carbon::now()->format("Y") - 1 : Carbon::now()->format("Y");
-            $jobs = Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year);
+            $jobs = Job::withTrashed()->whereMonth('date_posted', $month)->whereYear('date_posted', $year);
             $applications = JobApplication::whereMonth('created_at', $month)
             ->whereYear('created_at', $year);
             $applicationIds = $applications->pluck('applicant_id');
@@ -68,8 +68,8 @@ class Kernel extends ConsoleKernel
 
             LmiReport::create([
                 'jobs_solicited_total' => $jobs->count(),
-                "jobs_solicited_local" => Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 1)->count(),
-                "jobs_solicited_overseas" => Job::whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 0)->count(),
+                "jobs_solicited_local" => Job::withTrashed()->whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 1)->count(),
+                "jobs_solicited_overseas" => Job::withTrashed()->whereMonth('date_posted', $month)->whereYear('date_posted', $year)->where('isLocal', 0)->count(),
                 "applicants_referred_total" => JobApplication::whereMonth('created_at', $month)->count(),
                 "applicants_referred_male" => $referredSeekers->where(['gender' => 'male'])->count(),
                 "applicants_referred_female" => $referredSeekers->where(['gender' => 'female'])->count(),
@@ -89,7 +89,9 @@ class Kernel extends ConsoleKernel
                 $admin->notify(new LMIGeneratedNotification());
             }
             
-        })->monthly();
+        })
+        ->everyMinute();
+        // ->monthly();
     }
 
     /**

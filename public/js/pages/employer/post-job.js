@@ -173,6 +173,7 @@ jquery__WEBPACK_IMPORTED_MODULE_2___default().ajaxSetup({
 new Vue({
   el: '#post-job',
   data: {
+    loading: false,
     phil: (phil_reg_prov_mun_brgy__WEBPACK_IMPORTED_MODULE_1___default()),
     errors: [],
     job_specialization_list: null,
@@ -342,57 +343,60 @@ new Vue({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-                _this2.errors = [];
-                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#errorMessage').css('display', 'initial');
-                job = {
-                  job_title: _this2.job.job_title,
-                  job_industry: _this2.job.job_industry,
-                  job_type: _this2.job.job_type,
-                  job_description: _this2.job.job_description,
-                  company_name: _this2.job.company_name,
-                  region: _this2.job.company_address.region,
-                  province: _this2.job.company_address.province,
-                  municipality: _this2.job.company_address.municipality,
-                  barangay: _this2.job.company_address.barangay,
-                  company_description: _this2.job.company_description,
-                  isLocal: _this2.job.isLocal,
-                  country: _this2.job.country,
-                  educational_attainment: _this2.job.educational_attainment,
-                  gender: _this2.job.gender,
-                  course_studied: _this2.job.course_studied,
-                  experience: _this2.job.experience,
-                  other_qualification: _this2.job.other_qualification,
-                  skill: _this2.job.skill,
-                  salary_max: _this2.job.salary_range.max,
-                  salary_min: _this2.job.salary_range.min,
-                  benefits: _this2.job.job_benefits,
-                  status: _this2.job.status
-                };
-                _context2.next = 6;
-                return jquery__WEBPACK_IMPORTED_MODULE_2___default().ajax({
-                  url: '/employer/post-job/add-job',
-                  method: 'post',
-                  data: job
-                });
+                // console.log(loading)
+                // loading.show()
+                _this2.loading = true;
 
-              case 6:
-                location.href = "/employer/profile";
-                _context2.next = 13;
-                break;
+                try {
+                  _this2.errors = [];
+                  jquery__WEBPACK_IMPORTED_MODULE_2___default()('#errorMessage').css('display', 'initial');
+                  job = {
+                    job_title: _this2.job.job_title,
+                    job_industry: _this2.job.job_industry,
+                    job_type: _this2.job.job_type,
+                    job_description: _this2.job.job_description,
+                    company_name: _this2.job.company_name,
+                    region: _this2.job.company_address.region,
+                    province: _this2.job.company_address.province,
+                    municipality: _this2.job.company_address.municipality,
+                    barangay: _this2.job.company_address.barangay,
+                    company_description: _this2.job.company_description,
+                    isLocal: _this2.job.isLocal,
+                    country: _this2.job.country,
+                    educational_attainment: _this2.job.educational_attainment,
+                    gender: _this2.job.gender,
+                    course_studied: _this2.job.course_studied,
+                    experience: _this2.job.experience,
+                    other_qualification: _this2.job.other_qualification,
+                    skill: _this2.job.skill,
+                    salary_max: _this2.job.salary_range.max,
+                    salary_min: _this2.job.salary_range.min,
+                    benefits: _this2.job.job_benefits,
+                    status: _this2.job.status
+                  };
+                  console.log(job); // await $.ajax({
+                  //     url:  '/employer/post-job/add-job',
+                  //     method: 'post',
+                  //     data: job,
+                  // })
+                  // // location.href = "/employer/profile"
 
-              case 9:
-                _context2.prev = 9;
-                _context2.t0 = _context2["catch"](0);
-                console.log(_context2.t0);
-                _this2.errors = _context2.t0.responseJSON.errors;
+                  _this2.loading = false;
+                } catch (error) {
+                  console.log(error);
+                  _this2.loading = false; // alert(JSON.stringify(error))
 
-              case 13:
+                  _this2.errors = error.responseJSON.errors;
+                }
+
+                _this2.loading = false;
+
+              case 3:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 9]]);
+        }, _callee2);
       }))();
     },
     addSkill: function addSkill() {

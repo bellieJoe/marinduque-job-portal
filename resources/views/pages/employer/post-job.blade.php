@@ -5,12 +5,17 @@
     <body class='post-job bg-gray-200'>
 
 
-        <div class="lg:w-8/12 mx-auto p-2 " id="post-job">
-            <div class="pj-form bg-gray-50  my-5 shadow-md rounded-md" >
+        <div class="" id="post-job">
+
+            <div v-if="loading">
+                @component('components.loading')
+                @endcomponent
+            </div>
+
+            <div class="pj-form bg-gray-50  my-5 shadow-md rounded-md lg:w-8/12 mx-auto p-2 " >
                 <h5 class='font-bold mb-3 p-4 text-lg text-indigo-800'><i class="fas fa-briefcase me-1"></i>Create a Job</h5>
                 <form action="/employer/post-job/add-job" method="post" id="formPostJob">
                     @csrf
-
 
                     <h5 id="step-1" class="fw-bold text-secondary "><span class="bg-secondary fs-6 text-white ps-4 p-2 shadow-sm me-2">Step 1 </span>  Basic Information</h5>
                     <div class="p-4" >
@@ -24,7 +29,6 @@
                         <div class="mb-3 lg:inline-block lg:w-64 lg:mr-3">
                             <label class='fw-bold mb-1'>Job Industry<span class="text-danger">*</span></label>
                             <select v-cloak class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''" >
-                                {{-- <option value="null">--choose one--</option> --}}
                                 <option v-cloak v-for="specialization of job_specialization_list" :value="specialization.specialization">@{{ specialization.specialization }}</option>
                             </select>
                             <div class="text-danger"  v-for="i of errors.job_industry" v-cloak>@{{ i }}</div>
@@ -280,6 +284,7 @@
                         <div class="mb-3">
                             <label for="" class="fw-bold">Benefits</label>
                             <textarea  class="form-control" v-model.lazy="job.job_benefits" name="benefits"></textarea>
+                            <div class="text-danger" v-for="i of errors.benefits" v-cloak>@{{ i }}</div>
                         </div>
                     </div>
 
@@ -301,6 +306,9 @@
         </div>
 
         <script src="{{ asset('js/pages/employer/post-job.js') }}" ></script>
+
+       
+        
     </body>
     
 
