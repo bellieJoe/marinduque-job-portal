@@ -21,13 +21,14 @@ new Vue({
         masters: null,
         doctors: null,
         countries : devModule.countryList,
-        sample: {
-            sam: "okie"
-        },
+        skillInput: null,
+        skillSearching: false,
+        skills: [],
         job: {
             job_title: null,
             job_type: null,
-            job_industry: null,
+            job_industry: 'remove job industry',
+            job_specialization : [],
             job_description: null,
 
             useCurrentInformation: false,
@@ -68,6 +69,28 @@ new Vue({
 
     },
     methods: {
+         async searchSkill(){
+            try {
+                this.skillSearching = true
+                this.skills = []
+                // console.log(this.skillInput)
+                if(this.skillInput){
+                    let res = await $.ajax({
+                        url: `/skills?search=${this.skillInput.replace(" ", "%%")}`,
+                        method: "get"
+                    })
+                    JSON.parse(res).data.forEach(el => {
+                        // console.log(el.name)
+                        this.skills.push(el.name)
+                    })
+                }
+                
+                this.skillSearching = false
+            } catch (error) {
+                this.skillSearching = false
+                console.log(error)
+            }
+        },
 
         inputOverseas_changed () {
             this.job.isLocal =  !$("#inputOverseas")[0].checked
@@ -173,6 +196,7 @@ new Vue({
                 var job = {
                     job_title : this.job.job_title,
                     job_industry : this.job.job_industry,
+                    job_specialization : this.job.job_specialization,
                     job_type : this.job.job_type,
                     job_description : this.job.job_description,
         
@@ -199,14 +223,14 @@ new Vue({
                 }
                 
                 console.log(job);
-                // await $.ajax({
-                //     url:  '/employer/post-job/add-job',
-                //     method: 'post',
-                //     data: job,
+                await $.ajax({
+                    url:  '/employer/post-job/add-job',
+                    method: 'post',
+                    data: job,
 
-                // })
+                })
                 
-                // // location.href = "/employer/profile"
+                location.href = "/employer/profile"
                 this.loading = false
 
             } catch (error) {
@@ -219,11 +243,12 @@ new Vue({
 
         },
 
-        addSkill(){
-            if(this.job.inputSkill && this.job.inputSkill.trim() != ""){
+        addSkill(skill){
+            if(skill && skill.trim() != ""){
 
-                this.job.skill.push(this.job.inputSkill)
-                this.job.inputSkill = null
+                this.job.skill.push(skill)
+                this.skillInput = null 
+                this.skills = []
 
             }
         },
@@ -281,7 +306,18 @@ new Vue({
             } catch (error) {
                 console.log(error)
             }
+        },
+
+        setSpecializations(){
+            this.job.job_specialization = []
+            this.job_specialization_list.forEach(el => {
+                let spc = document.getElementById(el.specialization)
+                if(spc.checked){
+                    this.job.job_specialization.push([el.job_specialization_id, el.specialization])
+                }
+            })
         }
+        
     },
 
     mounted() {

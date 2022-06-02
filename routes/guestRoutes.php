@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\EmsiAPIController;
 use App\Models\Course;
 use App\Models\Employer;
 use App\Models\Job;
@@ -160,6 +161,12 @@ Route::get('job_specializations', function () {
     return JobSpecialization::all();
 });
 
+
+Route::get("skills", function(Request $req){
+    return EmsiAPIController::getAll($req->search);
+    // return "asd";
+});
+
 /* 
 @method get
 @desc fetch all courses
@@ -168,6 +175,9 @@ Route::get('job_specializations', function () {
 Route::get("courses" , function () {
     return Course::all();
 });
+
+
+
 
 
 

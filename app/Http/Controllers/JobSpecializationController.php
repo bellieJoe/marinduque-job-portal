@@ -34,4 +34,8 @@ class JobSpecializationController extends Controller
 
         return back();
     }
+
+    public function getAll(){
+        return JobSpecialization::all();
+    }
 }

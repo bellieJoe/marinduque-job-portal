@@ -182,10 +182,15 @@ new Vue({
     courses: null,
     masters: null,
     doctors: null,
+    skillInput: null,
+    skillSearching: false,
+    skills: [],
+    job_specialization_list: null,
     job: {
       job_title: "okie",
       job_type: null,
-      job_industry: null,
+      job_industry: 'remove job industry',
+      job_specialization: [],
       job_description: null,
       company_name: null,
       region: null,
@@ -218,15 +223,64 @@ new Vue({
     }
   },
   methods: {
+    searchSkill: function searchSkill() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _this.skillSearching = true;
+                _this.skills = []; // console.log(this.skillInput)
+
+                if (!_this.skillInput) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 6;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: "/skills?search=".concat(_this.skillInput.replace(" ", "%%")),
+                  method: "get"
+                });
+
+              case 6:
+                res = _context.sent;
+                JSON.parse(res).data.forEach(function (el) {
+                  // console.log(el.name)
+                  _this.skills.push(el.name);
+                });
+
+              case 8:
+                _this.skillSearching = false;
+                _context.next = 14;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](0);
+                _this.skillSearching = false; // console.log(error)
+
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 11]]);
+      }))();
+    },
     removeCourse: function removeCourse(name) {
       this.job.course_studied.splice(this.job.course_studied.indexOf(name), 1);
     },
     addCourse: function addCourse() {
-      var _this = this;
+      var _this2 = this;
 
       var isDuplicate = false;
       this.job.course_studied.map(function (val, i) {
-        if (_this.input.courseStudied == val) {
+        if (_this2.input.courseStudied == val) {
           isDuplicate = true;
         }
       });
@@ -251,7 +305,7 @@ new Vue({
       this.job.other_qualification.splice(this.job.other_qualification.indexOf(name), 1);
     },
     getCurrentCompany: function getCurrentCompany() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.toggle.useCompanyInformation) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
@@ -260,16 +314,16 @@ new Vue({
         }).fail(function (res) {
           location.href = "/error";
         }).done(function (res) {
-          console.log(res);
-          _this2.job.company_name = res.company_name;
-          _this2.job.company_description = res.description;
+          // console.log(res)
+          _this3.job.company_name = res.company_name;
+          _this3.job.company_description = res.description;
 
           if (res.address) {
             var address = JSON.parse(res.address);
-            _this2.job.region = address.region;
-            _this2.job.province = address.province;
-            _this2.job.municipality = address.municipality;
-            _this2.job.barangay = address.barangay;
+            _this3.job.region = address.region;
+            _this3.job.province = address.province;
+            _this3.job.municipality = address.municipality;
+            _this3.job.barangay = address.barangay;
           }
         });
       } else {
@@ -294,8 +348,7 @@ new Vue({
       }
     },
     toggleGender: function toggleGender() {
-      console.log("Gender toggled", this.toggle.gender);
-
+      // console.log("Gender toggled", this.toggle.gender)
       if (this.toggle.gender) {
         this.job.gender = this.job_data.gender;
       } else {
@@ -303,8 +356,7 @@ new Vue({
       }
     },
     toggleExperience: function toggleExperience() {
-      console.log(this.toggle.experience);
-
+      // console.log(this.toggle.experience)
       if (this.toggle.experience) {
         this.job.experience = this.job_data.experience;
       } else {
@@ -331,98 +383,99 @@ new Vue({
       }
     },
     updateJob: function updateJob() {
-      var _this3 = this;
+      var _this4 = this;
 
-      console.log(this.job); // loading.show()
-
+      // console.log(this.job)
+      // loading.show()
       this.loading = true;
       jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
         url: "/employer/job/update-job/".concat(this.job_data.job_id),
         method: "post",
         data: this.job
       }).fail(function (res) {
-        console.log(res);
+        // console.log(res)
         setTimeout(function () {
-          _this3.loading = false;
+          _this4.loading = false;
         }, 1000);
-        _this3.errors = res.responseJSON.errors;
+        _this4.errors = res.responseJSON.errors;
       }).done(function (res) {
-        console.log(res);
+        // console.log(res)
         location.href = "/employer/job";
       });
     },
-    addSkill: function addSkill() {
-      if (this.input.inputSkill && this.input.inputSkill.trim() != "") {
-        this.job.skill.push(this.input.inputSkill);
-        this.input.inputSkill = null;
+    addSkill: function addSkill(skill) {
+      if (skill && skill.trim() != "") {
+        this.job.skill.push(skill);
+        this.skillInput = null;
+        this.skills = [];
       }
     },
     removeSkill: function removeSkill(a) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.job.skill.map(function (val, i) {
         if (val == a) {
-          _this4.job.skill.splice(i, 1);
+          _this5.job.skill.splice(i, 1);
         }
       });
     },
     getSpecializations: function getSpecializations() {
-      var _this5 = this;
+      var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var spec;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                _context2.prev = 0;
+                _context2.next = 3;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/job_specializations',
                   method: "get"
                 });
 
               case 3:
-                spec = _context.sent;
-                console.log(spec);
-                _this5.specializations = spec.length > 0 ? spec : null;
-                _context.next = 11;
+                spec = _context2.sent;
+                // console.log(spec)
+                _this6.job_specialization_list = spec.length > 0 ? spec : null;
+                _context2.next = 10;
                 break;
 
-              case 8:
-                _context.prev = 8;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
 
-              case 11:
+              case 10:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, null, [[0, 8]]);
+        }, _callee2, null, [[0, 7]]);
       }))();
     },
     getCourses: function getCourses() {
-      var _this6 = this;
+      var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var masters, doctors, bachelors, courses;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.prev = 0;
+                _context3.prev = 0;
                 masters = [];
                 doctors = [];
                 bachelors = [];
-                _context2.next = 6;
+                _context3.next = 6;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: "/courses",
                   method: "get"
                 });
 
               case 6:
-                courses = _context2.sent;
+                courses = _context3.sent;
                 courses.map(function (val, i) {
                   switch (val.course_type) {
                     case "bachelor":
@@ -438,50 +491,65 @@ new Vue({
                       break;
                   }
                 });
-                _this6.courses = bachelors.length > 0 ? bachelors : null;
-                _this6.doctors = doctors.length > 0 ? doctors : null;
-                _this6.masters = masters.length > 0 ? masters : null;
-                _context2.next = 16;
+                _this7.courses = bachelors.length > 0 ? bachelors : null;
+                _this7.doctors = doctors.length > 0 ? doctors : null;
+                _this7.masters = masters.length > 0 ? masters : null;
+                _context3.next = 15;
                 break;
 
               case 13:
-                _context2.prev = 13;
-                _context2.t0 = _context2["catch"](0);
-                console.log(_context2.t0);
+                _context3.prev = 13;
+                _context3.t0 = _context3["catch"](0);
 
-              case 16:
+              case 15:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[0, 13]]);
+        }, _callee3, null, [[0, 13]]);
       }))();
+    },
+    setSpecializations: function setSpecializations() {
+      var _this8 = this;
+
+      this.job.job_specialization = [];
+      this.job_specialization_list.forEach(function (el) {
+        var spc = document.getElementById(el.specialization);
+
+        if (spc.checked) {
+          _this8.job.job_specialization.push([el.job_specialization_id, el.specialization]);
+        }
+      });
     }
   },
   mounted: function mounted() {
-    var _this7 = this;
+    var _this9 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
       var res, address;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _this7.loading = true;
-              _context3.prev = 1;
-              _context3.next = 4;
+              _this9.loading = true;
+
+              _this9.getSpecializations();
+
+              _this9.getCourses();
+
+              _context4.prev = 3;
+              _context4.next = 6;
               return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                 url: "/employer/job/get-job/".concat(jquery__WEBPACK_IMPORTED_MODULE_1___default()("#job_id").val()),
                 method: "post"
               });
 
-            case 4:
-              res = _context3.sent;
-              _this7.loading = false;
-              console.log(res);
-              _this7.job_data = res;
+            case 6:
+              res = _context4.sent;
+              _this9.loading = false;
+              _this9.job_data = res;
               address = JSON.parse(res.company_address);
-              _this7.toggle = {
+              _this9.toggle = {
                 useCompanyInformation: false,
                 educationalAttainment: res.educational_attainment ? true : false,
                 courseStudied: res.course_studied ? true : false,
@@ -489,11 +557,12 @@ new Vue({
                 experience: res.experience ? true : false,
                 status: res.status == 'open' ? true : false
               };
-              _this7.job.job_title = res.job_title;
-              _this7.job = {
+              _this9.job.job_title = res.job_title;
+              _this9.job = {
                 job_title: res.job_title,
                 job_type: res.job_type,
                 job_industry: res.job_industry,
+                job_specialization: JSON.parse(res.job_specialization),
                 job_description: res.job_description,
                 company_name: res.company_name,
                 region: address.region,
@@ -511,26 +580,25 @@ new Vue({
                 benefits: res.job_benefits,
                 status: res.status == 'open' ? 1 : 0
               };
-              console.log("ok");
-              _context3.next = 18;
+
+              _this9.job.job_specialization.forEach(function (el) {
+                document.getElementById(el[1]).checked = true;
+              });
+
+              _context4.next = 19;
               break;
 
-            case 15:
-              _context3.prev = 15;
-              _context3.t0 = _context3["catch"](1);
-              _this7.loading = false;
+            case 16:
+              _context4.prev = 16;
+              _context4.t0 = _context4["catch"](3);
+              _this9.loading = false;
 
-            case 18:
-              _this7.getSpecializations();
-
-              _this7.getCourses();
-
-            case 20:
+            case 19:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3, null, [[1, 15]]);
+      }, _callee4, null, [[3, 16]]);
     }))();
   }
 });

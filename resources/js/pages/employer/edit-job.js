@@ -9,6 +9,7 @@ $.ajaxSetup({
 });
 
 
+
 const loading = new bootstrap.Modal(document.getElementById("mdlLoading"),{
     backdrop: "static",
     keyboard: false
@@ -26,10 +27,15 @@ new Vue({
         courses: null,
         masters: null,
         doctors: null,
+        skillInput: null,
+        skillSearching: false,
+        skills: [],
+        job_specialization_list: null,
         job:{
             job_title: "okie",
             job_type: null,
-            job_industry: null,
+            job_industry: 'remove job industry',
+            job_specialization : [],
             job_description: null,
 
             company_name:  null,
@@ -66,6 +72,28 @@ new Vue({
         }
     },
     methods: {
+        async searchSkill(){
+            try {
+                this.skillSearching = true
+                this.skills = []
+                // console.log(this.skillInput)
+                if(this.skillInput){
+                    let res = await $.ajax({
+                        url: `/skills?search=${this.skillInput.replace(" ", "%%")}`,
+                        method: "get"
+                    })
+                    JSON.parse(res).data.forEach(el => {
+                        // console.log(el.name)
+                        this.skills.push(el.name)
+                    })
+                }
+                
+                this.skillSearching = false
+            } catch (error) {
+                this.skillSearching = false
+                // console.log(error)
+            }
+        },
 
         removeCourse(name){
             this.job.course_studied.splice(this.job.course_studied.indexOf(name), 1)
@@ -108,7 +136,7 @@ new Vue({
                 }).fail((res)=>{
                     location.href ="/error"
                 }).done((res)=>{
-                    console.log(res)
+                    // console.log(res)
                     this.job.company_name = res.company_name
                     this.job.company_description = res.description
                     
@@ -144,7 +172,7 @@ new Vue({
         },
 
         toggleGender(){
-            console.log("Gender toggled", this.toggle.gender)
+            // console.log("Gender toggled", this.toggle.gender)
             if(this.toggle.gender){
                 this.job.gender = this.job_data.gender
             }else{
@@ -153,7 +181,7 @@ new Vue({
         },
 
         toggleExperience(){
-            console.log(this.toggle.experience)
+            // console.log(this.toggle.experience)
             if(this.toggle.experience){
                 this.job.experience = this.job_data.experience
             }else{
@@ -184,7 +212,7 @@ new Vue({
         },
 
          updateJob(){
-            console.log(this.job)
+            // console.log(this.job)
             // loading.show()
             this.loading = true
 
@@ -193,22 +221,23 @@ new Vue({
                 method: "post",
                 data: this.job,
             }).fail((res)=>{
-                console.log(res)
+                // console.log(res)
                 setTimeout(() => {
                     this.loading = false
                 }, 1000);
                 this.errors = res.responseJSON.errors
             }).done((res)=>{
-                console.log(res)
+                // console.log(res)
                 location.href = "/employer/job"
             })
         },
 
-        addSkill(){
-            if(this.input.inputSkill && this.input.inputSkill.trim() != ""){
+        addSkill(skill){
+            if(skill && skill.trim() != ""){
 
-                this.job.skill.push(this.input.inputSkill)
-                this.input.inputSkill = null
+                this.job.skill.push(skill)
+                this.skillInput = null 
+                this.skills = []
 
             }
         },
@@ -229,8 +258,8 @@ new Vue({
                     method: "get"
                 })
 
-                console.log(spec)
-                this.specializations = spec.length > 0 ? spec : null
+                // console.log(spec)
+                this.job_specialization_list = spec.length > 0 ? spec : null
             } catch (error) {
                 console.log(error)
             }
@@ -265,8 +294,18 @@ new Vue({
                 this.masters = masters.length > 0 ? masters : null
 
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
+        },
+
+        setSpecializations(){
+            this.job.job_specialization = []
+            this.job_specialization_list.forEach(el => {
+                let spc = document.getElementById(el.specialization)
+                if(spc.checked){
+                    this.job.job_specialization.push([el.job_specialization_id, el.specialization])
+                }
+            })
         }
         
     },
@@ -274,7 +313,10 @@ new Vue({
     
 
     async mounted(){
+       
         this.loading = true
+        this.getSpecializations()
+        this.getCourses()
         try {
             let res = await $.ajax({
                 url: `/employer/job/get-job/${$("#job_id").val()}`,
@@ -282,7 +324,6 @@ new Vue({
             })
 
             this.loading = false
-            console.log(res)
             this.job_data = res
             var address = JSON.parse(res.company_address)
             this.toggle = {
@@ -294,10 +335,12 @@ new Vue({
                 status: res.status == 'open' ? true : false
             }
             this.job.job_title = res.job_title
+            
             this.job = {
                 job_title: res.job_title,
                 job_type: res.job_type,
                 job_industry: res.job_industry,
+                job_specialization: JSON.parse(res.job_specialization),
                 job_description: res.job_description,
 
                 company_name:  res.company_name,
@@ -319,15 +362,19 @@ new Vue({
                 status: res.status == 'open' ? 1 : 0
             }
 
-            console.log("ok")
+  
+            this.job.job_specialization.forEach(el => {
+                document.getElementById(el[1]).checked = true
+            })
+
+            
 
 
         } catch (res) {
             this.loading = false
         }
 
-        this.getSpecializations()
-        this.getCourses()
+        
         
     },
 })

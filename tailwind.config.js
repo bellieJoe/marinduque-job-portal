@@ -3,6 +3,7 @@ module.exports = {
     './resources/**/*.blade.php',
     './resources/**/*.js',
   ],
+  important: true,
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {

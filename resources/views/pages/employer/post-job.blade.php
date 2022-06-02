@@ -20,21 +20,13 @@
                     <h5 id="step-1" class="fw-bold text-secondary "><span class="bg-secondary fs-6 text-white ps-4 p-2 shadow-sm me-2">Step 1 </span>  Basic Information</h5>
                     <div class="p-4" >
                         {{-- job title --}}
-                        <div class="mb-3 lg:inline-block lg:w-64 lg:mr-3">
+                        <div class="mb-3 lg:inline-block lg:w-80 lg:mr-3">
                             <label for="" class='fw-bold mb-1'>Job Title<span class="text-danger">*</span></label>
                             <input type="text" class='form-control' v-model.lazy="job.job_title" :class="errors.job_title ? 'is-invalid' : ''">
                             <div  class="text-danger" v-for="i of errors.job_title" v-cloak>@{{ i }}</div>
                         </div>
-                        {{-- job indnustry --}}
-                        <div class="mb-3 lg:inline-block lg:w-64 lg:mr-3">
-                            <label class='fw-bold mb-1'>Job Industry<span class="text-danger">*</span></label>
-                            <select v-cloak class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''" >
-                                <option v-cloak v-for="specialization of job_specialization_list" :value="specialization.specialization">@{{ specialization.specialization }}</option>
-                            </select>
-                            <div class="text-danger"  v-for="i of errors.job_industry" v-cloak>@{{ i }}</div>
-                        </div>
                         {{-- job type --}}
-                        <div class="mb-3 lg:inline-block lg:w-64">
+                        <div class="mb-3 lg:inline-block lg:w-80">
                             <label class='fw-bold mb-1'>Job Type<span class="text-danger">*</span></label>
                             <select class='form-select' v-model.lazy="job.job_type" :class="errors.job_type ? 'is-invalid' : ''"> 
                                 {{-- <option value="null" class='p-3'>--select job type--</option> --}}
@@ -46,6 +38,36 @@
                             </select>
                             <div class="text-danger" v-for="i of errors.job_type" v-cloak>@{{ i }}</div>
                         </div>
+                        {{-- job specialization --}}
+                        <div class="mb-3 ">
+                            <label class='fw-bold mb-1'>Job Specialization<span class="text-danger">*</span></label>
+                            {{-- <select v-cloak class='form-select' v-model.lazy="job.job_industry" :class="errors.job_industry ? 'is-invalid' : ''" multiple>
+                                <option v-cloak v-for="specialization of job_specialization_list" :value="specialization.specialization">@{{ specialization.specialization }}</option>
+                            </select> --}}
+                            <ul class="list-group  hover:bg-gray-200 cursor-pointer" data-bs-toggle="modal" data-bs-target="#mdlSpecialization">
+                                <li class="list-group-item list-group-item-action" v-if="!job.job_specialization[0]">Select Job Specialization</li>
+                                <li class="list-group-item list-group-item-action" v-for="specialization of job.job_specialization" v-cloak>@{{ specialization[1] }}</li>
+                            </ul>
+                            <div class="modal fade" data-bs-backdrop="static" id="mdlSpecialization">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="font-bold">Select Specializations</h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-check" v-for="specialization of job_specialization_list">
+                                                <input class="form-check-input" type="checkbox" :id="specialization.specialization">
+                                                <label class="form-check-label" :for="specialization.specialization">@{{ specialization.specialization }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="setSpecializations">Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-danger"  v-for="i of errors.job_specialization" v-cloak>@{{ i }}</div>
+                        </div>
                         {{-- job description --}}
                         <div class="mb-3">
                             <label class='fw-bold mb-1'>Job Description</label>
@@ -55,13 +77,17 @@
                     </div>
                     
 
-                    <h5 id="step-2" class="fw-bold text-secondary"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 2 </span>  Company Information</h5>
+                    <h5 id="step-2" class="fw-bold text-secondary mt-16"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 2 </span>  Company Information</h5>
                     <div class="p-4" >
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" id="toggleUseCurrent"  @change="toggleUserCurrentInformation" v-model.lazy="job.useCurrentInformation">
                             <label class="form-check-label" for="toggleUseCurrent">
                               Use my current company Information
                             </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox"  id="inputOverseas" @input="inputOverseas_changed">
+                            <label for="inputOverseas" class="form-check-label">Is this job overseas?</label>
                         </div>
                         {{-- company name --}}
                         <div class="mb-3">
@@ -72,10 +98,7 @@
                         {{-- company address --}}
                         <div class="mb-3">
                             <label for="" class='fw-bold mb-1'>Company Address<span class="text-danger">*</span></label>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox"  id="inputOverseas" @input="inputOverseas_changed">
-                                <label for="inputOverseas" class="form-check-label">Is this job overseas?</label>
-                            </div>
+                           
                             
                             {{-- local address --}}
                             <div  v-if="job.isLocal">
@@ -145,7 +168,7 @@
                     </div>
 
                     {{-- qualifications --}}
-                    <h5 id="step-3" class="fw-bold text-secondary"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 3 </span>  Qualifications</h5>
+                    <h5 id="step-3" class="fw-bold text-secondary mt-16"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 3 </span>  Qualifications</h5>
                     <div class="p-4" >
                         {{-- educational attainment --}}
                         <div class="mb-4">
@@ -210,7 +233,7 @@
                             <div class="text-danger" v-for="i of errors.experience" v-cloak>@{{ i }}</div>
                         </div>
                         {{-- skill --}}
-                        <div :class="job.skill[0] ? 'bg-indigo-100 p-1 rounded-md' : ''">
+                        {{-- <div :class="job.skill[0] ? 'bg-indigo-100 p-1 rounded-md' : ''">
                             <div class="mb-3">
                                 <h1 class="font-bold mb-1">Skills</h1>
                                 <div class="row">
@@ -229,6 +252,54 @@
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
+                            </div>
+                        </div> --}}
+                        <div :class="job.skill[0] ? 'bg-indigo-100 p-1 rounded-md' : ''">
+                            <div class="mb-3">
+                                <h1 class="font-bold mb-1">Skills</h1>
+                                <div class="mb-2 " v-if="job.skill[0] != null" v-cloak>
+                                    <div class="w-max btn btn-outline-dark p-2 m-1" v-cloak v-for="i of job.skill">
+                                        <label ><i class="fa fa-check text-green-500"></i> @{{ i }}</label>
+                                        <button   type="button" class=" hover:text-red-500  text-secondary" @click="removeSkill(i)">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Skill" v-model.lazy="skillInput" @change="searchSkill">
+                                    <span class="input-group-text cursor-pointer" @click="searchSkill"><i class="fa fa-search"></i></span>
+                                </div>
+                                <ul class="list-group h-min max-h-80 overflow-y-scroll">
+                                    <li class="list-group-item list-group-item-action" v-for="skill of skills" @click="addSkill(skill)">
+                                        @{{ skill }}
+                                    </li>
+                                    <li class="list-group-item list-group-item-action" v-if="skillSearching">
+                                        {{-- <img class="block mx-auto w-14" src="{{ asset("image/website/ellipsis-loader.svg") }}" alt="loading"> --}}
+                                        <?xml version="1.0" encoding="utf-8"?>
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                            <circle cx="84" cy="50" r="10" fill="#93dbe9">
+                                                <animate attributeName="r" repeatCount="indefinite" dur="0.6097560975609756s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+                                                <animate attributeName="fill" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#93dbe9;#3b4368;#5e6fa3;#689cc5;#93dbe9" begin="0s"></animate>
+                                            </circle><circle cx="16" cy="50" r="10" fill="#93dbe9">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+                                            </circle><circle cx="50" cy="50" r="10" fill="#689cc5">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.6097560975609756s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.6097560975609756s"></animate>
+                                            </circle><circle cx="84" cy="50" r="10" fill="#5e6fa3">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.2195121951219512s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.2195121951219512s"></animate>
+                                            </circle><circle cx="16" cy="50" r="10" fill="#3b4368">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.8292682926829267s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.8292682926829267s"></animate>
+                                            </circle>
+                                        <!-- [ldio] generated by https://loading.io/ -->
+                                        </svg>
+                                    </li>
+                                    <li class="list-group-item list-group-item-action" v-if="skills.length == 0 && skillInput && !skillSearching">
+                                        <h1 class="text-center">No Result</h1>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
         
@@ -257,7 +328,7 @@
                     </div>
 
                     {{-- salary range --}}
-                    <h5 id="step-4" class="fw-bold text-secondary"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 4 </span>  Miscellaneous</h5>
+                    <h5 id="step-4" class="fw-bold text-secondary mt-16"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 4 </span>  Miscellaneous</h5>
                     <div class="p-4">
                         <div class="mb-3">
                             <label for="" class='fw-bold'>Salary range</label>

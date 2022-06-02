@@ -75,7 +75,7 @@
                       <h6><strong>Job Type</strong></h6>
                       {{ Str::title($job['jobDetails']->job_type) }}
                     </li>
-                    @if ($job['jobDetails']->job_descriptio)
+                    @if ($job['jobDetails']->job_description)
                     <li class="list-group-item border-0">
                       <h6><strong>Job Desciption</strong></h6>
                       {{ $job['jobDetails']->job_description }}
@@ -129,22 +129,6 @@
                             <li ><i class="fa fa-check text-success me-2"></i>{{ $skill }} </li>
                           @endforeach
           
-                          @if ($job["jobDetails"]->generated_skills && $job["jobDetails"]->generated_skills != 200 && json_decode($job["jobDetails"]->generated_skills) != null)
-                              <label for="" class="text-sm text-gray-500" title="This extracted skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Extracted Skills: </label>
-                            @foreach (json_decode($job["jobDetails"]->generated_skills)->generated as $skill)
-                              <div class="inline-block bg-green-200 rounded-sm m-1 p-1 text-sm">
-                                {{ $skill->name }}
-                              </div> 
-                            @endforeach
-                          @endif
-                          @if ($job["jobDetails"]->generated_skills && $job["jobDetails"]->generated_skills != 200 && json_decode($job["jobDetails"]->generated_skills) != null)
-                              <br><label for="" class="text-sm text-gray-500" title="This related skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Related Skills: </label>
-                            @foreach (json_decode($job["jobDetails"]->generated_skills)->related as $skill)
-                              <div class="inline-block bg-purple-200 rounded-sm m-1 p-1 text-sm">
-                                {{ $skill->name }}
-                              </div> 
-                            @endforeach
-                          @endif
                         @endif
 
                         @if($job['jobDetails']->gender || $job['jobDetails']->other_qualification)
