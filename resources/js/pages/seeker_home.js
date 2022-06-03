@@ -120,7 +120,7 @@ new Vue({
                         job.salary_range = val.job.salary_range ? JSON.parse(val.job.salary_range) : null
                         job.course_studied = val.job.course_studied ? JSON.parse(val.job.course_studied) : null
                         job.company_address = val.job.company_address ? JSON.parse(val.job.company_address) : null
-
+                        job.job_specialization = JSON.parse(val.job.job_specialization)
                         // this.jobSuggestions.push(job)
                     })
                 }

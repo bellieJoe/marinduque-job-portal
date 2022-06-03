@@ -23,9 +23,20 @@
             {{-- specfificatopns --}}
             <p class="font-bold mt-3">Job Specifications</p>
             <h6 class=" text-indigo-800">{{ Str::title($job->job_type) }}</h6>
-            <h6 class=" text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
-            @if(!$job->isLocal)
-                <h6 class="mb-4 text-indigo-800">Overseas</h6>
+            @if (!empty(json_decode($job->job_specialization)))
+            <h6 class=" text-indigo-800">
+                @foreach (json_decode($job->job_specialization) as $key => $specialization)
+                    @if ($key < count(json_decode($job->job_specialization))-1)
+                    {{ $specialization[1].", " }}
+                    @else
+                    {{ $specialization[1] }}
+                    @endif
+                
+                @endforeach
+            </h6>
+            @endif
+            @if($job->country)
+                <h6 class="mb-4 text-indigo-800">Overseas, {{ $job->country }}</h6>
             @endif
 
             {{-- job description --}}

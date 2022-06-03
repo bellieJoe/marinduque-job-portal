@@ -73,7 +73,10 @@
                               <p class="text-gray-500">@{{ job.job.company_name }}</p>
                               
                               <div class="mt-3 text-sm">
-                                <p>@{{ job.job.job_industry }}</p>
+                                {{-- <p>@{{ job.job.job_industry }}</p> --}}
+                                <div v-if="job.job_specialization.length > 0">
+                                    <p ><span v-for="specialization in job.job_specialization">@{{ specialization[1] }}</span></p> 
+                                </div>
                                 <p class="" v-if="job.salary_range.max && job.salary_range.min">Php @{{ job.salary_range.min }} - Php @{{ job.salary_range.max }}</p>
                                 <p>@{{ job.job.job_type }}</p>
                                 <p v-if="job.isLocal">@{{ job.company_address.municipality.name }}, @{{ job.company_address.province.name }}</p>

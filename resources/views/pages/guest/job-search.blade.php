@@ -24,7 +24,7 @@
     <body class="bg-gray-200">
         <div id="job_search">
 
-
+            
 
             {{-- search form --}}
             <section class="bg-gray-800 pb-5 pt-3 text-white">
@@ -133,8 +133,19 @@
                             <h6 class="mb-4">{{ $job->company_name }}</h6>
 
                             <h6 class=" text-indigo-800">{{ Str::title($job->job_type) }}</h6>
-                            <h6 class=" text-indigo-800">{{ Str::title($job->job_industry) }}</h6>
-                            @if(!$job->isLocal)
+                            @if (!empty(json_decode($job->job_specialization)))
+                            <h6 class=" text-indigo-800">
+                                @foreach (json_decode($job->job_specialization) as $key => $specialization)
+                                    @if ($key < count(json_decode($job->job_specialization))-1)
+                                    {{ $specialization[1].", " }}
+                                    @else
+                                    {{ $specialization[1] }}
+                                    @endif
+                                
+                                @endforeach
+                            </h6>
+                            @endif
+                            @if($job->country)
                             <h6 class="mb-4 text-indigo-800">Overseas</h6>
                             @endif
                             

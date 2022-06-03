@@ -75,6 +75,20 @@
                       <h6><strong>Job Type</strong></h6>
                       {{ Str::title($job['jobDetails']->job_type) }}
                     </li>
+                    @if (!empty(json_decode($job['jobDetails']->job_specialization)))
+                    <li class="list-group-item border-0">
+                      <h6><strong>Job Specializations</strong></h6>
+                      @foreach (json_decode($job['jobDetails']->job_specialization) as $key => $specialization)
+                        @if ($key < count(json_decode($job['jobDetails']->job_specialization))-1 )
+                          {{ $specialization[1].", " }}
+                        @else
+                          {{ $specialization[1] }}
+                        @endif
+                        
+                      @endforeach
+                    </li>
+                    @endif
+                    
                     @if ($job['jobDetails']->job_description)
                     <li class="list-group-item border-0">
                       <h6><strong>Job Desciption</strong></h6>
