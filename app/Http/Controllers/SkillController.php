@@ -23,7 +23,7 @@ class SkillController extends Controller
         Skill::create([
             'user_id' => Auth::user()->user_id,
             'skill_description' => $request->input('skill'),
-            'generated_skills' => json_encode(EmsiAPIController::extractSkills($request->input('skill')))
+            'generated_skills' => json_encode([])
         ]);
 
         // return
@@ -38,7 +38,7 @@ class SkillController extends Controller
         Skill::where(['skill_id'=> $id, 'user_id' => Auth::user()->user_id])
         ->update([
             'skill_description' => $request->input('skill'),
-            'generated_skills' => json_encode(EmsiAPIController::extractSkills($request->input('skill')))
+            'generated_skills' => json_encode([])
         ]);
     }
 

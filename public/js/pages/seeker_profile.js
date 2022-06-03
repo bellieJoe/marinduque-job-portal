@@ -132,6 +132,16 @@ var devModule = {
     } else if (s >= 403620) {
       return 33;
     } else {}
+  },
+  titleCase: function titleCase(string) {
+    var sentence = string.toLowerCase().split(" ");
+
+    for (var i = 0; i < sentence.length; i++) {
+      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+    } // document.write(sentence.join(" "));
+
+
+    return sentence.join(" ");
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (devModule);
@@ -190,6 +200,9 @@ new Vue({
     courses: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.course,
     masters: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.masters,
     doctors: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.doctors,
+    skillInput: null,
+    skillSearching: false,
+    skillsChoice: [],
     // education data
     undergraduate: 0,
     eduToDelete: null,
@@ -267,6 +280,56 @@ new Vue({
     }
   },
   methods: {
+    searchSkill: function searchSkill() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _this.skillSearching = true;
+                _this.skillsChoice = []; // console.log(this.skillInput)
+
+                if (!_this.skillInput) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 6;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: "/skills?search=".concat(_this.skillInput.replace(" ", "%%")),
+                  method: "get"
+                });
+
+              case 6:
+                res = _context.sent;
+                JSON.parse(res).data.forEach(function (el) {
+                  // console.log(el.name)
+                  _this.skillsChoice.push(el.name);
+                });
+
+              case 8:
+                _this.skillSearching = false;
+                _context.next = 15;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](0);
+                _this.skillSearching = false;
+                console.log(_context.t0);
+
+              case 15:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 11]]);
+      }))();
+    },
     closeEducationLevelError: function closeEducationLevelError() {
       this.educationLevelError = null;
     },
@@ -291,7 +354,7 @@ new Vue({
       };
     },
     setCredentialImage: function setCredentialImage() {
-      var _this = this;
+      var _this2 = this;
 
       console.log(event.target.files[0]);
 
@@ -299,8 +362,8 @@ new Vue({
         var fileReader = new FileReader();
         fileReader.readAsDataURL(event.target.files[0]);
         fileReader.addEventListener('load', function (ev) {
-          _this.credential.credential_image = ev.target.result.split(",")[1];
-          console.log(_this.credential_image);
+          _this2.credential.credential_image = ev.target.result.split(",")[1];
+          console.log(_this2.credential_image);
         });
       } else {
         window.alert("Image failed to set");
@@ -308,40 +371,40 @@ new Vue({
       }
     },
     addCredential: function addCredential() {
-      var _this2 = this;
+      var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.prev = 0;
+                _context2.prev = 0;
                 loading.css('display', 'initial');
-                console.log(_this2.credential);
-                _this2.errors = [];
-                _context.next = 6;
+                console.log(_this3.credential);
+                _this3.errors = [];
+                _context2.next = 6;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/seeker/profile/certificate/add-credential',
-                  data: _this2.credential,
+                  data: _this3.credential,
                   method: 'post'
                 });
 
               case 6:
                 location.href = location.href;
-                _context.next = 12;
+                _context2.next = 12;
                 break;
 
               case 9:
-                _context.prev = 9;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
 
               case 12:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee2, null, [[0, 9]]);
       }))();
     },
     changeCredentialType: function changeCredentialType(type) {
@@ -352,7 +415,7 @@ new Vue({
       this.credential.credential_type = type;
     },
     showEditCredential: function showEditCredential(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.clearCredential();
       jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
@@ -362,8 +425,8 @@ new Vue({
         // location.href = "/error"
       }).done(function (res) {
         // console.log(res)
-        _this3.crdtlToUpdate = res.credential_id;
-        _this3.credential = {
+        _this4.crdtlToUpdate = res.credential_id;
+        _this4.credential = {
           credential_type: res.credential_type,
           credential_name: res.credential_name,
           issuing_organisation: res.issuing_organization,
@@ -376,7 +439,7 @@ new Vue({
       });
     },
     updateCredential: function updateCredential() {
-      var _this4 = this;
+      var _this5 = this;
 
       loading.css('display', 'initial');
       console.log(this.credential);
@@ -391,7 +454,7 @@ new Vue({
       }).fail(function (res) {
         console.log(res);
         loading.css('display', 'none');
-        _this4.errors = res.responseJSON.errors;
+        _this5.errors = res.responseJSON.errors;
       }).done(function () {
         location.href = location.href;
       });
@@ -434,7 +497,7 @@ new Vue({
       this.education.education_level = eduToAdd;
     },
     showEditEducationForm: function showEditEducationForm(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.eduToUpdate = id;
       this.errors = [];
@@ -447,10 +510,10 @@ new Vue({
         console.log(res);
 
         if (res.year_graduated == '0000') {
-          _this5.undergraduate = 1;
+          _this6.undergraduate = 1;
         }
 
-        _this5.education = {
+        _this6.education = {
           education_level: res.education_level,
           school_name: res.school_name,
           school_address: res.school_address,
@@ -460,31 +523,31 @@ new Vue({
       });
     },
     addNewEducation: function addNewEducation() {
-      var _this6 = this;
+      var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var education;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.prev = 0;
+                _context3.prev = 0;
                 loading.css('display', 'initial');
-                _context2.next = 4;
+                _context3.next = 4;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: "/seeker/profile/add-education",
                   method: "post",
                   data: {
-                    education_level: _this6.education.education_level,
-                    school_name: _this6.education.school_name,
-                    school_address: _this6.education.school_address,
-                    course: _this6.education.course,
-                    year_graduated: _this6.education.year_graduated
+                    education_level: _this7.education.education_level,
+                    school_name: _this7.education.school_name,
+                    school_address: _this7.education.school_address,
+                    course: _this7.education.course,
+                    year_graduated: _this7.education.year_graduated
                   }
                 });
 
               case 4:
-                education = _context2.sent;
+                education = _context3.sent;
                 // if(JSON.parse(education).educationLevelError){
                 //     this.educationLevelError = JSON.parse(education).educationLevelError
                 //     // this.closeAddEducationForm()
@@ -492,22 +555,22 @@ new Vue({
                 //     location.href = "/seeker/profile/education"
                 // }
                 location.href = "/seeker/profile/education";
-                _context2.next = 12;
+                _context3.next = 12;
                 break;
 
               case 8:
-                _context2.prev = 8;
-                _context2.t0 = _context2["catch"](0);
-                _this6.errors = _context2.t0.responseJSON.errors ? _context2.t0.responseJSON.errors : null;
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
+                _this7.errors = _context3.t0.responseJSON.errors ? _context3.t0.responseJSON.errors : null;
 
-                _this6.closeLoading();
+                _this7.closeLoading();
 
               case 12:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[0, 8]]);
+        }, _callee3, null, [[0, 8]]);
       }))();
     },
     deleteEducation: function deleteEducation(id, confirmed) {
@@ -535,7 +598,7 @@ new Vue({
       }
     },
     updateEducation: function updateEducation() {
-      var _this7 = this;
+      var _this8 = this;
 
       loading.css('display', 'initial');
       console.log(this.education);
@@ -552,8 +615,8 @@ new Vue({
       }).fail(function (err) {
         console.log(err);
         loading.css('display', 'none');
-        _this7.errors = err.responseJSON.errors ? err.responseJSON.errors : null;
-        console.log(_this7.errors); // location.href = "/error"
+        _this8.errors = err.responseJSON.errors ? err.responseJSON.errors : null;
+        console.log(_this8.errors); // location.href = "/error"
       }).done(function () {
         location.href = "/seeker/profile/education";
       });
@@ -582,7 +645,7 @@ new Vue({
       };
     },
     showEditExperience: function showEditExperience(id) {
-      var _this8 = this;
+      var _this9 = this;
 
       this.errors = [];
       this.expToUpdate = id;
@@ -592,7 +655,7 @@ new Vue({
       }).fail(function (res) {
         console.log(res);
       }).done(function (res) {
-        _this8.experience = {
+        _this9.experience = {
           job_title: res.job_title,
           job_industry: res.job_industry,
           company_name: res.company_name,
@@ -607,48 +670,48 @@ new Vue({
       });
     },
     addExperience: function addExperience() {
-      var _this9 = this;
+      var _this10 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _this9.setGovntService();
+                _this10.setGovntService();
 
-                _this9.errors = [];
-                _context3.prev = 2;
+                _this10.errors = [];
+                _context4.prev = 2;
                 loading.css('display', 'initial');
-                _context3.next = 6;
+                _context4.next = 6;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: "/seeker/profile/experience/add-experience",
                   method: "post",
-                  data: _this9.experience
+                  data: _this10.experience
                 });
 
               case 6:
                 location.href = "/seeker/profile/experience";
-                console.log(_this9.experience);
-                _context3.next = 15;
+                console.log(_this10.experience);
+                _context4.next = 15;
                 break;
 
               case 10:
-                _context3.prev = 10;
-                _context3.t0 = _context3["catch"](2);
-                console.log(_context3.t0);
+                _context4.prev = 10;
+                _context4.t0 = _context4["catch"](2);
+                console.log(_context4.t0);
                 loading.css('display', 'none');
-                _this9.errors = _context3.t0.responseJSON.errors;
+                _this10.errors = _context4.t0.responseJSON.errors;
 
               case 15:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, null, [[2, 10]]);
+        }, _callee4, null, [[2, 10]]);
       }))();
     },
     updateExperience: function updateExperience() {
-      var _this10 = this;
+      var _this11 = this;
 
       this.errors = [];
       loading.css('display', 'initial');
@@ -663,7 +726,7 @@ new Vue({
       }).fail(function (res) {
         console.log(res);
         loading.css('display', 'none');
-        _this10.errors = res.responseJSON.errors;
+        _this11.errors = res.responseJSON.errors;
       }).done(function () {
         location.href = "/seeker/profile/experience";
       });
@@ -693,7 +756,7 @@ new Vue({
     },
     // personal information methods
     showUpdateProfile: function showUpdateProfile(id) {
-      var _this11 = this;
+      var _this12 = this;
 
       this.errors = [];
       jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
@@ -702,7 +765,7 @@ new Vue({
       }).fail(function (res) {
         console.log(res);
       }).done(function (res) {
-        _this11.profile = {
+        _this12.profile = {
           firstname: res.firstname,
           middlename: res.middlename,
           lastname: res.lastname,
@@ -716,7 +779,7 @@ new Vue({
       });
     },
     updateProfile: function updateProfile() {
-      var _this12 = this;
+      var _this13 = this;
 
       this.errors = [];
       loading.css('display', 'initial');
@@ -731,7 +794,7 @@ new Vue({
       }).fail(function (res) {
         loading.css('display', 'none'); // console.log(res.responseJSON)
 
-        _this12.errors = res.responseJSON.errors;
+        _this13.errors = res.responseJSON.errors;
       }).done(function () {
         // console.log("oki gumanasai")
         location.href = "/seeker/profile/personal";
@@ -739,7 +802,7 @@ new Vue({
     },
     // languge methods
     addLanguage: function addLanguage() {
-      var _this13 = this;
+      var _this14 = this;
 
       var cont = true;
       this.errors = [];
@@ -747,7 +810,7 @@ new Vue({
 
       if (this.languageList != null) {
         this.languageList.map(function (val, i) {
-          if (val == _this13.language) {
+          if (val == _this14.language) {
             cont = false;
           }
         });
@@ -770,11 +833,11 @@ new Vue({
           }
         }).fail(function (res) {
           loading.css('display', 'none');
-          _this13.errors = res.responseJSON.errors; // $('#btnCloseLoading').trigger('click')
+          _this14.errors = res.responseJSON.errors; // $('#btnCloseLoading').trigger('click')
         }).done(function () {
-          _this13.getLanguage();
+          _this14.getLanguage();
 
-          _this13.language = null; // $('#btnCloseLoading').trigger('click')
+          _this14.language = null; // $('#btnCloseLoading').trigger('click')
         });
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#btnShowDuplicateLanguageAlert').trigger('click');
@@ -782,42 +845,42 @@ new Vue({
       }
     },
     getLanguage: function getLanguage() {
-      var _this14 = this;
+      var _this15 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
+                _context5.prev = 0;
+                _context5.next = 3;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/seeker/profile/language/get-language',
                   method: 'post'
                 }).done(function (res) {
-                  _this14.languageList = JSON.parse(res.language); // console.log(this.languageList)
+                  _this15.languageList = JSON.parse(res.language); // console.log(this.languageList)
                 });
 
               case 3:
                 loading.css('display', 'none');
-                _context4.next = 9;
+                _context5.next = 9;
                 break;
 
               case 6:
-                _context4.prev = 6;
-                _context4.t0 = _context4["catch"](0);
-                console.log(_context4.t0);
+                _context5.prev = 6;
+                _context5.t0 = _context5["catch"](0);
+                console.log(_context5.t0);
 
               case 9:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, null, [[0, 6]]);
+        }, _callee5, null, [[0, 6]]);
       }))();
     },
     deleteLanguage: function deleteLanguage(lang) {
-      var _this15 = this;
+      var _this16 = this;
 
       loading.css('display', 'initial');
       jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
@@ -828,12 +891,12 @@ new Vue({
       }).done(function () {
         loading.css('display', 'none');
 
-        _this15.getLanguage();
+        _this16.getLanguage();
       });
     },
     // skill methods
     showEditSkill: function showEditSkill(id) {
-      var _this16 = this;
+      var _this17 = this;
 
       console.log(id);
       this.errors = [];
@@ -845,69 +908,71 @@ new Vue({
         // location.href = "/error"
       }).done(function (res) {
         // console.log(res)
-        _this16.skills = {
+        _this17.skills = {
           skill: res.skill_description
         };
       });
     },
     getSkill: function getSkill() {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
-    },
-    addSkill: function addSkill() {
-      var _this17 = this;
-
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _this17.errors = [];
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    addSkill: function addSkill(skill) {
+      var _this18 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _this18.errors = [];
                 loading.css('display', 'initial');
-                console.log(_this17.skills);
-                _context6.prev = 3;
-                _context6.next = 6;
+                console.log(_this18.skills);
+                _context7.prev = 3;
+                _context7.next = 6;
                 return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
                   url: '/seeker/profile/skill/add-skill',
                   method: 'post',
-                  data: _this17.skills
+                  data: {
+                    skill: skill
+                  }
                 });
 
               case 6:
-                res = _context6.sent;
+                res = _context7.sent;
                 location.href = location.href;
-                _context6.next = 14;
+                _context7.next = 14;
                 break;
 
               case 10:
-                _context6.prev = 10;
-                _context6.t0 = _context6["catch"](3);
-                console.log(_context6.t0);
-                _this17.errors = _context6.t0.responseJSON.errors;
+                _context7.prev = 10;
+                _context7.t0 = _context7["catch"](3);
+                console.log(_context7.t0);
+                _this18.errors = _context7.t0.responseJSON.errors;
 
               case 14:
                 loading.css('display', 'none');
 
               case 15:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, null, [[3, 10]]);
+        }, _callee7, null, [[3, 10]]);
       }))();
     },
     updateSkill: function updateSkill() {
-      var _this18 = this;
+      var _this19 = this;
 
       loading.css('display', 'initial');
       jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
@@ -921,7 +986,7 @@ new Vue({
       }).fail(function (res) {
         console.log(res);
         loading.css('display', 'none');
-        _this18.errors = res.responseJSON.errors;
+        _this19.errors = res.responseJSON.errors;
       }).done(function () {
         location.href = location.href;
       });
@@ -953,14 +1018,14 @@ new Vue({
     }
   },
   created: function created() {
-    var _this19 = this;
+    var _this20 = this;
 
     jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
       url: '/get-auth',
       method: 'get'
     }).fail(function () {// location.href = "/error"
     }).done(function (res) {
-      _this19.user = res;
+      _this20.user = res;
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#bdgLanguage').css('display') == 'none') {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#bdgLanguage').css('display', 'initial');

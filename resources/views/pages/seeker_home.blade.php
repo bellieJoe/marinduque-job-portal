@@ -78,7 +78,7 @@
                                     <p ><span v-for="specialization in job.job_specialization">@{{ specialization[1] }}</span></p> 
                                 </div>
                                 <p class="" v-if="job.salary_range.max && job.salary_range.min">Php @{{ job.salary_range.min }} - Php @{{ job.salary_range.max }}</p>
-                                <p>@{{ job.job.job_type }}</p>
+                                <p>@{{ devModule.titleCase(job.job.job_type) }}</p>
                                 <p v-if="job.isLocal">@{{ job.company_address.municipality.name }}, @{{ job.company_address.province.name }}</p>
                                 <p v-if="!job.isLocal">@{{ job.country }}</p>
                                 

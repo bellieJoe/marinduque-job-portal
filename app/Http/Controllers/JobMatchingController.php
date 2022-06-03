@@ -155,111 +155,28 @@ class JobMatchingController extends Controller
 
     public static function rateYOE(Job $job, Seeker $seeker){
 
-        $seekerExps = [];
-        $checkedIndustry = [];
-        $rate = 0;
-
-        if($job->experience){
-        foreach (Experience::where('user_id', $seeker->user_id)->get() as  $exp) {
-                if( !in_array($exp->job_industry, $checkedIndustry)){
-                    array_push($checkedIndustry, $exp->job_industry);
-                    array_push($seekerExps, [
-                        "job_industry" => $exp->job_industry,
-                        "years" => $exp->date_started->floatDiffInYears($exp->date_ended)
-                    ]);
-                    
-                }
-                else{
-                    foreach($seekerExps as $key => $val){
-                        if($val["job_industry"] == $exp->job_industry){
-                            $seekerExps[$key]["years"] += $exp->date_started->floatDiffInYears($exp->date_ended);
-                        }
-                    }   
-                }
-            }
-        }
-        
-        if($job->experience){
-            foreach($seekerExps as $exp){
-                // echo var_dump($exp)."<br>";
-                if($job->job_industry == $exp["job_industry"]){
-                    $rate = ($exp["years"] / $job->experience) * 100;
-                    // echo $rate."<br>";
-                }
-            } 
-        }
-        else{
-            $rate = 100;
-        }
-        
-        return $rate > 100  ? 100 : $rate;
+        return 0;
     }
 
     public static function rateSkills(Job $job, Seeker $seeker){
-
-        $jobGenerated = []; // generated skill from job
-        $jobRelated = [];
+        $rate = 0;
         $scorePerSkill = 0;
-        $checkedSkills = [];
-        $score = 0;
+        $jobSkills = json_decode($job->skill);
+        $seekerSkill = Skill::where([   
+            'user_id' => $seeker->user_id
+        ])->pluck('skill_description'); 
 
-        if($job->generated_skills){
-            if(!empty(json_decode($job->generated_skills)->generated)){
-                foreach(json_decode($job->generated_skills)->generated as $key => $skill){
-                    // echo $skill->name."<br>";
-                    array_push($jobGenerated, $skill->name);
-    
-                }
-            }
-            if(!empty(json_decode($job->generated_skills)->related)){
-                foreach(json_decode($job->generated_skills)->related as $key => $skill){
-                    // echo $skill->name."<br>";
-                    array_push($jobRelated, $skill->name);
-                }
-            }
-            
-        }
+        $scorePerSkill  = 100 / count($jobSkills);
 
-        // if(count($jobGenerated) > 0){
-        //     $scorePerSkill =  100 / count($jobGenerated)  ;
-        // }
-        // else{
-        //     return 100;
-        // }
-
-        $scorePerSkill =  100 / count($jobGenerated)  ;
-
-        
-
-
-        foreach (Skill::where('user_id', $seeker->user_id)->get() as $user) {
-            $gen = json_decode($user->generated_skills)->generated;
-            if(!empty($user->generated_skills) && !empty($gen)){
-                foreach ($gen as $skill) {
-                    if($score <= 100 && !in_array($skill, $checkedSkills)){
-                        array_push($checkedSkills, $skill);
-                        if(in_array($skill->name, $jobGenerated)){
-                            $score += $scorePerSkill;
-                        }
-                        else if(in_array($skill->name, $jobRelated)){
-                            $score += ($scorePerSkill / 2);
-                        }
-                        else{
-                            //do nothing
-                        }
-                    }
-                }
+        foreach($seekerSkill as $skill){
+            if(in_array($skill, $jobSkills)){
+                $rate += $scorePerSkill;
             }
         }
 
-        if($score > 100){
-            return 100;
-        }else{
-            return $score;
-        }
+        return $rate;
 
     }
-
     
     public static function rateEducation(Job $job, Seeker $seeker){
         $educationLevels = [
@@ -312,6 +229,19 @@ class JobMatchingController extends Controller
             }
             
         }
+
+        if(array_search($seekerHighestEducation, $educationLevels) > array_search($job->educational_attainment, $educationLevels)){
+            $gap = array_search($seekerHighestEducation, $educationLevels) - array_search($job->educational_attainment, $educationLevels);
+            // echo $gap;
+            if(!$job->course_studied){
+                return 100 - ($gap * 25);
+            }
+            foreach ($seekerCourses as $course) {
+                if(in_array($course, json_decode($job->course_studied))){
+                    return 100 - ($gap * 25);
+                }
+            }
+        }
         
         if(!$job->course_studied){
             return 100;
@@ -327,126 +257,6 @@ class JobMatchingController extends Controller
 
 
     }
-
-    // public static function rateEducation(Job $job, Seeker $seeker){
-
-    //     $rate = 0;
-
-    //     $highestEducation = (function(Seeker $seeker){
-    //         $seekerEducation = Education::where('user_id', $seeker->user_id)->get(['education_level', 'course']);
-    //         $highest = [];
-
-    //         foreach ($seekerEducation as $education) {
-    //             switch ($education->education_level) {
-    //                 case "doctorate degree":
-    //                     $highest = self::setHighEducation($education, $highest);
-    //                     break;
-    //                 case "master's degree":
-    //                     $highest = self::setHighEducation($education, $highest);
-    //                     break;
-    //                 case "tertiary education":
-    //                     $highest = self::setHighEducation($education, $highest);
-    //                     break;
-    //                 case "secondary education":
-    //                     $highest = self::setHighEducation($education, $highest);
-    //                     break;
-    //                 case "primary education":
-    //                     $highest = self::setHighEducation($education, $highest);
-    //                     break;
-    //                 default:
-    //                     break;
-    //             }
-    //         }
-
-    //         return $highest;
-    //     })($seeker);
-
-    //     if(empty($highestEducation)){
-    //         return 0;
-    //     }
-
-    //     /* match the education */
-    //     /* education_level 30% course 70% */
-    //     $rate = (function($highestEducation, Job $job){
-    //         $EDUCATION_LEVELS = [
-    //             "primary education",
-    //             "secondary education",
-    //             "tertiary education",
-    //             "master's degree",
-    //             "doctorate degree"
-    //         ];
-    //         $rate = 0;
-
-            
-    //         $requiredEducationIndex = array_search($job->educational_attainment, $EDUCATION_LEVELS, true);
-    //         $highestEducationIndex = array_search($highestEducation[0]->education_level, $EDUCATION_LEVELS, true);
-    //         $educationGap = $requiredEducationIndex - $highestEducationIndex;
-    //         $seekerCourses = (function($highestEducation){
-    //             $courses = [];
-    //             foreach ($highestEducation as $educ) {
-    //                 array_push($courses, $educ->course);
-    //             }
-    //             return $courses;
-    //         })($highestEducation);
-
-    //         if($requiredEducationIndex > 1) { // if mas mababa ang educ required sa job
-    //             if($educationGap == 0) {// qualified
-    //                 $rate = 30;
-    //                 if(is_null(json_decode($job->course_studied))){
-    //                     $rate == 100;
-    //                 }
-    //                 else {
-    //                     $isCourseMatch = (function($seekerCourses, $jobCourses){
-    //                         return !empty(array_intersect($seekerCourses, $jobCourses));
-    //                     })($seekerCourses, json_decode($job->course_studied));
-
-    //                     if($isCourseMatch){
-    //                         $rate = 100;
-    //                     }
-    //                 }
-    //             }
-    //             else if($educationGap < 0) { // overqualified
-    //                 $rate = (30 / 3) * abs(3 - abs($educationGap));
-    //                 if(is_null(json_decode($job->course_studied))){
-    //                     $rate += 70;
-    //                 }
-    //                 else {
-    //                     $isCourseMatch = (function($seekerCourses, $jobCourses){
-    //                         return !empty(array_intersect($seekerCourses, $jobCourses));
-    //                     })($seekerCourses, json_decode($job->course_studied));
-    
-    //                     if($isCourseMatch){
-    //                         $rate += 70;
-    //                     }
-    //                 }
-    //                 // $rate = 0;
-    //             }
-    //             else { // underqualified
-    //                 $rate = 0;
-    //             }
-    //         }
-    //         else { // if mas mataas ang educ required sa job
-    //             if($educationGap == 0) {// qualified
-    //                 // $rate = 100;
-    //                 $rate = 0;
-    //             }
-    //             else if($educationGap > 0) {// underqualified
-    //                 $rate = 0;
-    //             }
-    //             else { // overqualified
-    //                 // $rate = (100 / 2) * abs(2 - abs($educationGap));
-    //                 $rate = 0;
-    //                 // $rate = 100;
-    //             }
-    //         }
-            
-    //         return $rate;
-    //     })($highestEducation, $job);
-
-    //     return $rate;
-
-    // }
-    
 
     public static function rateEducationForJob(Job $job, Seeker $seeker){
         // done pansamantala

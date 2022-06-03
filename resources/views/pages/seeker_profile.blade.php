@@ -479,7 +479,6 @@
                     </div>
                     @endif
                     
-
                     @if ($view == "experience")
                     <div >
                         <h5 class="fw-bolder text-lg"><i class="fas fa-business-time me-2"></i>Work Experiences</h5>
@@ -703,13 +702,11 @@
                     </div>
                     @endif
                     
-
                     {{-- @if ($view == "certificate")
                     <div >
                         <h5 class="fw-bolder"><i class="fa fa-trophy me-2"></i> Eligibility</h5>
                     </div>
                     @endif --}}
-
 
                     @if ($view == 'certificate')
                     <div >
@@ -920,33 +917,41 @@
                         {{-- add skill --}}
                         <div class="mb-4">
                             <label class="fw-bold mb-1">Add Skill</label>
-                            <div class=" row">
-                                <div class="col col-xl-6">
-                                    <textarea class="form-control" :class="errors.skill ? 'is-invalid' : ''" placeholder="write your skills here" v-model="skills.skill"></textarea>
+                            <div class="mb-3">
+                                <h1 class="font-bold mb-1">Skills</h1>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Skill" v-model.lazy="skillInput" @change="searchSkill">
+                                    <span class="input-group-text cursor-pointer" @click="searchSkill"><i class="fa fa-search"></i></span>
                                 </div>
-                                <div class="col-auto">
-                                    <button type='button' class='btn btn-primary ' @click="addSkill"><i class='fa fa-plus'></i> Add</button>
-                                </div>    
-                            </div>
-                        </div>
-                        {{-- edit skill modal --}}
-                        <div class="modal fade" id="mdlEditSkill">
-                            <div class="modal-dialog modal-fullscreen-md-down">
-                                <div class="modal-content p-4">
-                                    <div class="modal-header">
-                                        <h5 class="fw-bold"><i class="fa fa-edit"></i> Edit Skill</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <label class="mb-1 fw-bold">Describe your Skill</label>
-                                        <div class="mb-3">
-                                            <textarea class="form-control" rows="10" :class="errors.skill ? 'is-invalid' : ''" placeholder="write your skills here" v-model="skills.skill"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button class="btn btn-success" @click="updateSkill">Update</button>
-                                    </div>
-                                </div>
+                                <ul class="list-group h-min max-h-80 overflow-y-scroll">
+                                    <li class="list-group-item list-group-item-action" v-for="skill of skillsChoice"  @click="addSkill(skill)">
+                                        @{{ skill }}
+                                    </li>
+                                    <li class="list-group-item list-group-item-action" v-if="skillSearching">
+                                        <?xml version="1.0" encoding="utf-8"?>
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                            <circle cx="84" cy="50" r="10" fill="#93dbe9">
+                                                <animate attributeName="r" repeatCount="indefinite" dur="0.6097560975609756s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+                                                <animate attributeName="fill" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#93dbe9;#3b4368;#5e6fa3;#689cc5;#93dbe9" begin="0s"></animate>
+                                            </circle><circle cx="16" cy="50" r="10" fill="#93dbe9">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+                                            </circle><circle cx="50" cy="50" r="10" fill="#689cc5">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.6097560975609756s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.6097560975609756s"></animate>
+                                            </circle><circle cx="84" cy="50" r="10" fill="#5e6fa3">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.2195121951219512s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.2195121951219512s"></animate>
+                                            </circle><circle cx="16" cy="50" r="10" fill="#3b4368">
+                                            <animate attributeName="r" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.8292682926829267s"></animate>
+                                            <animate attributeName="cx" repeatCount="indefinite" dur="2.4390243902439024s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.8292682926829267s"></animate>
+                                            </circle>
+                                        </svg>
+                                    </li>
+                                    <li class="list-group-item list-group-item-action" v-if="skillsChoice.length == 0 && skillInput && !skillSearching">
+                                        <h1 class="text-center">No Result</h1>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         {{-- delete skill confirmation --}}
@@ -976,18 +981,18 @@
                                     </div>
                                     <div class="col ">
                                         <p class="d-inline" style="white-space: pre-wrap">{{ $item->skill_description }}</p>
-                                        @if ($item->generated_skills && $item->generated_skills != 200 && json_decode($item->generated_skills)->generated)
+                                        {{-- @if ($item->generated_skills && $item->generated_skills != 200 && json_decode($item->generated_skills)->generated)
                                             <br><label for="" class="text-sm text-gray-500" title="This extracted skills is auto generated using the EMSI Open skills API and will be use later on for job matching"><i class="fa fa-info-circle"></i> Extracted Skills: </label>
                                             @foreach (json_decode($item->generated_skills)->generated as $skill1)
                                             <div class="inline-block bg-green-200 rounded-sm m-1 p-1 text-sm">
                                                 {{ $skill1->name }}
                                             </div> 
                                             @endforeach
-                                        @endif
+                                        @endif --}}
                                     </div>
                                     <div class="col-lg-auto m-sm-2">
-                                        <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditSkill" @click="showEditSkill({{ $item->skill_id }})">edit</button>
-                                        <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlDeleteSkill" @click="deleteSkill({{ $item->skill_id }}, false)">delete</button>
+                                        {{-- <button class="btn btn-outline-secondary btn-sm py-0 ms-3" data-bs-toggle="modal" data-bs-target="#mdlEditSkill" @click="showEditSkill({{ $item->skill_id }})">edit</button> --}}
+                                        <button class="btn btn-outline-danger btn-sm py-0 ms-1 " data-bs-toggle="modal" data-bs-target="#mdlDeleteSkill" @click="deleteSkill({{ $item->skill_id }}, false)">Remove</button>
                                     </div>
                                 </div>
                                 @endforeach

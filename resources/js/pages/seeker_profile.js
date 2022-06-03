@@ -30,6 +30,9 @@ new Vue({
         courses: devModule.course,
         masters: devModule.masters,
         doctors: devModule.doctors,
+        skillInput: null,
+        skillSearching: false,
+        skillsChoice: [],
 
         // education data
         undergraduate: 0,
@@ -117,6 +120,28 @@ new Vue({
     },
     methods: {
 
+        async searchSkill(){
+            try {
+                this.skillSearching = true
+                this.skillsChoice = []
+                // console.log(this.skillInput)
+                if(this.skillInput){
+                    let res = await $.ajax({
+                        url: `/skills?search=${this.skillInput.replace(" ", "%%")}`,
+                        method: "get"
+                    })
+                    JSON.parse(res).data.forEach(el => {
+                        // console.log(el.name)
+                        this.skillsChoice.push(el.name)
+                    })
+                }
+                
+                this.skillSearching = false
+            } catch (error) {
+                this.skillSearching = false
+                console.log(error)
+            }
+        },
 
         closeEducationLevelError(){
             this.educationLevelError = null
@@ -652,7 +677,7 @@ new Vue({
         
         },
 
-        async addSkill() {
+        async addSkill(skill) {
             this.errors = []
             loading.css('display', 'initial')
             console.log(this.skills)
@@ -662,7 +687,7 @@ new Vue({
                 let res = await $.ajax({
                     url: '/seeker/profile/skill/add-skill',
                     method: 'post',
-                    data: this.skills,
+                    data: {skill: skill},
                     
                 })
 

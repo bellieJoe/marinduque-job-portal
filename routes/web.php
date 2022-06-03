@@ -43,7 +43,9 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    return CourseController::getAll();
+    return Skill::where([   
+        'user_id' => 2
+    ])->pluck('skill_description'); 
 });
 
 

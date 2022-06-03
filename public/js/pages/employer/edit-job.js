@@ -132,6 +132,16 @@ var devModule = {
     } else if (s >= 403620) {
       return 33;
     } else {}
+  },
+  titleCase: function titleCase(string) {
+    var sentence = string.toLowerCase().split(" ");
+
+    for (var i = 0; i < sentence.length; i++) {
+      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+    } // document.write(sentence.join(" "));
+
+
+    return sentence.join(" ");
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (devModule);

@@ -3,7 +3,6 @@ import $ from 'jquery'
 import devModule from '../dev_module.js'
 
 
-
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -20,7 +19,7 @@ new Vue({
         jobApplicationFilter: "all",
         jobApplications: [],
         toggle: null,
-
+        devModule: devModule,
         // loaders
         JobApplicationLoader : false,
         savedJobsLoader : false,
