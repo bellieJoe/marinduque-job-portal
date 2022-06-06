@@ -578,6 +578,20 @@ const devModule = {
         }
         // document.write(sentence.join(" "));
         return sentence.join(" ");
+     },
+
+     comaSeparateSpec(arr){
+        let string = ""
+        arr.forEach(el => {
+            if(arr.pop() == el){
+                string += el[1]
+            }
+            else {
+                string += `${el[1]}, `
+            }
+        })
+
+        return string
      }
 }
 

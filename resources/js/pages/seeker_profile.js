@@ -751,8 +751,25 @@ new Vue({
 
         redirectRoute(route){
             location.href = route
-        }
+        },
 
+        async getSpecializations(){
+            try {
+                let spec = await $.ajax({
+                    url: '/job_specializations',
+                    method: "get"
+                })
+
+                this.job_industries = spec.length > 0 ? spec : null
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+    },
+
+    mounted(){
+        this.getSpecializations()
     },
 
     created() {

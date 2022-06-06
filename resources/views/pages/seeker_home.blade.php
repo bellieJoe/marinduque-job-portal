@@ -8,7 +8,7 @@
 
     
         {{-- home navigation --}}
-        <div class="bg-gradient-to-t from-indigo-500 to-indigo-900 pt-3">
+        <div class="profile-hero pt-3">
             <div class=" p-3 mb-4 lg:w-10/12 mx-auto ">
                 @if ($seeker->display_picture)
                     <img class="mt-2 w-52 d-block mx-auto rounded-full shadow-lg {{ $seeker->display_picture ? '' : 'd-none' }}" src="{{ url('image') }}\seeker\profile\{{  $seeker->display_picture }}" alt="profile">
@@ -75,7 +75,7 @@
                               <div class="mt-3 text-sm">
                                 {{-- <p>@{{ job.job.job_industry }}</p> --}}
                                 <div v-if="job.job_specialization.length > 0">
-                                    <p ><span v-for="specialization in job.job_specialization">@{{ specialization[1] }}</span></p> 
+                                    <p ><span >@{{ devModule.comaSeparateSpec(job.job_specialization) }}</span></p> 
                                 </div>
                                 <p class="" v-if="job.salary_range.max && job.salary_range.min">Php @{{ job.salary_range.min }} - Php @{{ job.salary_range.max }}</p>
                                 <p>@{{ devModule.titleCase(job.job.job_type) }}</p>

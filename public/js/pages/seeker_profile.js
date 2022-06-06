@@ -142,6 +142,17 @@ var devModule = {
 
 
     return sentence.join(" ");
+  },
+  comaSeparateSpec: function comaSeparateSpec(arr) {
+    var string = "";
+    arr.forEach(function (el) {
+      if (arr.pop() == el) {
+        string += el[1];
+      } else {
+        string += "".concat(el[1], ", ");
+      }
+    });
+    return string;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (devModule);
@@ -1015,17 +1026,55 @@ new Vue({
     },
     redirectRoute: function redirectRoute(route) {
       location.href = route;
+    },
+    getSpecializations: function getSpecializations() {
+      var _this20 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        var spec;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _context8.prev = 0;
+                _context8.next = 3;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: '/job_specializations',
+                  method: "get"
+                });
+
+              case 3:
+                spec = _context8.sent;
+                _this20.job_industries = spec.length > 0 ? spec : null;
+                _context8.next = 10;
+                break;
+
+              case 7:
+                _context8.prev = 7;
+                _context8.t0 = _context8["catch"](0);
+                console.log(_context8.t0);
+
+              case 10:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, null, [[0, 7]]);
+      }))();
     }
   },
+  mounted: function mounted() {
+    this.getSpecializations();
+  },
   created: function created() {
-    var _this20 = this;
+    var _this21 = this;
 
     jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
       url: '/get-auth',
       method: 'get'
     }).fail(function () {// location.href = "/error"
     }).done(function (res) {
-      _this20.user = res;
+      _this21.user = res;
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#bdgLanguage').css('display') == 'none') {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#bdgLanguage').css('display', 'initial');

@@ -7,7 +7,7 @@
         <div class="" id='SeekerProfile'>
 
             {{-- home navigation --}}
-            <div class="bg-gradient-to-t from-indigo-500 to-indigo-900 pt-3">
+            <div class=" profile-hero pt-3">
                 <div class=" p-3 mb-4 lg:w-10/12 mx-auto ">
                     <img class="mt-2 w-52 d-block mx-auto rounded-full shadow-lg {{ $profile->display_picture ? '' : 'd-none' }}" src="{{ url('image') }}\seeker\profile\{{  $profile->display_picture }}" alt="profile">
                     <a href="/seeker/profile/upload-image/seeker-profile" class=" duration-500 rounded-md hover:text-gray-50 pt-16 text-center fw-bold text-gray-400 hover:bg-gray-300 mt-2 border-3 border-dashed  w-40 h-40 d-block mx-auto bg-gray-100 {{ $profile->display_picture ? 'd-none' : '' }}">Upload photo</a>
@@ -497,10 +497,10 @@
                                             <div class="text-danger" v-for="i of errors.job_title">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Job Industry <span class="text-red-500">*</span></label>
+                                            <label class='mb-1 fw-bold'>Job Specialization <span class="text-red-500">*</span></label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
                                                 <option value="null">--select one--</option>
-                                                <option v-for="industry of job_industries" :value="industry">@{{ industry }}</option>
+                                                <option v-for="industry of job_industries" :value="industry.specialization">@{{ industry.specialization }}</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.job_industry">@{{ i }}</div>
                                         </div>
@@ -571,10 +571,10 @@
                                             <div class="text-danger" v-for="i of errors.job_title">@{{ i }}</div>
                                         </div>
                                         <div class="mb-3 " >
-                                            <label class='mb-1 fw-bold'>Job Industry <span class="text-red-500">*</span></label>
+                                            <label class='mb-1 fw-bold'>Job Specialization <span class="text-red-500">*</span></label>
                                             <select  class='form-select' v-model="experience.job_industry" :class="errors.job_industry ? 'is-invalid' : '' " >
                                                 <option value="null">--select one--</option>
-                                                <option v-for="industry of job_industries" :value="industry">@{{ industry }}</option>
+                                                <option v-for="industry of job_industries" :value="industry.specialization">@{{ industry.specialization }}</option>
                                             </select>
                                             <div class="text-danger" v-for="i of errors.job_industry">@{{ i }}</div>
                                         </div>
@@ -658,7 +658,7 @@
                                         <h6 class="text-gray-500 w-full md:col-3">{{ $i->job_title }}</h6>
                                     </div>
                                     <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">
-                                        <h6 class="pr-4 md:col-1 w-full">Job Industry :</h6>
+                                        <h6 class="pr-4 md:col-1 w-full">Job Specilization :</h6>
                                         <h6 class="text-gray-500 w-full md:col-3">{{ $i->job_industry }}</h6>
                                     </div>
                                     <div class="md:grid md:grid-cols-3 md:gap-2 mb-2 md:mb-0">

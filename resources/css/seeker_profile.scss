@@ -1,6 +1,12 @@
 body.seeker-prof{
     // background: url('../image/bgpattern.png');
     // background-color: #e3ebfd;
+    .profile-hero{
+        background: rgb(23, 23, 132) url('../image/website/liquid-cheese.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
     .seeker-prof-wrapper{
         max-width: 1300px;
         margin: auto;

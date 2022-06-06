@@ -43,9 +43,25 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    return Skill::where([   
-        'user_id' => 2
-    ])->pluck('skill_description'); 
+    $seeker = Seeker::where([
+        'user_id' => 6
+    ])->first();
+
+    function getUserExperience($seeker){
+        $exp = Experience::where([
+            'user_id' => $seeker->user_id
+        ])
+        ->get()
+        ->map(function($item, $key){
+            return [
+                'year' => $item->date_ended->diffInMonths($item->date_started),
+                'specialization' => $item->job_industry
+            ];
+        });
+
+        echo json_encode($exp);
+    }
+    getUserExperience($seeker);
 });
 
 

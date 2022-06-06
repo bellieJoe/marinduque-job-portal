@@ -1,3 +1,9 @@
+body.seeker-home .profile-hero {
+  background: #171784 url(/images/liquid-cheese.svg?66b41f958b51c5573e9cc7473954f0ee);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 body.seeker-home .wrapper {
   max-width: 1300px;
   margin: auto;

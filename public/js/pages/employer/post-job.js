@@ -142,6 +142,17 @@ var devModule = {
 
 
     return sentence.join(" ");
+  },
+  comaSeparateSpec: function comaSeparateSpec(arr) {
+    var string = "";
+    arr.forEach(function (el) {
+      if (arr.pop() == el) {
+        string += el[1];
+      } else {
+        string += "".concat(el[1], ", ");
+      }
+    });
+    return string;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (devModule);

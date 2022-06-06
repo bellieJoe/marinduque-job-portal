@@ -82,7 +82,8 @@ class Kernel extends ConsoleKernel
 
             // send notification to admins
             $admins = User::where([
-                'role' => 'admin'
+                'role' => 'admin',
+                'admin_role' => 'master'
             ])->get();
         
             foreach ($admins as $admin) {

@@ -10,6 +10,7 @@ use App\Models\Seeker;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class JobMatchingController extends Controller
 {
@@ -35,8 +36,8 @@ class JobMatchingController extends Controller
 
             $educRate = number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
             $skillsRate = $job->generated_skills && !empty(json_decode($job->generated_skills)->generated) ?  number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",") : 0;
-            $yoeRate = $job->experience ? number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",") : json_decode($job->match_preferences)->yoe;
-            // echo "Job Title : $job->job_title, Education: $educRate, Skills Rate:  $skillsRate , Experience Rate: $yoeRate<br>";
+            $yoeRate =  number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",");
+
             $suggestedJobs->push( [
                 "job" => $job,
                 "educationRate" => $educRate,
@@ -155,7 +156,44 @@ class JobMatchingController extends Controller
 
     public static function rateYOE(Job $job, Seeker $seeker){
 
-        return 0;
+        $rate = 0;
+        $seekerExperience = [];
+        $jobExperience = [
+            'months' => $job->experience ? $job->experience * 12 : 0
+        ];
+
+        $seekerExperience = (function($seeker){
+            $exp = Experience::where([
+                'user_id' => $seeker->user_id
+            ])
+            ->get()
+            ->map(function($item, $key){
+                return [
+                    'months' => $item->date_ended->diffInMonths($item->date_started),
+                    'specialization' => $item->job_industry
+                ];
+            });
+            return $exp;
+        })($seeker);
+
+
+        $jobExperience['specializations'] = (function($job){
+            $specs = [];
+            foreach(json_decode($job->job_specialization) as $spec){
+                array_push($specs, $spec[1]);
+            }
+
+            return $specs;
+        })($job);
+
+
+        foreach($seekerExperience as $exp){
+            if(in_array($exp['specialization'], $jobExperience['specializations'])){
+                $rate += (($exp['months'] / $jobExperience['months']) * 100);
+            }
+        }
+
+        return $rate > 100 ? 100 : $rate;
     }
 
     public static function rateSkills(Job $job, Seeker $seeker){
@@ -368,7 +406,5 @@ class JobMatchingController extends Controller
 
         return $rate;
     }
-
-
 
 }
