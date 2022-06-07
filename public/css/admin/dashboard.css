@@ -11,3 +11,6 @@
 #admin-dashboard .user-charts div:first-child h1 {
   font-weight: bold;
 }
+#admin-dashboard .charts .chart {
+  height: 500px;
+}

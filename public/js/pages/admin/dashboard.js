@@ -49,101 +49,110 @@ var _require = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist
     registerables = _require.registerables;
 
 Chart.register.apply(Chart, _toConsumableArray(registerables));
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var Utils = {
+  months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+};
 
-var lmiJobsSolicitedChart = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-    var ctx, labels, lmiData, data, config, chart;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+var lmiCharts = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+    var getLMI, _getLMI, lmiData, solicitedJobsData, applicantsRefered, applicantsPlaced, delayed, solicitedChart, referedChart, placedChart;
+
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            ctx = document.getElementById("lmiJobSolicited").getContext("2d");
-            labels = months;
-            _context2.next = 4;
-            return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-              var sortedLMI, _lmiData;
+            _getLMI = function _getLMI3() {
+              _getLMI = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(year) {
+                var sortedLMI, _lmiData;
 
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-                while (1) {
-                  switch (_context.prev = _context.next) {
-                    case 0:
-                      sortedLMI = {
-                        jobsSolicitedTotal: [],
-                        jobsSolicitedLocal: [],
-                        jobsSolicitedOverseas: [],
-                        applicantsReferredTotal: [],
-                        applicantsReferredMale: [],
-                        applicantsReferredFemale: [],
-                        applicantsPlacedTotal: [],
-                        applicantsPlacedMale: [],
-                        applicantsPlacedFemale: []
-                      };
-                      _context.prev = 1;
-                      _context.next = 4;
-                      return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
-                        url: "/admin/reports/lmi-data/".concat(new Date().getFullYear()),
-                        method: 'GET'
-                      });
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                        sortedLMI = {
+                          jobsSolicitedTotal: [],
+                          jobsSolicitedLocal: [],
+                          jobsSolicitedOverseas: [],
+                          applicantsReferredTotal: [],
+                          applicantsReferredMale: [],
+                          applicantsReferredFemale: [],
+                          applicantsPlacedTotal: [],
+                          applicantsPlacedMale: [],
+                          applicantsPlacedFemale: []
+                        };
+                        _context2.prev = 1;
+                        _context2.next = 4;
+                        return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                          url: "/admin/reports/lmi-data/".concat(year),
+                          method: 'GET'
+                        });
 
-                    case 4:
-                      _lmiData = _context.sent;
+                      case 4:
+                        _lmiData = _context2.sent;
 
-                      _lmiData.forEach(function (el) {
-                        if (el) {
-                          sortedLMI.jobsSolicitedTotal.push(el.jobs_solicited_total);
-                          sortedLMI.jobsSolicitedLocal.push(el.jobs_solicited_local);
-                          sortedLMI.jobsSolicitedOverseas.push(el.jobs_solicited_overseas);
-                          sortedLMI.applicantsReferredTotal.push(el.applicants_referred_total);
-                          sortedLMI.applicantsReferredMale.push(el.applicants_referred_male);
-                          sortedLMI.applicantsReferredFemale.push(el.applicants_referred_female);
-                          sortedLMI.applicantsPlacedTotal.push(el.applicants_placed_total);
-                          sortedLMI.applicantsPlacedMale.push(el.applicants_placed_male);
-                          sortedLMI.applicantsPlacedFemale.push(el.applicants_placed_female);
-                        } else {
-                          sortedLMI.jobsSolicitedTotal.push(0);
-                          sortedLMI.jobsSolicitedLocal.push(0);
-                          sortedLMI.jobsSolicitedOverseas.push(0);
-                          sortedLMI.applicantsReferredTotal.push(0);
-                          sortedLMI.applicantsReferredMale.push(0);
-                          sortedLMI.applicantsReferredFemale.push(0);
-                          sortedLMI.applicantsPlacedTotal.push(0);
-                          sortedLMI.applicantsPlacedMale.push(0);
-                          sortedLMI.applicantsPlacedFemale.push(0);
-                        }
-                      });
+                        _lmiData.forEach(function (el) {
+                          if (el) {
+                            sortedLMI.jobsSolicitedTotal.push(el.jobs_solicited_total);
+                            sortedLMI.jobsSolicitedLocal.push(el.jobs_solicited_local);
+                            sortedLMI.jobsSolicitedOverseas.push(el.jobs_solicited_overseas);
+                            sortedLMI.applicantsReferredTotal.push(el.applicants_referred_total);
+                            sortedLMI.applicantsReferredMale.push(el.applicants_referred_male);
+                            sortedLMI.applicantsReferredFemale.push(el.applicants_referred_female);
+                            sortedLMI.applicantsPlacedTotal.push(el.applicants_placed_total);
+                            sortedLMI.applicantsPlacedMale.push(el.applicants_placed_male);
+                            sortedLMI.applicantsPlacedFemale.push(el.applicants_placed_female);
+                          } else {
+                            sortedLMI.jobsSolicitedTotal.push(0);
+                            sortedLMI.jobsSolicitedLocal.push(0);
+                            sortedLMI.jobsSolicitedOverseas.push(0);
+                            sortedLMI.applicantsReferredTotal.push(0);
+                            sortedLMI.applicantsReferredMale.push(0);
+                            sortedLMI.applicantsReferredFemale.push(0);
+                            sortedLMI.applicantsPlacedTotal.push(0);
+                            sortedLMI.applicantsPlacedMale.push(0);
+                            sortedLMI.applicantsPlacedFemale.push(0);
+                          }
+                        });
 
-                      _context.next = 13;
-                      break;
+                        _context2.next = 13;
+                        break;
 
-                    case 8:
-                      _context.prev = 8;
-                      _context.t0 = _context["catch"](1);
-                      console.log(_context.t0);
-                      alert(_context.t0);
-                      return _context.abrupt("return", []);
+                      case 8:
+                        _context2.prev = 8;
+                        _context2.t0 = _context2["catch"](1);
+                        console.log(_context2.t0);
+                        alert(_context2.t0);
+                        return _context2.abrupt("return", []);
 
-                    case 13:
-                      return _context.abrupt("return", sortedLMI);
+                      case 13:
+                        return _context2.abrupt("return", sortedLMI);
 
-                    case 14:
-                    case "end":
-                      return _context.stop();
+                      case 14:
+                      case "end":
+                        return _context2.stop();
+                    }
                   }
-                }
-              }, _callee, null, [[1, 8]]);
-            }))();
+                }, _callee2, null, [[1, 8]]);
+              }));
+              return _getLMI.apply(this, arguments);
+            };
 
-          case 4:
-            lmiData = _context2.sent;
-            console.log(lmiData);
-            data = {
-              labels: labels,
+            getLMI = function _getLMI2(_x) {
+              return _getLMI.apply(this, arguments);
+            };
+
+            document.getElementById("inputYear").value = new Date().getFullYear();
+            _context3.next = 5;
+            return getLMI(new Date().getFullYear());
+
+          case 5:
+            lmiData = _context3.sent;
+            solicitedJobsData = {
+              labels: Utils.months,
               datasets: [{
                 label: 'Local',
                 data: lmiData.jobsSolicitedLocal,
-                backgroundColor: "rgb(56, 156, 71)" // borderColor
-
+                backgroundColor: "rgb(56, 156, 71)"
               }, {
                 label: 'Overseas',
                 data: lmiData.jobsSolicitedOverseas,
@@ -151,36 +160,203 @@ var lmiJobsSolicitedChart = /*#__PURE__*/function () {
               }, {
                 label: 'Total',
                 data: lmiData.jobsSolicitedTotal,
-                backgroundColor: "rgb(207, 190, 37)"
+                backgroundColor: "rgb(255, 216, 107)"
               }]
             };
-            config = {
+            applicantsRefered = {
+              labels: Utils.months,
+              datasets: [{
+                label: 'Female',
+                data: lmiData.applicantsReferredFemale,
+                backgroundColor: "rgb(255, 112, 253)"
+              }, {
+                label: 'Male',
+                data: lmiData.applicantsReferredMale,
+                backgroundColor: "rgb(62, 68, 247)"
+              }, {
+                label: 'Total',
+                data: lmiData.applicantsReferredTotal,
+                backgroundColor: "rgb(121, 32, 245)"
+              }]
+            };
+            applicantsPlaced = {
+              labels: Utils.months,
+              datasets: [{
+                label: 'Female',
+                data: lmiData.applicantsPlacedFemale,
+                backgroundColor: "rgb(255, 112, 253)"
+              }, {
+                label: 'Male',
+                data: lmiData.applicantsPlacedMale,
+                backgroundColor: "rgb(62, 68, 247)"
+              }, {
+                label: 'Total',
+                data: lmiData.applicantsPlacedTotal,
+                backgroundColor: "rgb(121, 32, 245)"
+              }]
+            };
+            solicitedChart = new Chart(document.getElementById("lmiJobSolicited").getContext("2d"), {
               type: 'bar',
-              data: data,
+              data: solicitedJobsData,
               options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                  onComplete: function onComplete() {
+                    delayed = true;
+                  },
+                  delay: function delay(context) {
+                    var delay = 0;
+
+                    if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                      delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                    }
+
+                    return delay;
+                  }
+                },
                 scales: {
                   y: {
                     beginAtZero: true
                   }
+                },
+                plugins: {
+                  legend: {
+                    position: 'top'
+                  },
+                  title: {
+                    display: true,
+                    text: 'Solicited Jobs'
+                  }
                 }
               }
-            };
-            chart = new Chart(ctx, config);
+            });
+            referedChart = new Chart(document.getElementById("lmiApplicantRefered").getContext("2d"), {
+              type: 'bar',
+              data: applicantsRefered,
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                  onComplete: function onComplete() {
+                    delayed = true;
+                  },
+                  delay: function delay(context) {
+                    var delay = 0;
 
-          case 9:
+                    if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                      delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                    }
+
+                    return delay;
+                  }
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                },
+                plugins: {
+                  legend: {
+                    position: 'top'
+                  },
+                  title: {
+                    display: true,
+                    text: 'Refered Applicants'
+                  }
+                }
+              }
+            });
+            placedChart = new Chart(document.getElementById("lmiApplicantPlaced").getContext("2d"), {
+              type: 'bar',
+              data: applicantsPlaced,
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                  onComplete: function onComplete() {
+                    delayed = true;
+                  },
+                  delay: function delay(context) {
+                    var delay = 0;
+
+                    if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                      delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                    }
+
+                    return delay;
+                  }
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                },
+                plugins: {
+                  legend: {
+                    position: 'top'
+                  },
+                  title: {
+                    display: true,
+                    text: 'Placed Applicants'
+                  }
+                }
+              }
+            });
+            document.getElementById("btnYear").addEventListener('click', /*#__PURE__*/function () {
+              var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(ev) {
+                var year;
+                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        year = document.getElementById("inputYear").value;
+                        _context.next = 3;
+                        return getLMI(year);
+
+                      case 3:
+                        lmiData = _context.sent;
+                        solicitedChart.data.datasets[0].data = lmiData.jobsSolicitedLocal;
+                        solicitedChart.data.datasets[1].data = lmiData.jobsSolicitedOverseas;
+                        solicitedChart.data.datasets[2].data = lmiData.jobsSolicitedTotal;
+                        solicitedChart.update();
+                        placedChart.data.datasets[0].data = lmiData.applicantsPlacedFemale;
+                        placedChart.data.datasets[1].data = lmiData.applicantsPlacedMale;
+                        placedChart.data.datasets[2].data = lmiData.applicantsPlacedTotals;
+                        placedChart.update();
+                        referedChart.data.datasets[0].data = lmiData.applicantsReferredFemale;
+                        referedChart.data.datasets[1].data = lmiData.applicantsReferredMale;
+                        referedChart.data.datasets[2].data = lmiData.applicantsReferredTotal;
+                        referedChart.update();
+                        console.log(lmiData);
+
+                      case 17:
+                      case "end":
+                        return _context.stop();
+                    }
+                  }
+                }, _callee);
+              }));
+
+              return function (_x2) {
+                return _ref2.apply(this, arguments);
+              };
+            }());
+
+          case 13:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2);
+    }, _callee3);
   }));
 
-  return function lmiJobsSolicitedChart() {
+  return function lmiCharts() {
     return _ref.apply(this, arguments);
   };
 }();
 
-lmiJobsSolicitedChart();
+lmiCharts();
 
 /***/ }),
 
