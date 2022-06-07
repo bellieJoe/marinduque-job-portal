@@ -26,77 +26,177 @@
             <section class="container-lg mx-auto mt-2 mb-5">
                 <div>
                     @if ($jobs)
+                    @php
+                        $openJobsCount = 0;
+                        $closeJobsCount = 0;
+                        foreach($jobs as $job){
+                            if($job->status == 'open'){
+                                $openJobsCount++;
+                            }
+                            if($job->status == 'closed'){
+                                $closeJobsCount++;
+                            }
+                        }
+                    @endphp
                         <h4 class="fw-bold fs-4 col-sm-9 p-6">Jobs</h4>
-                        @foreach ($jobs as $job)
-                        <div class="bg-white shadow-sm p-6 md:mx-2 mb-4 rounded-lg hover:bg-blue-50 row">
-                            <div class="col-lg">
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" {{ $job->status  == 'open' ? 'checked' : '' }} @change="changeJobStatus({{ $job->job_id }})">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">{{ $job->status == 'open' ? 'Open for hiring' : 'Closed' }}</label>
-                                </div>
-                                <div class="mb-3">
-                                    <h6 class="fw-bold  text-indigo-800 mb-0">
-                                        {{ $job->job_title }} 
-                                    </h6> 
-                                    <h6 class="text-secondary">{{ $job->company_name }}</h6>  
-                                    @if ($job->isLocal)
-                                    <h6 class="text-secondary">{{ rtrim(Str::title(json_decode($job->company_address)->municipality->name), "(Capital)").', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>
-                                    @else
-                                    <h6 class="text-secondary">Overseas, {{ $job->country }}</h6>
-                                    @endif
-                                    
-    
-                                    
-                                    @if ($job->salary_range)
-                                    <h6 class="fw-bold my-3">{{ 'Php '.number_format(json_decode($job->salary_range)->min, 0).' - Php '.number_format(json_decode($job->salary_range)->max, 0) }}</h6>    
-                                    @endif                               
-                                       
-                                    
-                                    <div class="mt-4">
-                                        <h6 class="text-secondary mb-0">{{ $job->status == 'open' ? 'Opened '. $job->date_posted->diffForHumans() : 'Last opened on '.date_format($job->date_posted, 'F d, Y') }}</h6>
-                                        <h6 class="text-secondary mb-0">Created on on {{ date_format($job->created_at, 'F d, Y') }}</h6>   
-                                    </div>                                          
-                                </div>
+                        <h1 class="font-semibold text-gray mb-3 mt-8">Open Jobs</h1>
+                        @if ($openJobsCount <= 0)
+                            <div class="py-24 text-gray-500">
+                                <h1 class="text-center">No Open Jobs</h1>
                             </div>
-                            <div class="col-lg">
-                                @if ($job->status == 'open')
-                                <p class="font-bold">{{ $applicantCounts[strval($job->job_id)]['total'] }} Applications</p>
-                                <p class="text-gray-500"><i class="fa fa-clipboard mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['pending'] }} pending</p>
-                                <p class="text-green-500"><i class="fa fa-clipboard-check mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['approved'] }} approved</p>
-                                <p class="text-red-500"><i class="fa fa-window-close mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['declined'] }} declined</p>
-                                <p class="text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['expired'] }} expired</p>
-                                @endif
-                                <div>
-                                    <form action="/employer/job/{{ $job->job_id }}/delete" method="post" class="inline">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ $job->job_id }}" class="btn btn-danger mt-4 w-max">Delete Job</button>
-                                        <div class="modal fade" id="deleteConfirmationModal{{ $job->job_id }}">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="text-red-500 font-bold text-lg"><i class="fa fa-exclamation-triangle me-2"></i>Delete Warning</h6>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>
-                                                            You are about to delete  a job posting you created titled <strong>{{ $job->job_title }}</strong>. Pending applicants from this job posting will be automatically declined after deleting.
-                                                        </p>
-                                                        <br>
-                                                        <p>Are you sure you want to delete this Job?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
-                                                        <button class="btn btn-danger">Yes</button>
+                        @endif
+                        @foreach ($jobs as $job)
+                        @if ($job->status == 'open')
+                            <div class="bg-white shadow-sm p-6 md:mx-2 mb-4 rounded-lg hover:bg-blue-50 row">
+                                <div class="col-lg">
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" {{ $job->status  == 'open' ? 'checked' : '' }} @change="changeJobStatus({{ $job->job_id }})">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ $job->status == 'open' ? 'Open for hiring' : 'Closed' }}</label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="fw-bold  text-indigo-800 mb-0">
+                                            {{ $job->job_title }} 
+                                        </h6> 
+                                        <h6 class="text-secondary">{{ $job->company_name }}</h6>  
+                                        @if ($job->isLocal)
+                                        <h6 class="text-secondary">{{ rtrim(Str::title(json_decode($job->company_address)->municipality->name), "(Capital)").', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>
+                                        @else
+                                        <h6 class="text-secondary">Overseas, {{ $job->country }}</h6>
+                                        @endif
+                                        
+        
+                                        
+                                        @if ($job->salary_range)
+                                        <h6 class="fw-bold my-3">{{ 'Php '.number_format(json_decode($job->salary_range)->min, 0).' - Php '.number_format(json_decode($job->salary_range)->max, 0) }}</h6>    
+                                        @endif                               
+                                        
+                                        
+                                        <div class="mt-4">
+                                            <h6 class="text-secondary mb-0">{{ $job->status == 'open' ? 'Opened '. $job->date_posted->diffForHumans() : 'Last opened on '.date_format($job->date_posted, 'F d, Y') }}</h6>
+                                            <h6 class="text-secondary mb-0">Created on on {{ date_format($job->created_at, 'F d, Y') }}</h6>   
+                                        </div>                                          
+                                    </div>
+                                </div>
+                                <div class="col-lg">
+                                    @if ($job->status == 'open')
+                                    <p class="font-bold">{{ $applicantCounts[strval($job->job_id)]['total'] }} Applications</p>
+                                    <p class="text-gray-500"><i class="fa fa-clipboard mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['pending'] }} pending</p>
+                                    <p class="text-green-500"><i class="fa fa-clipboard-check mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['approved'] }} approved</p>
+                                    <p class="text-red-500"><i class="fa fa-window-close mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['declined'] }} declined</p>
+                                    <p class="text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['expired'] }} expired</p>
+                                    @endif
+                                    <div>
+                                        <form action="/employer/job/{{ $job->job_id }}/delete" method="post" class="inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ $job->job_id }}" class="btn btn-danger mt-4 w-max">Delete Job</button>
+                                            <div class="modal fade" id="deleteConfirmationModal{{ $job->job_id }}">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h6 class="text-red-500 font-bold text-lg"><i class="fa fa-exclamation-triangle me-2"></i>Delete Warning</h6>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                You are about to delete  a job posting you created titled <strong>{{ $job->job_title }}</strong>. Pending applicants from this job posting will be automatically declined after deleting.
+                                                            </p>
+                                                            <br>
+                                                            <p>Are you sure you want to delete this Job?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
+                                                            <button class="btn btn-danger">Yes</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </form>
-                                    <a class="btn btn-primary mt-4 w-max" href="/employer/job/{{ $job->job_id }}">Manage Job</a>
+                                        </form>
+                                        <a class="btn btn-primary mt-4 w-max" href="/employer/job/{{ $job->job_id }}">Manage Job</a>
+                                    </div>
+                                    
                                 </div>
-                                
+                            </div>  
+                        @endif
+                        @endforeach  
+
+                        <h1 class="font-semibold text-gray mb-3 mt-8">Closed Jobs</h1>
+                        @if ($closeJobsCount <= 0)
+                            <div class="py-24 text-gray-500">
+                                <h1 class="text-center">No Close Jobs</h1>
                             </div>
-                        </div>  
+                        @endif
+                        @foreach ($jobs as $job)
+                        @if ($job->status != 'open')
+                            <div class="bg-gray-100 shadow-sm p-6 md:mx-2 mb-4 rounded-lg hover:bg-blue-50 row">
+                                <div class="col-lg">
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" {{ $job->status  == 'open' ? 'checked' : '' }} @change="changeJobStatus({{ $job->job_id }})">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ $job->status == 'open' ? 'Open for hiring' : 'Closed' }}</label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="fw-bold  text-indigo-800 mb-0">
+                                            {{ $job->job_title }} 
+                                        </h6> 
+                                        <h6 class="text-secondary">{{ $job->company_name }}</h6>  
+                                        @if ($job->isLocal)
+                                        <h6 class="text-secondary">{{ rtrim(Str::title(json_decode($job->company_address)->municipality->name), "(Capital)").', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>
+                                        @else
+                                        <h6 class="text-secondary">Overseas, {{ $job->country }}</h6>
+                                        @endif
+                                        
+        
+                                        
+                                        @if ($job->salary_range)
+                                        <h6 class="fw-bold my-3">{{ 'Php '.number_format(json_decode($job->salary_range)->min, 0).' - Php '.number_format(json_decode($job->salary_range)->max, 0) }}</h6>    
+                                        @endif                               
+                                        
+                                        
+                                        <div class="mt-4">
+                                            <h6 class="text-secondary mb-0">{{ $job->status == 'open' ? 'Opened '. $job->date_posted->diffForHumans() : 'Last opened on '.date_format($job->date_posted, 'F d, Y') }}</h6>
+                                            <h6 class="text-secondary mb-0">Created on on {{ date_format($job->created_at, 'F d, Y') }}</h6>   
+                                        </div>                                          
+                                    </div>
+                                </div>
+                                <div class="col-lg">
+                                    @if ($job->status == 'open')
+                                    <p class="font-bold">{{ $applicantCounts[strval($job->job_id)]['total'] }} Applications</p>
+                                    <p class="text-gray-500"><i class="fa fa-clipboard mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['pending'] }} pending</p>
+                                    <p class="text-green-500"><i class="fa fa-clipboard-check mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['approved'] }} approved</p>
+                                    <p class="text-red-500"><i class="fa fa-window-close mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['declined'] }} declined</p>
+                                    <p class="text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['expired'] }} expired</p>
+                                    @endif
+                                    <div>
+                                        <form action="/employer/job/{{ $job->job_id }}/delete" method="post" class="inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ $job->job_id }}" class="btn btn-danger mt-4 w-max">Delete Job</button>
+                                            <div class="modal fade" id="deleteConfirmationModal{{ $job->job_id }}">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h6 class="text-red-500 font-bold text-lg"><i class="fa fa-exclamation-triangle me-2"></i>Delete Warning</h6>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                You are about to delete  a job posting you created titled <strong>{{ $job->job_title }}</strong>. Pending applicants from this job posting will be automatically declined after deleting.
+                                                            </p>
+                                                            <br>
+                                                            <p>Are you sure you want to delete this Job?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">No</button>
+                                                            <button class="btn btn-danger">Yes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <a class="btn btn-primary mt-4 w-max" href="/employer/job/{{ $job->job_id }}">Manage Job</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>  
+                        @endif
                         @endforeach  
                         {{ $jobs->links() }}                      
                     @else
@@ -110,8 +210,6 @@
             </section>
             
         </div>
-
-        
 
         <div class="modal fade" id="mdlLoading"   tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

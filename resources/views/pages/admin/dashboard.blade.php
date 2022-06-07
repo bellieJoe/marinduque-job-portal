@@ -10,7 +10,7 @@
             <h1>Dashboard</h1>
         </div>
 
-        <div class="user-charts lg:w-10/12  mx-auto mt-3 ">
+        <div class="user-charts lg:w-10/12  mx-auto mt-3 mb-8">
             <div>
                 <h1>LMI Analysis Chart</h1>
             </div>
