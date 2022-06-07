@@ -54,6 +54,7 @@ new Vue({
             inputOtherQualification: null,
             skill: [],
             isLocal: true,
+            isGovernment: false,
             country: null,
             inputSkill: null,
             
@@ -96,39 +97,30 @@ new Vue({
             this.job.isLocal =  !$("#inputOverseas")[0].checked
         },
 
+        inputGovernment_changed(){
+            this.job.isGovernment = $("#inputGovernment")[0].checked
+        },
+
         async toggleUserCurrentInformation(){
             console.log(this.job.useCurrentInformation)
             try {
-                if(this.job.useCurrentInformation){
-                    // this.job.useCurrentInformation = true
-                    // $("#toggleUseCurrent").val(true)
-                    const res = await $.ajax({
-                        url: "/employer/post-job/get-company-information",
-                        method: "post",
-                    })
 
-                    this.job.company_name = res.company_name
-                    this.job.company_description = res.description
-                        
-                    if(res.address){
-                        var address = JSON.parse(res.address)
-                        this.job.company_address = {
-                            region: address.region,
-                            province: address.province,
-                            municipality: address.municipality,
-                            barangay: address.barangay
-                        }
-                    }
+                const res = await $.ajax({
+                    url: "/employer/post-job/get-company-information",
+                    method: "post",
+                })
+
+                this.job.company_name = res.company_name
+                this.job.company_description = res.description
                     
-                }else{
+                if(res.address){
+                    var address = JSON.parse(res.address)
                     this.job.company_address = {
-                        region: null,
-                        province: null,
-                        municipality: null,
-                        barangay: null
+                        region: address.region,
+                        province: address.province,
+                        municipality: address.municipality,
+                        barangay: address.barangay
                     }
-                    this.job.company_description = null,
-                    this.job.company_name = null                
                 }
             } catch (error) {
                 console.log(error)
@@ -207,6 +199,7 @@ new Vue({
                     barangay :this.job.company_address.barangay,
                     company_description : this.job.company_description,
                     isLocal: this.job.isLocal,
+                    isLocal: this.job.isGovernment,
                     country: this.job.country,
         
                     educational_attainment : this.job.educational_attainment,

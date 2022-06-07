@@ -79,15 +79,17 @@
 
                     <h5 id="step-2" class="fw-bold text-secondary mt-16"><span class="bg-secondary fs-6 text-white p-2 shadow-sm me-2 ps-4 ">Step 2 </span>  Company Information</h5>
                     <div class="p-4" >
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" id="toggleUseCurrent"  @change="toggleUserCurrentInformation" v-model.lazy="job.useCurrentInformation">
-                            <label class="form-check-label" for="toggleUseCurrent">
-                              Use my current company Information
-                            </label>
-                        </div>
+                        
+                        <button class="btn btn-secondary" type="button" @click="toggleUserCurrentInformation">
+                            Paste the current company Information
+                          </button>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox"  id="inputOverseas" @input="inputOverseas_changed">
-                            <label for="inputOverseas" class="form-check-label">Is this job overseas?</label>
+                            <label for="inputOverseas" class="form-check-label">Is this Job Overseas?</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox"  id="inputGovernment" @input="inputGovernment_changed">
+                            <label for="inputGovernment" class="form-check-label">Is this Job on the Government?</label>
                         </div>
                         {{-- company name --}}
                         <div class="mb-3">
@@ -381,6 +383,4 @@
        
         
     </body>
-    
-
 @endsection

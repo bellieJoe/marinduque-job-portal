@@ -22,9 +22,9 @@
                     
                     @foreach ($job_specializations as $spec )
                     
-                    <div class="p-1 border-b-2 hover:bg-blue-200 rounded-md" >
+                    <div class="p-1 border-b-2 hover:bg-blue-200" >
                         {{ $spec->specialization }}
-                        <button class="btn btn-danger btn-sm block mr-0 ml-auto" data-bs-toggle="modal" data-bs-target="{{ '#spec'.$spec->job_specialization_id }}">Delete</button>
+                        {{-- <button class="btn btn-danger btn-sm block mr-0 ml-auto" data-bs-toggle="modal" data-bs-target="{{ '#spec'.$spec->job_specialization_id }}">Delete</button>
                         <form method="POST" action="/admin/jobs/job_specializations" >
                             @csrf
                             @method('DELETE')
@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </form> --}}
                     </div>
                     @endforeach
                     

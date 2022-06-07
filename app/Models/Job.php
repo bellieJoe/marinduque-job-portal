@@ -53,7 +53,8 @@ class Job extends Model
             'deleted_at',
             'view_engagements',
             'search_engagements',
-            'user_id'
+            'user_id',
+            'isGovernment'
         ];
 
         foreach($notIncluded as $item){

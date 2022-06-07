@@ -143,6 +143,7 @@ class UserSeeder extends Seeder
                 'email' => $i['email'],
                 'password' => Hash::make($i['password']),
                 'role' => $i['role'],
+                'admin_role' => $i['admin_role'],
                 'verification_code' => '000000',
                 'verified' => '1',
             ]);

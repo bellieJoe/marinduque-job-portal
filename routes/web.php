@@ -7,6 +7,7 @@ use App\Http\Controllers\JobMatchingController;
 use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LmiReportController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -43,25 +44,7 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    $seeker = Seeker::where([
-        'user_id' => 6
-    ])->first();
-
-    function getUserExperience($seeker){
-        $exp = Experience::where([
-            'user_id' => $seeker->user_id
-        ])
-        ->get()
-        ->map(function($item, $key){
-            return [
-                'year' => $item->date_ended->diffInMonths($item->date_started),
-                'specialization' => $item->job_industry
-            ];
-        });
-
-        echo json_encode($exp);
-    }
-    getUserExperience($seeker);
+    echo json_encode(LmiReportController::getLMIPerYear(2022));
 });
 
 

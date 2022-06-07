@@ -1,92 +1,104 @@
+import $ from "jquery";
+
 const { Chart, registerables } = require("chart.js");
 Chart.register(...registerables);
 
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-const UserDistChart = () => {
-    const ctx = document.getElementById("userDistChart").getContext("2d");
-    const myChart = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-            labels: ["Employer", "Job Seeeker"],
-            datasets: [
-                {
-                    data: [12, 19],
-                    backgroundColor: [
-                        "rgb(255, 99, 132)",
-                        "rgb(54, 162, 235)"
-                    ],
-                    borderWidth: 1,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: "Number of Users"
-                },
-                legend: {
-                    position: 'bottom',
-                  },
-            }
-        },
-    });
-}
-UserDistChart();
+const lmiJobsSolicitedChart = async () => {
 
-const userTimelineChart = () => {
-    const ctx = document.getElementById("userTimelineChart").getContext("2d");
-    const DATA_COUNT = 7;
-    const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
+    const ctx = document.getElementById("lmiJobSolicited").getContext("2d");
+    const labels = months;
 
-    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    const lmiData = await (async function(){
+        var sortedLMI = {
+            jobsSolicitedTotal: [],
+            jobsSolicitedLocal: [],
+            jobsSolicitedOverseas: [],
+            applicantsReferredTotal: [],
+            applicantsReferredMale: [],
+            applicantsReferredFemale: [],
+            applicantsPlacedTotal: [],
+            applicantsPlacedMale: [],
+            applicantsPlacedFemale: []
+        };
+
+        try {
+            const lmiData = await $.ajax({
+                url: `/admin/reports/lmi-data/${new Date().getFullYear()}`,
+                method: 'GET'
+            })
+
+            lmiData.forEach(el => {
+                if(el){
+                    sortedLMI.jobsSolicitedTotal.push(el.jobs_solicited_total)
+                    sortedLMI.jobsSolicitedLocal.push(el.jobs_solicited_local)
+                    sortedLMI.jobsSolicitedOverseas.push(el.jobs_solicited_overseas)
+                    sortedLMI.applicantsReferredTotal.push(el.applicants_referred_total)
+                    sortedLMI.applicantsReferredMale.push(el.applicants_referred_male)
+                    sortedLMI.applicantsReferredFemale.push(el.applicants_referred_female)
+                    sortedLMI.applicantsPlacedTotal.push(el.applicants_placed_total)
+                    sortedLMI.applicantsPlacedMale.push(el.applicants_placed_male)
+                    sortedLMI.applicantsPlacedFemale.push(el.applicants_placed_female)
+                }
+                else{
+                    sortedLMI.jobsSolicitedTotal.push(0)
+                    sortedLMI.jobsSolicitedLocal.push(0)
+                    sortedLMI.jobsSolicitedOverseas.push(0)
+                    sortedLMI.applicantsReferredTotal.push(0)
+                    sortedLMI.applicantsReferredMale.push(0)
+                    sortedLMI.applicantsReferredFemale.push(0)
+                    sortedLMI.applicantsPlacedTotal.push(0)
+                    sortedLMI.applicantsPlacedMale.push(0)
+                    sortedLMI.applicantsPlacedFemale.push(0)
+                }
+            })
+
+        } catch (error) {
+            console.log(error)
+            alert(error)
+            return [];
+        }
+
+        return sortedLMI;
+    })();
+
+    console.log(lmiData)
+
     const data = {
         labels: labels,
         datasets: [
             {
-                label: "Employer",
-                data: [100, 200, 300, 400, 450, 500, 600, 650, 680, 700, 600, 10000],
-                borderColor: 'rgba(245, 40, 145, 1)',
-                backgroundColor: 'rgba(245, 40, 145, 0.45)',
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointHoverRadius: 10,
-                // fill: true,
-                tension: 0.4,
-                borderWidth: 1
+                label: 'Local',
+                data: lmiData.jobsSolicitedLocal,
+                backgroundColor: "rgb(56, 156, 71)",
+                // borderColor
             },
             {
-                label: "Job Seeker",
-                data: [450, 450, 250, 450, 500, 600, 768, 800, 924, 800, 857, 870],
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.45)',
-                pointStyle: 'circle',
-                pointRadius: 5,
-                pointHoverRadius: 10,
-                // fill: true,
-                tension: 0.4,
-                borderWidth: 1
+                label: 'Overseas',
+                data: lmiData.jobsSolicitedOverseas,
+                backgroundColor: "rgb(217, 59, 74)"
+            },
+            {
+                label: 'Total',
+                data: lmiData.jobsSolicitedTotal,
+                backgroundColor: "rgb(207, 190, 37)"
             }
-        ],
+        ]
     };
     const config = {
-        type: "line",
+        type: 'bar',
         data: data,
         options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "top",
-                },
-                title: {
-                    display: true,
-                    text: "Users Registered by 2022",
-                },
-            },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
         },
     };
-    const chart = new Chart(ctx, config);
 
-};
-userTimelineChart();
+    const chart = new Chart(ctx, config);
+}
+lmiJobsSolicitedChart()
+

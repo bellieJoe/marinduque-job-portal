@@ -19,15 +19,11 @@
         }
     }
     .charts{
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        justify-content: center;
-        margin: 0rem auto;
-        @media only screen and (max-width: 1300px) {
-            grid-template-columns: 1fr 4fr;
-        }
-        @media only screen and (max-width: 800px) {
-            display: initial;
+        .chart{
+            // width: 50%;
+            canvas{
+                // height: 300px !important;
+            }
         }
     }
  

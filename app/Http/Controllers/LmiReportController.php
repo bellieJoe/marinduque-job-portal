@@ -18,4 +18,16 @@ class LmiReportController extends Controller
             'lmi' => $lmi
         ]);
     }
+
+    public static function getLMIPerYear($year){
+        $LMI = [];
+        for($i = 1; $i <= 12; $i++){
+            array_push($LMI, LmiReport::where([
+                'month' => $i,
+                'year' => $year
+            ])->first());
+        }
+
+        return $LMI;
+    }
 }

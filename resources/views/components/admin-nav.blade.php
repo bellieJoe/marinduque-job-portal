@@ -104,8 +104,8 @@
                     $date = Carbon::now();
                 @endphp
                 <li><a href="/admin/reports/lmi-report?month={{ $date->format("m") }}&year={{ $date->format("Y") }}"><i class="fa fa-file me-2"></i>LMI</a></li>
-                <li><a href="/admin/reports/sprs-report"><i class="fa fa-plus-circle me-2"></i>Add SPRS</a></li>
-                <li><a href="/admin/reports/placement-report/{{ $date->format("m") }}/{{ $date->format("Y") }}"><i class="fa fa-plus-circle me-2"></i>Placement Reports</a></li>
+                <li><a href="/admin/reports/sprs-report?month={{ $date->format("m") }}&year={{ $date->format("Y") }}"><i class="fa fa-file me-2"></i>SPRS</a></li>
+                <li><a href="/admin/reports/placement-report/{{ $date->format("m") }}/{{ $date->format("Y") }}"><i class="fa fa-file me-2"></i>Placement Reports</a></li>
             </ul>
         </li>
     </ul>

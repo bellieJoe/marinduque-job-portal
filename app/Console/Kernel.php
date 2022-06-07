@@ -7,6 +7,7 @@ use App\Models\JobApplication;
 use App\Models\LmiReport;
 use App\Models\Seeker;
 use App\Models\User;
+use App\Models\SPRS;
 use App\Notifications\LMIGeneratedNotification;
 use App\Notifications\SampleNotification;
 use Carbon\Carbon;
@@ -64,7 +65,34 @@ class Kernel extends ConsoleKernel
             $applicationIds = $applications->pluck('applicant_id');
             $referredSeekers = Seeker::whereIn('user_id', $applicationIds);
             $hiredSeekers = Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'));
+            $applicants_placed_private = (function($month, $year){
+                $count =  0;
 
+                $applications = JobApplication::whereMonth('updated_at', $month)
+                ->whereYear('updated_at', $year)->get();
+
+                foreach($applications as $application){
+                    if( $application->application_status == 'hired' && Job::where(['job_id' => $application->job_id])->withTrashed()->first()->isGovernment == 0 ){
+                        $count++;
+                    }
+                }
+
+                return $count;
+            })($month, $year);
+
+            $applicants_placed_government = (function($month, $year){
+                $count =  0;
+                $applications = JobApplication::whereMonth('updated_at', $month)
+                ->whereYear('updated_at', $year)->get();
+                
+                foreach($applications as $application){
+                    if( $application->application_status == 'hired' && Job::where(['job_id' => $application->job_id])->withTrashed()->first()->isGovernment == 1 ){
+                        $count++;
+                    }
+                }
+
+                return $count;
+            })($month, $year);
 
             LmiReport::create([
                 'jobs_solicited_total' => $jobs->count(),
@@ -73,17 +101,26 @@ class Kernel extends ConsoleKernel
                 "applicants_referred_total" => JobApplication::whereMonth('created_at', $month)->count(),
                 "applicants_referred_male" => $referredSeekers->where(['gender' => 'male'])->count(),
                 "applicants_referred_female" => $referredSeekers->where(['gender' => 'female'])->count(),
-                "applicants_placed_total" => JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->count(),
-                "applicants_placed_male" => Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'male'])->count(),
-                "applicants_placed_female" => Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'female'])->count(),
+                "applicants_placed_total" => JobApplication::whereMonth('updated_at', $month)->where(['application_status' => 'hired'])->count(),
+                "applicants_placed_male" => Seeker::whereIn('user_id', JobApplication::whereMonth('updated_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'male'])->count(),
+                "applicants_placed_female" => Seeker::whereIn('user_id', JobApplication::whereMonth('updated_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'))->where(['gender' => 'female'])->count(),
                 "year" => $year,
                 "month" => $month
+            ]);
+
+            SPRS::create([
+                'vacancies_solicited' => $jobs->count(),
+                'applicants_registered' => User::where([
+                    'role' => 'seeker'
+                ])->whereMonth('created_at', $month)->whereYear('created_at', $year)->count(),
+                'applicants_placed_private' => $applicants_placed_private,
+                'applicants_placed_government' => $applicants_placed_government
             ]);
 
             // send notification to admins
             $admins = User::where([
                 'role' => 'admin',
-                'admin_role' => 'master'
+                // 'admin_role' => 'master'
             ])->get();
         
             foreach ($admins as $admin) {

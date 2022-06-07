@@ -10,20 +10,18 @@
             <h1>Dashboard</h1>
         </div>
 
-        <div class="user-charts lg:w-10/12 mx-auto mt-3 ">
+        <div class="user-charts  mx-auto mt-3 ">
             <div>
-                <h1>Users</h1>
+                <h1>LMI Analysis Chart</h1>
             </div>
             
             <div class="charts">
                 <div class="chart">
-                    <canvas id="userDistChart"></canvas>
-                </div>
-                <div class="chart">
-                    <canvas id="userTimelineChart"></canvas>
+                    <canvas id="lmiJobSolicited"></canvas>
                 </div>
             </div>
         </div>
+
         
     </section>
     

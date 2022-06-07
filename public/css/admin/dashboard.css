@@ -11,19 +11,3 @@
 #admin-dashboard .user-charts div:first-child h1 {
   font-weight: bold;
 }
-#admin-dashboard .charts {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  justify-content: center;
-  margin: 0rem auto;
-}
-@media only screen and (max-width: 1300px) {
-  #admin-dashboard .charts {
-    grid-template-columns: 1fr 4fr;
-  }
-}
-@media only screen and (max-width: 800px) {
-  #admin-dashboard .charts {
-    display: initial;
-  }
-}

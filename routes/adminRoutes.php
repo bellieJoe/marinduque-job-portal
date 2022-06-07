@@ -10,6 +10,7 @@ use App\Http\Controllers\PlacementReportController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\UserController;
 use App\Models\Course;
+use App\Models\SPRS;
 use App\Models\JobSpecialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -206,7 +207,20 @@ Route::prefix('admin')->group(function(){
         @desc add sprs report
         @url /admin/reports/sprs-report
         */
-        Route::view("sprs-report", 'pages.admin.add-sprs')->middleware("auth", "role:admin");
+        Route::get("sprs-report", function(Request $req){
+            $sprs = null;
+
+            if($req->month && $req->year){
+                $sprs = SPRS::whereMonth('created_at', $req->month)
+                ->whereYear('created_at', $req->year)
+                ->first();
+            }
+            
+            return view('pages.admin.add-sprs')
+            ->with([
+                'SPRS' => $sprs
+            ]);
+        })->middleware("auth", "role:admin");
 
 
         /* 
@@ -216,6 +230,7 @@ Route::prefix('admin')->group(function(){
         */
         Route::get('placement-report/{month}/{year}', [PlacementReportController::class, 'getAdminPlacementReport'])->middleware('auth','role:admin');
 
+        Route::get("lmi-data/{year}", [LmiReportController::class, 'getLMIPerYear'])->middleware('auth','role:admin');
        
     });
     // end of reports prefix

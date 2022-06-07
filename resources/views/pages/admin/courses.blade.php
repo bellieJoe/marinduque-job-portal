@@ -16,19 +16,19 @@
             <section class="lg:grid lg:grid-cols-4 lg:gap-2 items-start">
                 <div class="lg:col-span-3 bg-white p-3">
                     <select class="form-select my-2 w-max ml-auto mr-0 form-select-sm" id="selectCourseType" @change="selectCourseType_changed">
-                        <option value="bachelor" {{ isset($_GET["type"]) ? ($_GET["type"] == 'bachelor' ? 'selected' : '') : '' }}>Bachelor's Dedgree</option>
-                        <option value="master" {{ isset($_GET["type"]) ? ($_GET["type"] == 'master' ? 'selected' : '') : '' }}>Master's Dedgree</option>
-                        <option value="doctor" {{ isset($_GET["type"]) ? ($_GET["type"] == 'doctor' ? 'selected' : '') : '' }}>Doctor's Dedgree</option>
+                        <option value="bachelor" {{ isset($_GET["type"]) ? ($_GET["type"] == 'bachelor' ? 'selected' : '') : '' }}>Bachelor's Degree</option>
+                        <option value="master" {{ isset($_GET["type"]) ? ($_GET["type"] == 'master' ? 'selected' : '') : '' }}>Master's Degree</option>
+                        <option value="doctor" {{ isset($_GET["type"]) ? ($_GET["type"] == 'doctor' ? 'selected' : '') : '' }}>Doctor's Degree</option>
                     </select>
 
                     <h1 class="font-bold  p-2  text-lg">Courses</h1>
                     
                     @foreach ($courses as $course)
                         @if ($course->course_type == $_GET["type"])
-                        <div class="p-1 border-b-2 hover:bg-blue-200 rounded-md">
+                        <div class="p-1 border-b-2 hover:bg-blue-200">
                             {{ $course->course }}
-                            <button class="btn btn-danger btn-sm block mr-0 ml-auto" data-bs-toggle="modal" data-bs-target="{{ '#course'.$course->course_id }}">Delete</button>
-                            <form method="POST" action="/admin/jobs/courses" >
+                            {{-- <button class="btn btn-danger btn-sm block mr-0 ml-auto" data-bs-toggle="modal" data-bs-target="{{ '#course'.$course->course_id }}">Delete</button> --}}
+                            {{-- <form method="POST" action="/admin/jobs/courses" >
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="course_id" value={{ $course->course_id }}>
@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form> --}}
                         </div>
                         @endif
                     @endforeach
@@ -61,9 +61,9 @@
                         <br>
                         <label class="mb-1 block">Course Level</label>
                         <select name="course_type" class="form-select" required>
-                            <option value="bachelor" selected>Bachelor's Dedgree</option>
-                            <option value="master">Master's Dedgree</option>
-                            <option value="doctor">Doctor's Dedgree</option>
+                            <option value="bachelor" selected>Bachelor's Degree</option>
+                            <option value="master">Master's Degree</option>
+                            <option value="doctor">Doctor's Degree</option>
                         </select>
                         <button class="btn btn-success block mr-0 ml-auto mt-2 ">Add</button>
                     </div>
