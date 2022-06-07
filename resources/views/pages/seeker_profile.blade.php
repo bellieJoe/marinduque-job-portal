@@ -446,10 +446,10 @@
                                     </div> 
                                     @endif
                                 @endforeach
-                                <div class="bg-gray-100 py-8 rounded-sm">
-                                    <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["tertiary education"] < 1) disabled @endif  @click="showAddEducationForm('master\'s degree')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Master's Degree</button>
-                                </div>
                             @endif
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["tertiary education"] < 1) disabled @endif  @click="showAddEducationForm('master\'s degree')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Master's Degree</button>
+                            </div>
                             
                         </div>
                         {{-- doctors --}}
@@ -469,11 +469,11 @@
                                         <h6 class="my-0 text-secondary">Graduated on year {{ $i->year_graduated }}</h6>
                                     </div> 
                                     @endif
-                                @endforeach
-                                <div class="bg-gray-100 py-8 rounded-sm">
-                                    <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["master's degree"] < 1) disabled @endif  @click="showAddEducationForm('doctorate degree')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Doctor's Degree</button>
-                                </div>    
+                                @endforeach  
                             @endif
+                            <div class="bg-gray-100 py-8 rounded-sm">
+                                <button class="btn btn-sm btn-outline-primary block mx-auto " @if($educationCounts["master's degree"] < 1) disabled @endif  @click="showAddEducationForm('doctorate degree')"  data-bs-toggle="modal" data-bs-target="#mdlAddEducationForm">Add Doctor's Degree</button>
+                            </div>  
                         </div>
                     </div>
                     @endif
