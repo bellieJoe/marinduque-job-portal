@@ -208,9 +208,9 @@ new Vue({
     errors: [],
     educationLevelError: null,
     job_industries: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.specializations,
-    courses: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.course,
-    masters: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.masters,
-    doctors: _dev_module_js__WEBPACK_IMPORTED_MODULE_6__.default.doctors,
+    courses: [],
+    masters: [],
+    doctors: [],
     skillInput: null,
     skillSearching: false,
     skillsChoice: [],
@@ -1061,20 +1061,64 @@ new Vue({
           }
         }, _callee8, null, [[0, 7]]);
       }))();
+    },
+    getCourses: function getCourses() {
+      var _this21 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        var courses;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.prev = 0;
+                _context9.next = 3;
+                return jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+                  url: '/courses',
+                  method: "get"
+                });
+
+              case 3:
+                courses = _context9.sent;
+                courses.forEach(function (el) {
+                  if (el.course_type == 'bachelor') {
+                    _this21.courses.push(el.course);
+                  } else if (el.course_type == 'master') {
+                    _this21.masters.push(el.course);
+                  } else if (el.course_type == 'doctor') {
+                    _this21.doctors.push(el.course);
+                  }
+                });
+                _context9.next = 10;
+                break;
+
+              case 7:
+                _context9.prev = 7;
+                _context9.t0 = _context9["catch"](0);
+                console.log(_context9.t0);
+
+              case 10:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9, null, [[0, 7]]);
+      }))();
     }
   },
   mounted: function mounted() {
     this.getSpecializations();
+    this.getCourses();
   },
   created: function created() {
-    var _this21 = this;
+    var _this22 = this;
 
     jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
       url: '/get-auth',
       method: 'get'
     }).fail(function () {// location.href = "/error"
     }).done(function (res) {
-      _this21.user = res;
+      _this22.user = res;
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#bdgLanguage').css('display') == 'none') {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#bdgLanguage').css('display', 'initial');

@@ -27,9 +27,9 @@ new Vue({
         errors: [],
         educationLevelError: null,
         job_industries: devModule.specializations,
-        courses: devModule.course,
-        masters: devModule.masters,
-        doctors: devModule.doctors,
+        courses: [],
+        masters: [],
+        doctors: [],
         skillInput: null,
         skillSearching: false,
         skillsChoice: [],
@@ -760,7 +760,31 @@ new Vue({
                     method: "get"
                 })
 
+                
                 this.job_industries = spec.length > 0 ? spec : null
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getCourses(){
+            try {
+                let courses = await $.ajax({
+                    url: '/courses',
+                    method: "get"
+                })
+
+                courses.forEach(el => {
+                    if(el.course_type == 'bachelor'){
+                        this.courses.push(el.course)
+                    }
+                    else if(el.course_type == 'master'){
+                        this.masters.push(el.course)
+                    }
+                    else if(el.course_type == 'doctor'){
+                        this.doctors.push(el.course)
+                    }
+                })
             } catch (error) {
                 console.log(error)
             }
@@ -770,6 +794,7 @@ new Vue({
 
     mounted(){
         this.getSpecializations()
+        this.getCourses()
     },
 
     created() {
