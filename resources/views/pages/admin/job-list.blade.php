@@ -33,22 +33,10 @@
                     <h3 class="font-bold text-lg">Job List</h3>
                 </div>
                 <table class="table-auto w-full shadow-md my-4 bg-white">
-                    <tr class="bg-gray-400 sticky">
-                        {{-- <th class="p-2">
-                            <a href="/admin/jobs?sort={{ $sort && $column == 'job_id' ? ($sort == 'desc' ? 'asc' : 'desc') : 'desc' }}&column=job_id">
-                                Job Id
-                                <i class="fa fa-sort{{ $sort  && $column == 'job_id' ? ($sort == 'desc' ? '-down' : '-up') : '' }} ms-2"></i>
-                            </a>
-                        </th> --}}
-                        <th class="p-2">
-                            <a href="/admin/jobs?sort={{ $sort && $column == 'user_id' ? ($sort == 'desc' ? 'asc' : 'desc') : 'desc' }}&column=user_id">
-                                Owner Id
-                                <i class="fa fa-sort{{ $sort  && $column == 'user_id' ? ($sort == 'desc' ? '-down' : '-up') : '' }} ms-2"></i>
-                            </a>
-                        </th>
+                    <tr class="bg-gray-400 ">
                         <th class="p-2">
                             <a href="/admin/jobs?sort={{ $sort && $column == 'job_industry' ? ($sort == 'desc' ? 'asc' : 'desc') : 'desc' }}&column=job_industry">
-                                Job Industry
+                                Job Specialization
                                 <i class="fa fa-sort{{ $sort  && $column == 'job_industry' ? ($sort == 'desc' ? '-down' : '-up') : '' }} ms-2"></i>
                             </a>
                         </th>
@@ -70,14 +58,17 @@
                     </tr>
                     @foreach ($jobsData as $job)
                     <tr class="odd:bg-gray-100 hover:bg-indigo-200">
-                        {{-- <td class="p-2">
-                            {{ $job->job_id }}
-                        </td> --}}
-                        <td class="p-2">
-                            {{ $job->user_id }}
-                        </td>
-                        <td class="p-2">
-                            {{ $job->job_industry }}
+                        <td class="p-2 w-60">
+                            @php
+                                $jobSpecs = json_decode($job->job_specialization);
+                            @endphp
+                            @foreach ($jobSpecs as $key => $spec)
+                                @if($key == (count($jobSpecs) - 1))
+                                    {{ $spec[1] }}
+                                @else
+                                    {{ $spec[1] }},
+                                @endif
+                            @endforeach
                         </td>
                         <td class="p-2">
                             {{ $job->job_title }}

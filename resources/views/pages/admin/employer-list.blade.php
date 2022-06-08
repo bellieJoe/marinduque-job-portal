@@ -33,10 +33,8 @@
         @component('components.loading')@endcomponent
     </div>
 
-
     <div >
         <section class="duration-500">
-
             <form action="" method="get" class="bg-gray-600 py-5 px-3">
                 <div class="row col-lg-8 lg:w-10/12 mx-auto">
                     <div class="col">
