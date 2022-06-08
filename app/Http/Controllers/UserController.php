@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Job;
 use App\Models\JobApplication;
+use App\Models\Seeker;
+use App\Models\Employer;
+use App\Notifications\AccountDeactReactNotification;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -140,9 +143,20 @@ class UserController extends Controller
     // setters
 
     public function setStatus($status, $user_id){
-        User::where('user_id', $user_id)->update([
+        $user = User::where('user_id', $user_id);
+        
+        $user->update([
             'status' => $status == 'deactivate' ? 'deactivated' : 'activated' 
         ]);
+
+        $fullname;
+        if($user->first()->role == 'seeker'){
+            $seeker = Seeker::where('user_id', $user_id)->first();
+            $fullname = $seeker->firstname." ".$seeker->middlename." ".$seeker->lastname;
+        }
+        else if ($user->first()->role == 'employer'){
+            $fullname = Employer::where('user_id', $user_id)->first()->contact_person_name;
+        }
 
         $jobs = Job::withTrashed()->where([
             'user_id' => $user_id
@@ -151,6 +165,13 @@ class UserController extends Controller
         $jobs->update([
             'status' => "closed"
         ]);
+        
+        if($status == 'deactivate'){
+            $user->first()->notify(new AccountDeactReactNotification('We would like to inform you that for some reasons your account has been deactivated. Please reply to this email to recover your account.', $fullname));
+        }
+        else {
+            $user->first()->notify(new AccountDeactReactNotification('We would like to inform your account has been reactivated and can now be used.', $fullname));
+        }
         
 
         foreach($jobs->get() as $job){

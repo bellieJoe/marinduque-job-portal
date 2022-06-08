@@ -124,9 +124,41 @@
                             <td class="p-2">{{ $employer->verified == 1 ? "verified" : "unverified" }}</td>
                             <td class="p-2">
                                 @if ($employer->status == 'activated' && $employer->verified == 1)
-                                    <a href="/admin/employers/deactivate/{{ $employer->user_id }}" @click="toggleLoading" class="btn btn-secondary btn-sm">Deactivate</a>
+                                    <button  class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDeact{{ $employer->user_id }}">Deactivate</button>
+                                    <div class="modal fade" id="mdlDeact{{ $employer->user_id }}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="text-red-500 font-bold">Warning</h1>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>You are about to deactivate the account of {{ $employer->email }}. Are you sure you want to continue?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <a href="/admin/employers/deactivate/{{ $employer->user_id }}" @click="toggleLoading" class="btn btn-danger">Deactivate</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @elseif($employer->status == 'deactivated' && $employer->verified == 1)
-                                    <a href="/admin/employers/activate/{{ $employer->user_id }}" @click="toggleLoading" class="btn btn-primary btn-sm">Activate</a>
+                                <button  class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlAct{{ $employer->user_id }}">Re-activate</button>
+                                    <div class="modal fade" id="mdlAct{{ $employer->user_id }}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="text-yeallow-500 font-bold">Re-activation Confirmation</h1>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>You are about to re-activate the account of {{ $employer->email }}. Are you sure you want to continue?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <a href="/admin/employers/activate/{{ $employer->user_id }}" @click="toggleLoading" class="btn btn-warning">Re-activate</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @else
                                     {{-- {{ $employer->verified == 1 ? "verified" : "unverified" }} --}}
                                     Deactivated
