@@ -55,6 +55,9 @@
                         <th class="p-2">
                             Status
                         </th>
+                        <th class="p-2">
+                            Action
+                        </th>
                     </tr>
                     @foreach ($jobsData as $job)
                     <tr class="odd:bg-gray-100 hover:bg-indigo-200">
@@ -75,6 +78,9 @@
                         </td>
                         <td class="p-2">
                             {{ $job->company_name }}
+                        </td>
+                        <td class="p-2">
+                            {{ Str::title($job->status) }}
                         </td>
                         <td class="p-2">
                             <a @click="toggleLoading" href="/admin/jobs/{{ $job->status == 'terminated' ? 'retrieve' : 'terminate' }}/{{ $job->job_id }}" class="btn btn-{{ $job->status == 'terminated' ? 'primary' : 'danger' }} btn-sm">{{ $job->status == 'terminated' ? 'Retrieve' : 'Terminate' }}</a>

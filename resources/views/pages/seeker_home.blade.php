@@ -6,7 +6,6 @@
 <body class="seeker-home bg-gray-200">
     <section id="seeker-home">
 
-    
         {{-- home navigation --}}
         <div class="profile-hero pt-3">
             <div class=" p-3 mb-4 lg:w-10/12 mx-auto ">
@@ -18,9 +17,6 @@
                 <h6 class="fw-bold text-3xl text-white my-3 text-center ">{{ $seeker->firstname.' '.Str::ucfirst($seeker->middlename[0]).'. '.$seeker->lastname }}</h6>
             </div>
         </div>
-
-
-
 
         {{-- sesarch box --}}
         <div class="lg:w-10/12 mx-auto shadow-md">
@@ -95,11 +91,10 @@
                       </div>
                       <div v-if="jobSuggestions">
                         <a href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-blue-500">See more</a>
-                      </div>  
-                      {{-- <div v-if="!jobSuggestions">
-                        <h6 href="/seeker/home/job-suggestions-full" class="btn block mx-auto text-gray-500">No job suggestions, try updating your profile.</h6>
-                      </div>   --}}
-                      
+                      </div>           
+                      <div v-if="!jobSuggestions">
+                            <h1 class="text-gray-500 text-center py-4">No Job Suggestions</h1>
+                      </div>           
                     
                 </div>
                 {{-- job invitions --}}
@@ -205,7 +200,6 @@
 
 
     </section>
-
 
     {{-- loading screen --}}
     <div id="loading" class=" w-screen h-screen bg-gray-800 bg-opacity-50 fixed top-0 " style="z-index: 3000">
