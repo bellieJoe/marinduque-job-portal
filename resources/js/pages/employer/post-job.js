@@ -199,7 +199,7 @@ new Vue({
                     barangay :this.job.company_address.barangay,
                     company_description : this.job.company_description,
                     isLocal: this.job.isLocal,
-                    isLocal: this.job.isGovernment,
+                    isGovernment: this.job.isGovernment,
                     country: this.job.country,
         
                     educational_attainment : this.job.educational_attainment,

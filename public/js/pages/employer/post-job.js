@@ -178,8 +178,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dev_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../dev_module */ "./resources/js/dev_module.js");
 
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -397,8 +395,7 @@ new Vue({
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var _job, job;
-
+        var job;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -409,7 +406,7 @@ new Vue({
                 _context3.prev = 1;
                 _this3.errors = [];
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#errorMessage').css('display', 'initial');
-                job = (_job = {
+                job = {
                   job_title: _this3.job.job_title,
                   job_industry: _this3.job.job_industry,
                   job_specialization: _this3.job.job_specialization,
@@ -421,8 +418,20 @@ new Vue({
                   municipality: _this3.job.company_address.municipality,
                   barangay: _this3.job.company_address.barangay,
                   company_description: _this3.job.company_description,
-                  isLocal: _this3.job.isLocal
-                }, _defineProperty(_job, "isLocal", _this3.job.isGovernment), _defineProperty(_job, "country", _this3.job.country), _defineProperty(_job, "educational_attainment", _this3.job.educational_attainment), _defineProperty(_job, "gender", _this3.job.gender), _defineProperty(_job, "course_studied", _this3.job.course_studied), _defineProperty(_job, "experience", _this3.job.experience), _defineProperty(_job, "other_qualification", _this3.job.other_qualification), _defineProperty(_job, "skill", _this3.job.skill), _defineProperty(_job, "salary_max", _this3.job.salary_range.max), _defineProperty(_job, "salary_min", _this3.job.salary_range.min), _defineProperty(_job, "benefits", _this3.job.job_benefits), _defineProperty(_job, "status", _this3.job.status), _job);
+                  isLocal: _this3.job.isLocal,
+                  isGovernment: _this3.job.isGovernment,
+                  country: _this3.job.country,
+                  educational_attainment: _this3.job.educational_attainment,
+                  gender: _this3.job.gender,
+                  course_studied: _this3.job.course_studied,
+                  experience: _this3.job.experience,
+                  other_qualification: _this3.job.other_qualification,
+                  skill: _this3.job.skill,
+                  salary_max: _this3.job.salary_range.max,
+                  salary_min: _this3.job.salary_range.min,
+                  benefits: _this3.job.job_benefits,
+                  status: _this3.job.status
+                };
                 console.log(job);
                 _context3.next = 8;
                 return jquery__WEBPACK_IMPORTED_MODULE_2___default().ajax({
