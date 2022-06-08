@@ -176,14 +176,11 @@ class EmployerController extends Controller
         }else{
             $employers = Employer::join('users', 'employers.user_id', '=', 'users.user_id');
         }
-        
-
 
 
         return view('pages.admin.employer-list')
         ->with([
             'employersData' => $employers,
-
         ]);
     }
 

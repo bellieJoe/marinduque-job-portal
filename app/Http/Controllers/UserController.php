@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Job;
+use App\Models\JobApplication;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -36,19 +38,24 @@ class UserController extends Controller
             'password' => 'required'
         ]);
         
-        
-        if(User::where('email', $request->input('email'))->pluck('verified')->first() === 1){
-            $credentials = $request->only('email', 'password');
-            if(Auth::attempt($credentials)){
-                $request->session()->regenerate();
-                return redirect('/'.Auth::user()->role);
-            }else{
-                return back()->withErrors([
-                    'signin_failed' => 'The information you entered is incorrect.'
-                ]);
-            }
-        }else{
+        if(!(User::where('email', $request->input('email'))->pluck('verified')->first() === 1)){
             return redirect('email_verification/'.$request->input('email'));
+        }
+
+        if(User::where('email', $request->input('email'))->first()->status == 'deactivated'){
+            return back()->withErrors([
+                'signin_failed' => 'The account associated with '.$request->input('email').' has been deactivated. Please contact the admin at jobportaldummy@gmail.com for your account recovery.'
+            ]);
+        }
+        
+        $credentials = $request->only('email', 'password');
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect('/'.Auth::user()->role);
+        }else{
+            return back()->withErrors([
+                'signin_failed' => 'Incorrect Signin credentials.'
+            ]);
         }
 
         
@@ -136,6 +143,27 @@ class UserController extends Controller
         User::where('user_id', $user_id)->update([
             'status' => $status == 'deactivate' ? 'deactivated' : 'activated' 
         ]);
+
+        $jobs = Job::withTrashed()->where([
+            'user_id' => $user_id
+        ]);
+
+        $jobs->update([
+            'status' => "closed"
+        ]);
+        
+
+        foreach($jobs->get() as $job){
+            JobApplication::where([
+                'job_id' => $job->job_id,
+                'application_status' => 'pending'
+            ])
+            ->update([
+                'application_status' => 'canceled'
+            ]);
+        }
+
+
 
         return back();
     }

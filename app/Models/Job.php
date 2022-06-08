@@ -32,7 +32,6 @@ class Job extends Model
 
         // Customize the data array...
         // $array
-        
 
         $notIncluded = [
             'job_description',
