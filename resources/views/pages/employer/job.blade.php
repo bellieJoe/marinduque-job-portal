@@ -107,6 +107,12 @@
                       <h6><strong>Job Type</strong></h6>
                       {{ Str::title($job['jobDetails']->job_type) }}
                     </li>
+                    @if ($job['jobDetails']->salary_range)
+                      <li class="list-group-item border-0">
+                          <h6><strong>Salary Range</strong></h6>
+                          <h6 class="">{{ 'Php '.number_format(json_decode($job['jobDetails']->salary_range)->min, 0).' - Php '.number_format(json_decode($job['jobDetails']->salary_range)->max, 0) }}</h6>    
+                          @endif   
+                      </li>
                     @if (!empty(json_decode($job['jobDetails']->job_specialization)))
                     <li class="list-group-item border-0">
                       <h6><strong>Job Specializations</strong></h6>
