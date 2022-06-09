@@ -134,4 +134,25 @@ class JobApplicationController extends Controller
         return back();
     }
 
+    public function declineAllByJobID(Request $req){
+        $jobApplications = JobApplication::where([
+            'job_id' => $req->job_id,
+            'application_status' => 'pending'
+        ]);
+
+        $jobApplications->update([
+            'application_status' => 'declined'
+        ]);
+
+        $jobApplications->each(function ($item, $key) {
+            $applicant = User::find($item->applicant_id);
+            $seeker = Seeker::where('user_id', $item->applicant_id)->first();
+            $job = Job::where('job_id', $item->job_id)->first();
+            $applicant->notify(new JobApplicationResponseNotification($item, $seeker, $job));
+        });
+
+        return redirect()->back();
+
+    }
+
 }

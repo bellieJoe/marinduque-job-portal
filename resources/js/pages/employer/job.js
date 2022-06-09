@@ -66,6 +66,7 @@ new Vue({
     },
 
     mounted() {
+        
         this.jobId  = $("#jobId").val()
         if(this.jobId){
             this.generateSuggestions()

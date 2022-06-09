@@ -85,6 +85,7 @@ class JobController extends Controller
             'country' => $request->input("country"),
             'isLocal' => $request->input("isLocal") == true ? 1 : 0,
             'isGovernment' => $request->input("isGovernment") == true ? 1 : 0,
+            // 'match_preferences' => 	'{"educational_attainment":30,"skills":40,"yoe":30}',	
 
             'educational_attainment' => $request->input('educational_attainment'),
             'course_studied' => $request->input('course_studied') ? json_encode($request->input('course_studied')) : null,

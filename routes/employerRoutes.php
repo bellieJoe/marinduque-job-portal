@@ -343,6 +343,8 @@ Route::prefix('employer')->group(function(){
 
     Route::post('hire/{job_application_id}', [JobApplicationController::class, 'hireJobApplication'])->middleware('role:employer', 'auth', 'employer-verified');
 
+    Route::post('applications/decline-all', [JobApplicationController::class, 'declineAllByJobID']);
+
 });
 // end of employer prefix
 

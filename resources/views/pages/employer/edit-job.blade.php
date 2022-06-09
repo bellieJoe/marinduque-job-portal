@@ -186,7 +186,7 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search Skill" v-model.lazy="skillInput" @change="searchSkill">
+                            <input type="text" class="form-control" placeholder="Search Skill" v-model.lazy="skillInput" >
                             <span class="input-group-text cursor-pointer" @click="searchSkill"><i class="fa fa-search"></i></span>
                         </div>
                         <ul class="list-group h-min max-h-80 overflow-y-scroll">

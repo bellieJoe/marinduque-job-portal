@@ -232,12 +232,12 @@
                                             <div class="text-danger" v-for="i of errors.school_address">@{{ i }}</div>
                                         </div>
 
-                                        <div class="form-check" v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
+                                        {{-- <div class="form-check" v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
                                             <input class="form-check-input" type="checkbox" v-model="undergraduate" @change="toggleUndergraduate">
                                             <label class="form-check-label" for="flexCheckDefault">
                                               I am undergraduate
                                             </label>
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-3" v-if="!undergraduate">
                                             <label class='mb-1 fw-bold'>Year Graduated <span class="text-red-500">*</span></label>
                                             <input type="number" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
@@ -304,13 +304,12 @@
                                             <div class="text-danger" v-for="i of errors.school_address">@{{ i }}</div>
                                         </div>
 
-                                        <div class="form-check" v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
+                                        {{-- <div class="form-check" v-if="education.education_level == 'tertiary education' || education.education_level == `master's degree` || education.education_level == 'doctorate degree'">
                                             <input class="form-check-input" type="checkbox" v-model="undergraduate" @change="toggleUndergraduate" >
-                                            {{-- :checked="education.year_graduated == '0000' ? '1' : '0'  --}}
                                             <label class="form-check-label" for="flexCheckDefault">
                                               I am undergraduate
                                             </label>
-                                        </div>
+                                        </div> --}}
                                         <div class="mb-3" v-if="!undergraduate">
                                             <label class='mb-1 fw-bold'>Year Graduated <span class="text-red-500">*</span></label>
                                             <input type="number" maxlength="4" class='form-control' v-model="education.year_graduated" :class="errors.year_graduated ? 'is-invalid' : '' ">
@@ -919,7 +918,7 @@
                             <div class="mb-3">
                                 <h1 class="font-bold mb-1">Skills</h1>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search Skill" v-model.lazy="skillInput" @change="searchSkill">
+                                    <input type="text" class="form-control" placeholder="Search Skill" v-model.lazy="skillInput" >
                                     <span class="input-group-text cursor-pointer" @click="searchSkill"><i class="fa fa-search"></i></span>
                                 </div>
                                 <ul class="list-group h-min max-h-80 overflow-y-scroll">
