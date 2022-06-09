@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\EmsiAPIController;
 use App\Http\Controllers\JobController;
@@ -44,10 +45,13 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    $job = Job::find(15);
-    if($job->invitation){
-        echo "ok";
-    }
+    echo count(JobApplication::where([
+        'job_id' => 10,
+        'applicant_id' => 11,
+        'application_status' => 'hired'
+    ])->get());
+    
+
 });
 
 

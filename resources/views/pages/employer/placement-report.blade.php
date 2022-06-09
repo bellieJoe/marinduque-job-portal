@@ -47,19 +47,23 @@
                     {{-- <th class="p-2  text-sm">Date Hired</th> --}}
                     <th class="p-2  text-sm rounded-tr-md">Date Hired</th>
                 </tr>
+                
+                @foreach ($placementReportData as $i)
                 <tr>
-                    @foreach ($placementReportData as $i)
                     <td class="p-2  text-sm">{{ $i->fullname }}</td>
                     <td class="p-2  text-sm">{{ $i->reffered_job }}</td>
                     <td class="p-2  text-sm">{{ $i->company_name }}</td>
                     <td class="p-2  text-sm">{{ $i->contact_number }}</td>
                     <td class="p-2  text-sm">{{ $i->date_hired->format("F d Y") }}</td>
                     {{-- <td class="p-2  text-sm">asdasd</td> --}}
-                    @endforeach
-                    @if ($placementReportData->count() < 1)
-                    <td colspan="5" class="text-center p-2 text-sm">No Records</td>
-                    @endif
                 </tr>
+                @endforeach
+                @if ($placementReportData->count() < 1)
+                <tr>
+                    <td colspan="5" class="text-center p-2 text-sm">No Records</td>
+                </tr>
+                @endif
+                
             </table>
         </section>
 

@@ -60,15 +60,15 @@ class Kernel extends ConsoleKernel
             $month = Carbon::now()->format("m") > 1 ? Carbon::now()->format("m") - 1 : 12;
             $year = $month == 1 ? Carbon::now()->format("Y") - 1 : Carbon::now()->format("Y");
             $jobs = Job::withTrashed()->whereMonth('date_posted', $month)->whereYear('date_posted', $year);
-            $applications = JobApplication::whereMonth('created_at', $month)
+            $applications = JobApplication::withTrashed()->whereMonth('created_at', $month)
             ->whereYear('created_at', $year);
             $applicationIds = $applications->pluck('applicant_id');
             $referredSeekers = Seeker::whereIn('user_id', $applicationIds);
-            $hiredSeekers = Seeker::whereIn('user_id', JobApplication::whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'));
+            $hiredSeekers = Seeker::whereIn('user_id', JobApplication::withTrashed()->whereMonth('created_at', $month)->where(['application_status' => 'hired'])->pluck('applicant_id'));
             $applicants_placed_private = (function($month, $year){
                 $count =  0;
 
-                $applications = JobApplication::whereMonth('updated_at', $month)
+                $applications = JobApplication::withTrashed()->whereMonth('updated_at', $month)
                 ->whereYear('updated_at', $year)->get();
 
                 foreach($applications as $application){
@@ -82,7 +82,7 @@ class Kernel extends ConsoleKernel
 
             $applicants_placed_government = (function($month, $year){
                 $count =  0;
-                $applications = JobApplication::whereMonth('updated_at', $month)
+                $applications = JobApplication::withTrashed()->whereMonth('updated_at', $month)
                 ->whereYear('updated_at', $year)->get();
                 
                 foreach($applications as $application){

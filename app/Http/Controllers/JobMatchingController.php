@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\JobApplication;
 use App\Models\Job;
 use App\Models\Credential;
 use App\Models\Seeker;
@@ -24,7 +25,12 @@ class JobMatchingController extends Controller
 
         $jobs = [];
         foreach ($jobsUnfiltered as $job) {
-            if(!($job->invitation && in_array(Auth::user()->user_id, json_decode($job->invitation)))){
+            if($job->invitation){
+                if(!in_array(Auth::user()->user_id, json_decode($job->invitation))){
+                    array_push($jobs, $job); 
+                }
+            }
+            else{
                 array_push($jobs, $job); 
             }
         }
@@ -33,6 +39,15 @@ class JobMatchingController extends Controller
         $suggestedJobs = collect([]);
 
         foreach ($jobs as $job) {
+            $application = JobApplication::where([
+                'job_id' => $job->job_id,
+                'applicant_id' => $user_id,
+                'application_status' => 'hired'
+            ])->get();
+
+            if(count($application) > 0){
+                continue;
+            }
 
             $educRate = number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
             $skillsRate = number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",");
@@ -52,9 +67,7 @@ class JobMatchingController extends Controller
         foreach($suggestedJobs as $i => $seeker){
             if($i < (count($suggestedJobs)-1)){
                 if($suggestedJobs[$i]["total"] < $suggestedJobs[($i+1)]["total"]){
-                    // echo "<br>sorting<br>";
                     $_seeker = $suggestedJobs[$i];
-                    // echo "Before: ".$seekers[$i]["total"]." After: ".$seekers[($i+1)]["total"]."<br>";
                     $suggestedJobs[$i] = $suggestedJobs[($i+1)];
                     $suggestedJobs[($i+1)] = $_seeker;
                     $sorted = false;
@@ -94,6 +107,11 @@ class JobMatchingController extends Controller
         $seekers = Seeker::all();
         $candidates = [];
         $invitedSeekers = [];
+        $applications = JobApplication::where([
+            'job_id' => $job_id,
+            'application_status' => "hired"
+            ])
+            ->pluck('applicant_id')->toArray();
 
         if($job->invitation) {
             $invitedSeekers = json_decode($job->invitation);
@@ -102,7 +120,7 @@ class JobMatchingController extends Controller
 
         /* educational attainment */
         foreach($seekers as $seeker){
-            if(in_array($seeker->user_id , $invitedSeekers)){
+            if(in_array($seeker->user_id , $invitedSeekers) || in_array($seeker->user_id , $applications)){
                 continue;
             }
             $educRate  = $job->educational_attainment ?  number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",") : json_decode($job->match_preferences)->educational_attainment;
@@ -226,6 +244,11 @@ class JobMatchingController extends Controller
             'user_id' => $seeker->user_id
         ])->pluck('course');
 
+        // echo count($seekerEducations);
+        if(count($seekerEducations) <= 0){
+            return 0;
+        }
+
         $seekerHighestEducation = (function($seekerEducations, $educationLevels){
             $educationLevelCount = [
                 'doctorate degree' => 0,
@@ -239,6 +262,7 @@ class JobMatchingController extends Controller
                 foreach($educationLevels as $educLevel){
                     if($education->education_level == $educLevel){
                         $educationLevelCount[$educLevel]++;
+                        
                     }
                 }
             }
@@ -249,6 +273,7 @@ class JobMatchingController extends Controller
             }
         })($seekerEducations, $educationLevels);
         
+        // echo $seekerHighestEducation;
         if(array_search($job->educational_attainment, $educationLevels) > array_search($seekerHighestEducation, $educationLevels)){
             return 0;
         }

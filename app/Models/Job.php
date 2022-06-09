@@ -53,7 +53,8 @@ class Job extends Model
             'view_engagements',
             'search_engagements',
             'user_id',
-            'isGovernment'
+            'isGovernment',
+            'skill'
         ];
 
         foreach($notIncluded as $item){

@@ -53,7 +53,7 @@ class PlacementReportController extends Controller
                 ['user_id', $employer_id]
             ])->pluck('job_id')->toArray();
             
-            $jobPlacements = JobApplication::whereIn('job_id', $job_ids)
+            $jobPlacements = JobApplication::withTrashed()->whereIn('job_id', $job_ids)
             ->whereMonth('date_hired', $month)
             ->whereYear('date_hired', $year)
             ->where('application_status', 'hired')
@@ -71,7 +71,7 @@ class PlacementReportController extends Controller
 
         }else{
             
-            $jobPlacements = JobApplication::whereMonth('date_hired', $month)
+            $jobPlacements = JobApplication::withTrashed()->whereMonth('date_hired', $month)
             ->whereYear('date_hired', $year)
             ->where('application_status', 'hired')
             ->get()

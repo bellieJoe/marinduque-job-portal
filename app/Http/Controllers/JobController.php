@@ -215,7 +215,8 @@ class JobController extends Controller
 
         // get results from algolia
         $jobIds = Job::search($request->input('keyword'))
-            ->get()->map(function($item, $key){
+            ->get()
+            ->map(function($item, $key){
                 return $item->job_id;
             });
 
@@ -254,15 +255,6 @@ class JobController extends Controller
                     ...$salary_query
                 ])
                 ->paginate(10);
-                // ->where([
-                //     ['status', 'open'],
-                //     ['company_address->province->name', 'like', $request->input('province') ? $request->input('province') : '%'],
-                //     ['company_address->municipality->name', 'like', $request->input('municipality') ? $request->input('municipality') : '%'],
-                //     ['isLocal', false],
-                //     ...$salary_query
-                // ])
-                
-                
 
 
         return view('pages.guest.job-search')->with([
