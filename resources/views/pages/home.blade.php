@@ -57,15 +57,14 @@
                 </div>
             </section>    
 
-            <section class="bg-cover "  >
+            {{-- <section class="bg-cover "  >
                 <div class="bg-blue-100 bg-opacity-75" data-aos="fade-right">
                     <div class="container-lg py-40 ">
-                        {{-- <img src="{{ asset('images/home-2.jpg') }}" alt="okie" class="w-auto"> --}}
                         <h1 data-aos="fade-right" class="text-black fs-1 fw-bold my-2 ">Looking for potential employee for your business or company?</h1>
                         <p data-aos="fade-right">Send us your job details and we'll refer potential candidates for you.</p>
                     </div>
                 </div>
-            </section>     
+            </section>      --}}
 
             <div  data-aos="fade-right">
                 @component('components.footer')

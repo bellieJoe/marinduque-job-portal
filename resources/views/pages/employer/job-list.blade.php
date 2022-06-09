@@ -58,8 +58,8 @@
                                             {{ $job->job_title }} 
                                         </h6> 
                                         <h6 class="text-secondary">{{ $job->company_name }}</h6>  
-                                        @if ($job->isLocal && $job->country)
-                                        <h6 class="text-secondary">{{ rtrim(Str::title(json_decode($job->company_address)->municipality->name), "(Capital)").', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>
+                                        @if ($job->isLocal && !$job->country)
+                                        <h6 class="text-secondary">{{ Str::title(json_decode($job->company_address)->municipality->name).', '.Str::title(json_decode($job->company_address)->province->name)  }}</h6>
                                         @else
                                         <h6 class="text-secondary">Overseas, {{ $job->country }}</h6>
                                         @endif
