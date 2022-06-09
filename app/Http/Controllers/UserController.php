@@ -180,7 +180,7 @@ class UserController extends Controller
                 'application_status' => 'pending'
             ])
             ->update([
-                'application_status' => 'canceled'
+                'application_status' => 'expired'
             ]);
         }
 

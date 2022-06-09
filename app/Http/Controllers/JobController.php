@@ -179,8 +179,8 @@ class JobController extends Controller
                 'municipality' => $request->input('municipality'),
                 'barangay' => $request->input('barangay'),
             ]), 
-            'country' => $request->input("country"),
-            'isLocal' => $request->input("isLocal") == true ? 1 : 0,
+            // 'country' => $request->input("country"),
+            // 'isLocal' => $request->input("isLocal") == true ? 1 : 0,
             'isGovernment' => $request->input("isGovernment") == true ? 1 : 0,
 
             'educational_attainment' => $request->input('educational_attainment'),

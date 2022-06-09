@@ -28,7 +28,7 @@ new Vue({
                     url: `/employer/job/${this.jobId}/generate_suggested_applicants`,
                 })
                 this.suggestedSeekers = res
-                // console.log(res)
+                console.log("")
                 this.toggleLoading()
             } catch (err) {
                 console.log(err)

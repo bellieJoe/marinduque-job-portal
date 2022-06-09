@@ -91,24 +91,22 @@ class JobMatchingController extends Controller
     public static function genSuggestedCandidate($job_id){
 
         $job = Job::find($job_id);
-        // echo $job;
-        // $job = Job::find(22);
         $seekers = Seeker::all();
         $candidates = [];
-        $invitedSeekers = $job->invitation && !empty(json_decode($job->invitation)) ? json_decode($job->invitation) : [];
+        $invitedSeekers = [];
 
-        if($job->generated_skills == null ){
-            return null;
-        } 
+        if($job->invitation) {
+            $invitedSeekers = json_decode($job->invitation);
+        }
+
 
         /* educational attainment */
         foreach($seekers as $seeker){
-            // echo "<br>User ID: " .$seeker->user_id."<br>";
             if(in_array($seeker->user_id , $invitedSeekers)){
                 continue;
             }
             $educRate  = $job->educational_attainment ?  number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",") : json_decode($job->match_preferences)->educational_attainment;
-            $skillRate = $job->generated_skills ? number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",") : json_decode($job->match_preferences)->skills;
+            $skillRate = number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",");
             $yoeRate = $job->experience ? number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",") : json_decode($job->match_preferences)->yoe;
             array_push($candidates, [
                 "seeker_id" => $seeker->user_id,
@@ -124,8 +122,6 @@ class JobMatchingController extends Controller
             ]);
             
         }
-
-
 
         a:
         $sorted = true;
@@ -151,7 +147,6 @@ class JobMatchingController extends Controller
 
         return $candidates->where("total", ">", 0);
 
-        // return $candidates;
     }
 
     public static function rateYOE(Job $job, Seeker $seeker){

@@ -44,7 +44,10 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 
 Route::get('/testing', function () {
-    echo json_encode(LmiReportController::getLMIPerYear(2022));
+    $job = Job::find(15);
+    if($job->invitation){
+        echo "ok";
+    }
 });
 
 

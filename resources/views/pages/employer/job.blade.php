@@ -13,6 +13,38 @@
             $view = isset($_GET['view']) ? $_GET['view'] : 'job_details';
             $applicants = isset($_GET['applicants']) ? $_GET['applicants'] : null;
             $hasApplications = false;
+            $applicationCounts = [
+              'all' => $job['jobApplications'] ? count($job['jobApplications']) : 0,
+              'pending' => 0,
+              'approved' => 0,
+              'expired' => 0,
+              'declined' => 0,
+              'hired' => 0
+            ];
+            // echo json_encode($job['jobApplications']);
+            if($job['jobApplications']) {
+              foreach ($job['jobApplications'] as $key => $app) {
+                switch ($app['applicationInformation']->application_status) {
+                  case 'pending':
+                    $applicationCounts['pending']++;
+                    break;
+                  case 'approved':
+                    $applicationCounts['approved']++;
+                    break;
+                  case 'expired':
+                    $applicationCounts['expired']++;
+                    break;
+                  case 'declined':
+                    $applicationCounts['declined']++;
+                    break;
+                  case 'hired':
+                    $applicationCounts['hired']++;
+                    break;
+                  default:
+                    break;
+                }
+              }
+            }
           @endphp
 
             {{-- job navigation --}}
@@ -31,22 +63,22 @@
                   <li class="collapse {{ $view == 'applicants' ? 'show' : '' }}" id="aplicantLinks">
                     <ul class="bg-blue-50">
                       <li>
-                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=all')"  class="{{ $view == 'applicants' && $applicants == 'all' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-gray-500" ><i class="fa fa-list me-2 " ></i>All</button>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=all')"  class="{{ $view == 'applicants' && $applicants == 'all' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-gray-500" ><i class="fa fa-list me-2 " ></i>All ({{ $applicationCounts['all'] }})</button>
                       </li>
                       <li>
-                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=pending')"  class="{{ $view == 'applicants' && $applicants == 'pending' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-blue-500" ><i class="fa fa-clipboard mr-2"></i>Pending</button>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=pending')"  class="{{ $view == 'applicants' && $applicants == 'pending' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-blue-500" ><i class="fa fa-clipboard mr-2"></i>Pending ({{ $applicationCounts['pending'] }})</button>
                       </li>
                       <li>
-                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=approved')"  class="{{ $view == 'applicants' && $applicants == 'approved' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-green-500" ><i class="fa fa-clipboard-check mr-2"></i>Approved</button>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=approved')"  class="{{ $view == 'applicants' && $applicants == 'approved' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-green-500" ><i class="fa fa-clipboard-check mr-2"></i>Approved ({{ $applicationCounts['approved'] }})</button>
                       </li>
                       <li>
-                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=declined')" class="{{ $view == 'applicants' && $applicants == 'declined' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-red-500"><i class="fa fa-window-close mr-2"></i>Declined</button>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=declined')" class="{{ $view == 'applicants' && $applicants == 'declined' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-red-500"><i class="fa fa-window-close mr-2"></i>Declined ({{ $applicationCounts['declined'] }})</button>
                       </li>
                       <li>
-                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=expired')" class="{{ $view == 'applicants' && $applicants == 'expired' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>Expired</button>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=expired')" class="{{ $view == 'applicants' && $applicants == 'expired' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>Expired ({{ $applicationCounts['expired'] }})</button>
                       </li>
                       <li>
-                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=hired')" class="{{ $view == 'applicants' && $applicants == 'hired' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold "><i class="fa fa-check mr-2"></i>Hired</button>
+                        <button @click="redirectRoute('/employer/job/{{ $job_id }}?view=applicants&applicants=hired')" class="{{ $view == 'applicants' && $applicants == 'hired' ? 'font-bold' : '' }} ms-4 py-2 px-3 w-100 text-start hover:font-bold "><i class="fa fa-check mr-2"></i>Hired ({{ $applicationCounts['hired'] }})</button>
                       </li>
                     </ul>
                   </li>

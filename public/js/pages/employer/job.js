@@ -70,26 +70,27 @@ new Vue({
 
               case 4:
                 res = _context.sent;
-                _this.suggestedSeekers = res; // console.log(res)
+                _this.suggestedSeekers = res;
+                console.log("");
 
                 _this.toggleLoading();
 
-                _context.next = 13;
+                _context.next = 14;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
                 _this.toggleLoading();
 
-              case 13:
+              case 14:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 10]]);
       }))();
     },
     toggleLoading: function toggleLoading() {
