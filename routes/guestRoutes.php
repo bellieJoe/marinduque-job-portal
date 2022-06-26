@@ -173,7 +173,7 @@ Route::get("skills", function(Request $req){
 @route /courses
 */
 Route::get("courses" , function () {
-    return Course::all();
+    return Course::orderBy('course', 'asc')->get();
 });
 
 

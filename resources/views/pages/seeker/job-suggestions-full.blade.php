@@ -24,7 +24,7 @@
             <p class="text-gray-500">{{ $job->company_name }}</p>
                                       
             <div class="mt-3">
-                <p>{{ $job->job_industry }}</p>
+                {{-- <p>{{ $job->job_industry }}</p> --}}
                 @if ($salary->min && $salary->max)
                 <p >Php {{ $salary->min }} - Php {{ $salary->max }}</p>
                 @endif

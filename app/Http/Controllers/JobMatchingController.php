@@ -49,7 +49,7 @@ class JobMatchingController extends Controller
                 continue;
             }
 
-            $educRate = number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
+            $educRate = number_format(self::rateEducation($job, $seeker)['rate'] * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",");
             $skillsRate = number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",");
             $yoeRate =  number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",");
 
@@ -58,7 +58,8 @@ class JobMatchingController extends Controller
                 "educationRate" => $educRate,
                 "skillsRate" => $skillsRate,
                 'yoeRate' => $yoeRate,
-                'total' => number_format( ($educRate + $skillsRate + $yoeRate), 2, '.', ',' )
+                'total' => number_format( ($educRate + $skillsRate + $yoeRate), 2, '.', ',' ),
+                'overQualified' => self::rateEducation($job, $seeker)['overQualified']
             ]);
         }
 
@@ -123,7 +124,7 @@ class JobMatchingController extends Controller
             if(in_array($seeker->user_id , $invitedSeekers) || in_array($seeker->user_id , $applications)){
                 continue;
             }
-            $educRate  = $job->educational_attainment ?  number_format(self::rateEducation($job, $seeker) * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",") : json_decode($job->match_preferences)->educational_attainment;
+            $educRate  = $job->educational_attainment ?  number_format(self::rateEducation($job, $seeker)['rate'] * (json_decode($job->match_preferences)->educational_attainment / 100), 2, "." , ",") : json_decode($job->match_preferences)->educational_attainment;
             $skillRate = number_format(self::rateSkills($job, $seeker) * (json_decode($job->match_preferences)->skills / 100), 2, "." , ",");
             $yoeRate = $job->experience ? number_format(self::rateYOE($job, $seeker) * (json_decode($job->match_preferences)->yoe / 100), 2, "." , ",") : json_decode($job->match_preferences)->yoe;
             array_push($candidates, [
@@ -136,7 +137,8 @@ class JobMatchingController extends Controller
                 "educationRate" => $educRate,
                 "skillsRate" => $skillRate,
                 'yoeRate' => $yoeRate,
-                'total' => number_format( ($educRate + $skillRate + $yoeRate), 2, '.', ',' )
+                'total' => number_format( ($educRate + $skillRate + $yoeRate), 2, '.', ',' ),
+                'overQualified' => self::rateEducation($job, $seeker)['overQualified']
             ]);
             
         }
@@ -202,7 +204,8 @@ class JobMatchingController extends Controller
 
         foreach($seekerExperience as $exp){
             if(in_array($exp['specialization'], $jobExperience['specializations'])){
-                $rate += (($exp['months'] / $jobExperience['months']) * 100);
+                // echo $jobExperience['months'] ;
+                $rate += $jobExperience['months'] > 0 ? (($exp['months'] / $jobExperience['months']) * 100) : 0;
             }
         }
 
@@ -212,7 +215,11 @@ class JobMatchingController extends Controller
     public static function rateSkills(Job $job, Seeker $seeker){
         $rate = 0;
         $scorePerSkill = 0;
-        $jobSkills = json_decode($job->skill);
+        $jobSkills = $job->skill ? json_decode($job->skill) : null;
+       
+        if(!$jobSkills){
+            return 100;
+        }
         $seekerSkill = Skill::where([   
             'user_id' => $seeker->user_id
         ])->pluck('skill_description'); 
@@ -234,7 +241,7 @@ class JobMatchingController extends Controller
             'primary education',
             'secondary education',
             'tertiary education',
-            "masters's degree",
+            "master's degree",
             'doctorate degree'
         ];
         $seekerEducations = Education::where([
@@ -243,26 +250,31 @@ class JobMatchingController extends Controller
         $seekerCourses = Education::where([
             'user_id' => $seeker->user_id
         ])->pluck('course');
+        $overQualified = false;
 
         // echo count($seekerEducations);
         if(count($seekerEducations) <= 0){
-            return 0;
+            return [
+                'rate' => 0,
+                "overQualified" => $overQualified
+            ];
         }
 
         $seekerHighestEducation = (function($seekerEducations, $educationLevels){
             $educationLevelCount = [
                 'doctorate degree' => 0,
-                "masters's degree" => 0,
+                "master's degree" => 0,
                 'tertiary education' => 0,
                 'secondary education' => 0,
                 'primary education' => 0,
             ];
             
+            // echo json_encode($educationLevelCount);
+            
             foreach($seekerEducations as $education){
                 foreach($educationLevels as $educLevel){
                     if($education->education_level == $educLevel){
                         $educationLevelCount[$educLevel]++;
-                        
                     }
                 }
             }
@@ -273,36 +285,55 @@ class JobMatchingController extends Controller
             }
         })($seekerEducations, $educationLevels);
         
-        // echo $seekerHighestEducation;
+        // jobeduc is > seekereduc
         if(array_search($job->educational_attainment, $educationLevels) > array_search($seekerHighestEducation, $educationLevels)){
-            return 0;
+            return [
+                'rate' => 0,
+                "overQualified" => $overQualified
+            ];
         }
 
         if(in_array($job->educational_attainment, ['primary education','secondary education'])){
             if($job->educational_attainment == $seekerHighestEducation){
-                return 100;
+                return [
+                    'rate' => 100,
+                    "overQualified" => $overQualified
+                ];
             }
             else {
-                return 0;
+                return [
+                    'rate' => 0,
+                    "overQualified" => $overQualified
+                ];
             }
             
         }
 
+        // jobeduc is > seekereduc
         if(array_search($seekerHighestEducation, $educationLevels) > array_search($job->educational_attainment, $educationLevels)){
             $gap = array_search($seekerHighestEducation, $educationLevels) - array_search($job->educational_attainment, $educationLevels);
-            // echo $gap;
+            $overQualified = true;
             if(!$job->course_studied){
-                return 100 - ($gap * 25);
+                return [
+                    'rate' => 100 - ($gap * 25),
+                    "overQualified" => $overQualified
+                ];
             }
             foreach ($seekerCourses as $course) {
                 if(in_array($course, json_decode($job->course_studied))){
-                    return 100 - ($gap * 25);
+                    return [
+                        'rate' => 100 - ($gap * 25),
+                        "overQualified" => $overQualified
+                    ];
                 }
             }
         }
         
         if(!$job->course_studied){
-            return 100;
+            return [
+                'rate' => 100,
+                "overQualified" => $overQualified
+            ];;
         }
 
         foreach ($seekerCourses as $course) {
@@ -311,8 +342,10 @@ class JobMatchingController extends Controller
             }
         }
 
-        return 0;
-
+        return [
+            'rate' => 0,
+            "overQualified" => $overQualified
+        ];
 
     }
 

@@ -49,7 +49,7 @@ class PlacementReportController extends Controller
         // }
 
         if($employer_id){
-            $job_ids = Job::where([
+            $job_ids = Job::withTrashed()->where([
                 ['user_id', $employer_id]
             ])->pluck('job_id')->toArray();
             
@@ -60,7 +60,7 @@ class PlacementReportController extends Controller
             ->get()
             ->map(function ($item, $key) {
                 $seeker = Seeker::where('user_id', $item->applicant_id)->first();
-                $job = Job::where('job_id', $item->job_id)->first();
+                $job = Job::withTrashed()->where('job_id', $item->job_id)->first();
                 $item->fullname = $seeker->firstname." ".$seeker->middlename." ".$seeker->lastname;
                 $item->reffered_job = $job->job_title;
                 $item->company_name = $job->company_name;

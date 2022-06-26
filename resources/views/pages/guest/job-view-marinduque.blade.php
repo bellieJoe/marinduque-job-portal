@@ -54,9 +54,7 @@
                 <p>
                     <i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>
                     {{ 
-                        $job->educational_attainment == 'tertiary education' ? 'College Graduate' : (
-                        $job->educational_attainment == 'secondary education'  ? 'Highschool Graduate' : 'Elementary Graduate'
-                        ) 
+                        Str::title($job->educational_attainment) 
                     }}
                 </p>
             @endif

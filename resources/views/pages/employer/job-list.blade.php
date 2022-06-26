@@ -1,7 +1,7 @@
 @extends('app')
 @section('title', '- Jobs')
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/employer/job-list.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/employer/job-list.css') }}">
     <body class="job-list bg-indigo-100" >
         <div  id="job-list">
 
@@ -84,6 +84,7 @@
                                     <p class="text-green-500"><i class="fa fa-clipboard-check mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['approved'] }} approved</p>
                                     <p class="text-red-500"><i class="fa fa-window-close mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['declined'] }} declined</p>
                                     <p class="text-yellow-500"><i class="fa fa-calendar-times mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['expired'] }} expired</p>
+                                    <p class=""><i class="fa fa-check mr-2"></i>{{ $applicantCounts[strval($job->job_id)]['hired'] }} hired</p>
                                     @endif
                                     <div>
                                         <form action="/employer/job/{{ $job->job_id }}/delete" method="post" class="inline">

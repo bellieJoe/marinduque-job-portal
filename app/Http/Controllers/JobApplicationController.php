@@ -155,4 +155,24 @@ class JobApplicationController extends Controller
 
     }
 
+    public function removeAllApprovedByJobID(Request $req){
+        $jobApplications = JobApplication::where([
+            'job_id' => $req->job_id,
+            'application_status' => 'approved'
+        ]);
+
+        $jobApplications->delete();
+
+        return redirect()->back();
+    }
+    public function removeAllDeclinedByJobID(Request $req){
+        $jobApplications = JobApplication::where([
+            'job_id' => $req->job_id,
+            'application_status' => 'declined'
+        ]);
+
+        $jobApplications->delete();
+
+        return redirect()->back();
+    }
 }

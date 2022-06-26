@@ -103,7 +103,6 @@
                                 @else
                                 {{ $specialization[1] }}
                                 @endif
-                            
                             @endforeach
                         </h6>
                         @endif
@@ -122,6 +121,7 @@
                             <p>
                                 <i class="fa fa-check-circle mr-2 text-green-400" aria-hidden="true"></i>
                                 {{ Str::title($job->educational_attainment) }}
+                                {{-- {{ $job }} --}}
                             </p>
                         @endif
                         @if ($job->course_studied)

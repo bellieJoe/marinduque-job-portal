@@ -251,6 +251,64 @@
                           </div>
                         </form>
                       @endif
+                      @if ($_GET['applicants'] == 'approved')
+                        <form action="/employer/applications/remove-all" method="POST">
+                          @csrf
+                          <input type="hidden" value="{{ $job['jobDetails']->job_id }}" name="job_id">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#mdlRemove{{ $job['jobDetails']->job_id }}" class="btn btn-outline-danger block ml-auto mr-0 btn-sm w-max">
+                            Remove All
+                          </button >
+                          <div class="modal fade" id="mdlRemove{{ $job['jobDetails']->job_id }}">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header text-red-500 font-bold">
+                                  Warning
+                                </div>
+                                <div class="modal-body">
+                                  You are about to remove all the approved applications of this job. Are you sure you want to continue?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                                    Cancel
+                                  </button>
+                                  <button type="submit"  class="btn btn-danger block ml-auto mr-0 btn-sm w-max">
+                                    Remove All
+                                  </button >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      @endif
+                      @if ($_GET['applicants'] == 'declined')
+                        <form action="/employer/applications/remove-all-declined" method="POST">
+                          @csrf
+                          <input type="hidden" value="{{ $job['jobDetails']->job_id }}" name="job_id">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#mdlDeclined{{ $job['jobDetails']->job_id }}" class="btn btn-outline-danger block ml-auto mr-0 btn-sm w-max">
+                            Remove All
+                          </button >
+                          <div class="modal fade" id="mdlDeclined{{ $job['jobDetails']->job_id }}">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header text-red-500 font-bold">
+                                  Warning
+                                </div>
+                                <div class="modal-body">
+                                  You are about to remove all the declined applications of this job. Are you sure you want to continue?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                                    Cancel
+                                  </button>
+                                  <button type="submit"  class="btn btn-danger block ml-auto mr-0 btn-sm w-max">
+                                    Remove All
+                                  </button >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      @endif
                       @foreach ($job['jobApplications'] as $jobApplication)
                         
                         @if ( $applicants && ( $applicants == 'all' || $applicants ==  $jobApplication['applicationInformation']->application_status ) )
@@ -382,7 +440,7 @@
                         <i class="fa-solid fa-certificate text-yellow-400" title="With Eligibility" v-if="seeker.eligibility"></i>
                       </h1>
                       <h1 class="text-gray-500" v-cloak>
-                        Educational Attainment: @{{ seeker.educationRate }}%
+                        Educational Attainment: @{{ seeker.educationRate }}% <i class="fa-solid fa-angles-up" title="Overqualified" v-if="seeker.overQualified"></i>
                       </h1>
                       <h1 class="text-gray-500" v-cloak>
                         Skills: @{{ seeker.skillsRate }}%

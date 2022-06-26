@@ -138,7 +138,7 @@ Route::prefix('admin')->group(function(){
              
             return view("pages.admin.courses")
             ->with([
-                "courses" => Course::all()
+                "courses" => Course::orderBy('course', 'asc')->get()
             ]);
 
         })->middleware('auth', "role:admin");

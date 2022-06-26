@@ -80,7 +80,7 @@
                                 
                                 <p class="mt-2">
                                     <span :class="(job.total > 50 ? 'text-green-600 text-xl font-bold' : 'text-red-500 text-xl font-bold') ">@{{ job.total }}% <span class="font-normal">match</span></span> 
-                                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Education: @{{ job.educationRate }}%</span>
+                                    <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Education: @{{ job.educationRate }}% <i class="fa-solid fa-angles-up" title="Overqualified" v-if="job.overQualified"></i></span>
                                     <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Skills: @{{ job.skillsRate }}%</span>
                                     <span class="text-gray-500">  &nbsp;&nbsp;&nbsp; Experience: @{{ job.yoeRate }}%</span>
                                 </p>

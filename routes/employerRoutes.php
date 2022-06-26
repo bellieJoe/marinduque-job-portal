@@ -155,6 +155,10 @@ Route::prefix('employer')->group(function(){
                             ['job_id', $job->job_id],
                             ['application_status', 'expired'],
                         ])->count(),
+                        'hired' => JobApplication::where([
+                            ['job_id', $job->job_id],
+                            ['application_status', 'hired'],
+                        ])->count(),
                     ];
             }
             
@@ -344,6 +348,9 @@ Route::prefix('employer')->group(function(){
     Route::post('hire/{job_application_id}', [JobApplicationController::class, 'hireJobApplication'])->middleware('role:employer', 'auth', 'employer-verified');
 
     Route::post('applications/decline-all', [JobApplicationController::class, 'declineAllByJobID']);
+
+    Route::post('applications/remove-all', [JobApplicationController::class, 'removeAllApprovedByJobID']);
+    Route::post('applications/remove-all-declined', [JobApplicationController::class, 'removeAllDeclinedByJobID']);
 
 });
 // end of employer prefix
